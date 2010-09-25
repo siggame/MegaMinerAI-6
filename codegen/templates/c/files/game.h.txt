@@ -1,0 +1,102 @@
+//Copyright (C) 2009 - Missouri S&T ACM AI Team
+//Please do not modify this file while building your AI
+//See AI.h & AI.cpp for that
+#ifndef GAME_H
+#define GAME_H
+
+#include "network.h"
+#include "structures.h"
+
+#include <pthread.h>
+
+#ifdef WIN32
+#define DLLEXPORT extern "C" __declspec(dllexport)
+#else
+#define DLLEXPORT
+#endif
+
+struct Connection
+{
+  int socket;
+  
+  #ifndef THREADLESS
+  pthread_mutex_t mutex;
+  #endif
+  
+% for datum in globals:
+  ${conversions[datum.type]} ${datum.name};
+% endfor
+
+% for model in models:
+%   if model.type == 'Model':
+  _${model.name}* ${model.plural};
+  int ${model.name}Count;
+%   endif
+% endfor
+};
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+  DLLEXPORT Connection* createConnection();
+  DLLEXPORT bool serverConnect(Connection* c, const char* host, const char* port);
+
+  DLLEXPORT bool serverLogin(Connection* c, const char* username, const char* password);
+  DLLEXPORT int createGame(Connection* c);
+  DLLEXPORT int joinGame(Connection* c, int id);
+
+  DLLEXPORT void endTurn(Connection* c);
+  DLLEXPORT void getStatus(Connection* c);
+
+
+//commands
+
+% for model in models:
+%   for func in model.functions:
+  ///${func.doc}
+  DLLEXPORT bool ${model.name.lower()}${capitalize(func.name)}(${conversions[model]} object\
+%     for arg in func.arguments:
+, \
+${conversions[arg.type]} ${arg.name}\
+%     endfor
+);
+%   endfor
+% endfor
+
+//derived properties
+
+% for model in models:
+%   for prop in model.properties:
+  ///${prop.doc}
+  DLLEXPORT ${conversions[prop.result]} ${model.name.lower()}${capitalize(prop.name)}(${conversions[model]} object\
+%     for arg in prop.arguments:
+, \
+${conversions[arg.type]} ${arg.name}\
+%     endfor
+);
+%   endfor
+% endfor
+
+
+//accessors
+
+% for datum in globals:
+DLLEXPORT ${conversions[datum.type]} get${capitalize(datum.name)}(Connection* c);
+% endfor
+
+% for model in models:
+%   if model.type == 'Model':
+DLLEXPORT _${model.name}* get${model.name}(Connection* c, int num);
+DLLEXPORT int get${model.name}Count(Connection* c);
+
+%   endif
+% endfor
+
+
+  DLLEXPORT int networkLoop(Connection* c);
+#ifdef __cplusplus
+}
+#endif
+
+#endif
