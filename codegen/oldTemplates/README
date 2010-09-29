@@ -1,0 +1,3 @@
+This directory exists solely for legacy purposes. These are templates from the old codegen to be used as reference for porting old templates to the current format.
+
+Kindly delete this directory once everything has been forward-ported.
