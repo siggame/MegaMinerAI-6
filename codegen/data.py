@@ -18,6 +18,18 @@ Unit = Model('Unit',
   type = 'virtual'
   )
 
+Bot = Model('Bot',
+  parent = Unit,
+  data = [],
+  functions = [
+    Function("move",
+      argument = [ ]
+      )
+  ],
+  properties = [],
+  doc = 'The bot class.'
+  )
+
 Tube = Model('Tube',
   parent = Unit,
   data = [ Variable('points', int, 'Points to grow a strong baby.'),
