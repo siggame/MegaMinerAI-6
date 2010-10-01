@@ -24,10 +24,11 @@ Unit = Model('Unit',
 
 Bot = Model('Bot',
   parent = Unit,
-  data = [],
+  data = [Variable('speed', int),],
   functions = [
     Function('move',
       arguments = [ Variable('direction', enum),]
+      result = bool
       ),
   ],
   properties = [],
@@ -39,13 +40,14 @@ Builder = Model('Builder',
   data = [],
   functions = [
     Function('build',
-      arguments = [ Variable('type', enum), Variable('direction', enum),] ), ]
+      arguments = [ Variable('type', enum), Variable('direction', enum),] 
+      result = bool
+      ), ]
   properties = [Function('canBuild',
     result = bool
     ), ],
   doc = 'A robot that can build other bots. Build them all! Rule the world!'
   )
-
 
 Tube = Model('Tube',
   parent = Unit,
