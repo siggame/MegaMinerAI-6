@@ -14,6 +14,10 @@ Unit = Model('Unit',
   data = [ Variable('owner', int, 'The owning player'),
            Variable('health', int),
     ],
+  functions = [
+    Function('talk',
+      arguments = [ Variable('talk_string', string),]
+      ),],
   doc = 'An object that exists on the grid',
   type = 'virtual'
   )
@@ -22,26 +26,39 @@ Bot = Model('Bot',
   parent = Unit,
   data = [],
   functions = [
-    Function("move",
-      argument = [ ]
-      )
+    Function('move',
+      arguments = [ Variable('direction', enum),]
+      ),
   ],
   properties = [],
   doc = 'The bot class.'
   )
+  
+Builder = Model('Builder',
+  parent = Bot,
+  data = [],
+  functions = [
+    Function('build',
+      arguments = [ Variable('type', enum), Variable('direction', enum),] ), ]
+  properties = [Function('canBuild',
+    result = bool
+    ), ],
+  doc = 'A robot that can build other bots. Build them all! Rule the world!'
+  )
+
 
 Tube = Model('Tube',
   parent = Unit,
   data = [ Variable('points', int, 'Points to grow a strong baby.'),
     ],
-  functions = [ Function("hatch",
+  functions = [ Function('hatch',
     arguments = [ Variable('damage', int),
       Variable('reach', int),
       Variable('speed', int),
       Variable('health', int),
       Variable('view', int) ]
     ) ],
-  properties = [ Function("canHatch",
+  properties = [ Function('canHatch',
     arguments = [ Variable('damage', int),
       Variable('reach', int),
       Variable('speed', int),
@@ -59,11 +76,11 @@ ASM = Model('Superman',
     Variable('speed', int),
     Variable('view', int),
     ],
-  functions = [ Function("move",
+  functions = [ Function('move',
       arguments = [ Variable('x', int),
         Variable('y', int) ]
       ), 
-    Function ("attack",
+    Function ('attack',
       arguments = [ Variable('target', Unit) ] )
    ],
   doc = 'A test tube full of baby.'
