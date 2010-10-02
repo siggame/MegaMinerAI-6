@@ -16,7 +16,7 @@ Unit = Model('Unit',
     ],
   functions = [
     Function('talk',
-      arguments = [ Variable('talk_string', string),]
+      arguments = [ Variable('talk_string', str),]
       ),],
   doc = 'An object that exists on the grid',
   type = 'virtual'
@@ -24,68 +24,64 @@ Unit = Model('Unit',
 
 Bot = Model('Bot',
   parent = Unit,
-  data = [Variable('speed', int),],
+  data = [
+  Variable('attack', int),
+  Variable('range', int),
+  Variable('speed', int),
+  Variable('buildRate', int),
+  ],
   functions = [
     Function('move',
-      arguments = [ Variable('direction', enum),]
+      arguments = [Variable('direction', int),],
       result = bool
       ),
-  ],
-  properties = [],
-  doc = 'The bot class.'
-  )
-  
-Builder = Model('Builder',
-  parent = Bot,
-  data = [],
-  functions = [
-    Function('build',
-      arguments = [ Variable('type', enum), Variable('direction', enum),] 
+    Function('attack',
+      arguments = [Variable('direction', int),],
       result = bool
-      ), ]
-  properties = [Function('canBuild',
-    result = bool
-    ), ],
-  doc = 'A robot that can build other bots. Build them all! Rule the world!'
-  )
-
-Tube = Model('Tube',
-  parent = Unit,
-  data = [ Variable('points', int, 'Points to grow a strong baby.'),
-    ],
-  functions = [ Function('hatch',
-    arguments = [ Variable('damage', int),
-      Variable('reach', int),
-      Variable('speed', int),
-      Variable('health', int),
-      Variable('view', int) ]
-    ) ],
-  properties = [ Function('canHatch',
-    arguments = [ Variable('damage', int),
-      Variable('reach', int),
-      Variable('speed', int),
-      Variable('health', int),
-      Variable('view', int) ],
-    result = bool
-    ) ],
-  doc = 'A test tube full of baby.'
-  )
-
-ASM = Model('Superman',
-  parent = Unit,
-  data = [ Variable('damage', int),
-    Variable('reach', int),
-    Variable('speed', int),
-    Variable('view', int),
-    ],
-  functions = [ Function('move',
-      arguments = [ Variable('x', int),
-        Variable('y', int) ]
-      ), 
-    Function ('attack',
-      arguments = [ Variable('target', Unit) ] )
-   ],
-  doc = 'A test tube full of baby.'
+      ),
+    Function('build',
+      arguments = [Variable('type', int), Variable('direction', int),],
+      result = bool
+      ),
+    Function('combine',
+      arguments = [], #What would go here?
+      result = bool
+    ),
+    Function('split',
+      arguments = [],
+      result = bool
+    ),
+  ],
+  properties = [
+    Function(Variable('buildRate', int),
+    result = int
+    ),
+    Function(Variable('attackRate', int),
+    result = int
+    ),
+    Function(Variable('range', int),
+    result = int
+    ),
+    Function(Variable('speed', int),
+    result = int
+    ),
+    Function(Variable('size', int),
+    result = int
+    ),
+    Function(Variable('locX', int),
+    result = int
+    ),
+    Function(Variable('locY', int),
+    result = int
+    ),
+    Function(Variable('madeOf', int),
+    result = int #What goes here?
+    ),
+    Function(Variable('partOf', int),
+    result = int #What goes here?
+    ),
+  ],
+  doc = 'The bot class.'
   )
 
 globals = [
