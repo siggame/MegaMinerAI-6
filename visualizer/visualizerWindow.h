@@ -5,6 +5,10 @@
 #include <QMainWindow>
 #include "gameboardWidget.h"
 
+
+//todo: seperate into seperate file and build in functionality
+typedef class GameLog{};
+
 class VisualizerWindow: public QMainWindow
 {
 	Q_OBJECT
@@ -16,7 +20,8 @@ protected:
 
 private slots:
 	void openGamelog();
-
+        void closeGameLog();
+        void exitProgram();
 private:
 	void createMenus();
 	void createLayout();
@@ -26,10 +31,16 @@ private:
 	QMenu *viewMenu;
 	QMenu *helpMenu;
 
-	QAction *openGameAct;
+        QAction *openGameAct;
+        QAction *closeGameAct;
+        QAction *exitAct;
 
 
 	Gameboard *gameboard;
+
+        GameLog gameLog;
+
+
 };
 
 

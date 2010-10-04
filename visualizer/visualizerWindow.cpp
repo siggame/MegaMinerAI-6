@@ -1,12 +1,14 @@
 #include <iostream>
-using namespace std;
 #include "visualizerWindow.h"
+
+using namespace std;
+
 
 VisualizerWindow::VisualizerWindow()
 {
 	createActions();
 	createMenus();
-	createLayout();	
+	createLayout();
 
 	setWindowTitle( "Modular Visualizer" );
 }
@@ -18,14 +20,38 @@ void VisualizerWindow::closeEvent( QCloseEvent *event )
 
 void VisualizerWindow::openGamelog()
 {
+       //Get the gamelog's Filename:
+
+       //todo: argument 3 should be the default directory of the game logs
+       //todo: argument 4 should have the actual extention of a game log
+       QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"/",tr("Log Files(*.log)"));
+
+       //todo: use the filename to open up the gameLog object
+
+
 	cout << "Opening your gamelog, sir." << endl;
 }
 
+void VisualizerWindow::closeGameLog()
+{
+   //todo: clear out the game log and recover all allocated memory
+}
+
+void VisualizerWindow::exitProgram()
+{
+    //todo: clear out the game log, recover all allocated memory and exit the program
+   QApplication::quit();
+}
+
+
+
 void VisualizerWindow::createMenus()
 {
-	
+
 	fileMenu = menuBar()->addMenu(tr("&File"));
-	fileMenu->addAction(openGameAct);
+        fileMenu->addAction(openGameAct);
+        fileMenu->addAction(closeGameAct);
+        fileMenu->addAction(exitAct);
 
 	viewMenu = menuBar()->addMenu(tr("&View"));
 	helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -69,8 +95,20 @@ void VisualizerWindow::createLayout()
 
 void VisualizerWindow::createActions()
 {
-	openGameAct = new QAction(tr("&Open Gamelog"), this);
+        openGameAct = new QAction(tr("&Open Game Log"), this);
 	openGameAct->setShortcut(tr("Ctrl+O"));
-	openGameAct->setStatusTip(tr("Open a Gamelog"));
+        openGameAct->setStatusTip(tr("Open a Game Log"));
 	connect( openGameAct, SIGNAL(triggered()), this, SLOT(openGamelog()));
+
+        closeGameAct = new QAction(tr("&Close Gamelog"),this);
+        openGameAct->setStatusTip(tr("Close the current Game Log"));
+        connect( closeGameAct, SIGNAL(triggered()), this, SLOT(closeGamelog()));
+
+        exitAct = new QAction(tr("&Exit"),this);
+        openGameAct->setShortcut(tr("Ctrl+Q"));
+        openGameAct->setStatusTip(tr("Exit the program"));
+        connect( exitAct, SIGNAL(triggered()), this, SLOT(exitProgram()));
+
 }
+
+
