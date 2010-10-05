@@ -13,18 +13,18 @@ static void parse${model.name}(${model.name}& object, sexp_t* expression)
   sexp_t* sub;
   sub = expression->list;
   
-  % for key in model.data.keys():
-  %if model.data[key] == int:
-  object.${key} = atoi(sub->val);
-  %elif model.data[key] == float:
-  object.${key} = atof(sub->val);
-  %elif model.data[key] == str:
-  object.${key} = new char[strlen(sub->val)+1];
-  strncpy(object.${key}, sub->val, strlen(sub->val));
-  object.${key}[strlen(sub->val)] = 0;
-  %endif
+%   for datum in model.data:
+%     if datum.type == int:
+  object.${datum.name} = atoi(sub->val);
+%     elif datum.type == float:
+  object.${datum.name} = atof(sub->val);
+%    elif datum.type == str:
+  object.${datum.name} = new char[strlen(sub->val)+1];
+  strncpy(object.${datum.name}, sub->val, strlen(sub->val));
+  object.${datum.name}[strlen(sub->val)] = 0;
+%    endif
   sub = sub->next;
-  %endfor
+%  endfor
   
 }
 % endfor
@@ -33,22 +33,20 @@ static void parse${model.name}(${model.name}& object, sexp_t* expression)
 static void parse${capitalize(animation.name)}(${animation.name}& object, sexp_t* expression)
 {
   sexp_t* sub;
-  sub = expression->next;
+  sub = expression->list;
   
-  object.type = ${animation.name.upper()};
-  
-  % for key in animation.data.keys():
-  %if animation.data[key] == int:
-  object.${key} = atoi(sub->val);
-  %elif animation.data[key] == float:
-  object.${key} = atof(sub->val);
-  %elif animation.data[key] == str:
-  object.${key} = new char[strlen(sub->val)+1];
-  strncpy(object.${key}, sub->val, strlen(sub->val));
-  object.${key}[strlen(sub->val)] = 0;
-  %endif
+%   for datum in model.data:
+%     if datum.type == int:
+  object.${datum.name} = atoi(sub->val);
+%     elif datum.type == float:
+  object.${datum.name} = atof(sub->val);
+%    elif datum.type == str:
+  object.${datum.name} = new char[strlen(sub->val)+1];
+  strncpy(object.${datum.name}, sub->val, strlen(sub->val));
+  object.${datum.name}[strlen(sub->val)] = 0;
+%    endif
   sub = sub->next;
-  %endfor
+%  endfor
   
 }
 % endfor
@@ -66,28 +64,22 @@ static bool parseSexp(Game& game, sexp_t* expression)
       sub = expression->list;
       if(string(sub->val) == "game")
       {
-          sub = sub->next;
-          gs.turnNumber = atoi(sub->val);
-          sub = sub->next;
-          
-          gs.player0Score = atoi(sub->val);
-          sub = sub->next;
-          
-          gs.player1Score = atoi(sub->val);
-          sub = sub->next;
-          
-          gs.player0Light = atoi(sub->val);
-          sub = sub->next;
-
-          gs.player1Light = atoi(sub->val);
+% for datum in globals:
+%   if datum.type == int:
+          gs.${datum.name} = atoi(sub->val);
+%   elif datum.type == float:
+          gs.${datum.name} = atof(sub->val);
+%   elif datum.type == str:
+          if(c->${datum.name}) delete[] c->${datum.name};
+          gs.${datum.name} = new char[strlen(sub->val)+1];
+          strncpy(gs.${datum.name}, sub->val, strlen(sub->val));
+          gs.${datum.name}[strlen(sub->val)] = 0;
+%   endif
           sub = sub->next;
           
-          gs.boardX = atoi(sub->val);
-          sub = sub->next;
-          
-          gs.boardY = atoi(sub->val);
+% endfor
       }
-      % for model in models:
+% for model in models:
       else if(string(sub->val) == "${model.name}")
       {
         sub = sub->next;
@@ -95,12 +87,12 @@ static bool parseSexp(Game& game, sexp_t* expression)
         {
           ${model.name} object;
           parse${model.name}(object, sub);
-          gs.${lowercase(model.name)}s.push_back(object);
+          gs.${lowercase(model.plural)}.push_back(object);
           
           sub = sub->next;
         }
       }
-      % endfor
+% endfor
     }
     game.states.push_back(gs);
   }
@@ -111,14 +103,14 @@ static bool parseSexp(Game& game, sexp_t* expression)
     {
       expression = expression->next;
       sub = expression->list;
-      % for animation in animations:
+% for animation in animations:
       if(string(sub->val) == "${dashify(animation.name)}")
       {
         ${animation.name}* animation = new ${animation.name};
         parse${capitalize(animation.name)}(*animation, sub);
         animations.push_back(animation);
       }
-      % endfor
+% endfor
     }
     game.states[game.states.size()-1].animations = animations;
   }

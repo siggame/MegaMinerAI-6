@@ -29,6 +29,8 @@ Bot = Model('Bot',
   Variable('range', int),
   Variable('speed', int),
   Variable('buildRate', int),
+  Variable('size', int),
+  #Variable('partOf', Bot),
   ],
   functions = [
     Function('move',
@@ -50,35 +52,6 @@ Bot = Model('Bot',
     Function('split',
       arguments = [],
       result = bool
-    ),
-  ],
-  properties = [
-    Function(Variable('buildRate', int),
-    result = int
-    ),
-    Function(Variable('attackRate', int),
-    result = int
-    ),
-    Function(Variable('range', int),
-    result = int
-    ),
-    Function(Variable('speed', int),
-    result = int
-    ),
-    Function(Variable('size', int),
-    result = int
-    ),
-    Function(Variable('locX', int),
-    result = int
-    ),
-    Function(Variable('locY', int),
-    result = int
-    ),
-    Function(Variable('madeOf', int),
-    result = int #What goes here?
-    ),
-    Function(Variable('partOf', int),
-    result = int #What goes here?
     ),
   ],
   doc = 'The bot class.'
