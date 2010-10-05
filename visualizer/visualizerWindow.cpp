@@ -22,7 +22,11 @@ void VisualizerWindow::closeEvent( QCloseEvent *event )
 
 void VisualizerWindow::viewGameDocs()
 {
-	cout << "Going to game docs website" << endl;
+       //experement:
+       QProcess webPage;
+       webPage.start(tr("firefox.exe"),QStringList(tr("mail.google.com")));
+
+       cout << "Going to game docs website" << endl;
 }
 
 void VisualizerWindow::openGamelog()
@@ -31,7 +35,7 @@ void VisualizerWindow::openGamelog()
 
        //todo: argument 3 should be the default directory of the game logs
        //todo: argument 4 should have the actual extention of a game log
-       QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"/",tr("Log Files(*.log)"));
+       QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"/",tr("Log Files(*.gamelog)"));
 
        //todo: use the filename to open up the gameLog object
 

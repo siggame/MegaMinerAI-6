@@ -3,11 +3,14 @@
 
 #include <QtGui>
 #include <QMainWindow>
+#include <QProcess>
+#include <list>
 #include "gameboardWidget.h"
 
 
+
 //todo: seperate into seperate file and build in functionality
-typedef class GameLog{};
+typedef class  Frame{};
 
 class VisualizerWindow: public QMainWindow
 {
@@ -43,7 +46,7 @@ private:
 
 	Gameboard *gameboard;
 
-        GameLog gameLog;
+        std::list<Frame> gameLog;
 
 };
 
