@@ -37,8 +37,8 @@ if __name__ == '__main__':
   """
   import writePython
   writePython.write(objects)
-
-
+  """
+  
   import writeVisualizer
   writeVisualizer.write(objects)
-  """
+  

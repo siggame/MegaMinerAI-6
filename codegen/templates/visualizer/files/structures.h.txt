@@ -15,9 +15,9 @@ const int ${animation.name.upper()} = ${i};
 % for model in models:
 struct ${model.name}
 {
-  % for key in model.data.keys():
-  ${conversions[model.data[key]]} ${key};
-  % endfor
+%   for datum in model.data:
+  ${conversions[datum.type]} ${datum.name};
+%   endfor
   
   friend std::ostream& operator<<(std::ostream& stream, ${model.name} obj);
 };
@@ -32,9 +32,9 @@ struct Animation
 % for animation in animations:
 struct ${animation.name} : public Animation
 {
-  % for key in animation.data.keys():
-  ${conversions[animation.data[key]]} ${key};
-  % endfor
+%   for datum in animation.data:
+  ${conversions[datum.type]} ${datum.name};
+%   endfor
   
   friend std::ostream& operator<<(std::ostream& stream, ${animation.name} obj);
 };
@@ -43,13 +43,13 @@ struct ${animation.name} : public Animation
 
 struct GameState
 {
-  % for model in models:
-  std::vector<${model.name}> ${lowercase(model.name)}s;
-  %  endfor
+% for model in models:
+  std::vector<${model.name}> ${lowercase(model.plural)};
+% endfor
   
-  % for datum in globals:
+% for datum in globals:
   ${conversions[datum.type]} ${datum.name};
-  % endfor
+% endfor
   
   std::vector<Animation*> animations;
   friend std::ostream& operator<<(std::ostream& stream, GameState obj);
