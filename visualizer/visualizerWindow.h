@@ -22,6 +22,10 @@ private slots:
 	void openGamelog();
         void closeGameLog();
         void exitProgram();
+
+// Help File
+	void viewGameDocs();
+
 private:
 	void createMenus();
 	void createLayout();
@@ -31,6 +35,7 @@ private:
 	QMenu *viewMenu;
 	QMenu *helpMenu;
 
+	QAction *viewGameDocsAct;
         QAction *openGameAct;
         QAction *closeGameAct;
         QAction *exitAct;

@@ -18,6 +18,11 @@ void VisualizerWindow::closeEvent( QCloseEvent *event )
 	if( event ) {}
 }
 
+void VisualizerWindow::viewGameDocs()
+{
+	cout << "Going to game docs website" << endl;
+}
+
 void VisualizerWindow::openGamelog()
 {
        //Get the gamelog's Filename:
@@ -55,6 +60,7 @@ void VisualizerWindow::createMenus()
 
 	viewMenu = menuBar()->addMenu(tr("&View"));
 	helpMenu = menuBar()->addMenu(tr("&Help"));
+	helpMenu->addAction(viewGameDocsAct);
 }
 
 void VisualizerWindow::createLayout()
@@ -105,9 +111,14 @@ void VisualizerWindow::createActions()
         connect( closeGameAct, SIGNAL(triggered()), this, SLOT(closeGamelog()));
 
         exitAct = new QAction(tr("&Exit"),this);
-        openGameAct->setShortcut(tr("Ctrl+Q"));
-        openGameAct->setStatusTip(tr("Exit the program"));
+        exitAct->setShortcut(tr("Ctrl+Q"));
+        exitAct->setStatusTip(tr("Exit the program"));
         connect( exitAct, SIGNAL(triggered()), this, SLOT(exitProgram()));
+
+	viewGameDocsAct = new QAction( tr("View &Game Documents"), this);
+	viewGameDocsAct->setShortcut(tr("F1"));
+	viewGameDocsAct->setStatusTip(tr("Documents Related to the Competition"));
+	connect( viewGameDocsAct, SIGNAL(triggered()), this, SLOT(viewGameDocs()));
 
 }
 
