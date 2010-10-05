@@ -20,7 +20,7 @@ protected:
 
 private slots:
 	void openGamelog();
-        void closeGameLog();
+        void closeGamelog();
         void exitProgram();
 
 // Help File
@@ -44,7 +44,6 @@ private:
 	Gameboard *gameboard;
 
         GameLog gameLog;
-
 
 };
 

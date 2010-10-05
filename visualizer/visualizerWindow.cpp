@@ -11,6 +11,8 @@ VisualizerWindow::VisualizerWindow()
 	createLayout();
 
 	setWindowTitle( "Modular Visualizer" );
+        //setFixedSize(800,600);
+
 }
 
 void VisualizerWindow::closeEvent( QCloseEvent *event )
@@ -37,14 +39,17 @@ void VisualizerWindow::openGamelog()
 	cout << "Opening your gamelog, sir." << endl;
 }
 
-void VisualizerWindow::closeGameLog()
+void VisualizerWindow::closeGamelog()
 {
    //todo: clear out the game log and recover all allocated memory
 }
 
 void VisualizerWindow::exitProgram()
 {
-    //todo: clear out the game log, recover all allocated memory and exit the program
+   //clear out the game log, recover all allocated memory
+   closeGamelog();
+
+   //exit the program
    QApplication::quit();
 }
 
@@ -86,7 +91,7 @@ void VisualizerWindow::createLayout()
 	tb->addItem( lbl, "too" );
 	tb->addItem( lbl2, "too2" );
 
-	hbox->addWidget(gameboard,5);
+        hbox->addWidget(gameboard,5);
 
 	hbox->addWidget( tb,1 );
 

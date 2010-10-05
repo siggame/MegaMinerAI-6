@@ -7,6 +7,7 @@ Gameboard::Gameboard( QWidget *parent )
 	// This timer tells us when to repaint the gameboard.
 	// 20 milliseconds or microseconds, I'm not sure
 	timerId = startTimer(20);
+        setFixedSize(500,500);
 }
 
 Gameboard::~Gameboard()
