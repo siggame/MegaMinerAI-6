@@ -4,24 +4,23 @@
 #include <QtGui>
 #include <QMainWindow>
 #include "gameboardWidget.h"
-
-
-//todo: seperate into seperate file and build in functionality
-typedef class GameLog{};
+#include "parser.h"
 
 class VisualizerWindow: public QMainWindow
 {
 	Q_OBJECT
 public:
 	VisualizerWindow();
+	GameState *getFrame( int frame = -1 );
 
 protected:
 	void closeEvent( QCloseEvent *event );
+	int frameNumber; 
 
 private slots:
 	void openGamelog();
-        void closeGameLog();
-        void exitProgram();
+	void closeGamelog();
+	void exitProgram(); 
 
 // Help File
 	void viewGameDocs();
@@ -36,16 +35,13 @@ private:
 	QMenu *helpMenu;
 
 	QAction *viewGameDocsAct;
-        QAction *openGameAct;
-        QAction *closeGameAct;
-        QAction *exitAct;
+	QAction *openGameAct;
+	QAction *closeGameAct;
+	QAction *exitAct;
 
+	Game gamelog;
 
 	Gameboard *gameboard;
-
-        GameLog gameLog;
-
-
 };
 
 
