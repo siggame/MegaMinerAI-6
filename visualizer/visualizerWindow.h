@@ -3,28 +3,28 @@
 
 #include <QtGui>
 #include <QMainWindow>
-#include <QProcess>
-#include <list>
 #include "gameboardWidget.h"
+#include "parser.h"
 
 
 
-//todo: seperate into seperate file and build in functionality
-typedef class  Frame{};
+
 
 class VisualizerWindow: public QMainWindow
 {
 	Q_OBJECT
 public:
 	VisualizerWindow();
+	GameState *getFrame( int frame = -1 );
 
 protected:
 	void closeEvent( QCloseEvent *event );
+	int frameNumber; 
 
 private slots:
 	void openGamelog();
-        void closeGamelog();
-        void exitProgram();
+	void closeGamelog();
+	void exitProgram(); 
 
 // Help File
 	void viewGameDocs();
@@ -39,15 +39,13 @@ private:
 	QMenu *helpMenu;
 
 	QAction *viewGameDocsAct;
-        QAction *openGameAct;
-        QAction *closeGameAct;
-        QAction *exitAct;
+	QAction *openGameAct;
+	QAction *closeGameAct;
+	QAction *exitAct;
 
+	Game gamelog;
 
-	Gameboard *gameboard;
-
-        std::list<Frame> gameLog;
-
+        Gameboard *gameboard;
 };
 
 

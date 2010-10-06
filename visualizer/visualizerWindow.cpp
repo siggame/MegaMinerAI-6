@@ -11,8 +11,7 @@ VisualizerWindow::VisualizerWindow()
 	createLayout();
 
 	setWindowTitle( "Modular Visualizer" );
-        //setFixedSize(800,600);
-
+	frameNumber = 0;
 }
 
 void VisualizerWindow::closeEvent( QCloseEvent *event )
@@ -29,18 +28,24 @@ void VisualizerWindow::viewGameDocs()
        cout << "Going to game docs website" << endl;
 }
 
+GameState *VisualizerWindow::getFrame( int frame )
+{
+	if( frame == -1 )
+		frame = frameNumber;
+	return &gamelog.states[frame];
+}
+
 void VisualizerWindow::openGamelog()
 {
-       //Get the gamelog's Filename:
+    //Get the gamelog's Filename:
 
-       //todo: argument 3 should be the default directory of the game logs
-       //todo: argument 4 should have the actual extention of a game log
+
+    //todo: argument 3 should be the default directory of the game logs
+    //todo: argument 4 should have the actual extention of a game log
        QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"/",tr("Log Files(*.gamelog)"));
 
-       //todo: use the filename to open up the gameLog object
+    parseFile( gamelog, (char *)fileName.toLocal8Bit().constData() );
 
-
-	cout << "Opening your gamelog, sir." << endl;
 }
 
 void VisualizerWindow::closeGamelog()
@@ -63,9 +68,9 @@ void VisualizerWindow::createMenus()
 {
 
 	fileMenu = menuBar()->addMenu(tr("&File"));
-        fileMenu->addAction(openGameAct);
-        fileMenu->addAction(closeGameAct);
-        fileMenu->addAction(exitAct);
+	fileMenu->addAction(openGameAct);
+	fileMenu->addAction(closeGameAct);
+	fileMenu->addAction(exitAct);
 
 	viewMenu = menuBar()->addMenu(tr("&View"));
 	helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -100,9 +105,6 @@ void VisualizerWindow::createLayout()
 	hbox->addWidget( tb,1 );
 
 	centralWidget->setLayout( hbox );
-
-
-
 	setCentralWidget( centralWidget );
 
 
@@ -110,19 +112,19 @@ void VisualizerWindow::createLayout()
 
 void VisualizerWindow::createActions()
 {
-        openGameAct = new QAction(tr("&Open Game Log"), this);
+	openGameAct = new QAction(tr("&Open Game Log"), this);
 	openGameAct->setShortcut(tr("Ctrl+O"));
-        openGameAct->setStatusTip(tr("Open a Game Log"));
+	openGameAct->setStatusTip(tr("Open a Game Log"));
 	connect( openGameAct, SIGNAL(triggered()), this, SLOT(openGamelog()));
 
-        closeGameAct = new QAction(tr("&Close Gamelog"),this);
-        openGameAct->setStatusTip(tr("Close the current Game Log"));
-        connect( closeGameAct, SIGNAL(triggered()), this, SLOT(closeGamelog()));
+	closeGameAct = new QAction(tr("&Close Gamelog"),this);
+	openGameAct->setStatusTip(tr("Close the current Game Log"));
+	connect( closeGameAct, SIGNAL(triggered()), this, SLOT(closeGamelog()));
 
-        exitAct = new QAction(tr("&Exit"),this);
-        exitAct->setShortcut(tr("Ctrl+Q"));
-        exitAct->setStatusTip(tr("Exit the program"));
-        connect( exitAct, SIGNAL(triggered()), this, SLOT(exitProgram()));
+	exitAct = new QAction(tr("&Exit"),this);
+	exitAct->setShortcut(tr("Ctrl+Q"));
+	exitAct->setStatusTip(tr("Exit the program"));
+	connect( exitAct, SIGNAL(triggered()), this, SLOT(exitProgram()));
 
 	viewGameDocsAct = new QAction( tr("View &Game Documents"), this);
 	viewGameDocsAct->setShortcut(tr("F1"));
