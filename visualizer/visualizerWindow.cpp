@@ -12,6 +12,7 @@ VisualizerWindow::VisualizerWindow()
 
 	setWindowTitle( "Modular Visualizer" );
 	frameNumber = 0;
+	fullScreen = false;
 }
 
 void VisualizerWindow::closeEvent( QCloseEvent *event )
@@ -49,6 +50,17 @@ void VisualizerWindow::openGamelog()
 
 }
 
+void VisualizerWindow::toggleFullScreen()
+{
+
+	if( !fullScreen )
+		showFullScreen();
+	else
+		showNormal();
+	fullScreen = !fullScreen;
+	show();
+}
+
 void VisualizerWindow::closeGamelog()
 {
    //todo: clear out the game log and recover all allocated memory
@@ -74,6 +86,8 @@ void VisualizerWindow::createMenus()
 	fileMenu->addAction(exitAct);
 
 	viewMenu = menuBar()->addMenu(tr("&View"));
+	viewMenu->addAction(toggleFullScreenAct);
+
 	helpMenu = menuBar()->addMenu(tr("&Help"));
 	helpMenu->addAction(viewGameDocsAct);
 }
@@ -131,6 +145,12 @@ void VisualizerWindow::createActions()
 	viewGameDocsAct->setShortcut(tr("F1"));
 	viewGameDocsAct->setStatusTip(tr("Documents Related to the Competition"));
 	connect( viewGameDocsAct, SIGNAL(triggered()), this, SLOT(viewGameDocs()));
+
+	toggleFullScreenAct = new QAction( tr("&Full Screen"), this );
+	toggleFullScreenAct->setShortcut( tr("F11" ) );
+	toggleFullScreenAct->setStatusTip( tr("Toggle Fullscreen Mode") );
+	connect( toggleFullScreenAct, SIGNAL(triggered()), this, SLOT(toggleFullScreen()) );
+
 
 }
 

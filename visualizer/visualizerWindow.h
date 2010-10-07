@@ -21,10 +21,13 @@ protected:
 	void closeEvent( QCloseEvent *event );
 	int frameNumber; 
 
+	bool fullScreen;
+
 private slots:
 	void openGamelog();
 	void closeGamelog();
 	void exitProgram(); 
+	void toggleFullScreen();
 
 // Help File
 	void viewGameDocs();
@@ -41,6 +44,7 @@ private:
 	QAction *viewGameDocsAct;
 	QAction *openGameAct;
 	QAction *closeGameAct;
+	QAction *toggleFullScreenAct;
 	QAction *exitAct;
 
 	Game gamelog;
