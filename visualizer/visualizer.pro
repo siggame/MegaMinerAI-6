@@ -1,14 +1,9 @@
-INCLUDEPATH += ../codegen/output/visualizer ../codegen/output/visualizer/sexp
+INCLUDEPATH += ./parser ./parser/sexp
 
-!exists( ../codegen/output/visualizer/parser.cpp ) {
-	system( "cd ../codegen && python main.py ./templates" )
-	system( "cd ../codegen/output/visualizer && make" )
-}
-
-LIBS += ../codegen/output/visualizer/sexp/sexp.a
+LIBS += ./parser/sexp/sexp.a
 SOURCES += main.cpp visualizerWindow.cpp gameboardWidget.cpp
-SOURCES += ../codegen/output/visualizer/parser.cpp 
-SOURCES += ../codegen/output/visualizer/structures.cpp
+SOURCES += ./parser/parser.cpp 
+SOURCES += ./parser/structures.cpp
 HEADERS += visualizerWindow.h gameboardWidget.h
 CONFIG += debug
 QT += opengl

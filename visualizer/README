@@ -20,6 +20,9 @@ to go ahead and run qmake again.  Once your makefile is generated run 'make'
 to compile.  It should automatigically compile everything that was specified
 in the visualizer.pro file.
 
+The sexp library for the parser needs to be compiled, so if you get errors
+that you're missing sexp.a, go to the parser directory and run make.
+
 == Modifiying visualizer.pro ==
 
 If you ever add a source/header file to this project, add an additional

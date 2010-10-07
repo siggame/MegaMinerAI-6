@@ -23,6 +23,7 @@ void VisualizerWindow::viewGameDocs()
 {
        //experement:
        QProcess webPage;
+			//todo: Need to make this cross platform
        webPage.start(tr("firefox.exe"),QStringList(tr("mail.google.com")));
 
        cout << "Going to game docs website" << endl;
