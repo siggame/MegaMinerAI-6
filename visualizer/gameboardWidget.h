@@ -5,6 +5,13 @@
 #include <QtOpenGL>
 #include "texture.h"
 
+
+enum textures
+{
+	T_SPRITE = 0
+
+};
+
 class Gameboard : public QGLWidget
 {
 	Q_OBJECT
@@ -19,7 +26,9 @@ protected:
 	void paintGL();
 	void timerEvent( QTimerEvent * );
 
-	texture sprite;
+	void drawSprite( int x, int y, int h, int w, int texture );
+
+	texture textures[1];
 
 private:
 	int timerId;
