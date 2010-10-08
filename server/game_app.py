@@ -7,8 +7,7 @@ from itertools import repeat
 import functools
 import game_app.match
 Match = game_app.match.Match
-from game_app.game_app_utils import errorBuffer, requireLogin, requireGame, \
-                  requireTurn, requireTypes
+from game_app.game_app_utils import errorBuffer, requireLogin, requireGame,                   requireTurn, requireTypes
 import time
 import struct
 import bz2
@@ -90,37 +89,86 @@ class GameApp(AccountsAppMixin, BaseApp):
     """ Attempts to end your turn """
     return self.game.nextTurn()
 
-% for model in models:
-%   for func in model.functions:
-%     if not model.parent or func not in model.parent.functions:
   @protocolmethod
   @errorBuffer
   @requireTurn
-  @requireTypes(None, int\
-%       for arg in func.arguments:  
-, \
-${conversions[arg.type]}\
-%       endfor
-)
-  def game${capitalize(func.name)}(self, ${lowercase(model.name)}\
-%       for arg in func.arguments:  
-, \
-${arg.name}\
-%       endfor
-):
-    """${func.doc}"""
+  @requireTypes(None, int, str)
+  def gameTalk(self, unit, talk_string):
+    """"""
     if self.game.turn is not self:
       return "Not your turn."
-    return self.game.${func.name}(${lowercase(model.name)}\
-%       for arg in func.arguments:  
-, \
-${arg.name}\
-%       endfor
-)
+    return self.game.talk(unit, talk_string)
 
-%     endif
-%   endfor
-% endfor
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, str)
+  def gameTalk(self, bot, talk_string):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.talk(bot, talk_string)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, int)
+  def gameMove(self, bot, direction):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.move(bot, direction)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, int)
+  def gameAttack(self, bot, target):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.attack(bot, target)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, int, int, int, int)
+  def gameBuild(self, bot, type, x, y, size):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.build(bot, type, x, y, size)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, int, int, int)
+  def gameCombine(self, bot, Bot2, Bot3, Bot4):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.combine(bot, Bot2, Bot3, Bot4)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int)
+  def gameSplit(self, bot):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.split(bot)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, str)
+  def gameTalk(self, frame, talk_string):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.talk(frame, talk_string)
+
 
   @protocolmethod
   def whoami(self):
