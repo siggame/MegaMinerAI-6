@@ -16,7 +16,11 @@ const int ${animation.name.upper()} = ${i};
 struct ${model.name}
 {
 %   for datum in model.data:
+%     if isinstance(datum.type, Model):
+  int ${datum.name};
+%     else:
   ${conversions[datum.type]} ${datum.name};
+%     endif
 %   endfor
   
   friend std::ostream& operator<<(std::ostream& stream, ${model.name} obj);
@@ -33,7 +37,11 @@ struct Animation
 struct ${animation.name} : public Animation
 {
 %   for datum in animation.data:
+%     if isinstance(datum.type, Model):
+  int ${datum.name};
+%     else:
   ${conversions[datum.type]} ${datum.name};
+%     endif
 %   endfor
   
   friend std::ostream& operator<<(std::ostream& stream, ${animation.name} obj);

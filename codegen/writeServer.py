@@ -13,7 +13,7 @@ def write(data):
   data['lowercase'] = util.lowercase
   data['Model'] = structures.Model
   for file in glob.glob('templates/server/files/*.txt') + glob.glob('templates/server/files/game_app/*.txt'):
-    writeFile(file[22:-4], data)
+    writeFile(file[23:-4], data)
 
 def writeFile(name, data):
   try:
