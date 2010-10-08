@@ -76,11 +76,10 @@ DLLEXPORT int send_string(int socket, const char* payload) {
     // this function only supports the fake 'no compression' scheme
 
     char buffer[GLOBAL_BUFFER_SIZE];
-    int numbytes = strlen(payload)+2;
-    char * cstr = new char[numbytes]; //n + payload + \0
+    int numbytes = strlen(payload)+1;
+    char * cstr = new char[numbytes]; //payload + \0
     
     memset(cstr, 0, numbytes);
-    cstr[0] = 'n';
     strcat(cstr, payload);
     
     int offset = 0;
@@ -183,12 +182,12 @@ DLLEXPORT char* rec_string(int socket)
     }
 
 #ifdef SHOW_NETWORK
-    cout << "S: " << result.c_str()+1 << endl;
+    cout << "S: " << result.c_str() << endl;
 #endif
     ret = new char[result.size()+1];
     strncpy(ret, result.c_str(), result.size());
     ret[result.size()] = 0;
-    return ret+1;
+    return ret;
 }
 
 /*                                      sexpr functions                                       */

@@ -22,6 +22,7 @@ int main(int argc, char** argv)
   }
 
   Connection* c;
+  c = createConnection();
   AI ai(c);
   int gameNumber;
   if(!serverConnect(c, argv[1], "19000"))
@@ -57,7 +58,5 @@ int main(int argc, char** argv)
       getStatus(c);
     }
   }
-  //Wait for log
-  while (networkLoop(c));
   return 0;
 }

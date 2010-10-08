@@ -95,7 +95,7 @@ DLLEXPORT int createGame(Connection* c)
 {
   sexp_t* expression, *number;
 
-  send_string(c->socket, "(start-game)");
+  send_string(c->socket, "(create-game)");
   
   char* reply = rec_string(c->socket);
   expression = extract_sexpr(reply);
@@ -135,6 +135,7 @@ DLLEXPORT int joinGame(Connection* c, int gameNum)
   destroy_sexp(expression);
   
   c->playerID = 1;
+  send_string(c->socket, "(game-start)");
   
   return 1;
 }
@@ -301,15 +302,18 @@ DLLEXPORT int networkLoop(Connection* c)
 %   if model.type == 'Model':
         else if(string(sub->val) == "${model.name}")
         {
-          for(int i = 0; i < c->${model.name}Count; i++)
+          if(c->${model.plural})
           {
+            for(int i = 0; i < c->${model.name}Count; i++)
+            {
 %     for datum in model.data:
 %       if datum.type == str:
-            delete[] c->${model.plural}->${datum.name};
+              delete[] c->${model.plural}->${datum.name};
 %       endif
 %     endfor
+            }
+            delete[] c->${model.plural};
           }
-          delete[] c->${model.plural};
           c->${model.name}Count =  sexp_list_length(expression)-1; //-1 for the header
           c->${model.name}s = new _${model.name}[c->${model.name}Count];
           for(int i = 0; i < c->${model.name}Count; i++)
