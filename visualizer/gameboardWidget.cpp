@@ -7,7 +7,7 @@ Gameboard::Gameboard( QWidget *parent )
 	// This timer tells us when to repaint the gameboard.
 	// 20 milliseconds or microseconds, I'm not sure
 	timerId = startTimer(20);
-        setFixedSize(500,500);
+  //setFixedSize(500,500);
 
 }
 
@@ -31,7 +31,7 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-	textures[T_SPRITE].loadImage( "sprite.png" );
+	textures[T_SPRITE].loadImage( "megaman.png" );
 
 	
 }
@@ -69,6 +69,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 void Gameboard::resizeGL( int w, int h )
 {
 	h = h?h:1;
+	//cout << "resize" << endl;
 
 	glViewport( 0, 0, (GLint)w, (GLint)h);
 
@@ -106,15 +107,12 @@ void Gameboard::paintGL()
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); 
 
-	//glLoadIdentity();
-	//glScalef( 50, 50, 1 );
-	//drawSprite( 150, 250, T_SPRITE );
 
-	for( int i = 0; i < 25; i++ )
+	for( int i = 0; i < 45; i++ )
 	{
-		for( int j= 0; j < 25; j++ )
+		for( int j= 0; j < 30; j++ )
 		{
-			drawSprite( i*50, j*50,50,50, T_SPRITE );
+			drawSprite( i*32, j*32,32,32, T_SPRITE );
 		}
 	}
 }	

@@ -115,9 +115,13 @@ void VisualizerWindow::createLayout()
 	tb->addItem( lbl, "too" );
 	tb->addItem( lbl2, "too2" );
 
-        hbox->addWidget(gameboard,5);
+  hbox->addWidget(gameboard);
+	
+	gameboard->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-	hbox->addWidget( tb,1 );
+	tb->setFixedWidth( 150 );
+
+	hbox->addWidget( tb);
 
 	centralWidget->setLayout( hbox );
 	setCentralWidget( centralWidget );
