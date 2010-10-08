@@ -25,9 +25,9 @@ class Match(DefaultGameWorld):
     self.addPlayer(self.scribe, "spectator")
 
     #TODO: INITIALIZE THESE!
-% for datum in globals:
-    self.${datum.name} = None
-% endfor
+    self.turnNumber = -1
+    self.playerID = -1
+    self.gameNumber = id
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
@@ -69,8 +69,10 @@ class Match(DefaultGameWorld):
     self.turnNumber += 1
     if (self.turn == self.players[0]):
       self.turn = self.players[1]
+      self.playerID = 1
     else:
       self.turn = self.players[0]
+      self.playerID = 0
 
     for obj in self.objects.values():
       obj.nextTurn()
@@ -79,8 +81,11 @@ class Match(DefaultGameWorld):
 
     self.animations = ["animations"]
     self.checkWinner()
+    return True
 
   def checkWinner(self):
+    if self.turnNumber >= 500:
+      self.declareWinner(self.players[0])
     #TODO: Make this check if a player won, and call declareWinner with a player if they did
     pass
 
@@ -99,33 +104,38 @@ class Match(DefaultGameWorld):
   def logPath(self):
     return "logs/" + str(self.id) + ".gamelog"
 
-% for model in models:
-%   for func in model.functions:
-%     if not model.parent or func not in model.parent.functions:
-  @derefArgs(${model.name}\
-%       for arg in func.arguments:  
-, \
-%         if isinstance(arg.type, Model):
-${arg.type.name}\
-%         else:
-None\
-%         endif
-%       endfor
-)
-  def ${func.name}(self, object\
-%       for arg in func.arguments:  
-, ${arg.name}\
-%       endfor
-):
-    return self.objects[object].${func.name}(\
-%       for arg in func.arguments:  
-${arg.name}, \
-%       endfor
-)
+  @derefArgs(Unit, None)
+  def talk(self, object, talk_string):
+    return self.objects[object].talk(talk_string, )
 
-%     endif
-%   endfor
-% endfor
+  @derefArgs(Bot, None)
+  def talk(self, object, talk_string):
+    return self.objects[object].talk(talk_string, )
+
+  @derefArgs(Bot, None)
+  def move(self, object, direction):
+    return self.objects[object].move(direction, )
+
+  @derefArgs(Bot, Unit)
+  def attack(self, object, target):
+    return self.objects[object].attack(target, )
+
+  @derefArgs(Bot, Type, None, None, None)
+  def build(self, object, type, x, y, size):
+    return self.objects[object].build(type, x, y, size, )
+
+  @derefArgs(Bot, Bot, Bot, Bot)
+  def combine(self, object, Bot2, Bot3, Bot4):
+    return self.objects[object].combine(Bot2, Bot3, Bot4, )
+
+  @derefArgs(Bot)
+  def split(self, object):
+    return self.objects[object].split()
+
+  @derefArgs(Frame, None)
+  def talk(self, object, talk_string):
+    return self.objects[object].talk(talk_string, )
+
 
   def sendIdent(self, players):
     if len(self.players) < 2:
@@ -153,18 +163,12 @@ ${arg.name}, \
   def status(self):
     msg = ["status"]
 
-    msg.append(["game"\
-% for datum in globals:
-, self.${datum.name}\
-% endfor
-])
+    msg.append(["game", self.turnNumber, self.playerID, self.boardX, self.boardY, self.gameNumber])
 
     typeLists = []
-% for model in models:
-%   if model.type == 'Model':
-    typeLists.append(["${model.name}"] + [i.toList() for i in self.objects.values() if i.__class__ is ${model.name}])
-%   endif
-% endfor
+    typeLists.append(["Bot"] + [i.toList() for i in self.objects.values() if i.__class__ is Bot])
+    typeLists.append(["Frame"] + [i.toList() for i in self.objects.values() if i.__class__ is Frame])
+    typeLists.append(["Type"] + [i.toList() for i in self.objects.values() if i.__class__ is Type])
 
     msg.extend(typeLists)
 
