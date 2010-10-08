@@ -9,6 +9,9 @@
 % if model.parent:
 #include "${model.parent.name}.h"
 % endif
+% for dependency in depends(model):
+struct ${dependency.name};
+% endfor
 
 % if model.doc:
 ///${model.doc}

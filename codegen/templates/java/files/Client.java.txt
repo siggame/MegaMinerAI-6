@@ -50,4 +50,16 @@ ${conversions[arg.type]} ${arg.name}\
 
 % endfor
 
+    //properties
+% for  model in models:
+%   for prop in model.properties:
+  ${conversions[prop.result]} ${lowercase(model.name)}${capitalize(prop.name)}(Pointer object\
+%     for arg in prop.arguments:
+, \
+${conversions[arg.type]} ${arg.name}\
+%     endfor
+);
+%   endfor
+% endfor
+
 }

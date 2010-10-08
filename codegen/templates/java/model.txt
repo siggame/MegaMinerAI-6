@@ -81,7 +81,12 @@ ${arg.name}\
 % endfor
 
 % for prop in model.properties:
-  ${conversions[prop.result]} get${capitalize(prop.name)}(\
+%     if isinstance(arg.type, Model):
+  int \
+%     else:
+  ${conversions[arg.type]} \
+%     endif
+get${capitalize(prop.name)}(\
 %   for arg in prop.arguments:
 %     if prop.arguments[0] != arg:
 , \

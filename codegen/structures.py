@@ -40,6 +40,15 @@ class Model(object):
       self.type = kwargs['type']
     if 'plural' in kwargs:
       self.plural = kwargs[plural]
+  
+  def addData(self, data):
+    self.data.extend(data)
+    
+  def addFunctions(self, functions):
+    self.functions.extend(functions)
+  
+  def addProperties(self, properties):
+    self.properties.extend(properties)
 
 class Variable(object):
   name = ''

@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 import string
 
 def members(x):
@@ -23,3 +24,16 @@ def dashify(str):
       result += '-'
     result += i.lower()
   return result
+
+def depends(model):
+  depends = set()
+  for variable in model.data:
+    if variable.type not in [int, str, float, bool, None]:
+      depends.add(variable.type)
+  for func in model.functions + model.properties:
+    if func.result not in [int, str, float, bool, None]:
+      depends.add(func.result)
+    for variable in func.arguments:
+      if variable.type not in [int, str, float, bool, None]:
+        depends.add(variable.type)
+  return depends

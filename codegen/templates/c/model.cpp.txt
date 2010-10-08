@@ -3,6 +3,10 @@
 #include "${model.name}.h"
 #include "game.h"
 
+% for dependency in depends(model):
+#include "${dependency.name}.h"
+% endfor
+
 ${model.name}::${model.name}(_${model.name}* pointer)
 {
     ptr = (void*) pointer;
