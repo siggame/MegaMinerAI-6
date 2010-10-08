@@ -8,6 +8,7 @@ Gameboard::Gameboard( QWidget *parent )
 	// 20 milliseconds or microseconds, I'm not sure
 	timerId = startTimer(20);
         setFixedSize(500,500);
+
 }
 
 Gameboard::~Gameboard()
@@ -26,6 +27,10 @@ void Gameboard::initializeGL()
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+
+
+	glEnable( GL_TEXTURE_2D );
+	sprite.loadImage( "sprite.bmp" );
 	
 }
 
@@ -52,7 +57,7 @@ void Gameboard::paintGL()
 
 	glTranslatef(-1.5f,0.0f,-6.0f);
 
-	glRotatef( r++, 0, 1, 0 );
+	//glRotatef( r++, 0, 1, 0 );
 	glBegin(GL_TRIANGLES);
 		glVertex3f( 0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f,-1.0f, 0.0f);
@@ -61,11 +66,20 @@ void Gameboard::paintGL()
 
 	glTranslatef(3.0f,0.0f,0.0f);
 
+	glEnable( GL_TEXTURE_2D );
+
+	glBindTexture( GL_TEXTURE_2D, sprite.getTexture() );
 	glBegin(GL_QUADS);
-		glVertex3f(-1.0f, 1.0f, 0.0f);
-		glVertex3f( 1.0f, 1.0f, 0.0f);
-		glVertex3f( 1.0f,-1.0f, 0.0f);
-		glVertex3f(-1.0f,-1.0f, 0.0f);
+
+
+	glTexCoord2f( 0, 1 );
+	glVertex3f(-1.0f, 1.0f, 0.0f);
+	glTexCoord2f( 1, 1 );
+	glVertex3f( 1.0f, 1.0f, 0.0f);
+	glTexCoord2f( 1, 0 );
+	glVertex3f( 1.0f,-1.0f, 0.0f);
+	glTexCoord2f( 0, 0 );
+	glVertex3f(-1.0f,-1.0f, 0.0f);
 	glEnd();   
 }	
 
