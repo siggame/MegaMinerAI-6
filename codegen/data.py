@@ -74,7 +74,7 @@ Bot.addFunctions([
       result = bool
       ),
     Function('combine',
-      arguments = [Variable('Bot2', Bot), Variable('Bot3', Bot), Variable('Bot4', Bot)], #What would go here?
+      arguments = [Variable('Bot2', Bot), Variable('Bot3', Bot), Variable('Bot4', Bot)],
       result = bool
     ),
     Function('split',
