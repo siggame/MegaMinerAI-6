@@ -5,6 +5,10 @@
 #define STRUCTURES_H
 
 struct Connection;
+%  for model in models:
+struct _${model.name};
+%  endfor
+
 
 % for model in models:
 struct _${model.name}

@@ -35,6 +35,13 @@ type = Model('Type',
   doc = 'A kind of robot.'
   )
 
+Frame = Model('Frame',
+  parent = Unit,
+  data = [Variable('type', type),
+    Variable('size', int)],
+  doc = 'A baby robot.')
+
+
 #Split up the Bot class because of self-referential variables
 
 Bot = Model('Bot',
