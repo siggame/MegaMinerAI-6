@@ -4,6 +4,13 @@ visettings *visettings::inst = NULL;
 
 visettings::visettings()
 {
+	// Every 150 ms
+	playSpeed = 150;
+	frameNumber = 0;
+
+	dragging = false;
+
+
 }
 
 visettings::~visettings()

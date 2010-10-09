@@ -1,5 +1,8 @@
 #include "gameboardWidget.h"
 
+#include <iostream>
+
+
 
 Gameboard::Gameboard( QWidget *prt )
 	: QGLWidget( QGLFormat(QGL::SampleBuffers),prt)
@@ -85,6 +88,7 @@ void Gameboard::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
+	int frame = getAttr(frameNumber);
 
 	glEnable( GL_TEXTURE_2D );
 
@@ -95,11 +99,24 @@ void Gameboard::paintGL()
 
 	VisualizerWindow *temp = parent;
 
+
+
 	if( parent->gamelog )
 	{
-		Game *game = parent->gamelog;
-		int frame = parent->frameNumber;
 
+		Game *game = parent->gamelog;
+		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
+		{
+			//std::cout << "UPDATE" << std::endl;
+
+
+			time.restart();
+			if( frame < game->states.size() )
+				setAttr( frameNumber, ++frame );
+			parent->controlBar->blockSignals(true);
+			parent->controlBar->setSliderPosition( frame );
+			parent->controlBar->blockSignals(false);
+		}
 		for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
 		{
 			drawSprite( i->x*32,i->y*32,32,32, T_SPRITE );

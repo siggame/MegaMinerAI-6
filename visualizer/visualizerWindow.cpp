@@ -12,7 +12,6 @@ VisualizerWindow::VisualizerWindow()
 	createLayout();
 
 	setWindowTitle( "Modular Visualizer" );
-	frameNumber = 0;
 	fullScreen = false;
 	gamelog = 0;
 }
@@ -35,7 +34,7 @@ void VisualizerWindow::viewGameDocs()
 GameState *VisualizerWindow::getFrame( int frame )
 {
 	if( frame == -1 )
-		frame = frameNumber;
+		frame = getAttr(frameNumber);
 	return &gamelog->states[frame];
 }
 
@@ -52,6 +51,9 @@ void VisualizerWindow::openGamelog()
 			delete gamelog;
 		gamelog = new Game;
     parseFile( *gamelog, (char *)fileName.toLocal8Bit().constData() );
+
+		controlBar->setMaximum( gamelog->states.size() );
+
 
 }
 
@@ -97,6 +99,18 @@ void VisualizerWindow::createMenus()
 	helpMenu->addAction(viewGameDocsAct);
 }
 
+void VisualizerWindow::controlBarDrag()
+{
+
+	setAttr( dragging, true );
+}
+
+void VisualizerWindow::controlBarChanged(int frame)
+{
+	setAttr( dragging, false );
+	setAttr( frameNumber, frame ); 
+}
+
 void VisualizerWindow::createLayout()
 {
 	QGLFormat f = QGLFormat::defaultFormat();
@@ -120,10 +134,15 @@ void VisualizerWindow::createLayout()
 	tb->addItem( lbl, "too" );
 	tb->addItem( lbl2, "too2" );
 
-	controlBar->setTickInterval( 20 );
+	controlBar->setTickInterval( 50 );
 	controlBar->setTickPosition( QSlider::TicksBothSides );
-	controlBar->setMaximum( 200 );
+	controlBar->setMaximum( 0 );
 	controlBar->setMinimum( 0 );
+	controlBar->setTracking( false );
+
+	connect( controlBar, SIGNAL(sliderPressed()), this, SLOT(controlBarDrag()));
+	//connect( controlBar, SIGNAL(sliderReleased()), this, SLOT(controlBarReleased()));
+	connect( controlBar, SIGNAL(valueChanged(int)), this, SLOT(controlBarChanged(int)));
 
   hbox->addWidget(gameboard);
 	hbox->addWidget(controlBar);
