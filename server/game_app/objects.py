@@ -195,12 +195,21 @@ class Bot(Unit):
     x = y = 0
     if d == 'u':
       x = -1
+      if self.x == 0:
+        return "Stepping off the world"
     elif d == 'd':
       x = 1
+      if self.x+self.size == self.game.boardX:
+        return "Stepping off the world"
     elif d == 'l':
-      y = 1
-    elif d == 'r':
       y = -1
+      if self.y == 0:
+        return "Stepping off the world"
+    elif d == 'r':
+      y = 1
+      if self.y+self.size == self.game.boardY:
+        return "Stepping off the world"
+
     victims = []
     for i in self.game.objects:
       if isinstance(i, Bot) or isinstance(i, Frame):
@@ -259,6 +268,9 @@ class Bot(Unit):
   def build(self, type, x, y, size):
     if self.actions < 1:
       return "Out of actions"
+    if x < 0 or y < 0 or x+size > self.game.boardX or y+size > self.game.boardY:
+      return "Stepping off the world"
+
     completionTime = self.builditude / (4 * size**2)
     health = min(type.maxHealth * buildRate / 4, type.maxHealth * size**2)
     f = Frame(self.game, 0, x, y, self,owner, health, type.maxHealth * size**2, completionTime)
