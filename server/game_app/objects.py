@@ -187,8 +187,8 @@ class Bot(Unit):
     return Unit.talk(message)
 
   def move(self, direction):
-    d = direction[0]
-    if d.lower() not in 'udlr':
+    d = direction[0].lower()
+    if d not in 'udlr':
       return "%s is not a direction." % d
     if self.steps < 1:
       return "Out of steps."
