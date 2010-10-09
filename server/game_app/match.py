@@ -10,7 +10,7 @@ import scribe
 
 Scribe = scribe.Scribe
 
-def loadClassDefaults(cfgFile = "networking/config/defaults.cfg"):
+def loadClassDefaults(cfgFile = "config/defaults.cfg"):
   cfg = networking.config.config.readConfig(cfgFile)
   for className in cfg.keys():
     for attr in cfg[className]:
