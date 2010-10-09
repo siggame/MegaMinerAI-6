@@ -7,6 +7,7 @@
 #include "texture.h"
 #include "parser.h"
 #include "visualizerWindow.h"
+#include "visettings.h"
 
 class VisualizerWindow;
 

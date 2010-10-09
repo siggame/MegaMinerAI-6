@@ -37,6 +37,8 @@ class visettings
 
   ATTRIBUTE( int, playSpeed );
 
+	ATTRIBUTE( bool, dragging );
+
 public:
 	static visettings *inst;
 	static visettings *instance()

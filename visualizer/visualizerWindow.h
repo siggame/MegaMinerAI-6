@@ -18,8 +18,7 @@ public:
 	GameState *getFrame( int frame = -1 );
 
 	Game *gamelog;
-	int frameNumber; 
-
+	QSlider *controlBar;
 protected:
 	void closeEvent( QCloseEvent *event );
 
@@ -33,6 +32,9 @@ private slots:
 
 // Help File
 	void viewGameDocs();
+
+	void controlBarDrag();
+	void controlBarChanged(int frame);
 
 private:
 	void createMenus();
@@ -53,7 +55,6 @@ private:
 
 
 	Gameboard *gameboard;
-	QSlider *controlBar;
 };
 
 
