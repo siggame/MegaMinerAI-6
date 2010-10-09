@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 from base import *
 from matchUtils import *
 from objects import *
@@ -128,36 +129,45 @@ class Match(DefaultGameWorld):
     
   def logPath(self):
     return "logs/" + str(self.id) + ".gamelog"
-
+  
   @derefArgs(Unit, None)
+  @requireOwn
+  def talk(self, object, talk_string):
+    return object.talk(talk_string, )
+
+
+  @derefArgs(Bot, None)
+  @requireOwn
   def talk(self, object, talk_string):
     return object.talk(talk_string, )
 
   @derefArgs(Bot, None)
-  def talk(self, object, talk_string):
-    return object.talk(talk_string, )
-
-  @derefArgs(Bot, None)
+  @requireOwn
   def move(self, object, direction):
     return object.move(direction, )
 
   @derefArgs(Bot,Unit)
+  @requireOwn
   def attack(self, object, target):
     return object.attack(target, )
 
   @derefArgs(Bot, Type, None, None, None)
+  @requireOwn
   def build(self, object, type, x, y, size):
     return object.build(type, x, y, size, )
 
   @derefArgs(Bot, Bot, Bot, Bot)
+  @requireOwn
   def combine(self, object, Bot2, Bot3, Bot4):
     return object.combine(Bot2, Bot3, Bot4, )
 
   @derefArgs(Bot)
+  @requireOwn
   def split(self, object):
     return object.split()
 
-  @derefArgs(Frame, None)
+  @derefArgs(Unit, None)
+  @requireOwn
   def talk(self, object, talk_string):
     return object.talk(talk_string, )
 
