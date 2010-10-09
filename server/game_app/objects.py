@@ -174,7 +174,48 @@ class Bot(Unit):
     self.game.animations.append(['talk', self.id, message])
 
   def move(self, direction):
-    pass
+    d = direction[0]
+    if d.lower() not in 'udlr':
+      return "%s is not a direction." % d
+    if self.steps < 1:
+      return "Out of steps."
+    x = y = 0
+    if d == 'u':
+      x = -1
+    elif d == 'd':
+      x = 1
+    elif d == 'l':
+      y = 1
+    elif d == 'r':
+      y = -1
+    victims = []
+    for i in self.game.objects:
+      if isinstance(i, Bot) or isinstance(i, Frame):
+        if self._distance(i) == 1:
+          victims.append(i)
+    if x == -1:
+      victims = [i for i in victims if i.x+i.size == self.x - 1]
+    elif y == -1:
+      victims = [i for i in victims if i.y+i.size == self.y - 1]
+    elif x == 1:
+      victims = [i for i in victims if i.x == self.x + self.size + 1 ]
+    elif y == 1:
+      victims = [i for i in victims if i.y == self.y + self.size + 1 ]
+
+    if victims:
+      victimHealth = sum([i.health for i in victims])
+      for i in victims:
+        damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
+        victim._takeDamage(damage)
+      damage = min(sum([i.health for i in victims]), self.size**2)
+      self._damage(damage)
+      victims = [i for i in victims if i.health > 0]
+    
+    if not victims:
+      self.x += x
+      self.y += y
+    
+    return True
 
   def attack(self, target):
     if self._distance(target) > (self.range + 1):
