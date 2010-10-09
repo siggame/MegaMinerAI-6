@@ -1,2 +1,0 @@
-@set CC=
-@set WCGMEMORY=
