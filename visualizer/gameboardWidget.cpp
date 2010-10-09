@@ -1,12 +1,18 @@
 #include "gameboardWidget.h"
 
 
-Gameboard::Gameboard( QWidget *parent )
-	: QGLWidget( QGLFormat(QGL::SampleBuffers),parent )
+Gameboard::Gameboard( QWidget *prt )
+	: QGLWidget( QGLFormat(QGL::SampleBuffers),prt)
 {
 	// This timer tells us when to repaint the gameboard.
 	// 20 milliseconds or microseconds, I'm not sure
+	
+
+	initializeGL();
+	// This makes it about 50 Frames Per Second
 	timerId = startTimer(20);
+	parent = ((VisualizerWindow*)prt);
+	time.start();
   //setFixedSize(500,500);
 
 }
@@ -39,15 +45,7 @@ void Gameboard::initializeGL()
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 {
 
-	if( texture == -1 )
-		glDisable( GL_TEXTURE_2D );
-	else 
-	{
-		glEnable( GL_TEXTURE_2D ); 
-		glBindTexture( GL_TEXTURE_2D, textures[texture].getTexture() );
-	}
-
-	glLoadIdentity();
+	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
 
@@ -61,6 +59,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 	glTexCoord2f( 0, 1 );
 	glVertex3f(0,0,0);
 	glEnd();   
+	glPopMatrix();
 
 
 
@@ -86,19 +85,6 @@ void Gameboard::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	
-	static int r = 0;
-
-	glTranslatef(-1.5f,0.0f,-6.0f);
-
-	//glRotatef( r++, 0, 1, 0 );
-	glBegin(GL_TRIANGLES);
-		glVertex3f( 0.0f, 1.0f, 0.0f);
-		glVertex3f(-1.0f,-1.0f, 0.0f);
-		glVertex3f( 1.0f,-1.0f, 0.0f);
-	glEnd(); 
-
-	glTranslatef(3.0f,0.0f,0.0f);
 
 	glEnable( GL_TEXTURE_2D );
 
@@ -107,14 +93,22 @@ void Gameboard::paintGL()
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); 
 
+	VisualizerWindow *temp = parent;
 
-	for( int i = 0; i < 45; i++ )
+	if( parent->gamelog )
 	{
-		for( int j= 0; j < 30; j++ )
+		Game *game = parent->gamelog;
+		int frame = parent->frameNumber;
+
+		for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
 		{
-			drawSprite( i*32, j*32,32,32, T_SPRITE );
-		}
+			drawSprite( i->x*32,i->y*32,32,32, T_SPRITE );
+
+		} 
 	}
+
+	
+
 }	
 
 

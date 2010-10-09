@@ -3,8 +3,12 @@
 
 #include <QtGui>
 #include <QtOpenGL>
+#include <QTime>
 #include "texture.h"
+#include "parser.h"
+#include "visualizerWindow.h"
 
+class VisualizerWindow;
 
 enum textures
 {
@@ -29,6 +33,10 @@ protected:
 	void drawSprite( int x, int y, int h, int w, int texture );
 
 	texture textures[1];
+
+	VisualizerWindow *parent;
+	
+	QTime time;
 
 private:
 	int timerId;
