@@ -150,7 +150,7 @@ class Bot(Unit):
   def makeBot(game, x, y, owner, type, size):
     if size == 1:
       bot = Bot.fromType(game, x, y, owner, type)
-      addObject(bot)
+      game.addObject(bot)
       return bot
     bot1 = makeBot(game, x, y, owner, type, size/2)
     bot2 = makeBot(game, x+size/2, y, owner, type, size/2)
@@ -175,10 +175,10 @@ class Bot(Unit):
       if baby.completionTime < 1:
         type = self.game.objects[baby.type]
         newBot = Bot.makeBot(self.game, baby.x, baby.y, self.owner, type, baby.size)
-        game.removeObject(baby)
+        self.game.removeObject(baby)
         self.building = -1
-        self.newTurn()
-        newBot.newTurn()
+        self.nextTurn()
+        newBot.nextTurn()
         return True
       else:
         return True
@@ -262,7 +262,7 @@ class Bot(Unit):
     self.actions -= 1
 
     self.game.animations.append(['Heal', self.id, target.id])
-    target._takeDamage(-target.maxHealth * self.builditude / (2 * target.size**2))
+    target._takeDamage(-target.maxHealth * self.buildRate / (2 * target.size**2))
 
     return True
 
@@ -270,12 +270,14 @@ class Bot(Unit):
     if self.actions < 1:
       return "Out of actions"
     if x < 0 or y < 0 or x+size > self.game.boardX or y+size > self.game.boardY:
-      return "Stepping off the world"
+      return "Building off the world"
 
-    completionTime = self.builditude / (4 * size**2)
-    health = min(type.maxHealth * buildRate / 4, type.maxHealth * size**2)
-    f = Frame(self.game, 0, x, y, self,owner, health, type.maxHealth * size**2, completionTime)
-    for i in self.game.objects:
+    completionTime = 4 * size**2 / self.buildRate
+    health = min(type.maxHealth * self.buildRate / 4, type.maxHealth * size**2)
+    f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, type.id, size, completionTime)
+    if f._distance(self) != 1:
+      return "Target is non-adjacent."
+    for i in self.game.objects.values():
       if isinstance(i, Unit):
         if f._distance(i) == 0:
           return "Overlap."
