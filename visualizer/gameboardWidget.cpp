@@ -1,12 +1,13 @@
 #include "gameboardWidget.h"
 
 
-Gameboard::Gameboard( QWidget *parent )
-	: QGLWidget( QGLFormat(QGL::SampleBuffers),parent )
+Gameboard::Gameboard( QWidget *prt )
+	: QGLWidget( QGLFormat(QGL::SampleBuffers),prt)
 {
 	// This timer tells us when to repaint the gameboard.
 	// 20 milliseconds or microseconds, I'm not sure
-	timerId = startTimer(20);
+	timerId = startTimer(90);
+	parent = ((VisualizerWindow*)parentWidget());
   //setFixedSize(500,500);
 
 }
@@ -38,7 +39,7 @@ void Gameboard::initializeGL()
 
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 {
-
+#if 0
 	if( texture == -1 )
 		glDisable( GL_TEXTURE_2D );
 	else 
@@ -46,8 +47,9 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 		glEnable( GL_TEXTURE_2D ); 
 		glBindTexture( GL_TEXTURE_2D, textures[texture].getTexture() );
 	}
+#endif
 
-	glLoadIdentity();
+	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
 
@@ -61,6 +63,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 	glTexCoord2f( 0, 1 );
 	glVertex3f(0,0,0);
 	glEnd();   
+	glPopMatrix();
 
 
 
@@ -107,14 +110,11 @@ void Gameboard::paintGL()
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); 
 
+	//glRotatef( r++, 0, 0, 1 );
 
-	for( int i = 0; i < 45; i++ )
-	{
-		for( int j= 0; j < 30; j++ )
-		{
-			drawSprite( i*32, j*32,32,32, T_SPRITE );
-		}
-	}
+
+	
+
 }	
 
 

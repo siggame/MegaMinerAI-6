@@ -2,12 +2,11 @@
 #define VISUALIZERWINDOW_H
 
 #include <QtGui>
+#include <QSlider>
 #include <QMainWindow>
 #include "gameboardWidget.h"
 #include "parser.h"
-
-
-
+#include "statsDialog.h"
 
 
 class VisualizerWindow: public QMainWindow
@@ -37,6 +36,8 @@ private:
 	void createLayout();
 	void createActions();
 
+	StatsDialog *statsDialog;
+
 	QMenu *fileMenu;
 	QMenu *viewMenu;
 	QMenu *helpMenu;
@@ -47,9 +48,10 @@ private:
 	QAction *toggleFullScreenAct;
 	QAction *exitAct;
 
-	Game gamelog;
+	Game *gamelog;
 
-        Gameboard *gameboard;
+	Gameboard *gameboard;
+	QSlider *controlBar;
 };
 
 

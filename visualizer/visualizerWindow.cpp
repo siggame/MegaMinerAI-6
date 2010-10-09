@@ -6,6 +6,7 @@ using namespace std;
 
 VisualizerWindow::VisualizerWindow()
 {
+	setGeometry( 0, 0, 800, 600 );
 	createActions();
 	createMenus();
 	createLayout();
@@ -13,6 +14,7 @@ VisualizerWindow::VisualizerWindow()
 	setWindowTitle( "Modular Visualizer" );
 	frameNumber = 0;
 	fullScreen = false;
+	gamelog = 0;
 }
 
 void VisualizerWindow::closeEvent( QCloseEvent *event )
@@ -22,19 +24,19 @@ void VisualizerWindow::closeEvent( QCloseEvent *event )
 
 void VisualizerWindow::viewGameDocs()
 {
-       //experement:
-       QProcess webPage;
-			//todo: Need to make this cross platform
-       webPage.start(tr("firefox.exe"),QStringList(tr("mail.google.com")));
+	//experement:
+	QProcess webPage;
+	//todo: Need to make this cross platform
+	webPage.start(tr("firefox.exe"),QStringList(tr("mail.google.com")));
 
-       cout << "Going to game docs website" << endl;
+	cout << "Going to game docs website" << endl;
 }
 
 GameState *VisualizerWindow::getFrame( int frame )
 {
 	if( frame == -1 )
 		frame = frameNumber;
-	return &gamelog.states[frame];
+	return &gamelog->states[frame];
 }
 
 void VisualizerWindow::openGamelog()
@@ -44,9 +46,12 @@ void VisualizerWindow::openGamelog()
 
     //todo: argument 3 should be the default directory of the game logs
     //todo: argument 4 should have the actual extention of a game log
-       QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"/",tr("Log Files(*.gamelog)"));
+       QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
 
-    parseFile( gamelog, (char *)fileName.toLocal8Bit().constData() );
+		if( gamelog )
+			delete gamelog;
+		gamelog = new Game;
+    parseFile( *gamelog, (char *)fileName.toLocal8Bit().constData() );
 
 }
 
@@ -103,30 +108,32 @@ void VisualizerWindow::createLayout()
 		return;
 	}
 
-
+	controlBar = new QSlider(Qt::Horizontal);
 	gameboard = new Gameboard(0);
 	QGroupBox *centralWidget = new QGroupBox;
 	QToolBox *tb = new QToolBox;
 
 
-	QHBoxLayout *hbox = new QHBoxLayout;
+	QVBoxLayout *hbox = new QVBoxLayout;
 	QLabel *lbl = new QLabel( "Hello" );
 	QLabel *lbl2 = new QLabel( "test" );
 	tb->addItem( lbl, "too" );
 	tb->addItem( lbl2, "too2" );
 
+	controlBar->setTickInterval( 20 );
+	controlBar->setTickPosition( QSlider::TicksBothSides );
+	controlBar->setMaximum( 200 );
+	controlBar->setMinimum( 0 );
+
   hbox->addWidget(gameboard);
-	
-	gameboard->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	hbox->addWidget(controlBar);
 
-	tb->setFixedWidth( 150 );
 
-	hbox->addWidget( tb);
+	statsDialog = new StatsDialog;
+
 
 	centralWidget->setLayout( hbox );
 	setCentralWidget( centralWidget );
-
-
 }
 
 void VisualizerWindow::createActions()

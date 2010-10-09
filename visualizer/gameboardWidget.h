@@ -4,7 +4,9 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include "texture.h"
+#include "parser.h"
 
+class VisualizerWindow;
 
 enum textures
 {
@@ -29,6 +31,9 @@ protected:
 	void drawSprite( int x, int y, int h, int w, int texture );
 
 	texture textures[1];
+
+	VisualizerWindow *parent;
+	
 
 private:
 	int timerId;
