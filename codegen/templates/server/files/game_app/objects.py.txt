@@ -17,10 +17,13 @@ class ${model.name}\
   def toList(self):
     value = [
 %   for datum in model.data:
-      ${datum.name},
+      self.${datum.name},
 %   endfor
       ]
     return value
+
+  def nextTurn(self):
+    pass
 
 %   for func in model.functions:
   def ${func.name}(self\

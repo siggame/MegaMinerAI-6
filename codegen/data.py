@@ -28,8 +28,8 @@ type = Model('Type',
     Variable('maxHealth', int),
     Variable('damage', int),
     Variable('range', int),
-    Variable('moveRate', int),
-    Variable('maxActions', int),
+    Variable('movitude', int),
+    Variable('actitude', int),
     Variable('buildRate', int),
     ],
   doc = 'A kind of robot.'
@@ -38,7 +38,8 @@ type = Model('Type',
 Frame = Model('Frame',
   parent = Unit,
   data = [Variable('type', type),
-    Variable('size', int)],
+    Variable('size', int),
+    Variable('completionTime', int)],
   doc = 'A baby robot.')
 
 
@@ -57,7 +58,7 @@ Bot.addData([
     Variable('actitude', int),
     Variable('buildRate', int),
     Variable('partOf', Bot),
-    Variable('building', Bot),
+    Variable('building', Frame),
   ])
     
 Bot.addFunctions([
@@ -92,6 +93,19 @@ Bot.addProperties([
     result = int
     ),
   ])
+
+move = Animation("move",
+  data = [Variable("robot", Bot),
+    Variable("direction", int)]
+  )
+add = Animation("add",
+  data = [Variable("robot", Unit)]
+  )
+remove = Animation("remove",
+  data = [Variable("robot", Unit)]
+  )
+
+
 
 globals = [
   Variable('turnNumber', int),
