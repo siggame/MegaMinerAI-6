@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 from functools import wraps
 
 def verifyReferences(self, expression, references):
@@ -42,3 +43,16 @@ def derefArgs(*types):
         return f(self, *args)
     return wrapper
   return dec
+
+def requireOwn(func):
+  """
+  A decorator.
+  Prevents this method from running successfully unless the connection
+  is logged in, associated with a game, and is the current player
+  """
+  def wrappedFunc(self, unit,*args):
+    if unit.owner != self.playerID is not self:
+      return "You do not own %s" % unit.id
+    else:
+      return func(self, unit, *args)
+  return wrappedFunc
