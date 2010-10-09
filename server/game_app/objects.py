@@ -147,8 +147,8 @@ class Bot(Unit):
         return True
 
 
-  def talk(self, talk_string):
-    pass
+  def talk(self, message):
+    self.game.animations.append(['talk', self.id, message])
 
   def move(self, direction):
     pass
@@ -162,11 +162,34 @@ class Bot(Unit):
   def build(self, type, x, y, size):
     pass
 
-  def combine(self, Bot2, Bot3, Bot4):
-    pass
+  def combine(self, bot2, bot3, bot4):
+    bots = [self, bot2, bot3, bot4]
+    if min([i.actions for i in bots]) < 1:
+      return "Not every bot has actions."
+    if not self.size == bot2.size == bot3.size == bot4.size:
+      return "Not every bot is the same size."
+    x = min([i.x for i in bots])
+    y = min([i.y for i in bots])
+    s = self.size
+    pos = [(i.x, i.y) for i in bots]
+    if (not (x, y) in pos) or (not (x+s, y) in pos) or (not (x, y+s) in pos) or (not (x+s, y+s) in pos):
+      return "Bots not in a square."
+    self._combine(bot2, bot3, bot4)
+    return True
 
   def split(self):
-    pass
+    if self.actions < 1:
+      return "No actions left."
+    if self.size < 2:
+      return "Not compound."
+    for i in self.game.objects:
+      if isinstance(i, Bot):
+        if i.partOf == self.id:
+          i.partOf = -1
+    self.game.animations.append('split', self.id)
+    self.game.remove(self)
+
+    return True
 
 
   def maxActions(self):

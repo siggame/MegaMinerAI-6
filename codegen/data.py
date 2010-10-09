@@ -17,7 +17,7 @@ Unit = Model('Unit',
     ],
   functions = [
     Function('talk',
-      arguments = [ Variable('talk_string', str),]
+      arguments = [ Variable('message', str),]
       ),],
   doc = 'An object that exists on the grid',
   type = 'virtual'
@@ -80,7 +80,7 @@ Bot.addFunctions([
       result = bool
       ),
     Function('combine',
-      arguments = [Variable('Bot2', Bot), Variable('Bot3', Bot), Variable('Bot4', Bot)],
+      arguments = [Variable('bot2', Bot), Variable('bot3', Bot), Variable('bot4', Bot)],
       result = bool
     ),
     Function('split',
@@ -109,6 +109,26 @@ add = Animation("add",
 remove = Animation("remove",
   data = [Variable("robot", Unit)]
   )
+talk = Animation("talk",
+  data = [Variable("speaker", Unit), Variable("message", str)]
+  )
+split = Animation("split",
+  data = [Variable("robot", Bot)]
+  )
+combine = Animation("combine",
+  data = [Variable("bot1", Bot), Variable("bot2", Bot), Variable("bot3", Bot), Variable("bot4", Bot)]
+  )
+attack = Animation("attack",
+  data = [Variable("attacker", Bot), Variable("victim", Unit)]
+  )
+heal = Animation("heal",
+  data = [Variable("healer", Bot), Variable("victim", Unit)]
+  )
+build = Animation("build",
+  data = [Variable("builder", Bot), Variable("frame", Frame)]
+  )
+
+
 
 
 
