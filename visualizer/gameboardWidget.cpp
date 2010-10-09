@@ -95,10 +95,19 @@ void Gameboard::paintGL()
 	glBindTexture( GL_TEXTURE_2D, textures[T_SPRITE].getTexture() );
 
 	glEnable( GL_BLEND );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); 
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+
 
 	VisualizerWindow *temp = parent;
 
+	glColor4f( 1, 1, 1, 1 );
+	glTranslatef( 0, 0, -2 );
+
+	drawSprite( 0, 0, 400, 400, T_SPRITE );
+
+	glTranslatef( 0, 0, 1 );
+
+	drawSprite( 200, 200, 300, 300, T_SPRITE );
 
 
 	if( parent->gamelog )
