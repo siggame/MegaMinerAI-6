@@ -11,9 +11,13 @@
 
 class VisualizerWindow;
 
+//#define numTextures 2
 enum textures
 {
-	T_SPRITE = 0
+	T_SPRITE = 0,
+	T_BG,
+
+	numTextures
 
 };
 
@@ -33,7 +37,7 @@ protected:
 
 	void drawSprite( int x, int y, int h, int w, int texture );
 
-	texture textures[1];
+	texture textures[numTextures];
 
 	VisualizerWindow *parent;
 	

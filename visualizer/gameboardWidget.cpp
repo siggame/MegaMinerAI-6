@@ -41,6 +41,7 @@ void Gameboard::initializeGL()
 	glEnable( GL_TEXTURE_2D );
 
 	textures[T_SPRITE].loadImage( "megaman.png" );
+	textures[T_BG].loadImage( "background.png" );
 
 	
 }
@@ -48,6 +49,7 @@ void Gameboard::initializeGL()
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 {
 
+	glBindTexture( GL_TEXTURE_2D, textures[texture].getTexture() );
 	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
@@ -97,19 +99,22 @@ void Gameboard::paintGL()
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 
+	glBindTexture( GL_TEXTURE_2D, textures[T_BG].getTexture() );
 
-	VisualizerWindow *temp = parent;
+	glBegin( GL_QUADS );
 
-	glColor4f( 1, 1, 1, 1 );
-	glTranslatef( 0, 0, -2 );
+	glTexCoord2f( 0, 0 );
+	glVertex3f( 0, 0, 0 );
+	glTexCoord2f( 16, 0 );
+	glVertex3f( 1024, 0, 0 );
+	glTexCoord2f( 16, 8 );
+	glVertex3f( 1024, 512, 0 );
+	glTexCoord2f( 0, 8 );
+	glVertex3f( 0, 512, 0 );
 
-	drawSprite( 0, 0, 400, 400, T_SPRITE );
+	glEnd();
 
-	glTranslatef( 0, 0, 1 );
-
-	drawSprite( 200, 200, 300, 300, T_SPRITE );
-
-
+	
 	if( parent->gamelog )
 	{
 
@@ -118,7 +123,7 @@ void Gameboard::paintGL()
 		{
 
 			time.restart();
-			if( frame < game->states.size() )
+			if( frame < (int)game->states.size() )
 				setAttr( frameNumber, ++frame );
 			parent->controlBar->blockSignals(true);
 			parent->controlBar->setSliderPosition( frame );

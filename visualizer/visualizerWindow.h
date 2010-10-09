@@ -49,6 +49,7 @@ private slots:
 	void viewGameDocs();
 
 	void controlBarDrag();
+	void controlBarReleased();
 	void controlBarChanged(int frame);
 
 private:
