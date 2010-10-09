@@ -42,8 +42,9 @@ class Unit(Mappable):
   def nextTurn(self):
     pass
 
-  def talk(self, talk_string):
-    pass
+  def talk(self, message):
+    self.game.animations.append(['talk', self.id, message])
+    return True
 
   def _takeDamage(self, damage):
     self.health -= damage
@@ -120,17 +121,29 @@ class Bot(Unit):
     return newBot
 
   def _distance(self, target):
-    x = 0
-    y = 0
-    if self.x > target.x + target.size:
-      x = self.x - (target.x + target.size)
-    elif target.x > self.x + self.size:
-      x = target.x - (self.x + self.size)
-    if self.y > target.y + target.size:
-      x = self.y - (target.y + target.size)
-    elif target.y > self.y + self.size:
-      x = target.y - (self.y + self.size)
-    return x + y
+    if isinstance(target, Bot) or isinstance(target, Frame):
+      x = 0
+      y = 0
+      if self.x > target.x + target.size:
+        x = self.x - (target.x + target.size-1)
+      elif target.x > self.x + self.size-1:
+        x = target.x - (self.x + self.size-1)
+      if self.y > target.y + target.size-1:
+        x = self.y - (target.y + target.size-1)
+      elif target.y > self.y + self.size-1:
+        x = target.y - (self.y + self.size-1)
+      return x + y
+    else:
+      x = y = 0
+      if target.x < self.x:
+        x = self.x - target.x
+      if target.x > (self.x + self.size-1):
+        x = target.x - (self.x + self.size-1)
+      if target.y < self.y:
+        x = self.y - target.y
+      if target.y > (self.y + self.size-1):
+        x = target.y - (self.y + self.size-1)
+      return x + y
 
   @staticmethod
   def makeBot(game, x, y, owner, type, size):
@@ -142,7 +155,7 @@ class Bot(Unit):
     bot2 = makeBot(game, x+size/2, y, owner, type, size/2)
     bot3 = makeBot(game, x, y+size/2, owner, type, size/2)
     bot4 = makeBot(game, x+size/2, y+size/2, owner, type, size/2)
-    bot1._combine(bot2, bot3, bot4)
+    return bot1._combine(bot2, bot3, bot4)
 
   def nextTurn(self):
     self.actions = 0
@@ -171,7 +184,7 @@ class Bot(Unit):
 
 
   def talk(self, message):
-    self.game.animations.append(['talk', self.id, message])
+    return Unit.talk(message)
 
   def move(self, direction):
     d = direction[0]
@@ -194,13 +207,13 @@ class Bot(Unit):
         if self._distance(i) == 1:
           victims.append(i)
     if x == -1:
-      victims = [i for i in victims if i.x+i.size == self.x - 1]
+      victims = [i for i in victims if i.x+i.size == self.x - 2]
     elif y == -1:
-      victims = [i for i in victims if i.y+i.size == self.y - 1]
+      victims = [i for i in victims if i.y+i.size == self.y - 2]
     elif x == 1:
-      victims = [i for i in victims if i.x == self.x + self.size + 1 ]
+      victims = [i for i in victims if i.x == self.x + self.size]
     elif y == 1:
-      victims = [i for i in victims if i.y == self.y + self.size + 1 ]
+      victims = [i for i in victims if i.y == self.y + self.size]
 
     if victims:
       victimHealth = sum([i.health for i in victims])
@@ -239,10 +252,27 @@ class Bot(Unit):
     self.actions -= 1
 
     self.game.animations.append(['heal', self.id, target.id])
-    target._takeDamage(-target.maxHealth * self.builditude / (2 / target.size**2))
+    target._takeDamage(-target.maxHealth * self.builditude / (2 * target.size**2))
+
+    return True
 
   def build(self, type, x, y, size):
-    pass
+    if self.actions < 1:
+      return "Out of actions"
+    completionTime = self.builditude / (4 * size**2)
+    health = min(type.maxHealth * buildRate / 4, type.maxHealth * size**2)
+    f = Frame(self.game, 0, x, y, self,owner, health, type.maxHealth * size**2, completionTime)
+    for i in self.game.objects:
+      if isinstance(i, Unit):
+        if f._distance(i) == 0:
+          return "Overlap."
+    f.id = self.game.nextid
+    self.game.nextid += 1
+    self.game.addObject(f)
+    self.actions = 0
+    self.building = f.id
+
+    return True
 
   def combine(self, bot2, bot3, bot4):
     bots = [self, bot2, bot3, bot4]
@@ -309,11 +339,36 @@ class Frame(Unit):
       ]
     return value
 
+  def _distance(self, target):
+    if isinstance(target, Bot) or isinstance(target, Frame):
+      x = 0
+      y = 0
+      if self.x > target.x + target.size-1:
+        x = self.x - (target.x + target.size-1)
+      elif target.x > self.x + self.size-1:
+        x = target.x - (self.x + self.size-1)
+      if self.y > target.y + target.size-1:
+        x = self.y - (target.y + target.size-1)
+      elif target.y > self.y + self.size-1:
+        x = target.y - (self.y + self.size-1)
+      return x + y
+    else:
+      x = y = 0
+      if target.x < self.x:
+        x = self.x - target.x
+      if target.x > (self.x + self.size-1):
+        x = target.x - (self.x + self.size-1)
+      if target.y < self.y:
+        x = self.y - target.y
+      if target.y > (self.y + self.size-1):
+        x = target.y - (self.y + self.size-1)
+
+
   def nextTurn(self):
     pass
 
-  def talk(self, talk_string):
-    pass
+  def talk(self):
+    return Unit.talk(message)
 
 
 
