@@ -6,7 +6,7 @@ using namespace std;
 
 VisualizerWindow::VisualizerWindow()
 {
-	setGeometry( 0, 0, 800, 600 );
+	setGeometry( 0, 0, 1200, 1000 );
 	createActions();
 	createMenus();
 	createLayout();
@@ -127,13 +127,27 @@ void VisualizerWindow::createLayout()
 	QGroupBox *centralWidget = new QGroupBox;
 	QToolBox *tb = new QToolBox;
 
+	QHBoxLayout *debugLayout = new QHBoxLayout;
+	console = new QTextEdit;
+	toolBox = new QTabWidget;
+	bottomBar = new QFrame;
+	scoreboard = new Scoreboard;
+	unitSelection = new UnitSelection;
 
-	QVBoxLayout *hbox = new QVBoxLayout;
-	QLabel *lbl = new QLabel( "Hello" );
-	QLabel *lbl2 = new QLabel( "test" );
-	tb->addItem( lbl, "too" );
-	tb->addItem( lbl2, "too2" );
+	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
+	toolBox->addTab( unitSelection, tr( "Unit Stats" ) );
+	
 
+	debugLayout->addWidget( console );
+	debugLayout->addWidget( toolBox );
+	
+	bottomBar->setLayout( debugLayout );
+
+	bottomBar->setFixedHeight( 250 );
+
+	QVBoxLayout *vbox = new QVBoxLayout;
+
+	controlBar->setFixedHeight( 15 );
 	controlBar->setTickInterval( 50 );
 	controlBar->setTickPosition( QSlider::TicksBothSides );
 	controlBar->setMaximum( 0 );
@@ -141,17 +155,15 @@ void VisualizerWindow::createLayout()
 	controlBar->setTracking( false );
 
 	connect( controlBar, SIGNAL(sliderPressed()), this, SLOT(controlBarDrag()));
-	//connect( controlBar, SIGNAL(sliderReleased()), this, SLOT(controlBarReleased()));
 	connect( controlBar, SIGNAL(valueChanged(int)), this, SLOT(controlBarChanged(int)));
 
-  hbox->addWidget(gameboard);
-	hbox->addWidget(controlBar);
+  vbox->addWidget(gameboard, 4);
+	vbox->addWidget(bottomBar, 2);
+	//todo: Change this to control layout and add play, pause buttons
+	vbox->addWidget(controlBar, 1);
 
 
-	statsDialog = new StatsDialog;
-
-
-	centralWidget->setLayout( hbox );
+	centralWidget->setLayout( vbox );
 	setCentralWidget( centralWidget );
 }
 

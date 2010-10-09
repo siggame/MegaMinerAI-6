@@ -10,6 +10,20 @@
 
 class Gameboard;
 
+class UnitSelection: public QWidget
+{
+	Q_OBJECT
+public:
+
+};
+
+class Scoreboard: public QWidget
+{
+	Q_OBJECT
+public:
+
+};
+
 class VisualizerWindow: public QMainWindow
 {
 	Q_OBJECT
@@ -41,11 +55,17 @@ private:
 	void createLayout();
 	void createActions();
 
-	StatsDialog *statsDialog;
-
 	QMenu *fileMenu;
 	QMenu *viewMenu;
 	QMenu *helpMenu;
+
+	QFrame *bottomBar;
+	QTextEdit *console;
+	QTabWidget *toolBox;
+
+	Scoreboard *scoreboard;
+	UnitSelection *unitSelection;
+
 
 	QAction *viewGameDocsAct;
 	QAction *openGameAct;

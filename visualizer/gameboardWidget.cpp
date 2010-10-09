@@ -107,8 +107,6 @@ void Gameboard::paintGL()
 		Game *game = parent->gamelog;
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
 		{
-			//std::cout << "UPDATE" << std::endl;
-
 
 			time.restart();
 			if( frame < game->states.size() )
