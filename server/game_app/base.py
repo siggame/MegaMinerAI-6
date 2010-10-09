@@ -17,11 +17,11 @@ class GameWorld(object):
     self.animations = ["animations"]
 
   def addObject(self, newObject):
-    self.animations += [["add", newObject.id]]
+    self.animations += [["Add", newObject.id]]
     self.objects[newObject.id] = newObject
 
   def removeObject(self, oldObject):
-    self.animations += [["remove", oldObject.id]]
+    self.animations += [["Remove", oldObject.id]]
     del self.objects[oldObject.id]
 
 DefaultGameWorld = GameWorld

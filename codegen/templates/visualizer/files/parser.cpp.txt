@@ -35,7 +35,7 @@ static void parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
   sexp_t* sub;
   sub = expression->list;
   
-%   for datum in model.data:
+%   for datum in animation.data:
 %     if datum.type == int:
   object.${datum.name} = atoi(sub->val);
 %     elif datum.type == float:
