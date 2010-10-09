@@ -51,6 +51,7 @@ Bot = Model('Bot',
 
 Bot.addData([
     Variable('actions', int),
+    Variable('steps', int),
     Variable('size', int),
     Variable('damage', int),
     Variable('range', int),
@@ -63,11 +64,15 @@ Bot.addData([
     
 Bot.addFunctions([
     Function('move',
-      arguments = [Variable('direction', int),],
+      arguments = [Variable('direction', str),],
       result = bool
       ),
     Function('attack',
       arguments = [Variable('target', Unit),],
+      result = bool
+      ),
+    Function('heal',
+      arguments = [Variable('target', Bot),],
       result = bool
       ),
     Function('build',
