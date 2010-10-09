@@ -51,7 +51,8 @@ class BaseApp(object):
       command = self.__class__._mapper[coms[0]]
       return command(self, *coms[1:])
     except KeyError as e:
-      return "invalid-command: %s" % coms[0]
+      traceback.print_exc()
+      return ["command-denied", "invalid-command: %s" % coms[0] ]
     except Exception as e:
       traceback.print_exc()
       return "unknown-error", ("command", coms[0]), ("arguments", coms[1:])

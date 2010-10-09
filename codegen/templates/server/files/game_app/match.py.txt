@@ -117,7 +117,7 @@ None\
 , ${arg.name}\
 %       endfor
 ):
-    return self.objects[object].${func.name}(\
+    return object.${func.name}(\
 %       for arg in func.arguments:  
 ${arg.name}, \
 %       endfor

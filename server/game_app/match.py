@@ -131,35 +131,35 @@ class Match(DefaultGameWorld):
 
   @derefArgs(Unit, None)
   def talk(self, object, talk_string):
-    return self.objects[object].talk(talk_string, )
+    return object.talk(talk_string, )
 
   @derefArgs(Bot, None)
   def talk(self, object, talk_string):
-    return self.objects[object].talk(talk_string, )
+    return object.talk(talk_string, )
 
   @derefArgs(Bot, None)
   def move(self, object, direction):
-    return self.objects[object].move(direction, )
+    return object.move(direction, )
 
-  @derefArgs(Bot, Unit)
+  @derefArgs(Bot,Unit)
   def attack(self, object, target):
-    return self.objects[object].attack(target, )
+    return object.attack(target, )
 
   @derefArgs(Bot, Type, None, None, None)
   def build(self, object, type, x, y, size):
-    return self.objects[object].build(type, x, y, size, )
+    return object.build(type, x, y, size, )
 
   @derefArgs(Bot, Bot, Bot, Bot)
   def combine(self, object, Bot2, Bot3, Bot4):
-    return self.objects[object].combine(Bot2, Bot3, Bot4, )
+    return object.combine(Bot2, Bot3, Bot4, )
 
   @derefArgs(Bot)
   def split(self, object):
-    return self.objects[object].split()
+    return object.split()
 
   @derefArgs(Frame, None)
   def talk(self, object, talk_string):
-    return self.objects[object].talk(talk_string, )
+    return object.talk(talk_string, )
 
 
   def sendIdent(self, players):
