@@ -35,6 +35,8 @@ static void parseUnit(Unit& object, sexp_t* expression)
   sub = sub->next;
   object.health = atoi(sub->val);
   sub = sub->next;
+  object.maxHealth = atoi(sub->val);
+  sub = sub->next;
   
 }
 static void parseBot(Bot& object, sexp_t* expression)
@@ -52,19 +54,162 @@ static void parseBot(Bot& object, sexp_t* expression)
   sub = sub->next;
   object.health = atoi(sub->val);
   sub = sub->next;
-  object.attack = atoi(sub->val);
+  object.maxHealth = atoi(sub->val);
+  sub = sub->next;
+  object.actions = atoi(sub->val);
+  sub = sub->next;
+  object.steps = atoi(sub->val);
+  sub = sub->next;
+  object.size = atoi(sub->val);
+  sub = sub->next;
+  object.damage = atoi(sub->val);
   sub = sub->next;
   object.range = atoi(sub->val);
   sub = sub->next;
-  object.speed = atoi(sub->val);
+  object.movitude = atoi(sub->val);
+  sub = sub->next;
+  object.actitude = atoi(sub->val);
   sub = sub->next;
   object.buildRate = atoi(sub->val);
   sub = sub->next;
+  sub = sub->next;
+  sub = sub->next;
+  
+}
+static void parseFrame(Frame& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  object.id = atoi(sub->val);
+  sub = sub->next;
+  object.x = atoi(sub->val);
+  sub = sub->next;
+  object.y = atoi(sub->val);
+  sub = sub->next;
+  object.owner = atoi(sub->val);
+  sub = sub->next;
+  object.health = atoi(sub->val);
+  sub = sub->next;
+  object.maxHealth = atoi(sub->val);
+  sub = sub->next;
+  sub = sub->next;
   object.size = atoi(sub->val);
+  sub = sub->next;
+  object.completionTime = atoi(sub->val);
+  sub = sub->next;
+  
+}
+static void parseType(Type& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  object.id = atoi(sub->val);
+  sub = sub->next;
+  object.name = new char[strlen(sub->val)+1];
+  strncpy(object.name, sub->val, strlen(sub->val));
+  object.name[strlen(sub->val)] = 0;
+  sub = sub->next;
+  object.maxHealth = atoi(sub->val);
+  sub = sub->next;
+  object.damage = atoi(sub->val);
+  sub = sub->next;
+  object.range = atoi(sub->val);
+  sub = sub->next;
+  object.movitude = atoi(sub->val);
+  sub = sub->next;
+  object.actitude = atoi(sub->val);
+  sub = sub->next;
+  object.buildRate = atoi(sub->val);
   sub = sub->next;
   
 }
 
+static void parseAdd(Add& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  
+}
+static void parseAttack(Attack& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  sub = sub->next;
+  
+}
+static void parseBuild(Build& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  sub = sub->next;
+  
+}
+static void parseCombine(Combine& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  sub = sub->next;
+  sub = sub->next;
+  sub = sub->next;
+  
+}
+static void parseHeal(Heal& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  sub = sub->next;
+  
+}
+static void parseMove(Move& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  object.direction = atoi(sub->val);
+  sub = sub->next;
+  
+}
+static void parseRemove(Remove& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  
+}
+static void parseSplit(Split& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  
+}
+static void parseTalk(Talk& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  sub = sub->next;
+  object.message = new char[strlen(sub->val)+1];
+  strncpy(object.message, sub->val, strlen(sub->val));
+  object.message[strlen(sub->val)] = 0;
+  sub = sub->next;
+  
+}
 
 static bool parseSexp(Game& game, sexp_t* expression)
 {
@@ -131,6 +276,30 @@ static bool parseSexp(Game& game, sexp_t* expression)
           sub = sub->next;
         }
       }
+      else if(string(sub->val) == "Frame")
+      {
+        sub = sub->next;
+        while(sub)
+        {
+          Frame object;
+          parseFrame(object, sub);
+          gs.frames.push_back(object);
+          
+          sub = sub->next;
+        }
+      }
+      else if(string(sub->val) == "Type")
+      {
+        sub = sub->next;
+        while(sub)
+        {
+          Type object;
+          parseType(object, sub);
+          gs.types.push_back(object);
+          
+          sub = sub->next;
+        }
+      }
     }
     game.states.push_back(gs);
   }
@@ -141,6 +310,60 @@ static bool parseSexp(Game& game, sexp_t* expression)
     {
       expression = expression->next;
       sub = expression->list;
+      if(string(sub->val) == "add")
+      {
+        Add* animation = new Add;
+        parseAdd(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "attack")
+      {
+        Attack* animation = new Attack;
+        parseAttack(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "build")
+      {
+        Build* animation = new Build;
+        parseBuild(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "combine")
+      {
+        Combine* animation = new Combine;
+        parseCombine(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "heal")
+      {
+        Heal* animation = new Heal;
+        parseHeal(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "move")
+      {
+        Move* animation = new Move;
+        parseMove(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "remove")
+      {
+        Remove* animation = new Remove;
+        parseRemove(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "split")
+      {
+        Split* animation = new Split;
+        parseSplit(*animation, sub);
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "talk")
+      {
+        Talk* animation = new Talk;
+        parseTalk(*animation, sub);
+        animations.push_back(animation);
+      }
     }
     game.states[game.states.size()-1].animations = animations;
   }
