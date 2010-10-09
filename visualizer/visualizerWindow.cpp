@@ -105,14 +105,18 @@ void VisualizerWindow::createMenus()
 
 void VisualizerWindow::controlBarDrag()
 {
-
 	setAttr( dragging, true );
+}
+
+void VisualizerWindow::controlBarReleased()
+{
+	setAttr( dragging, false );
 }
 
 void VisualizerWindow::controlBarChanged(int frame)
 {
-	setAttr( dragging, false );
-	setAttr( frameNumber, frame ); 
+	if( getAttr( dragging ) )
+		setAttr( frameNumber, frame ); 
 }
 
 void VisualizerWindow::createLayout()
@@ -129,7 +133,6 @@ void VisualizerWindow::createLayout()
 	controlBar = new QSlider(Qt::Horizontal);
 	gameboard = new Gameboard(this);
 	QGroupBox *centralWidget = new QGroupBox;
-	QToolBox *tb = new QToolBox;
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
@@ -156,9 +159,10 @@ void VisualizerWindow::createLayout()
 	controlBar->setTickPosition( QSlider::TicksBothSides );
 	controlBar->setMaximum( 0 );
 	controlBar->setMinimum( 0 );
-	controlBar->setTracking( false );
+	controlBar->setTracking( true );
 
 	connect( controlBar, SIGNAL(sliderPressed()), this, SLOT(controlBarDrag()));
+	connect( controlBar, SIGNAL(sliderReleased()), this, SLOT(controlBarReleased()));
 	connect( controlBar, SIGNAL(valueChanged(int)), this, SLOT(controlBarChanged(int)));
 
   vbox->addWidget(gameboard, 4);
