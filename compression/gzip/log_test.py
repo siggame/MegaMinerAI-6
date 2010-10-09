@@ -5,11 +5,11 @@ inputTextFile = open('../gamelogs/140.gamelog', 'r')
 inputString = inputTextFile.read()
 inputTextFile.close()
 
-outputCompressedFile = open('compressed_gamelogs/140.gamelog.gz', 'wb')
+outputCompressedFile = gzip.open('compressed_gamelogs/140.gamelog.gz', 'wb')
 outputCompressedFile.write(inputString)
 outputCompressedFile.close()
 
-inputCompressedFile = open('compressed_gamelogs/140.gamelog.gz', 'rb')
+inputCompressedFile = gzip.open('compressed_gamelogs/140.gamelog.gz', 'rb')
 decompressed_string = inputCompressedFile.read()
 inputCompressedFile.close()
 
