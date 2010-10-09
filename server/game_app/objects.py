@@ -7,11 +7,14 @@ class Mappable:
 
   def toList(self):
     value = [
-      id,
-      x,
-      y,
+      self.id,
+      self.x,
+      self.y,
       ]
     return value
+
+  def nextTurn(self):
+    pass
 
 
 
@@ -27,14 +30,17 @@ class Unit(Mappable):
 
   def toList(self):
     value = [
-      id,
-      x,
-      y,
-      owner,
-      health,
-      maxHealth,
+      self.id,
+      self.x,
+      self.y,
+      self.owner,
+      self.health,
+      self.maxHealth,
       ]
     return value
+
+  def nextTurn(self):
+    pass
 
   def talk(self, talk_string):
     pass
@@ -62,23 +68,26 @@ class Bot(Unit):
 
   def toList(self):
     value = [
-      id,
-      x,
-      y,
-      owner,
-      health,
-      maxHealth,
-      actions,
-      size,
-      damage,
-      range,
-      movitude,
-      actitude,
-      buildRate,
-      partOf,
-      building,
+      self.id,
+      self.x,
+      self.y,
+      self.owner,
+      self.health,
+      self.maxHealth,
+      self.actions,
+      self.size,
+      self.damage,
+      self.range,
+      self.movitude,
+      self.actitude,
+      self.buildRate,
+      self.partOf,
+      self.building,
       ]
     return value
+
+  def nextTurn(self):
+    pass
 
   def talk(self, talk_string):
     pass
@@ -107,7 +116,7 @@ class Bot(Unit):
 
 
 class Frame(Unit):
-  def __init__(self, game, id, x, y, owner, health, maxHealth, type, size):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, type, size, completionTime):
     self.game = game
     self.id = id
     self.x = x
@@ -117,19 +126,24 @@ class Frame(Unit):
     self.maxHealth = maxHealth
     self.type = type
     self.size = size
+    self.completionTime = completionTime
 
   def toList(self):
     value = [
-      id,
-      x,
-      y,
-      owner,
-      health,
-      maxHealth,
-      type,
-      size,
+      self.id,
+      self.x,
+      self.y,
+      self.owner,
+      self.health,
+      self.maxHealth,
+      self.type,
+      self.size,
+      self.completionTime,
       ]
     return value
+
+  def nextTurn(self):
+    pass
 
   def talk(self, talk_string):
     pass
@@ -137,29 +151,32 @@ class Frame(Unit):
 
 
 class Type:
-  def __init__(self, game, id, name, maxHealth, damage, range, moveRate, maxActions, buildRate):
+  def __init__(self, game, id, name, maxHealth, damage, range, movitude, actitude, buildRate):
     self.game = game
     self.id = id
     self.name = name
     self.maxHealth = maxHealth
     self.damage = damage
     self.range = range
-    self.moveRate = moveRate
-    self.maxActions = maxActions
+    self.movitude = movitude
+    self.actitude = actitude
     self.buildRate = buildRate
 
   def toList(self):
     value = [
-      id,
-      name,
-      maxHealth,
-      damage,
-      range,
-      moveRate,
-      maxActions,
-      buildRate,
+      self.id,
+      self.name,
+      self.maxHealth,
+      self.damage,
+      self.range,
+      self.movitude,
+      self.actitude,
+      self.buildRate,
       ]
     return value
+
+  def nextTurn(self):
+    pass
 
 
 

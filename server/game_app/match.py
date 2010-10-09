@@ -28,6 +28,33 @@ class Match(DefaultGameWorld):
     self.turnNumber = -1
     self.playerID = -1
     self.gameNumber = id
+    self.initTypes()
+    self.startBots()
+
+  def initTypes(self):
+    self.objects[self.nextid] = Type(self, self.nextid, "action", 10, 0, 0, 1, 4, 0)
+    self.nextid += 1
+    self.objects[self.nextid] = Type(self, self.nextid, "builder", 5, 0, 0, 1, 1, 1)
+    self.nextid += 1
+    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 10, 2, 0, 1, 1, 0)
+    self.nextid += 1
+    self.objects[self.nextid] = Type(self, self.nextid, "damage", 10, 5, 0, 1, 1, 0)
+    self.nextid += 1
+    self.objects[self.nextid] = Type(self, self.nextid, "engine", 10, 2, 0, 4, 1, 0)
+    self.nextid += 1
+    self.objects[self.nextid] = Type(self, self.nextid, "fat", 20, 2, 0, 1, 1, 0)
+    self.nextid += 1
+    #(self.objects[self.nextid] = Type(self, self.nextid, name, maxHealth, damage, range, movitude, actitude, buildRate)
+    #self.nextid += 1
+
+  def startBots(self):
+    self.addObject(Bot(self, self.nextid, 0, 0, 0, 5, 5, 0, 1, 0, 0, 1, 1, 1, -1, -1))
+    self.nextid += 1
+    self.addObject(Bot(self, self.nextid, 19, 19, 1, 5, 5, 0, 1, 0, 0, 1, 1, 1, -1, -1))
+    self.nextid += 1
+
+    #__init__(self, game, id, x, y, owner, health, maxHealth, actions, size, damage, range, movitude, actitude, buildRate, partOf, building)
+    pass
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
@@ -168,7 +195,8 @@ class Match(DefaultGameWorld):
     typeLists = []
     typeLists.append(["Bot"] + [i.toList() for i in self.objects.values() if i.__class__ is Bot])
     typeLists.append(["Frame"] + [i.toList() for i in self.objects.values() if i.__class__ is Frame])
-    typeLists.append(["Type"] + [i.toList() for i in self.objects.values() if i.__class__ is Type])
+    if self.turnNumber < 2:
+      typeLists.append(["Type"] + [i.toList() for i in self.objects.values() if i.__class__ is Type])
 
     msg.extend(typeLists)
 
