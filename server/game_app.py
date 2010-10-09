@@ -112,7 +112,7 @@ class GameApp(AccountsAppMixin, BaseApp):
   @protocolmethod
   @errorBuffer
   @requireTurn
-  @requireTypes(None, int, int)
+  @requireTypes(None, int, str)
   def gameMove(self, bot, direction):
     """"""
     if self.game.turn is not self:
@@ -128,6 +128,16 @@ class GameApp(AccountsAppMixin, BaseApp):
     if self.game.turn is not self:
       return "Not your turn."
     return self.game.attack(bot, target)
+
+  @protocolmethod
+  @errorBuffer
+  @requireTurn
+  @requireTypes(None, int, int)
+  def gameHeal(self, bot, target):
+    """"""
+    if self.game.turn is not self:
+      return "Not your turn."
+    return self.game.heal(bot, target)
 
   @protocolmethod
   @errorBuffer
