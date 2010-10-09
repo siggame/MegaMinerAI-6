@@ -99,32 +99,32 @@ Bot.addProperties([
     ),
   ])
 
-move = Animation("move",
+move = Animation("Move",
   data = [Variable("robot", Bot),
     Variable("direction", int)]
   )
-add = Animation("add",
+add = Animation("Add",
   data = [Variable("robot", Unit)]
   )
-remove = Animation("remove",
+remove = Animation("Remove",
   data = [Variable("robot", Unit)]
   )
-talk = Animation("talk",
+talk = Animation("Talk",
   data = [Variable("speaker", Unit), Variable("message", str)]
   )
-split = Animation("split",
+split = Animation("Split",
   data = [Variable("robot", Bot)]
   )
-combine = Animation("combine",
+combine = Animation("Combine",
   data = [Variable("bot1", Bot), Variable("bot2", Bot), Variable("bot3", Bot), Variable("bot4", Bot)]
   )
-attack = Animation("attack",
+attack = Animation("Attack",
   data = [Variable("attacker", Bot), Variable("victim", Unit)]
   )
-heal = Animation("heal",
+heal = Animation("Heal",
   data = [Variable("healer", Bot), Variable("victim", Unit)]
   )
-build = Animation("build",
+build = Animation("Build",
   data = [Variable("builder", Bot), Variable("frame", Frame)]
   )
 

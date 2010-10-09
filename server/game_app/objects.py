@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 class Mappable:
   def __init__(self, game, id, x, y):
     self.game = game
@@ -43,7 +44,7 @@ class Unit(Mappable):
     pass
 
   def talk(self, message):
-    self.game.animations.append(['talk', self.id, message])
+    self.game.animations.append(['Talk', self.id, message])
     return True
 
   def _takeDamage(self, damage):
@@ -247,7 +248,7 @@ class Bot(Unit):
       return "Out of actions."
     self.actions -= 1
 
-    self.game.animations.append(['attack', self.id, target.id])
+    self.game.animations.append(['Attack', self.id, target.id])
     target._takeDamage(self.damage)
 
     return True
@@ -260,7 +261,7 @@ class Bot(Unit):
       return "Out of actions."
     self.actions -= 1
 
-    self.game.animations.append(['heal', self.id, target.id])
+    self.game.animations.append(['Heal', self.id, target.id])
     target._takeDamage(-target.maxHealth * self.builditude / (2 * target.size**2))
 
     return True
@@ -311,7 +312,7 @@ class Bot(Unit):
       if isinstance(i, Bot):
         if i.partOf == self.id:
           i.partOf = -1
-    self.game.animations.append('split', self.id)
+    self.game.animations.append('Split', self.id)
     self.game.remove(self)
 
     return True

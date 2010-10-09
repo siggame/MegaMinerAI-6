@@ -22,7 +22,7 @@ std::ostream& operator<<(std::ostream& stream, ${animation.name} ob)
 {
   stream << "${animation.name}" << "\n";
 %   for datum in animation.data:
-  stream << "${datum.name}: " << ob.${datum}  <<'\n';
+  stream << "${datum.name}: " << ob.${datum.name}  <<'\n';
 %   endfor
   return stream;
 }
