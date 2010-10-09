@@ -45,6 +45,11 @@ class Unit(Mappable):
   def talk(self, talk_string):
     pass
 
+  def _takeDamage(self, damage):
+    self.health -= damage
+    if self.health < 1:
+      self.game.removeObject(self)
+
 
 
 class Bot(Unit):
@@ -95,6 +100,11 @@ class Bot(Unit):
     return Bot(game, id, x, y, owner, type.maxHealth,  type.maxHealth, 0, 0, 1, type.damage, type.range, type.movitude, type.actitude,
       type.buildRate, -1, -1)
 
+  def _takeDamage(self, damage):
+    Unit._takeDamage(self, damage)
+    if self.health > self.maxHealth:
+      self.health = self.maxHealth
+
   def _combine(self, bot2, bot3, bot4):
     bots = [self, bot2, bot3, bot4]
     id = self.game.nextid
@@ -108,6 +118,19 @@ class Bot(Unit):
     for i in bots:
       i.partOf = id
     return newBot
+
+  def _distance(self, target):
+    x = 0
+    y = 0
+    if self.x > target.x + target.size:
+      x = self.x - (target.x + target.size)
+    elif target.x > self.x + self.size:
+      x = target.x - (self.x + self.size)
+    if self.y > target.y + target.size:
+      x = self.y - (target.y + target.size)
+    elif target.y > self.y + self.size:
+      x = target.y - (self.y + self.size)
+    return x + y
 
   @staticmethod
   def makeBot(game, x, y, owner, type, size):
@@ -154,10 +177,28 @@ class Bot(Unit):
     pass
 
   def attack(self, target):
-    pass
+    if self._distance(target) > (self.range + 1):
+      return "Target out of range."
+
+    if self.actions < 1:
+      return "Out of actions."
+    self.actions -= 1
+
+    self.game.animations.append(['attack', self.id, target.id])
+    target._takeDamage(self.damage)
+
+    return True
 
   def heal(self, target):
-    pass
+    if self._distance(target) > (self.range + 1):
+      return "Target out of range."
+
+    if self.actions < 1:
+      return "Out of actions."
+    self.actions -= 1
+
+    self.game.animations.append(['heal', self.id, target.id])
+    target._takeDamage(-target.maxHealth * self.builditude / (2 / target.size**2))
 
   def build(self, type, x, y, size):
     pass
@@ -175,6 +216,7 @@ class Bot(Unit):
     if (not (x, y) in pos) or (not (x+s, y) in pos) or (not (x, y+s) in pos) or (not (x+s, y+s) in pos):
       return "Bots not in a square."
     self._combine(bot2, bot3, bot4)
+
     return True
 
   def split(self):
