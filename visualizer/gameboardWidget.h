@@ -3,8 +3,10 @@
 
 #include <QtGui>
 #include <QtOpenGL>
+#include <QTime>
 #include "texture.h"
 #include "parser.h"
+#include "visualizerWindow.h"
 
 class VisualizerWindow;
 
@@ -34,6 +36,7 @@ protected:
 
 	VisualizerWindow *parent;
 	
+	QTime time;
 
 private:
 	int timerId;

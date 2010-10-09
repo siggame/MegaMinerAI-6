@@ -109,7 +109,7 @@ void VisualizerWindow::createLayout()
 	}
 
 	controlBar = new QSlider(Qt::Horizontal);
-	gameboard = new Gameboard(0);
+	gameboard = new Gameboard(this);
 	QGroupBox *centralWidget = new QGroupBox;
 	QToolBox *tb = new QToolBox;
 
