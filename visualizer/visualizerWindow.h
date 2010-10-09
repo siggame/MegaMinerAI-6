@@ -30,6 +30,7 @@ class VisualizerWindow: public QMainWindow
 public:
 	VisualizerWindow();
 	GameState *getFrame( int frame = -1 );
+	void loadGamelog( char *filename );
 
 	Game *gamelog;
 	QSlider *controlBar;

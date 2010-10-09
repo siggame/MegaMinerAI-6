@@ -38,6 +38,16 @@ GameState *VisualizerWindow::getFrame( int frame )
 	return &gamelog->states[frame];
 }
 
+void VisualizerWindow::loadGamelog( char *filename )
+{
+		if( gamelog )
+			delete gamelog;
+		gamelog = new Game;
+    parseFile( *gamelog, filename  );
+
+		controlBar->setMaximum( gamelog->states.size() );
+}
+
 void VisualizerWindow::openGamelog()
 {
     //Get the gamelog's Filename:
@@ -47,13 +57,7 @@ void VisualizerWindow::openGamelog()
     //todo: argument 4 should have the actual extention of a game log
        QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
 
-		if( gamelog )
-			delete gamelog;
-		gamelog = new Game;
-    parseFile( *gamelog, (char *)fileName.toLocal8Bit().constData() );
-
-		controlBar->setMaximum( gamelog->states.size() );
-
+			 loadGamelog( (char *)fileName.toLocal8Bit().constData() );
 
 }
 
