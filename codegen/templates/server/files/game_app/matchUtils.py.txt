@@ -22,6 +22,8 @@ def requireReferences(*n):
   return dec
 
 def deref(self, type, id):
+  if type is None:
+    return id
   if id not in self.objects:
     raise LookupError(str(id) + " does not exist")
   if not isinstance(self.objects[id], type):
@@ -34,7 +36,7 @@ def derefArgs(*types):
     def wrapper(self, *values):
       try:
         args = [deref(self, i, j) for i, j in zip(types, values)]
-      except Lookup as e:
+      except LookupError as e:
         return e.message
       else:
         return f(self, *args)
