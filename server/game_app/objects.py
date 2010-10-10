@@ -152,10 +152,10 @@ class Bot(Unit):
       bot = Bot.fromType(game, x, y, owner, type)
       game.addObject(bot)
       return bot
-    bot1 = makeBot(game, x, y, owner, type, size/2)
-    bot2 = makeBot(game, x+size/2, y, owner, type, size/2)
-    bot3 = makeBot(game, x, y+size/2, owner, type, size/2)
-    bot4 = makeBot(game, x+size/2, y+size/2, owner, type, size/2)
+    bot1 = Bot.makeBot(game, x, y, owner, type, size/2)
+    bot2 = Bot.makeBot(game, x+size/2, y, owner, type, size/2)
+    bot3 = Bot.makeBot(game, x, y+size/2, owner, type, size/2)
+    bot4 = Bot.makeBot(game, x+size/2, y+size/2, owner, type, size/2)
     return bot1._combine(bot2, bot3, bot4)
 
   def nextTurn(self):
@@ -215,7 +215,8 @@ class Bot(Unit):
     for i in self.game.objects:
       if isinstance(i, Bot) or isinstance(i, Frame):
         if self._distance(i) == 1:
-          victims.append(i)
+          if not isinstance(i, Bot) or i.partOf == -1:
+            victims.append(i)
     if x == -1:
       victims = [i for i in victims if i.x+i.size == self.x - 2]
     elif y == -1:
@@ -235,6 +236,12 @@ class Bot(Unit):
       victims = [i for i in victims if i.health > 0]
     
     if not victims:
+      for i in self.game.objects:
+        if isinstance(i, Bot) and i  is not self:
+          #If it's in this bot, then it's a part of this bot, and so it should move with it)
+          if self._distance(i) == 0:
+            i.x += x
+            i.y += y
       self.x += x
       self.y += y
     
@@ -271,6 +278,8 @@ class Bot(Unit):
       return "Out of actions"
     if x < 0 or y < 0 or x+size > self.game.boardX or y+size > self.game.boardY:
       return "Building off the world"
+    if size > self.size:
+      return "Building a robot larger than itself."
 
     completionTime = 4 * size**2 / self.buildRate
     health = min(type.maxHealth * self.buildRate / 4, type.maxHealth * size**2)

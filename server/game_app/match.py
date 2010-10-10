@@ -110,9 +110,13 @@ class Match(DefaultGameWorld):
     return True
 
   def checkWinner(self):
-    if self.turnNumber >= 500:
+    if not [i for i in self.objects.values() if isinstance(i, Bot) and i.owner == 0]:
+      self.declareWinner(self.players[1])
+    elif not [i for i in self.objects.values() if isinstance(i, Bot) and i.owner == 1]:
       self.declareWinner(self.players[0])
-    #TODO: Make this check if a player won, and call declareWinner with a player if they did
+    elif self.turnNumber >= 500:
+      self.declareWinner(self.players[0])
+    
     pass
 
   def declareWinner(self, winner):
