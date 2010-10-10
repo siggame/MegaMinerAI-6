@@ -428,5 +428,29 @@ class Type:
   def nextTurn(self):
     pass
 
+class Wall(Unit):
+  def __init__(self, game, id, x, y, owner, health, maxHealth):
+    self.game = game
+    self.id = id
+    self.x = x
+    self.y = y
+    self.owner = owner
+    self.health = health
+    self.maxHealth = maxHealth
 
+  def toList(self):
+    value = [
+      self.id,
+      self.x,
+      self.y,
+      self.owner,
+      self.health,
+      self.maxHealth,
+      ]
+    return value
 
+  def nextTurn(self):
+    pass
+
+  def talk(self, message):
+    pass

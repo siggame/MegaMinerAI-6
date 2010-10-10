@@ -35,6 +35,10 @@ type = Model('Type',
   doc = 'A kind of robot.'
   )
 
+Wall = Model('Wall',
+  parent = Unit,
+  doc = 'A bunch pile of hard stuff.')
+
 Frame = Model('Frame',
   parent = Unit,
   data = [Variable('type', type),
