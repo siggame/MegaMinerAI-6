@@ -76,6 +76,18 @@ struct Frame
   friend std::ostream& operator<<(std::ostream& stream, Frame obj);
 };
 
+struct Wall
+{
+  int id;
+  int x;
+  int y;
+  int owner;
+  int health;
+  int maxHealth;
+  
+  friend std::ostream& operator<<(std::ostream& stream, Wall obj);
+};
+
 struct Type
 {
   int id;
@@ -174,6 +186,7 @@ struct GameState
   std::vector<Unit> units;
   std::vector<Bot> bots;
   std::vector<Frame> frames;
+  std::vector<Wall> walls;
   std::vector<Type> types;
   
   int turnNumber;
