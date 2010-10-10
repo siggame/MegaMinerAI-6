@@ -263,6 +263,10 @@ class Bot(Unit):
   def heal(self, target):
     if self._distance(target) > (self.range + 1):
       return "Target out of range."
+    if target.owner != self.owner:
+      return "Cannot heal enemies."
+    if target.health == target.maxHealth:
+      return "Target fully healed."
 
     if self.actions < 1:
       return "Out of actions."
