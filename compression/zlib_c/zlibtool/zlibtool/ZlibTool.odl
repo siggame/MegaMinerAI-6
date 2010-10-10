@@ -1,0 +1,86 @@
+// ZlibTool.odl : type library source for OLE Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (ZlibTool.tlb) that will become a resource in
+// ZlibTool.ocx.
+
+#include <olectl.h>
+
+[ uuid(E88121A0-9FA9-11CF-9D9F-00AA003A3AA3), version(1.0),
+  helpstring("ZlibTool OLE Control module"), control ]
+library ZLIBTOOLLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+    typedef enum
+	{
+	    [helpstring( "None" )]    None = 0,
+	    [helpstring( "Fastest" )] Fastest = 1,
+		[helpstring( " "    )]    Level2 = 2,
+		[helpstring( "Fast"    )] Fast = 3,
+		[helpstring( " "    )]    Level4 = 4,
+		[helpstring( " "    )]    Level5 = 5,
+		[helpstring( "Standard")] Standard = 6,
+		[helpstring( " "    )]    Level7 = 7,
+		[helpstring( " "    )]    Level8 = 8,
+		[helpstring( "Maximum" )] Maximum = 9
+	} enumCompressionLevel;
+	//  Primary dispatch interface for CZlibToolCtrl
+
+	[ uuid(E88121A1-9FA9-11CF-9D9F-00AA003A3AA3),
+	  helpstring("Dispatch interface for ZlibTool Control"), hidden ]
+	dispinterface _DZlibTool
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CZlibToolCtrl)
+			[id(1)] BSTR InputFile;
+			[id(2)] BSTR OutputFile;
+			[id(4)] enumCompressionLevel Level;
+			[id(3)] BSTR Status;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CZlibToolCtrl)
+			[id(5)] short Compress();
+			[id(6)] short Decompress();
+			[id(7)] void Abort();
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CZlibToolCtrl
+
+	[ uuid(E88121A2-9FA9-11CF-9D9F-00AA003A3AA3),
+	  helpstring("Event interface for ZlibTool Control") ]
+	dispinterface _DZlibToolEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CZlibToolCtrl)
+			[id(1)] void Progress(short percent_complete);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CZlibToolCtrl
+
+	[ uuid(E88121A3-9FA9-11CF-9D9F-00AA003A3AA3),
+	  helpstring("ZlibTool Control"), control ]
+	coclass ZlibTool
+	{
+		[default] dispinterface _DZlibTool;
+		[default, source] dispinterface _DZlibToolEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+};

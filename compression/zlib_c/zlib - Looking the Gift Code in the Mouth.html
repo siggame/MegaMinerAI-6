@@ -1,0 +1,1756 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>zlib - Looking the Gift Code in the Mouth  </title>
+<link rel="stylesheet" href="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/style.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://marknelson.us/feed/">
+<link rel="alternate" type="text/xml" title="RSS .92" href="http://marknelson.us/feed/rss/">
+<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://marknelson.us/feed/atom/">
+<link rel="pingback" href="http://marknelson.us/xmlrpc.php">
+<link rel="icon" href="http://marknelson.us/favicon.ico" type="image/x-icon">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://scott-m.net/xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 2.2.3">
+	<link rel="archives" title="October 2010" href="http://marknelson.us/2010/10/">
+	<link rel="archives" title="September 2010" href="http://marknelson.us/2010/09/">
+	<link rel="archives" title="August 2010" href="http://marknelson.us/2010/08/">
+	<link rel="archives" title="July 2008" href="http://marknelson.us/2008/07/">
+	<link rel="archives" title="June 2008" href="http://marknelson.us/2008/06/">
+	<link rel="archives" title="May 2008" href="http://marknelson.us/2008/05/">
+	<link rel="archives" title="April 2008" href="http://marknelson.us/2008/04/">
+	<link rel="archives" title="March 2008" href="http://marknelson.us/2008/03/">
+	<link rel="archives" title="February 2008" href="http://marknelson.us/2008/02/">
+	<link rel="archives" title="January 2008" href="http://marknelson.us/2008/01/">
+	<link rel="archives" title="December 2007" href="http://marknelson.us/2007/12/">
+	<link rel="archives" title="November 2007" href="http://marknelson.us/2007/11/">
+	<link rel="archives" title="September 2007" href="http://marknelson.us/2007/09/">
+	<link rel="archives" title="August 2007" href="http://marknelson.us/2007/08/">
+	<link rel="archives" title="July 2007" href="http://marknelson.us/2007/07/">
+	<link rel="archives" title="May 2007" href="http://marknelson.us/2007/05/">
+	<link rel="archives" title="April 2007" href="http://marknelson.us/2007/04/">
+	<link rel="archives" title="November 2006" href="http://marknelson.us/2006/11/">
+	<link rel="archives" title="October 2006" href="http://marknelson.us/2006/10/">
+	<link rel="archives" title="September 2006" href="http://marknelson.us/2006/09/">
+	<link rel="archives" title="August 2006" href="http://marknelson.us/2006/08/">
+	<link rel="archives" title="July 2006" href="http://marknelson.us/2006/07/">
+	<link rel="archives" title="June 2006" href="http://marknelson.us/2006/06/">
+	<link rel="archives" title="October 2005" href="http://marknelson.us/2005/10/">
+	<link rel="archives" title="February 2004" href="http://marknelson.us/2004/02/">
+	<link rel="archives" title="October 2002" href="http://marknelson.us/2002/10/">
+	<link rel="archives" title="August 2002" href="http://marknelson.us/2002/08/">
+	<link rel="archives" title="July 2002" href="http://marknelson.us/2002/07/">
+	<link rel="archives" title="April 2002" href="http://marknelson.us/2002/04/">
+	<link rel="archives" title="March 2002" href="http://marknelson.us/2002/03/">
+	<link rel="archives" title="January 2002" href="http://marknelson.us/2002/01/">
+	<link rel="archives" title="September 2001" href="http://marknelson.us/2001/09/">
+	<link rel="archives" title="June 2000" href="http://marknelson.us/2000/06/">
+	<link rel="archives" title="January 2000" href="http://marknelson.us/2000/01/">
+	<link rel="archives" title="March 1998" href="http://marknelson.us/1998/03/">
+	<link rel="archives" title="December 1997" href="http://marknelson.us/1997/12/">
+	<link rel="archives" title="September 1997" href="http://marknelson.us/1997/09/">
+	<link rel="archives" title="January 1997" href="http://marknelson.us/1997/01/">
+	<link rel="archives" title="September 1996" href="http://marknelson.us/1996/09/">
+	<link rel="archives" title="August 1996" href="http://marknelson.us/1996/08/">
+	<link rel="archives" title="January 1996" href="http://marknelson.us/1996/01/">
+	<link rel="archives" title="May 1992" href="http://marknelson.us/1992/05/">
+	<link rel="archives" title="February 1990" href="http://marknelson.us/1990/02/">
+	<link rel="archives" title="October 1989" href="http://marknelson.us/1989/10/">
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://marknelson.us/xmlrpc.php?rsd">
+<link rel="stylesheet" href="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/syntax_hilite_css.css" type="text/css" media="all">
+	<script language="javascript" type="text/javascript" src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/syntax_hilite_js.js"></script>
+	<script language="javascript" type="text/javascript">
+	var arrCode = new Array();
+	</script>
+
+</head><body>
+<div id="wrap_talia">
+  <div id="container_talia">
+    <div id="header_talia">
+	  <div class="header_site_desc">
+      <h1><a href="http://marknelson.us/">Mark Nelson</a></h1>
+      <p>Programming, mostly.</p>
+	  </div>
+
+	  <div class="header_nav_box">
+	    <div id="searchform">
+		<form method="get" action="/index.php">
+		<p>
+        <input name="submit" src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/search_button.gif" alt="search" type="image">
+        </p>
+		<p><input name="s" class="src_field" type="text"></p>
+		</form>
+		</div>
+<div class="navigators">
+       <ul>
+<li><a href="http://marknelson.us/">Home</a></li>
+<li class="page_item"><a href="http://marknelson.us/about/" title="About Mark Nelson">About Mark Nelson</a></li>
+<li class="page_item"><a href="http://marknelson.us/archives/" title="Archives">Archives</a></li>
+<li class="page_item"><a href="http://marknelson.us/code-use-policy/" title="Liberal Code Use Policy">Liberal Code Use Policy</a></li>
+		</ul>
+		</div>
+
+	  </div>
+
+    </div><div id="content_talia">
+<div class="right-content-talia">
+<div id="left-post">
+<div id="put-image-here"></div>
+
+<div id="post-entry">
+
+
+
+<div class="post-meta" id="post-13">
+<h1><a href="http://marknelson.us/1997/01/01/zlib-engine/" title="zlib - Looking the Gift Code in the Mouth">zlib - Looking the Gift Code in the Mouth</a></h1>
+
+	
+	<hr>
+
+	
+	<div class="navigation">
+		<div class="alignleft"><span>«</span> <a href="http://marknelson.us/1996/09/01/bwt/">Data Compression with the Burrows-Wheeler Transform</a></div>
+		<div class="alignright"> <a href="http://marknelson.us/1997/09/01/patent-legislation/">Patent Legislation Considered Helpful</a> <span>»</span></div>
+	</div>
+
+	
+	<br>
+	<hr>
+
+<div class="posted-aut-cat">Posted in January 1st, 1997 </div>
+
+<div class="posted-aut-cat">by <a href="http://marknelson.us/author/mark/" title="Posts by Mark">Mark</a> in <a href="http://marknelson.us/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a>,  <a href="http://marknelson.us/category/data-compression/" title="View all posts in Data Compression" rel="category tag">Data Compression</a>,  <a href="http://marknelson.us/category/magazine-articles/" title="View all posts in Magazine Articles" rel="category tag">Magazine Articles</a></div>
+
+<div class="post-content">
+
+
+
+
+
+
+<table width="500" border="0">
+<tbody><tr>
+<td width="300"><img alt="DDJ Logo" src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/logo2_ddj.gif"></td>
+<td><strong>Dr. Dobb's Journal</strong> January, 1997</td>
+</tr>
+</tbody></table>
+<p>Free software is like pizza - when it's good, it's very good. When 
+it's bad, it can still be pretty good. This article takes a look at 
+zlib, the free data compression library written by Mark Adler and 
+Jean-loup Gailly. Like the very finest pizza, zlib is exceptional.</p>
+<p>In this article I will first give a quick overview of what zlib is, 
+and where it came from. I'll then discuss the existing interface, and 
+look at the wrapper class I created for my own use. Finally, I'll talk 
+about how I integrated zlib into a a command line test program and a 
+general purpose file compression OCX. After reading this article you 
+should feel comfortable using zlib for many, if not all, of your data 
+compression needs.</p>
+<h4>Where there's a need...</h4>
+<p>I recently received an email message from Scott Steketee, a developer
+ of The Geometer's Sketchpad, an educational/visualization tool:</p>
+<blockquote><p>Do you know of a product which can be used in place of 
+the Windows files compress.exe and expand.exe in such an installation? 
+It's obvious even to me that the compression achieved by the standard 
+Windows programs is not very good, and I imagine I could keep the 
+current number of disks just by improving the ratio somewhat.</p></blockquote>
+<p>I frequently see messages similar to this in Internet newsgroups like
+ comp.compression and comp.lang.c, or on various CompuServe forums. It 
+seems that the requirement to efficiently compress or expand files is a 
+fairly common one. Often, programmers find that their needs aren't being
+ filled by the Windows API functions in LZEXPAND.DLL (no compression 
+functions), and don't want to spend the money needed for third party 
+solutions, such as Greenleaf's ArchiveLib.</p>
+<p>Fortunately, I'm able to point Scott towards an excellent solution to
+ his problem: zlib. zlib is a library of C routines that can be used to 
+compress or expand files using the same deflate algorithm popularized by
+ PKZIP 2.0. zlib is efficient, portable, and free.</p>
+<h4>A Brief History of zlib</h4>
+<p>The origins of zlib can be found in the history of Info-ZIP. Info-ZIP
+ is loosely organized group of programmers who give the following reason
+ for their existence:</p>
+<blockquote><p>Info-ZIP's purpose is to provide free, portable, 
+high-quality versions of the Zip and UnZip compressor-archiver utilities
+ that are compatible with the DOS-based PKZIP by PKWARE, Inc.</p></blockquote>
+<p>These free versions of Zip and UnZip are world class programs, and 
+are in wide use on platforms ranging from the orphaned Amiga through 
+MS-DOS PCs up to high powered RISC workstations. But these programs are 
+designed to be used as command line utilities, not as library routines. 
+People have found that porting the Info-ZIP source into an application 
+could be a grueling exercise.</p>
+<p>Fortunately for all of us, two of the Info-ZIP gurus took it upon 
+themselves to solve this problem. Mark Adler and Jean-loup Gailly 
+single-handedly created zlib, a set of library routines that provide a 
+safe, free, and non-patented implementation of the deflate compression 
+algorithm.</p>
+<p>One of the driving reasons behind zlib's creation was for use as the 
+compressor for PNG format graphics. After Unisys belatedly began 
+asserting their patent rights to LZW compression, programmers all over 
+the world were thrown into a panic over the prospect of paying royalties
+ on their GIF decoding programs. The PNG standard was created to provide
+ an unencumbered format for graphics interchange. The zlib version of 
+the deflate algorithm was embraced by PNG developers, not only because 
+it was free, but it also compressed better than the original LZW 
+compressor used in GIF files.</p>
+<p>zlib turns out to be good for more than graphics developers, however.
+ The deflate algorithm makes an excellent general purpose compressor, 
+and as such can be incorporated into all sorts of different software. 
+For example, I use zlib as the compression engine in Greenleaf's 
+ArchiveLib, a data compression library that work with ZIP archives. It's
+ performance and compatibility mean I didn't have to reinvent the wheel,
+ saving precious months of development time.</p>
+<h4>zlib's interface</h4>
+<p>As a library developer, I know that interfaces make or break a 
+library. Performance issues are important, but if an awkward API makes 
+it impossible to integrate a library into your program, you've got a 
+problem.</p>
+<p>zlib's interface is confined to just a few simple function calls. The
+ entire state of a given compression or decompression session is 
+encapsulated in a C structure of type <span class="inline_code">z_stream</span>, whose definition is shown in Figure 1.</p>
+<p></p><center>
+<table border="0">
+<tbody><tr>
+<td>
+<div class="igBar"><span id="lc-1"><a href="#" onclick="javascript:showPlainTxt('c-1'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C:</span>
+<div id="c-1">
+<div class="c">
+<ol>
+<li class="li1">
+<div class="de1"><span class="kw4">typedef</span> <span class="kw4">struct</span> z_stream_s <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; Bytef *next_in;&nbsp; &nbsp; <span class="coMULTI">/* next input byte */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; uInt avail_in;&nbsp; &nbsp; &nbsp;<span class="coMULTI">/* number of bytes available at next_in */</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; uLong total_in;&nbsp; &nbsp; <span class="coMULTI">/* count of input bytes read so far */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; Bytef *next_out;&nbsp; &nbsp;<span class="coMULTI">/* next output byte should be put there */</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; uInt avail_out;&nbsp; &nbsp; <span class="coMULTI">/* remaining free space at next_out */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; uLong total_out;&nbsp; &nbsp;<span class="coMULTI">/* count of bytes output so far */</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; <span class="kw4">char</span> *msg;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="coMULTI">/* last error message, NULL if no error */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; <span class="kw4">struct</span> internal_state *state; <span class="coMULTI">/* not visible by applications*/</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; alloc_func zalloc; <span class="coMULTI">/* used to allocate the internal state*/</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; free_func zfree;&nbsp; &nbsp;<span class="coMULTI">/* used to free the internal state */</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; voidpf opaque;&nbsp; &nbsp; &nbsp;<span class="coMULTI">/* private data passed to zalloc and zfree*/</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; <span class="kw4">int</span> data_type;&nbsp; &nbsp; &nbsp;<span class="coMULTI">/* best guess about the data: ascii or binary*/</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; uLong adler;&nbsp; &nbsp; &nbsp; &nbsp;<span class="coMULTI">/* adler32 value of the uncompressed data */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; uLong reserved;&nbsp; &nbsp; <span class="coMULTI">/* reserved for future use */</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">}</span> z_stream; </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p>
+</p></td></tr>
+
+</tbody></table>
+<p>Figure 1<br>
+The z_stream object definition<br>
+</p></center><br>
+Using the library to compress or decompress a file or other data object consists of three main steps:
+<ul>
+<li>Creating a z_stream object.
+</li><li>Processing input and output, using the z_stream object to communicate with zlib.
+</li><li>Destroying the z_stream object.
+</li></ul>
+<p>An overview of the process is shown in Figure 2.<br>
+</p><center><br>
+<img src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/Figure2.gif">
+<p>Figure 2<br>The mandatory folder layout<br>
+</p></center>
+<p>Steps 1 and 3 of the compression process are done using conventional 
+function calls. The zlib API, documented in header file zlib.h, 
+prototypes the following functions for initialization and termination of
+ the compression or decompression process:</p>
+<ul>
+<li><span class="inline_code">deflateInit()</span>
+</li><li><span class="inline_code">inflateInit()</span>
+</li><li><span class="inline_code">deflateEnd()</span>
+</li><li><span class="inline_code">inflateEnd()</span>
+</li></ul>
+<p>Step 2 is done via repeated calls to either <span class="inline_code">inflate()</span> or <span class="inline_code">deflate()</span>, passing the <span class="inline_code">z_stream</span>
+ object as a parameter. The entire state of the process is contained in 
+that object, so there are no global flags or variables, which allows the
+ library to be completely reentrant. Storing the state of the process in
+ a single object also cuts down on the number of parameters that must be
+ passed to the API functions.</p>
+<p>When performing compression or decompression, zlib doesn't perform 
+any I/O on its own. Instead, it reads data from an input buffer pointer 
+that you supply in the <span class="inline_code">z_stream</span> object. You simply set up a pointer to the next block of input data in member <span class="inline_code">next_in</span>, and place the number of available bytes in the <span class="inline_code">avail_in</span> member. Likewise, zlib writes its output data to a memory buffer you set up in the <span class="inline_code">next_out</span> member. As it writes output bytes, zlib decrements the <span class="inline_code">avail_out</span> member until it drops to 0.</p>
+<p>Given this interface, Step 2 of the compression process for an input file and an output file might look something like this:<br>
+</p><center><br>
+<table border="0">
+<tbody><tr>
+<td>
+<div class="igBar"><span id="lc-2"><a href="#" onclick="javascript:showPlainTxt('c-2'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C:</span>
+<div id="c-2">
+<div class="c">
+<ol>
+<li class="li1">
+<div class="de1">z_stream z;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw4">char</span> input_buffer<span class="br0">[</span> <span class="nu0">1024</span> <span class="br0">]</span>;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw4">char</span> output_buffer<span class="br0">[</span> <span class="nu0">1024</span> <span class="br0">]</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">FILE *fin;</div>
+</li>
+<li class="li1">
+<div class="de1">FILE *fout;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw4">int</span> status;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="coMULTI">/*</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="coMULTI"> * Setup code for your specific problem</span></div>
+</li>
+<li class="li1">
+<div class="de1"><span class="coMULTI"> */</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; z.<span class="me1">avail_in</span> = <span class="nu0">0</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; z.<span class="me1">next_out</span> = output_buffer;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; z.<span class="me1">avail_out</span> = <span class="nu0">1024</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; <span class="kw1">for</span> <span class="br0">(</span> ; ; <span class="br0">)</span> <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span> z.<span class="me1">avail_in</span> == <span class="nu0">0</span> <span class="br0">)</span> <span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; z.<span class="me1">next_in</span> = input_buffer;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; z.<span class="me1">avail_in</span> = fread<span class="br0">(</span> input_buffer, <span class="nu0">1</span>, <span class="nu0">1024</span>, fin <span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span> z.<span class="me1">avail_in</span> == <span class="nu0">0</span> <span class="br0">)</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="kw2">break</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; status = deflate<span class="br0">(</span> &amp;z, Z_NO_FLUSH <span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> count = <span class="nu0">1024</span> - z.<span class="me1">avail_out</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span> count <span class="br0">)</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fwrite <span class="br0">(</span> output_buffer, <span class="nu0">1</span>, count, fout <span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; z.<span class="me1">next_out</span> = output_buffer;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; z.<span class="me1">avail_out</span> = <span class="nu0">1024</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li1">
+<div class="de1"><span class="br0">}</span> </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p></p>
+</td></tr>
+
+</tbody></table>
+<p>Figure 3<br>The code to implement file compression<br>
+</p></center><br>
+This method of handling I/O frees zlib from having to implement system 
+dependent read and write code, and it insures that you can use the 
+library to compress any sort of input stream, not just files. It's 
+simply a matter of replacing the wrapper code shown above with a version
+ customized for your data stream.
+<h4>Wrapping it up</h4>
+<p><span class="inline_code">zlib's</span> versatility is one of its 
+strengths, but I don't always need all that flexibility. For example, to
+ perform the simple file compression task Scott asked about at the start
+ of this article, it would be nice to just be able to call a single 
+function to compress a file, and another function to decompress. To make
+ this possible, I created a wrapper class called <span class="inline_code">zlibEngine</span>.</p>
+<p><span class="inline_code">ZlibEngine</span> provides a simple API 
+that automates the compression and decompression of files and uses 
+virtual functions to let you customize your user interface to zlib. The 
+class definition is shown in its entirety in Figure 4. There are two 
+different groups of members that are important to you in <span class="inline_code">ZlibEngine</span>.
+ The first is the set of functions providing the calling interface to 
+the engine. The second is the set of functions and data members used to 
+create a user interface that is active during the compression process. </p>
+<p></p><center><br>
+<table border="0">
+<tbody><tr>
+<td>
+<div class="igBar"><span id="lcpp-3"><a href="#" onclick="javascript:showPlainTxt('cpp-3'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C++:</span>
+<div id="cpp-3">
+<div class="cpp">
+<ol>
+<li class="li1">
+<div class="de1">class ZlibEngine : <span class="kw2">public</span> z_stream <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="kw2">public</span> :</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; ZlibEngine<span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> compress<span class="br0">(</span> <span class="kw4">const</span> <span class="kw4">char</span> *input,</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">const</span> <span class="kw4">char</span> *output,</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> level = <span class="nu0">6</span> <span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> decompress<span class="br0">(</span> <span class="kw4">const</span> <span class="kw4">char</span> *input,</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">const</span> <span class="kw4">char</span> *output <span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">void</span> set_abort_flag<span class="br0">(</span> <span class="kw4">int</span> i <span class="br0">)</span><span class="br0">{</span> m_AbortFlag = i; <span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="kw2">protected</span> :</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> percent<span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> load_input<span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> flush_output<span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="kw2">protected</span> :</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">virtual</span> <span class="kw4">void</span> progress<span class="br0">(</span> <span class="kw4">int</span> percent <span class="br0">)</span><span class="br0">{</span><span class="br0">}</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">virtual</span> <span class="kw4">void</span> status<span class="br0">(</span> <span class="kw4">char</span> *message <span class="br0">)</span><span class="br0">{</span><span class="br0">}</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; <span class="kw2">protected</span> :</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> m_AbortFlag;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">FILE</span> *fin;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">FILE</span> *fout;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">long</span> length;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">int</span> err;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">enum</span> <span class="br0">{</span> input_length = <span class="nu0">4096</span> <span class="br0">}</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">unsigned</span> <span class="kw4">char</span> input_buffer<span class="br0">[</span> input_length <span class="br0">]</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">enum</span> <span class="br0">{</span> output_length = <span class="nu0">4096</span> <span class="br0">}</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">unsigned</span> <span class="kw4">char</span> output_buffer<span class="br0">[</span> output_length <span class="br0">]</span>;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="br0">}</span>; </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p></p></td>
+</tr>
+</tbody></table>
+<p>Figure 4<br>The ZlibEngine wrapper class<br>
+</p></center>
+<h4>The Calling API</h4>
+<p>There are three C++ functions that implement the API needed to 
+perform simple compression and decompression. Before using the engine, 
+you must call the constructor, the first function. Since <span class="inline_code">ZlibEngine</span> is derived from the <span class="inline_code">z_stream</span> object used as the interface to zlib, the constructor is in effect also creating a <span class="inline_code">z_stream</span> object that will be used to communicate with zlib. In addition, the constructor initializes some of the <span class="inline_code">z_stream</span> member variables that will be used in either compression or decompression.</p>
+<p>The two remaining functions are nice and simple: <span class="inline_code">compress()</span>
+ compresses a file using the deflate algorithm. An optional level 
+parameter sets a compression factor between 9 (maximum compression) and 0
+ (no compression.) <span class="inline_code">decompress()</span> 
+decompresses a file, as you would expect. The compression level 
+parameter isn't necessary when decompressing, due to the nature of the 
+deflate algorithm. Both of these functions return an integer status 
+code, defined in the zlib header file zlib.h. <span class="inline_code">Z_OK</span> is returned when everything works as expected. Note that I added an additional code, <span class="inline_code">Z_USER_ABORT</span>, used for an end user abort of the compression or decompression process.</p>
+<p>The wrapper class makes it much easier to compress or decompress files using zlib. You only need to remember three things:</p>
+<ul>
+<li>Include the header file for the wrapper class, zlibengn.h.
+</li><li>Construct a <span class="inline_code">ZlibEngine</span> object.
+</li><li>Call the member functions <span class="inline_code">compress()</span> or <span class="inline_code">decompress()</span> to do the actual work.
+</li></ul>
+<p>This means you can now perform compression with code this simple:</p>
+<div class="igBar"><span id="lcpp-4"><a href="#" onclick="javascript:showPlainTxt('cpp-4'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C++:</span>
+<div id="cpp-4">
+<div class="cpp">
+<ol>
+<li class="li1">
+<div class="de1"><span class="co2">#include &lt;zlibengn.h&gt;</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw4">int</span> foo<span class="br0">(</span><span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; ZlibEngine engine;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="kw1">return</span> engine.<span class="me1">compress</span><span class="br0">(</span> <span class="st0">"INPUT.DAT"</span>, <span class="st0">"INPUT.DA_"</span><span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="br0">}</span> </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p></p>
+<p>That's about as simple as you could ask for, isn't it? </p>
+<h4>The User Interface API</h4>
+<p>The calling API doesn't really make much of a case for creating the <span class="inline_code">ZlibEngine</span> class. Based on what you've seen so far, the <span class="inline_code">compress()</span> and <span class="inline_code">decompress()</span> functions don't really need to be members of a class. In theory, a global <span class="inline_code">compress()</span> function could just instantiate a <span class="inline_code">z_stream</span> object when called, without the caller even being aware of it.</p>
+<p>The reason for creating this engine class is found in a completely 
+different area: the user interface. It's really nice to be able to track
+ the progress of your compression job while it's running. Conventional C
+ libraries have to make do with callback functions or inflexible 
+standardized routines in order to provide feedback, but C++ offers a 
+better alternative through the use of virtual functions.</p>
+<p>The <span class="inline_code">ZlibEngine </span>class has two virtual functions that are used to create a useful user interface: <span class="inline_code">progress()</span>
+ is called periodically during the compression or decompression process,
+ with a single integer argument that tells what percentage of the input 
+file has been processed. <span class="inline_code">status()</span> is called with status messages during processing.</p>
+<p>Both of these virtual functions have access to the <span class="inline_code">ZlibEngine</span> protected data element, <span class="inline_code">m_AbortFlag</span>.
+ Setting this flag to a non-zero value will cause the compression or 
+decompression routine to abort immediately. This easily takes care of 
+another sticky user interface problem found when using library code.</p>
+<p>Writing your own user interface then becomes a simple exercise. You simply derive a new class from <span class="inline_code">ZlibEngine</span>, and define your own versions of one or both of these virtual functions. Instantiate an object of your class instead of <span class="inline_code">ZlibEngine</span>, and your user interface can be as spiffy and responsive as you like! </p>
+<h4>Command line compression</h4>
+<p>I wrote a simple command line test program to demonstrate the use of 
+class ZlibEngine. zlibtest.cpp does a simple compress/decompress cycle 
+of the input file specified on the command line. I implement a progress 
+function that simply prints out the current percent towards completion 
+as the file is processed:</p>
+<div class="igBar"><span id="lcpp-5"><a href="#" onclick="javascript:showPlainTxt('cpp-5'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C++:</span>
+<div id="cpp-5">
+<div class="cpp">
+<ol>
+<li class="li1">
+<div class="de1">class MyZlibEngine : <span class="kw2">public</span> ZlibEngine <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="kw2">public</span> :</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw4">void</span> progress<span class="br0">(</span> <span class="kw4">int</span> percent <span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">printf</span><span class="br0">(</span> <span class="st0">"%3d%%<span class="es0">\b</span><span class="es0">\b</span><span class="es0">\b</span><span class="es0">\b</span>"</span>, percent <span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span> kbhit<span class="br0">(</span><span class="br0">)</span> <span class="br0">)</span> <span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; getch<span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; m_AbortFlag = <span class="nu0">1</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span> </div>
+</li>
+<li class="li1">
+<div class="de1"><span class="br0">}</span>; </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p>
+Since class <span class="inline_code">ZlibEngine </span>is so simple, the derived class doesn't even have to implement a constructor or destructor. The derived version of <span class="inline_code">progress()</span>
+ is able to provide user feedback as well as an abort function with just
+ a few lines of code. zlibtest.cpp is in the zip file linked to at the 
+end of the article.</p>
+<h4>The OCX</h4>
+<p>To provide a slightly more complicated test of class <span class="inline_code">ZlibEngine</span>,
+ I created a 32 bit OCX using Visual C++ 4.1. The interface to an OCX is
+ defined in terms of methods, events, and properties. ZlibTool.ocx has 
+the following interface:</p>
+<table>
+<tbody><tr>
+<td>Properties:</td>
+<td>InputFile</td>
+</tr>
+<tr>
+<td></td>
+<td>OutputFile</td>
+</tr>
+<tr>
+<td></td>
+<td>Levele</td>
+</tr>
+<tr>
+<td></td>
+<td>Status</td>
+</tr>
+<tr>
+<td>Methods:</td>
+<td>Compress()</td>
+</tr>
+<tr>
+<td></td>
+<td>Decompress()</td>
+</tr>
+<tr>
+<td></td>
+<td>Abort()</td>
+</tr>
+<tr>
+<td>Events:</td>
+<td>Progress()</td>
+</tr>
+</tbody></table>
+<p>(Note that I chose to pass status information from the OCX using a property, not an event.)</p>
+<p>ZlibTool.ocx is a control derived from a standard Win32 progress bar.
+ The progress bar gets updated automatically while compressing or 
+decompressing, so you get some user interface functionality for free. 
+Using it with Visual Basic 4.0 or Delphi 2.0 becomes a real breeze. 
+After registering the OCX, you can drop a copy of it onto your form and 
+use it with a minimal amount of coding.</p>
+<p>Both the source code for the OCX and a sample Delphi 2.0 program are 
+available from the links at the end of this article. A screen shot of 
+the Delphi program in action is shown in Figure 5.<br>
+</p><center><br>
+<img src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/Figure5.gif"><br>
+Figure 5<br>The Delphi 2.0 OCX test program<br>
+</center>
+<h4>Reference material</h4>
+<p>The source code that accompanies this article can be downloaded from 
+this Web page. It contains the following source code collections:</p>
+<ul>
+<li>The complete source for zlib
+</li><li>The Visual C++ 4.1 project for the ZlibTool OCX
+</li><li>The Delphi 2.0 project that exercises the OCX
+</li><li>The Console test program that exercises the <span class="inline_code">ZlibEngine </span>class
+</li></ul>
+<p>Each of the subdirectories contains a README.TXT file with documentation describing how to build and use the programs.</p>
+<p>The source is split into two archives: <a href="http://marknelson.us/attachments/1997/zlib/zlibtool.zip">zlibtool.zip</a></p>
+<p>All source code and the OCX file: <a href="http://marknelson.us/attachments/1997/zlib/zlibdll.zip">zlibdll.zip</a></p>
+<p>The supporting MFC and VC++ DLLs. Many people will already have these
+ files on their systems: MFC40.DLL, MSVCRT40.DLL, and OLEPRO32.DLL.</p>
+<p>I haven't discussed the zlib code itself in this article. The best 
+place to start gathering information about how to use zlib and the 
+Info-ZIP products can be found on their home pages. Both pages have 
+links to the most current versions of their source code as well:</p>
+<p>Info-ZIP: <a href="http://www.info-zip.org/">http://www.info-zip.org</a></p>
+<p>zlib: <a href="http://www.gzip.org/zlib">http://www.gzip.org/zlib</a></p>
+<p>Once you download the Info-ZIP code, the quick start documentation is
+ found in source file zlib.h. If you cook up any useful code that uses 
+zlib, you might want to forward copies to Greg Roelofs for inclusion on 
+the zlib home page. Greg maintains the zlib pages, and you can reach him
+ via links found there.</p>
+<h4>Feel-good plug</h4>
+<p>zlib can do a lot more than just compress files. Its versatile 
+interface can be used for streaming I/O, in-memory compression, and 
+more. Since Jean-loup Gailly and Mark Adler were good enough to make 
+this capable tool available to the public, it only makes sense that we 
+take advantage of it. I know I have, and I encourage you to do the same.</p>
+</div>
+<div class="post-pages">
+</div>
+
+</div>
+
+<div class="post-fixed"></div>
+
+
+
+
+<div id="comment-temps">
+			 <h2>26 users commented in " zlib - Looking the Gift Code in the Mouth " </h2>
+			<span class="rssfeed">
+            Follow-up <a href="http://marknelson.us/1997/01/01/zlib-engine/feed/">comment rss</a> or Leave a <a href="http://marknelson.us/1997/01/01/zlib-engine/trackback/">Trackback</a>
+            </span>
+<div class="post-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com"><a href="http://www.s5h.net/" rel="external nofollow">eneville</a> said,</div>
+			<div class="author_date">
+            in November 1st, 2007 at 6:56 pm             </div>
+			<div class="author_com_text">
+            <p>Thanks for the article. You explained what I wanted from the headers, but they're not that concise.</p>
+<p>I'm going off to implement :-)</p>
+<p>Thanks.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com">eh936 said,</div>
+			<div class="author_date">
+            in January 7th, 2008 at 6:52 pm             </div>
+			<div class="author_com_text">
+            <p>My only question is whether zlib is able to decompress a gzip archive or file ? Thank you.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark</a> said,</div>
+			<div class="author_date">
+            in January 7th, 2008 at 8:27 pm             </div>
+			<div class="author_com_text">
+            <p>@eh936:</p>
+<p>The zlib library does not have functions to decompress gzip files.</p>
+<p>The zlib distribution contains complete programs that will decompress gzip files.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com">madler said,</div>
+			<div class="author_date">
+            in February 24th, 2008 at 6:20 pm             </div>
+			<div class="author_com_text">
+            <p>Actually, the zlib library has functions to compress and 
+decompress gzip files.  Also the zlib in-memory compression and 
+decompression functions (deflate and inflate) can process gzip streams 
+on request.  Please read zlib.h for more information.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">Mark Nelson said,</div>
+			<div class="author_date">
+            in February 24th, 2008 at 9:10 pm             </div>
+			<div class="author_com_text">
+            <p>@madler:</p>
+<p>Sorry for the misrepresentation. I believe I was reliving 1.1.4 or 
+earlier, in which gzip files had to be managed using the contributed 
+program minigzip.</p>
+<p>I will make sure I get caught up.</p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com">TT said,</div>
+			<div class="author_date">
+            in November 6th, 2008 at 3:41 pm             </div>
+			<div class="author_com_text">
+            <p>Apparently, there is a problem with this code.<br>
+I extracts only a part of a compressed file.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">eden said,</div>
+			<div class="author_date">
+            in October 5th, 2009 at 11:36 pm             </div>
+			<div class="author_com_text">
+            <p>I have 6 MB of single file, suppose after compression if 
+it becomes 2MB of file. i want zlib should break this 2MB compress file 
+into small chunks, and while decompression it should use all this small 
+chunks to make this 6MB of single file.</p>
+<p>Can it be possible to do with zlib's existing function.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in October 6th, 2009 at 8:36 am             </div>
+			<div class="author_com_text">
+            <p>@eden:</p>
+<p>No, zlib doesn't do anything like this. </p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">rvolz said,</div>
+			<div class="author_date">
+            in October 9th, 2009 at 2:39 am             </div>
+			<div class="author_com_text">
+            <p>I try to register zlibtol.ocx with Windows Vista and get Error 0x80040200. Any idea?</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in October 9th, 2009 at 5:36 am             </div>
+			<div class="author_com_text">
+            <p>@eden:</p>
+<p>You need to be running from an elevated command prompt. Run cmd.exe as admin and try again.</p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">rvolz said,</div>
+			<div class="author_date">
+            in October 12th, 2009 at 8:24 am             </div>
+			<div class="author_com_text">
+            <p>Thank you! This solved my problem. </p>
+<p>- Reinhold</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com">Stephen Howe said,</div>
+			<div class="author_date">
+            in October 27th, 2009 at 2:38 pm             </div>
+			<div class="author_com_text">
+            <p>The interface for inflating GZIP files is far from obvious.</p>
+<p>Even following<br>
+<a href="http://www.zlib.net/zlib_how.html" rel="nofollow">http://www.zlib.net/zlib_how.html</a><br>
+there is not enough explanation</p>
+<p>I changed<br>
+ret = inflateInit(&amp;strm);<br>
+to<br>
+ret = inflateInit2(&amp;strm, 15);<br>
+but there is no indication as to what value windowsBits should be for GZIP files.</p>
+<p>A few lines later and inflate() returns Z_DATA_ERROR (-3)<br>
+and there is zero clue as to why this is.<br>
+It is frustrating that what examples there is, is geared to ZLIB's own 
+format and no code examples for decoding GZIP format (or what you have 
+to do to inflate GZIP files).</p>
+<p>WINZIP 12.1 has no problem expanding the file so I must be doing something wrong.</p>
+<p>I wish for complete example code to inflate GZIP files using ZLIB DLL if possible.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">Stephen Howe said,</div>
+			<div class="author_date">
+            in October 27th, 2009 at 3:36 pm             </div>
+			<div class="author_com_text">
+            <p>A further comment:</p>
+<p>minigzip_d.exe that comes with ZLIB123-DLL.ZIP fails to unzip a GZIP file. Nothing occurs.</p>
+<p>In contrast, GZIP.EXE succeeds. And on using -l -v to list details of
+ the GZIP file, it reports that it is using the "deflat" method, the 
+very method ZLIB claims to handle.</p>
+<p>All very disappointing</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in October 27th, 2009 at 7:48 pm             </div>
+			<div class="author_com_text">
+            <p>@Stephen:</p>
+<p>The only time I've used zlib with gzip format files, I have been successful with minigzip.c.</p>
+<p>I would strongly suggest that you pose this as a question on 
+comp.compression - you will almost certainly get a good answer, 
+especially if you can point to a copy of the offending file.</p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">benson85 said,</div>
+			<div class="author_date">
+            in October 31st, 2009 at 2:04 am             </div>
+			<div class="author_com_text">
+            <p>Hi Mark</p>
+<p>I am just wondering about the use of your ZlibEngine wrapper. What is
+ the use of a wrapper and does it mean that data that are compressed 
+using different wrappers such as zlib wrappers, gzip wrappers, or no 
+wrappers at all can only be decompressed using programs with the same 
+wrapper? How can I decompress a file with gzip headers using zlib? I am 
+still new to C programming and still confused with the idea of wrappers.</p>
+<p>Thanks for answering.</p>
+<p>~Benson~</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in October 31st, 2009 at 3:41 pm             </div>
+			<div class="author_com_text">
+            <p>@Benson:</p>
+<p>The wrapper just provides a convenient way to access zlib, helping with some initialization functions and the like. </p>
+<p>If you want to decompress a gzip file using zlib, I suggest you look 
+at the program minigzip which accompanies the zlib distribution.</p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">Ashok said,</div>
+			<div class="author_date">
+            in December 7th, 2009 at 1:19 am             </div>
+			<div class="author_com_text">
+            <p>How can I use your .dll from Visual Basic?<br>
+Can you provide me a VB sample.</p>
+<p>Thanks.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in December 7th, 2009 at 6:56 am             </div>
+			<div class="author_com_text">
+            <p>@Ashok:</p>
+<p>I recommend using the Info-ZIP DLLs. Here's an example:</p>
+<p><a href="http://www.vbaccelerator.com/home/Vb/Code/Libraries/Compression/Introduction_to_the_Info-ZIP_Libraries/article.asp" rel="nofollow">http://www.vbaccelerator.com/home/Vb/Code/Libraries/Compression/Introduction_to_the_Info-ZIP_Libraries/article.asp</a></p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com"><a href="http://decube.tk/" rel="external nofollow">cw2k</a> said,</div>
+			<div class="author_date">
+            in January 14th, 2010 at 8:55 pm             </div>
+			<div class="author_com_text">
+            <p>I used ZlibTool.ocx in Visual Basic - and when I ran the program under the VB IDE everything went fine.<br>
+But when I compile a *.exe of that program and run it I just get 'welcome' by an error messagebox that says:</p>
+<p>"System Error &amp;H80004005. Unknown Error."</p>
+<p>Well to shorten the story here is a quick workaround you have to add to each form that uses the ZlibTool: </p>
+<div class="igBar"><span id="lvb-6"><a href="#" onclick="javascript:showPlainTxt('vb-6'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">Visual Basic:</span>
+<div id="vb-6">
+<div class="vb">
+<ol>
+<li class="li1">
+<div class="de1"><span class="co1">'Bugfix for ZlibTool.ocx (ZlibTool uses CreateWindowEx(...Class = "msctls_progress32"...) but forget to call that init)</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw1">Private</span> <span class="kw1">Declare</span> <span class="kw1">Sub</span> InitCommonControls Lib <span class="st0">"comctl32.dll"</span> <span class="br0">(</span><span class="br0">)</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw1">Private</span> <span class="kw1">Sub</span> Form_Initialize<span class="br0">(</span><span class="br0">)</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; InitCommonControls</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw1">End</span> <span class="kw1">Sub</span> </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p>
+Since the progressbar is no standard Windows control (like a editbox, 
+label or commandbutton) you need to call InitCommonControls() to setup 
+the windows classes before you can create instances of them - like for 
+ex. one or two CommonControl progressbars.</p>
+<p>Of course it's better to fix that problem at its root. But after that
+ you'll need to compile the ZlibTool Project. What may take some time to
+ if you haven't setup/install M$ Visual C++. And maybe some extra time 
+to mess around and fix linker problem such as missing *.lib's unlinked 
+or duplicated exports + fixing changing 'exotic' dll imports like 
+'MFC42D.DLL' that are not included in the dll's that came with the 
+Windows installation.</p>
+<p>So here we go:</p>
+<p>zlibtool\ZlibToolCtl.cpp</p>
+<div class="igBar"><span id="lc-7"><a href="#" onclick="javascript:showPlainTxt('c-7'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C:</span>
+<div id="c-7">
+<div class="c">
+<ol>
+<li class="li1">
+<div class="de1">...</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="co1">////////////////////////////////////////////////////////////////////////////</span></div>
+</li>
+<li class="li1">
+<div class="de1"><span class="co1">// CZlibToolApp::InitInstance - DLL initialization</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">BOOL CZlibToolApp::<span class="me2">InitInstance</span><span class="br0">(</span><span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; BOOL bInit = COleControlModule::<span class="me2">InitInstance</span><span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span>bInit<span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; <span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="co1">// TODO: Add your own module initialization code here.</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; InitCommonControls<span class="br0">(</span><span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; <span class="kw1">return</span> bInit;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">}</span></div>
+</li>
+<li class="li1">
+<div class="de1">... </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p></p>
+<p>Okay at the end you might ask why the error don't come up when running the program under VB6-IDE?<br>
+Well when it's running in the VB6-IDE, it's ran in the same process 
+space as the VB6 IDE and since that IDE also makes use of CommonControls
+ it already has called InitCommonControls() - so the bug will not show 
+any effect.</p>
+<p>So that's it.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in January 15th, 2010 at 2:25 pm             </div>
+			<div class="author_com_text">
+            <p>@cw2k:</p>
+<p>Thanks for the excellent support. That OCX is pretty old, it's pretty cool that you are able to get it to still run.</p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">Zuffi said,</div>
+			<div class="author_date">
+            in March 5th, 2010 at 6:25 am             </div>
+			<div class="author_com_text">
+            <p>Hi All,</p>
+<p>      If it possible for me to use this ocx to perform a compression of byte array in vb?</p>
+<p>Thanks and Best Regards,<br>
+Boon Hui</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in March 5th, 2010 at 6:27 am             </div>
+			<div class="author_com_text">
+            <p>@Zuffi: </p>
+<p>Not without some changes. It compresses files right now.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">Howard Winslow said,</div>
+			<div class="author_date">
+            in March 22nd, 2010 at 4:03 pm             </div>
+			<div class="author_com_text">
+            <p>@Stephen Howe</p>
+<p>From the zlib FAQ:</p>
+<p>Well that's nice, but how do I make a gzip file in memory?</p>
+<p>Well that's nice, but how do I make a gzip file in memory?<br>
+You can request that deflate write the gzip format instead of the zlib 
+format using deflateInit2(). You can also request that inflate decode 
+the gzip format using inflateInit2(). Read zlib.h for more details.</p>
+<p><a href="http://zlib.net/zlib_faq.html#faq20" rel="nofollow">http://zlib.net/zlib_faq.html#faq20</a></p>
+<p>According to zlib.h:</p>
+<p>windowBits can also be greater than 15 for optional gzip decoding.  
+Add 32 to windowBits to enable zlib and gzip decoding with automatic 
+header detection, or add 16 to decode only the gzip format (the zlib 
+format will return a Z_DATA_ERROR).  If a gzip stream is being decoded, 
+strm-&gt;adler is a crc32 instead of an adler32.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com">Asrar Ahmed said,</div>
+			<div class="author_date">
+            in June 28th, 2010 at 4:36 pm             </div>
+			<div class="author_com_text">
+            <p>This is very usefull zip ocx like ever</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box_alt">
+			<div class="author_com">Srivatsan said,</div>
+			<div class="author_date">
+            in October 8th, 2010 at 3:08 am             </div>
+			<div class="author_com_text">
+            <p>Hi,</p>
+<p>   I have a file which is 5000000 bytes size and after gzip 
+compression it is coming out to 5123 bytes. I tried to use zlib to 
+uncompress the same file but it is not getting me the last 2880 bytes. 
+Why is this ? I have followed the procedure as given in zlib manual. I 
+am using the zlib version 1.2.3. </p>
+<div class="igBar"><span id="lc-8"><a href="#" onclick="javascript:showPlainTxt('c-8'); return false;">PLAIN TEXT</a></span></div>
+<div class="syntax_hilite"><span class="langName">C:</span>
+<div id="c-8">
+<div class="c">
+<ol>
+<li class="li1">
+<div class="de1"><span class="kw4">int</span> inf<span class="br0">(</span>FILE *source, FILE *dest<span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw4">int</span> ret;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw4">unsigned</span> have;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw4">int</span> have1;</div>
+</li>
+<li class="li2">
+<div class="de2">z_stream strm;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw4">unsigned</span> <span class="kw4">char</span> in<span class="br0">[</span>CHUNK<span class="br0">]</span>;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw4">unsigned</span> <span class="kw4">char</span> out<span class="br0">[</span>CHUNK<span class="br0">]</span>;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw4">int</span> err;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw4">int</span> total;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="coMULTI">/* allocate inflate state */</span></div>
+</li>
+<li class="li2">
+<div class="de2">strm.<span class="me1">zalloc</span> = Z_NULL;</div>
+</li>
+<li class="li1">
+<div class="de1">strm.<span class="me1">zfree</span> = Z_NULL;</div>
+</li>
+<li class="li2">
+<div class="de2">strm.<span class="me1">opaque</span> = Z_NULL;</div>
+</li>
+<li class="li1">
+<div class="de1">strm.<span class="me1">avail_out</span> = <span class="br0">(</span><span class="nu0">5</span>*<span class="nu0">1024</span>*<span class="nu0">1024</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">total = strm.<span class="me1">avail_out</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">strm.<span class="me1">next_out</span> = out;</div>
+</li>
+<li class="li2">
+<div class="de2">strm.<span class="me1">outcb</span> = <span class="br0">(</span>cb_func<span class="br0">)</span>temp;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="coMULTI">/* decompress until deflate stream ends or end of file */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;<span class="kw4">int</span> i = fread<span class="br0">(</span>in, <span class="nu0">1</span>, CHUNK, source<span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="kw1">if</span> <span class="br0">(</span>ferror<span class="br0">(</span>source<span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">(</span><span class="kw4">void</span><span class="br0">)</span>inflateEnd<span class="br0">(</span>&amp;amp;strm<span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1"><span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">strm.<span class="me1">avail_in</span> = <span class="nu0">5213</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">strm.<span class="me1">next_in</span> = in;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">ret = inflateInit2<span class="br0">(</span>&amp;amp;strm, <span class="nu0">47</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">have = CHUNK;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="kw1">if</span> <span class="br0">(</span>ret == Z_OK<span class="br0">)</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">for</span> <span class="br0">(</span>;;<span class="br0">)</span> <span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span class="kw3">printf</span></a><span class="br0">(</span><span class="st0">"value of total is %d</span><span class="es0">\n</span>",have<span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; strm.<span class="me1">next_out</span> = out;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="coMULTI">/* discard the output */</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; strm.<span class="me1">avail_out</span> = have;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; err = inflate<span class="br0">(</span>&amp;amp;strm, Z_FINISH<span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span>err == Z_STREAM_END<span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">{</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span class="kw3">printf</span></a><span class="br0">(</span><span class="st0">"stream end"</span><span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">break</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; i = fwrite<span class="br0">(</span>out, <span class="nu0">1</span>, have, dest<span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; total = total - have;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; have1 = <span class="br0">(</span>total - CHUNK<span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">(</span>have1&amp;gt; CHUNK<span class="br0">)</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; have = CHUNK;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">else</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; have = have1;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">(</span><span class="br0">(</span>err == Z_OK<span class="br0">)</span> || <span class="br0">(</span>err == Z_STREAM_END<span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span class="kw3">printf</span></a><span class="br0">(</span><span class="st0">"value of tota32 is %d</span><span class="es0">\n</span>",total<span class="br0">)</span>;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; err = inflateEnd<span class="br0">(</span>&amp;amp;strm<span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/printf.html"><span class="kw3">printf</span></a><span class="br0">(</span><span class="st0">"value of total2 is %d</span><span class="es0">\n</span>",total<span class="br0">)</span>;</div>
+</li>
+<li class="li2">
+<div class="de2">&nbsp;</div>
+</li>
+<li class="li1">
+<div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> err;</div>
+</li>
+<li class="li2">
+<div class="de2"><span class="br0">}</span> </div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p></p>
+<p>Need some guidance on using the inflate function.</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+<div class="com-box">
+			<div class="author_com"><a href="http://marknelson.us/" rel="external nofollow">Mark Nelson</a> said,</div>
+			<div class="author_date">
+            in October 8th, 2010 at 6:02 am             </div>
+			<div class="author_com_text">
+            <p>@Srivatsan:</p>
+<p>Suggest you first make sure you can unzip the file using minigzip, 
+which comes with the zlib distribution. If that works, compare its code 
+to yours and see where the problem lies.</p>
+<p>- Mark</p>
+            </div>
+			</div>
+
+			<div class="com-fixed"></div>
+
+
+
+
+
+
+
+<div class="com-fixed"></div>
+<h4>Leave A Reply</h4>
+You can insert source code in your comment without fear of too much mangling by tagging it to use the <a target="_blank" href="http://blog.igeek.info/still-fresh/category/wp-plugins/igsyntax-hiliter/" class="newpage">iG:Syntax Hiliter</a> plugin. A typical usage of this plugin will look like this:<p>
+<code>
+[c]<br>
+int main()<br>
+{<br>
+    printf( "Hello, world!\n" );<br>
+    return 1;<br>
+}<br>
+[/c]<br>
+</code></p><p>
+Note that tags are enclosed in square brackets, not angle brackets. Tags
+ currently supported by this plugin are:
+as (ActionScript), asp, c, cpp, csharp, css, delphi, html, java, js, 
+mysql, perl, python, ruby, smarty, sql, vb, vbnet, xml, code (Generic).
+</p><p>
+If you post your comment and you aren't happy with the way it looks, I will do everything I can to edit it to your satisfaction.
+</p><p>
+</p><form action="http://marknelson.us/wp-comments-post.php" method="post">
+<div id="comment-box">
+<p><input name="author" type="text">&nbsp;Username (*required)</p>
+<p><input name="email" type="text">&nbsp;Email Address (*private)</p>
+<p><input name="url" type="text">&nbsp;Website (*optional)</p>
+</div>
+
+
+<div id="comment-area">
+<p><textarea name="comment" cols="50%" rows="8"></textarea></p>
+<p><input name="submit" value="Post My Comment" type="submit">
+<input name="comment_post_ID" value="13" type="hidden"></p>
+</div>
+</form>
+</div>
+
+
+<div class="post-fixed"></div>
+
+
+</div>
+
+</div>
+
+<div id="right-sidebars">
+		<div class="sidebar-box">
+
+         								<div class="textwidget"><font size="2">
+<br>
+<table border="1"><tbody><tr><td>
+
+Need a <a href="http://www.barcodesinc.com/">barcode printer</a> fast?  Check out this <a href="http://www.barcodesinc.com/zebra/">zebra printer</a>  and <a href="http://www.barcodesinc.com/symbol/">symbol scanner</a> for all your <a href="http://wiki-trust.cse.ucsc.edu/index.php/Barcode_printer">barcode</a> and <a href="http://www.lincoln.ne.gov/city/finance/purch/quotes/05quotes/1651oq.pdf">UPC</a> needs today.
+
+
+</td></tr></tbody></table></font></div>
+<font size="2">					</font><h3><font size="2">Links From Google</font></h3><font size="2">			</font><div class="textwidget"><font size="2"> <br>
+</font><center>
+<script type="text/javascript"><!--
+google_ad_client = "pub-0622359880551876";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+google_ad_channel = "";
+google_ui_features = "rc:10";
+//-->
+</script>
+<script type="text/javascript" src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/show_ads.js">
+</script>
+</center></div>
+<font size="2">					</font><h3><font size="2">Amazon Books</font></h3><font size="2">			</font><div class="textwidget"><center>
+<font size="2">&nbsp;<br>
+<script type="text/javascript"><!--
+  amazon_ad_tag = "theinternetdatac";  amazon_ad_width = "160";  amazon_ad_height = "600";  amazon_ad_link_target = "new";  amazon_ad_include = "algorithms;programming;data+compression";  amazon_ad_categories = "adefg";//--></script>
+<script type="text/javascript" src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/ads.js"></script>
+</font></center></div>
+<font size="2">		
+
+		  </font></div>
+<font size="2">		</font></div>
+<font size="2">	  </font></div>
+
+<font size="2">	  </font><div class="left-content-talia">
+<font size="2">	    </font><div id="left-sidebars">
+
+<font size="2">		  </font><div class="sidebar-box">
+
+<font size="2">           
+
+         								</font><div class="textwidget"><font size="2"><a href="http://www.blogged.com/blogs/mark-nelson.html">
+<img src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/rt_5311.gif" alt="Mark Nelson at Blogged" title="Mark Nelson at Blogged" border="0"></a></font></div>
+<font size="2">							</font><h3><font size="2">Bookmarks/Feeds</font></h3><font size="2">			</font><div class="textwidget"><p>
+<font size="2"><font size="2">
+Use the first button below to bookmark this article on sites like del.icio.us, Digg, Reddit, Slashdot, etc.
+
+The second button adds a feed for the site to your reader.
+
+Both buttons will open a selection screen in a new window.
+</font>
+</font></p><p></p></div>
+<font size="2">		</font><div style="text-align: center;"><font size="2"><a href="http://www.addthis.com/bookmark.php?pub=snorkelman&amp;url=http%3A%2F%2Fmarknelson.us%2F1997%2F01%2F01%2Fzlib-engine%2F&amp;title=zlib+-+Looking+the+Gift+Code+in+the+Mouth" target="_blank" title="Bookmark using any bookmark manager!"><img src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/button2-bm.png" alt="AddThis Social Bookmark Button" height="24" width="160"></a></font></div><div style="text-align: center;"><font size="2"><a href="http://www.addthis.com/feed.php?pub=snorkelman&amp;h1=http%3A%2F%2Fmarknelson.us%2Ffeed%2F" target="_blank" title="Subscribe using any feed reader!"><img src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/button2-fd.png" alt="AddThis Feed Button" height="24" width="160"></a></font></div><h3><font size="2">Categories</font></h3><p class="catcloud" style="text-align: left;">
+<font size="2"><a href="http://marknelson.us/category/standards/" title="1 posts filed under Standards" style="font-size: 13px;">Standards</a> 
+<a href="http://marknelson.us/category/work/" title="2 posts filed under Work" style="font-size: 13px;">Work</a> 
+<a href="http://marknelson.us/category/scams/" title="2 posts filed under Scams" style="font-size: 13px;">Scams</a> 
+<a href="http://marknelson.us/category/hackery/" title="2 posts filed under Hackery" style="font-size: 13px;">Hackery</a> 
+<a href="http://marknelson.us/category/voip/" title="2 posts filed under VoIP" style="font-size: 13px;">VoIP</a> 
+<a href="http://marknelson.us/category/humor/" title="2 posts filed under Humor" style="font-size: 13px;">Humor</a> 
+<a href="http://marknelson.us/category/culture/" title="3 posts filed under Culture" style="font-size: 13px;">Culture</a> 
+<a href="http://marknelson.us/category/writing/" title="4 posts filed under Writing" style="font-size: 14px;">Writing</a> 
+<a href="http://marknelson.us/category/video/" title="5 posts filed under Video" style="font-size: 14px;">Video</a> 
+<a href="http://marknelson.us/category/graphics/" title="5 posts filed under Graphics" style="font-size: 14px;">Graphics</a> 
+<a href="http://marknelson.us/category/audio/" title="6 posts filed under Audio" style="font-size: 14px;">Audio</a> 
+<a href="http://marknelson.us/category/people/" title="7 posts filed under People" style="font-size: 15px;">People</a> 
+<a href="http://marknelson.us/category/snarkiness/" title="8 posts filed under Snarkiness" style="font-size: 15px;">Snarkiness</a> 
+<a href="http://marknelson.us/category/business/" title="9 posts filed under Business" style="font-size: 15px;">Business</a> 
+<a href="http://marknelson.us/category/web-articles/" title="10 posts filed under Web Articles" style="font-size: 16px;">Web Articles</a> 
+<a href="http://marknelson.us/category/programming/" title="10 posts filed under Programming" style="font-size: 16px;">Programming</a> 
+<a href="http://marknelson.us/category/complaining/" title="13 posts filed under Complaining" style="font-size: 16px;">Complaining</a> 
+<a href="http://marknelson.us/category/computer-science/" title="17 posts filed under Computer Science" style="font-size: 18px;">Computer Science</a> 
+<a href="http://marknelson.us/category/magazine-articles/" title="22 posts filed under Magazine Articles" style="font-size: 19px;">Magazine Articles</a> 
+<a href="http://marknelson.us/category/data-compression/" title="27 posts filed under Data Compression" style="font-size: 21px;">Data Compression</a> </font></p>
+<h3><font size="2">Recent Entries</font></h3>
+<ul>
+<font size="2">	<li><a href="http://marknelson.us/2010/10/04/follow-up-when/" title="Follow Up When?">Follow Up When?</a></li>
+	<li><a href="http://marknelson.us/2010/10/01/headline-writing-gone-bad/" title="Headline Writing Gone Bad">Headline Writing Gone Bad</a></li>
+	<li><a href="http://marknelson.us/2010/09/12/innumeracy-revisited/" title="Innumeracy Revisited">Innumeracy Revisited</a></li>
+	<li><a href="http://marknelson.us/2010/08/26/brute-force-vs-ai/" title="Brute Force vs. AI">Brute Force vs. AI</a></li>
+	<li><a href="http://marknelson.us/2010/08/20/a-little-knowledge-can-be-a-felonious-thing/" title="A Little Knowledge Can Be a Felonious Thing">A Little Knowledge Can Be a Felonious Thing</a></li>
+	<li><a href="http://marknelson.us/2010/08/10/p-%e2%89%a0-np/" title="P ≠ NP?">P ≠ NP?</a></li>
+	<li><a href="http://marknelson.us/2010/08/06/5-trillion-digits-of-pi/" title="5 Trillion Digits of Pi">5 Trillion Digits of Pi</a></li>
+	<li><a href="http://marknelson.us/2010/08/01/the-pigeonhole-principle/" title="The Pigeonhole Principle">The Pigeonhole Principle</a></li>
+	<li><a href="http://marknelson.us/2008/07/20/innumeracy-part-n/" title="Innumeracy Part N">Innumeracy Part N</a></li>
+	<li><a href="http://marknelson.us/2008/06/02/slate-rips-me-off/" title="Slate Rips Me Off">Slate Rips Me Off</a></li>
+</font></ul>
+
+<h3><font size="2">Blogroll</font></h3>
+<font size="2">		</font><ul>
+<font size="2">		<li><a href="http://jnjnjn.com/" title="Joey Nelson">Joey Nelson</a> - Joey Nelson</li>
+<li><a href="http://obviosaurus.com/" title="It's obvious">Obviosaurus.com</a> - It's obvious</li>
+		</font></ul>
+<font size="2">			</font><h3><font size="2">My Books</font></h3><font size="2">			</font><div class="textwidget"><ul>
+<font size="2"><li><a href="http://marknelson.us/about/tdcb/">The Data Compression Book</a>
+</li><li><a href="http://marknelson.us/about/serial1/">Serial Communications: A C++ Developer's Guide, 1st. ed.</a>
+</li><li><a href="http://marknelson.us/about/serial2/">Serial Communications: A C++ Developer's Guide, 2nd ed.</a>
+</li><li><a href="http://marknelson.us/about/stl/">C++ Programmer's Guide to the Standard Template Library</a>
+</li><li><a href="http://marknelson.us/about/services/">Developing Cisco IP Phone Services: A Cisco AVVID Solution</a>
+</li></font></ul></div>
+<font size="2">		</font><h3><font size="2">Archives</font></h3><font size="2">		<select name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;"> <option selected="selected" value="">Select Month</option> 	<option value="http://marknelson.us/2010/10/"> October 2010 &nbsp;(2)</option>
+	<option value="http://marknelson.us/2010/09/"> September 2010 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2010/08/"> August 2010 &nbsp;(5)</option>
+	<option value="http://marknelson.us/2008/07/"> July 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2008/06/"> June 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2008/05/"> May 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2008/04/"> April 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2008/03/"> March 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2008/02/"> February 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2008/01/"> January 2008 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2007/12/"> December 2007 &nbsp;(2)</option>
+	<option value="http://marknelson.us/2007/11/"> November 2007 &nbsp;(5)</option>
+	<option value="http://marknelson.us/2007/09/"> September 2007 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2007/08/"> August 2007 &nbsp;(3)</option>
+	<option value="http://marknelson.us/2007/07/"> July 2007 &nbsp;(4)</option>
+	<option value="http://marknelson.us/2007/05/"> May 2007 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2007/04/"> April 2007 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2006/11/"> November 2006 &nbsp;(2)</option>
+	<option value="http://marknelson.us/2006/10/"> October 2006 &nbsp;(2)</option>
+	<option value="http://marknelson.us/2006/09/"> September 2006 &nbsp;(5)</option>
+	<option value="http://marknelson.us/2006/08/"> August 2006 &nbsp;(6)</option>
+	<option value="http://marknelson.us/2006/07/"> July 2006 &nbsp;(6)</option>
+	<option value="http://marknelson.us/2006/06/"> June 2006 &nbsp;(9)</option>
+	<option value="http://marknelson.us/2005/10/"> October 2005 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2004/02/"> February 2004 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2002/10/"> October 2002 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2002/08/"> August 2002 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2002/07/"> July 2002 &nbsp;(3)</option>
+	<option value="http://marknelson.us/2002/04/"> April 2002 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2002/03/"> March 2002 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2002/01/"> January 2002 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2001/09/"> September 2001 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2000/06/"> June 2000 &nbsp;(1)</option>
+	<option value="http://marknelson.us/2000/01/"> January 2000 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1998/03/"> March 1998 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1997/12/"> December 1997 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1997/09/"> September 1997 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1997/01/"> January 1997 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1996/09/"> September 1996 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1996/08/"> August 1996 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1996/01/"> January 1996 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1992/05/"> May 1992 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1990/02/"> February 1990 &nbsp;(1)</option>
+	<option value="http://marknelson.us/1989/10/"> October 1989 &nbsp;(1)</option>
+ </select>
+</font><h3><font size="2">Recent Comments </font></h3>
+<font size="2">		</font><ul>
+<font size="2">		<li><a href="http://marknelson.us/1997/01/01/zlib-engine/#comment-333653" title="zlib - Looking the Gift Code in the…"><strong>Mark Nelson</strong> in zlib - Looking the Gift Code in the…</a></li>
+<li><a href="http://marknelson.us/1997/01/01/zlib-engine/#comment-333644" title="zlib - Looking the Gift Code in the…"><strong>Srivatsan</strong> in zlib - Looking the Gift Code in the…</a></li>
+<li><a href="http://marknelson.us/2010/10/04/follow-up-when/#comment-333299" title="Follow Up When?"><strong>Mark Nelson</strong> in Follow Up When?</a></li>
+<li><a href="http://marknelson.us/2010/10/04/follow-up-when/#comment-333298" title="Follow Up When?"><strong>Joey Nelson</strong> in Follow Up When?</a></li>
+<li><a href="http://marknelson.us/2007/08/01/memoization/#comment-333148" title="C++ Hash Table Memoization: Simplif…"><strong>Headline Writin…</strong> in C++ Hash Table Memoization: Simplif…</a></li>
+<li><a href="http://marknelson.us/2010/09/12/innumeracy-revisited/#comment-332920" title="Innumeracy Revisited"><strong>Mark Nelson</strong> in Innumeracy Revisited</a></li>
+<li><a href="http://marknelson.us/2010/09/12/innumeracy-revisited/#comment-332916" title="Innumeracy Revisited"><strong>Andy Langowitz</strong> in Innumeracy Revisited</a></li>
+<li><a href="http://marknelson.us/2010/09/12/innumeracy-revisited/#comment-332912" title="Innumeracy Revisited"><strong>Mark Nelson</strong> in Innumeracy Revisited</a></li>
+<li><a href="http://marknelson.us/2010/09/12/innumeracy-revisited/#comment-332906" title="Innumeracy Revisited"><strong>Andy Langowitz</strong> in Innumeracy Revisited</a></li>
+<li><a href="http://marknelson.us/2006/06/20/million-digit-challenge/#comment-332835" title="The Million Random Digit Challenge …"><strong>Ernst</strong> in The Million Random Digit Challenge …</a></li>
+		</font></ul>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div id="footer_talia">
+
+<font size="2">©1997&nbsp;<a href="http://marknelson.us/">Mark Nelson</a><br>
+
+Powered by <a href="http://www.wordpress.org/" title="Wordpress CMS">WordPress</a> | Talian designed by VA4Business, <a href="http://www.va4business.com/">Virtual Assistance for Business</a> who's blog can be found at <a href="http://www.va4business.com/business">Steve Arun's Virtual Marketing Blog</a>
+
+</font></div>
+
+<script type="text/javascript" charset="utf-8">
+/*
+ * Some javascript created by Joey to mung all class newpage links and ensure 
+ * that they have a target="_blank" destination. - added by MRN
+ */
+	var links = document.getElementsByTagName('a');
+	for (var l=0, pos=0; l < links.length; l++) {
+		if(links[l].className.indexOf("newpage") != -1){
+			links[l].target = "_blank";
+		}	
+	}	
+</script>
+<script src="zlib%20-%20Looking%20the%20Gift%20Code%20in%20the%20Mouth_files/urchin.js" type="text/javascript">
+/*
+ * My google analytics tracking code - added by MRN
+ */
+</script>
+<script type="text/javascript">
+_uacct = "UA-747044-1";
+urchinTracker();
+</script>
+</body></html>
