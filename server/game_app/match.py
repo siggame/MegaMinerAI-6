@@ -103,10 +103,12 @@ class Match(DefaultGameWorld):
     for obj in self.objects.values():
       obj.nextTurn()
 
-    self.sendStatus([self.turn] +  self.spectators)
-
-    self.animations = ["animations"]
     self.checkWinner()
+    if self.winner is not None:
+      self.sendStatus([self.turn] +  self.spectators)
+    else:
+      self.sendStatus(self.spectators)
+    self.animations = ["animations"]
     return True
 
   def checkWinner(self):
