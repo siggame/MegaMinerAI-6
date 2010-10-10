@@ -76,7 +76,7 @@ class Match(DefaultGameWorld):
       obj.nextTurn()
 
     self.checkWinner()
-    if self.winner is not None:
+    if self.winner is None:
       self.sendStatus([self.turn] +  self.spectators)
     else:
       self.sendStatus(self.spectators)
