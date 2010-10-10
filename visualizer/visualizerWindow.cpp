@@ -6,7 +6,7 @@ using namespace std;
 
 VisualizerWindow::VisualizerWindow()
 {
-	setGeometry( 0, 0, 1200, 1000 );
+	setGeometry( 0, 0, 1280, 1024 );
 	createActions();
 	createMenus();
 	createLayout();
@@ -121,6 +121,9 @@ void VisualizerWindow::controlBarChanged(int frame)
 
 void VisualizerWindow::createLayout()
 {
+	// Remove awkward spacing around the edges
+	setContentsMargins( 0, 0, 0, 0 );
+	layout()->setContentsMargins( 0, 0, 0, 0 );
 	QGLFormat f = QGLFormat::defaultFormat();
 	f.setSampleBuffers(true);
 	QGLFormat::setDefaultFormat(f);
@@ -132,7 +135,7 @@ void VisualizerWindow::createLayout()
 
 	controlBar = new QSlider(Qt::Horizontal);
 	gameboard = new Gameboard(this);
-	QGroupBox *centralWidget = new QGroupBox;
+	QFrame *centralWidget = new QFrame;
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
@@ -153,6 +156,8 @@ void VisualizerWindow::createLayout()
 	bottomBar->setFixedHeight( 250 );
 
 	QVBoxLayout *vbox = new QVBoxLayout;
+	vbox->setContentsMargins( 0, 0, 0, 0 );
+	debugLayout->setContentsMargins( 0, 0, 0, 0 );
 
 	controlBar->setFixedHeight( 15 );
 	controlBar->setTickInterval( 50 );

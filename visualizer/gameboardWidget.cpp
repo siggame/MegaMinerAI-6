@@ -105,12 +105,12 @@ void Gameboard::paintGL()
 
 	glTexCoord2f( 0, 0 );
 	glVertex3f( 0, 0, 0 );
-	glTexCoord2f( 16, 0 );
-	glVertex3f( 1024, 0, 0 );
-	glTexCoord2f( 16, 8 );
-	glVertex3f( 1024, 512, 0 );
-	glTexCoord2f( 0, 8 );
-	glVertex3f( 0, 512, 0 );
+	glTexCoord2f( 20, 0 );
+	glVertex3f( 1280, 0, 0 );
+	glTexCoord2f( 20, 10 );
+	glVertex3f( 1280, 640, 0 );
+	glTexCoord2f( 0, 10 );
+	glVertex3f( 0, 640, 0 );
 
 	glEnd();
 
