@@ -100,6 +100,25 @@ static void parseFrame(Frame& object, sexp_t* expression)
   sub = sub->next;
   
 }
+static void parseWall(Wall& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  sub = expression->list;
+  
+  object.id = atoi(sub->val);
+  sub = sub->next;
+  object.x = atoi(sub->val);
+  sub = sub->next;
+  object.y = atoi(sub->val);
+  sub = sub->next;
+  object.owner = atoi(sub->val);
+  sub = sub->next;
+  object.health = atoi(sub->val);
+  sub = sub->next;
+  object.maxHealth = atoi(sub->val);
+  sub = sub->next;
+  
+}
 static void parseType(Type& object, sexp_t* expression)
 {
   sexp_t* sub;
@@ -284,6 +303,18 @@ static bool parseSexp(Game& game, sexp_t* expression)
           Frame object;
           parseFrame(object, sub);
           gs.frames.push_back(object);
+          
+          sub = sub->next;
+        }
+      }
+      else if(string(sub->val) == "Wall")
+      {
+        sub = sub->next;
+        while(sub)
+        {
+          Wall object;
+          parseWall(object, sub);
+          gs.walls.push_back(object);
           
           sub = sub->next;
         }

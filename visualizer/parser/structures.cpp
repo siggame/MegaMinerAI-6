@@ -63,6 +63,18 @@ std::ostream& operator<<(std::ostream& stream, Frame ob)
 }
 
 
+std::ostream& operator<<(std::ostream& stream, Wall ob)
+{
+  stream << "id: " << ob.id  <<'\n';
+  stream << "x: " << ob.x  <<'\n';
+  stream << "y: " << ob.y  <<'\n';
+  stream << "owner: " << ob.owner  <<'\n';
+  stream << "health: " << ob.health  <<'\n';
+  stream << "maxHealth: " << ob.maxHealth  <<'\n';
+  return stream;
+}
+
+
 std::ostream& operator<<(std::ostream& stream, Type ob)
 {
   stream << "id: " << ob.id  <<'\n';
@@ -177,6 +189,9 @@ std::ostream& operator<<(std::ostream& stream, GameState ob)
     stream << *i << '\n';
   stream << "\n\nFrames:\n";
   for(std::vector<Frame>::iterator i = ob.frames.begin(); i != ob.frames.end(); i++)
+    stream << *i << '\n';
+  stream << "\n\nWalls:\n";
+  for(std::vector<Wall>::iterator i = ob.walls.begin(); i != ob.walls.end(); i++)
     stream << *i << '\n';
   stream << "\n\nTypes:\n";
   for(std::vector<Type>::iterator i = ob.types.begin(); i != ob.types.end(); i++)
