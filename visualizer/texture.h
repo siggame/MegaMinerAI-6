@@ -8,10 +8,7 @@ private:
 	QImage buffer;
 	unsigned int texId;
 public:
-	void loadImage( const char *path );
+        bool loadImage( const char *path );
 	int getTexture();
-
-
-
 
 };

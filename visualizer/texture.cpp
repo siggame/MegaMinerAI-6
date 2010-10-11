@@ -1,12 +1,24 @@
 #include "texture.h"
 #include <QPainter>
+#include <iostream>
 
-void texture::loadImage( const char *path )
+bool texture::loadImage( const char *path )
 {
-	buffer.load( path );
+        if (path == NULL)
+        {
+            std::cout << "Load Texture Error: No Path\n";
+            return false;
+        }
+
+        if (!buffer.load( path ))
+        {
+            std::cout << "Load Texture Error: File would not load\n";
+            return false;
+        }
 
 	QImage fixed( buffer.width(), buffer.height(), QImage::Format_ARGB32 );
 	QPainter painter(&fixed);
+
 	painter.setCompositionMode(QPainter::CompositionMode_Source);
 	painter.fillRect( fixed.rect(), Qt::transparent );
 	painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -24,7 +36,7 @@ void texture::loadImage( const char *path )
 	glTexImage2D( GL_TEXTURE_2D, 0, 4, texture.width(), texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.bits() );
 
 
-
+        return true;
 }
 
 int texture::getTexture()
