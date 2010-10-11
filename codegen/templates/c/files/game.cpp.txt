@@ -226,7 +226,10 @@ DLLEXPORT int networkLoop(Connection* c)
   while(true)
   {
     sexp_t* base, *expression, *sub, *subsub;
-    base = extract_sexpr(rec_string(c->socket));
+    char* message = rec_string(c->socket);
+    string text = message;
+    base = extract_sexpr(message);
+    delete[] message;
     expression = base->list;
     if(expression->val != NULL && strcmp(expression->val, "game-winner") == 0)
     {
@@ -326,6 +329,10 @@ DLLEXPORT int networkLoop(Connection* c)
 % endfor
       }
       return 1;
+    }
+    else
+    {
+      cerr << "Unrecognized message: " << text << endl;
     }
   }
 }
