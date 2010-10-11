@@ -13,7 +13,7 @@ Gameboard::Gameboard( QWidget *prt )
 
 	initializeGL();
 	// This makes it about 50 Frames Per Second
-	timerId = startTimer(20);
+	timerId = startTimer(15);
 	parent = ((VisualizerWindow*)prt);
 	time.start();
   //setFixedSize(500,500);
@@ -86,19 +86,71 @@ void Gameboard::resizeGL( int w, int h )
 	glLoadIdentity();
 }
 
+
+void Gameboard::drawBots()
+{
+	
+	int frame = getAttr(frameNumber);
+	int unitSize = getAttr( unitSize );
+
+	int x0, y0, x1, y1;
+	float falloff = 0;
+
+	if( parent->gamelog )
+	{
+
+		Game *game = parent->gamelog;
+		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
+		{
+
+			time.restart();
+			if( frame < (int)game->states.size() )
+				setAttr( frameNumber, ++frame );
+			parent->controlBar->blockSignals(true);
+			parent->controlBar->setSliderPosition( frame );
+			parent->controlBar->blockSignals(false);
+		}
+
+		falloff = (float)time.elapsed()/getAttr(playSpeed);
+
+		for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
+		{
+			
+			x0 = x1 = i->x*unitSize;
+			y0 = y1 = i->y*unitSize;
+			if( frame+1 < game->states.size() )
+			{
+				
+				for( std::vector<Bot>::iterator j = game->states[frame+1].bots.begin(); j!= game->states[frame+1].bots.end(); j++ )
+				{
+					if( j->id == i->id )
+					{
+						x1 = j->x*unitSize;
+						y1 = j->y*unitSize;
+						break;
+					}
+				}
+				
+				
+			} 
+
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_SPRITE );
+
+		} 
+	}
+
+	
+}
+
 void Gameboard::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	int frame = getAttr(frameNumber);
-
-	glEnable( GL_TEXTURE_2D );
-
-	glBindTexture( GL_TEXTURE_2D, textures[T_SPRITE].getTexture() );
 
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 
+	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, textures[T_BG].getTexture() );
 
 	glBegin( GL_QUADS );
@@ -114,30 +166,7 @@ void Gameboard::paintGL()
 
 	glEnd();
 
-	
-	if( parent->gamelog )
-	{
-
-		Game *game = parent->gamelog;
-		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
-		{
-
-			time.restart();
-			if( frame < (int)game->states.size() )
-				setAttr( frameNumber, ++frame );
-			parent->controlBar->blockSignals(true);
-			parent->controlBar->setSliderPosition( frame );
-			parent->controlBar->blockSignals(false);
-		}
-		for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
-		{
-			drawSprite( i->x*32,i->y*32,32,32, T_SPRITE );
-
-		} 
-	}
-
-	
-
+	drawBots();
 }	
 
 

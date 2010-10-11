@@ -34,6 +34,7 @@ protected:
 	void resizeGL( int width, int height );
 	void paintGL();
 	void timerEvent( QTimerEvent * );
+	void drawBots();
 
 	void drawSprite( int x, int y, int h, int w, int texture );
 

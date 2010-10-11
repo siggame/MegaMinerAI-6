@@ -10,6 +10,8 @@ visettings::visettings()
 
 	dragging = false;
 
+	unitSize = 32;
+
 
 }
 
