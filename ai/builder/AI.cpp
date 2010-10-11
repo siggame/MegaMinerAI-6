@@ -31,12 +31,31 @@ char* direction[] = {"left","right","up","down"};
 bool AI::run()
 {
   cout<<"Turn: "<<turnNumber()<<endl;
+  for(unsigned int i=0;i<bots.size();i++)
+  {
+    if(bots[i].x()<0 || bots[i].y()<0 || bots[i].x()>boardX() ||bots[i].y()>boardY())
+    {
+      cout<<"Bot out of bounds At: "<<bots[i].x()<<","<<bots[i].y()<<endl;
+      return true;
+    }
+    for(unsigned int j=0;j<bots.size();j++)
+    {
+      if(bots[i].x()==bots[j].x() && bots[i].y()==bots[j].y() && i != j)
+      {
+        cout<<"Stacking bots: "<<bots[i].id()<<"-"<<bots[j].id()<<" At: "<<bots[i].x()<<","<<bots[i].y()<<endl;
+        return true;
+      }
+    }
+  }
   for(unsigned int b=0;b<bots.size();b++)
   {
     if(bots[b].owner()==playerID())
     {
-      cout<<"\tBot At ("<<bots[b].x()<<","<<bots[b].y()<<")"<<endl;
-      bots[b].move(direction[rand()%4]);
+      if(bots[b].actions()>0)
+      {
+        int d=rand()%5;
+        bots[b].build(types[1],bots[b].x()+xMod[d],bots[b].y()+yMod[d],1);
+      }
     }
   }
   return true;
