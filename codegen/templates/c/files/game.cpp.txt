@@ -308,7 +308,7 @@ DLLEXPORT int networkLoop(Connection* c)
             {
 %     for datum in model.data:
 %       if datum.type == str:
-              delete[] c->${model.plural}->${datum.name};
+              delete[] c->${model.plural}[i].${datum.name};
 %       endif
 %     endfor
             }
