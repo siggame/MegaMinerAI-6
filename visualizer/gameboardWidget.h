@@ -14,7 +14,8 @@ class VisualizerWindow;
 //#define numTextures 2
 enum textures
 {
-	T_SPRITE = 0,
+	T_RED = 0,
+  T_BLUE,
 	T_BG,
 
 	numTextures

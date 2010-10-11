@@ -40,7 +40,8 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-	textures[T_SPRITE].loadImage( "megaman.png" );
+	textures[T_RED].loadImage( "megaman.png" );
+  textures[T_BLUE].loadImage( "megamanblue.png" );
 	textures[T_BG].loadImage( "background.png" );
 
 	
@@ -134,7 +135,10 @@ void Gameboard::drawBots()
 				
 			} 
 
-			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_SPRITE );
+      int sprite = T_RED;
+      if( i->owner == 1 )
+        sprite = T_BLUE;
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
 
 		} 
 	}
