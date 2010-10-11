@@ -86,6 +86,8 @@ class Match(DefaultGameWorld):
     #TODO: START STUFF
 
     self.turnNumber = -1
+    
+    #self.sendIdent(self.players + self.spectators)
 
     self.nextTurn()
     return True
