@@ -1,0 +1,12 @@
+To use, create a folder in this directory.  
+Copy the AI.cpp and Makefile from this directory into that folder.
+Edit your copy of AI.cpp any way you want.
+
+ENSURE CODGEN HAS BEEN RUN SINCE THE LAST git pull
+
+Call make in your new folder
+Run the client in your forlder
+
+The end.
+
+
