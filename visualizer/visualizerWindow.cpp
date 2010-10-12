@@ -97,7 +97,7 @@ void VisualizerWindow::clearBackground()
 
 void VisualizerWindow::loadBackground()
 {
-   QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png; *.jpg; *.bmp)" );
+   QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png)" );
 
    if ( filename == tr("") )
       return;

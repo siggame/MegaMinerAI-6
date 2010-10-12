@@ -41,12 +41,81 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-        if ( !textures[T_RED].loadImage( "megaman.png" ) ||
-             !textures[T_BLUE].loadImage( "megamanblue.png" ) ||
-             !textures[T_DEFAULTBG].loadImage( "background.png" )||
-             !textures[T_GRID].loadImage( "grid.png" ))
+        //todo: filenames should come from a config file
+        bool flag = false;
+        QString errString;
+
+        if ( !textures[T_RED].loadImage( "megaman.png" ) )
         {
-            QMessageBox::critical(this,"Error","Default textures failed to load.");
+            errString += "megaman.png";
+            flag = true;
+        }
+
+
+        if ( !textures[T_BLUE].loadImage( "megamanblue.png" ) )
+        {
+            if (flag)
+            {
+                errString += ", ";
+            }
+            flag = true;
+            errString += "megamanblue.png";
+
+        }
+
+        if( !textures[T_DEFAULTBG].loadImage( "background.png" ) )
+        {
+            if (flag)
+            {
+                errString += ", ";
+            }
+            flag = true;
+            errString += "background.png";
+        }
+
+        if ( !textures[T_GRID].loadImage( "grid.png" ) )
+        {
+            if (flag)
+            {
+                errString += ", ";
+            }
+            flag = true;
+            errString += "grid.png";
+        }
+
+        if ( !textures[T_WALL].loadImage( "wall.png" ) )
+        {
+            if (flag)
+            {
+                errString += ", ";
+            }
+            flag = true;
+            errString += "wall.png";
+        }
+
+        if ( !textures[T_BLUEFRAME].loadImage( "frameblue.png" ) )
+        {
+            if (flag)
+            {
+                errString += ", ";
+            }
+            flag = true;
+            errString += "frameblue.png";
+        }
+
+        if ( !textures[T_REDFRAME].loadImage( "framered.png" ) )
+        {
+            if (flag)
+            {
+                errString += ", ";
+            }
+            flag = true;
+            errString += "framered.png";
+        }
+
+        if (flag)
+        {
+            QMessageBox::critical(this,"Error",tr("Default textures failed to load: ") + errString);
         }
 
 	
@@ -152,6 +221,121 @@ void Gameboard::drawBots()
 	
 }
 
+//todo: naming is bad, game frames and frame bots are too similar
+void Gameboard::drawFrames()
+{
+
+    int frame = getAttr(frameNumber);
+    int unitSize = getAttr( unitSize );
+
+    int x0, y0, x1, y1;
+    float falloff = 0;
+
+    if( parent->gamelog )
+    {
+
+        Game *game = parent->gamelog;
+
+        if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
+        {
+
+            time.restart();
+            if( frame < (int)game->states.size() )
+                setAttr( frameNumber, ++frame );
+
+            parent->controlBar->blockSignals(true);
+            parent->controlBar->setSliderPosition( frame );
+            parent->controlBar->blockSignals(false);
+        }
+
+        falloff = (float)time.elapsed()/getAttr(playSpeed);
+
+        for( std::vector<Frame>::iterator i = game->states[frame].frames.begin(); i != game->states[frame].frames.end(); i++ )
+        {
+
+            x0 = x1 = i->x*unitSize;
+            y0 = y1 = i->y*unitSize;
+            if( frame+1 < game->states.size() )
+            {
+
+                for( std::vector<Frame>::iterator j = game->states[frame+1].frames.begin(); j!= game->states[frame+1].frames.end(); j++ )
+                {
+                    if( j->id == i->id )
+                    {
+                        x1 = j->x*unitSize;
+                        y1 = j->y*unitSize;
+                        break;
+                    }
+                }
+            }
+
+            int sprite = T_REDFRAME;
+
+            if( i->owner == 1 )
+                sprite = T_BLUEFRAME;
+
+            drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
+
+        }
+    }
+}
+
+//Warning this has been hacked from the drawbots function
+void Gameboard::drawWalls()
+{
+
+    int frame = getAttr( frameNumber );
+    int unitSize = getAttr( unitSize );
+
+    int x0, y0, x1, y1;
+    float falloff = 0;
+
+    if( parent->gamelog )
+    {
+
+        Game *game = parent->gamelog;
+
+        if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
+        {
+
+            time.restart();
+            if( frame < (int)game->states.size() )
+                setAttr( frameNumber, ++frame );
+
+            parent->controlBar->blockSignals(true);
+            parent->controlBar->setSliderPosition( frame );
+            parent->controlBar->blockSignals(false);
+        }
+
+        falloff = (float)time.elapsed()/getAttr(playSpeed);
+
+
+        for( std::vector<Wall>::iterator i = game->states[frame].walls.begin(); i != game->states[frame].walls.end(); i++ )
+        {
+
+            x0 = x1 = i->x;
+            y0 = y1 = i->y;
+            if( frame+1 < game->states.size() )
+            {
+
+                for( std::vector<Wall>::iterator j = game->states[frame+1].walls.begin(); j!= game->states[frame+1].walls.end(); j++ )
+                {
+                    if( j->id == i->id )
+                    {
+                        x1 = j->x;
+                        y1 = j->y;
+                        break;
+                    }
+                }
+            }
+
+            drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL );
+
+        }
+    }
+
+}
+
 void Gameboard::drawBackground()
 {
     if ( hasDefaultBG || (!hasDefaultBG && hasMapGrid ) )
@@ -206,13 +390,16 @@ void Gameboard::drawBackground()
         }
         glBegin( GL_QUADS );
 
-        glTexCoord2f( 0, 0 );
-        glVertex3f( 0, 0, 0 );
-        glTexCoord2f( 1, 0 );
-        glVertex3f( width, 0, 0 );
-        glTexCoord2f( 1, 1 );
-        glVertex3f( width, height, 0 );
         glTexCoord2f( 0, 1 );
+        glVertex3f( 0, 0, 0 );
+
+        glTexCoord2f( 1, 1 );
+        glVertex3f( width, 0, 0 );
+
+        glTexCoord2f( 1, 0 );
+        glVertex3f( width, height, 0 );
+
+        glTexCoord2f( 0, 0 );
         glVertex3f( 0, height, 0 );
 
         glEnd();
@@ -232,7 +419,9 @@ void Gameboard::paintGL()
 
         drawBackground();
 
-	drawBots();
+        drawWalls();
+        drawBots();
+        drawFrames();
 }	
 
 

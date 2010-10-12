@@ -18,7 +18,10 @@ enum textures
     T_BLUE,
     T_BG,
     T_DEFAULTBG,
+    T_REDFRAME,
+    T_BLUEFRAME,
     T_GRID,
+    T_WALL,
 
     numTextures
 
@@ -44,6 +47,8 @@ protected:
 	void timerEvent( QTimerEvent * );
 	void drawBots();
         void drawBackground();
+        void drawWalls();
+        void drawFrames();
 
 	void drawSprite( int x, int y, int h, int w, int texture );
 
