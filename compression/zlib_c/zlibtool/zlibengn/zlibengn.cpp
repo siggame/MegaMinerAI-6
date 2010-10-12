@@ -55,7 +55,7 @@ int ZlibEngine::compress( const char *input,
     fout = fopen( output, "wb" );
     length = filelength( fileno( fin ) );
     deflateInit( this, level );
-    for ( ; ; ) {
+    for ( ; ; ) { //I'm going to guess this is a while loop
         if ( m_AbortFlag )
             break;
         if ( !load_input() )
@@ -66,7 +66,7 @@ int ZlibEngine::compress( const char *input,
             break;
         progress( percent() );
     }
-    for ( ; ; ) {
+    for ( ; ; ) { 
         if ( m_AbortFlag )
             break;
         err = deflate( this, Z_FINISH );

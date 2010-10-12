@@ -22,7 +22,7 @@ extern "C" {
 }
 
 #include <stdio.h>
-#include <io.h>
+//#include <io.h>
 
 class ZlibEngine : public z_stream {
     public :
