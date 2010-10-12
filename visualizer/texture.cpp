@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <iostream>
 
-bool texture::loadImage( const char *path )
+bool texture::loadImage( QString path )
 {
         if (path == NULL)
         {
@@ -10,11 +10,14 @@ bool texture::loadImage( const char *path )
             return false;
         }
 
+        QImage buffer;
+
         if (!buffer.load( path ))
         {
             std::cout << "Load Texture Error: File would not load\n";
             return false;
         }
+
 
 	QImage fixed( buffer.width(), buffer.height(), QImage::Format_ARGB32 );
 	QPainter painter(&fixed);
@@ -23,7 +26,8 @@ bool texture::loadImage( const char *path )
 	painter.fillRect( fixed.rect(), Qt::transparent );
 	painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 	painter.drawImage( 0, 0, buffer );
-	painter.end();
+        painter.end();
+
  	
 	texture = QGLWidget::convertToGLFormat( fixed );
 	glGenTextures( 1, &texId );
@@ -42,4 +46,14 @@ bool texture::loadImage( const char *path )
 int texture::getTexture()
 {
 	return texId;
+}
+
+int texture::getWidth()
+{
+    return texture.width();
+}
+
+int texture::getHeight()
+{
+    return texture.height();
 }

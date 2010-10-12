@@ -218,6 +218,7 @@ std::ostream& operator<<(std::ostream& stream, GameState ob)
     if((**i).type == TALK)
       stream << *((Talk*)*i) << "\n";
   }
+  return stream;
 }
 
 Game::Game()

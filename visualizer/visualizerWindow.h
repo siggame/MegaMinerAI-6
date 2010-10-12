@@ -30,7 +30,7 @@ class VisualizerWindow: public QMainWindow
 public:
 	VisualizerWindow();
 	GameState *getFrame( int frame = -1 );
-	void loadGamelog( char *filename );
+        bool loadGamelog( char *filename );
 
 	Game *gamelog;
 	QSlider *controlBar;
@@ -44,6 +44,9 @@ private slots:
 	void closeGamelog();
 	void exitProgram(); 
 	void toggleFullScreen();
+        void toggleMapGrid();
+        void loadBackground();
+        void clearBackground();
 
 // Help File
 	void viewGameDocs();
@@ -73,6 +76,10 @@ private:
 	QAction *openGameAct;
 	QAction *closeGameAct;
 	QAction *toggleFullScreenAct;
+        QAction *toggleMapGridAct;
+        QAction *loadBackgroundAct;
+        QAction *clearBackgroundAct;
+
 	QAction *exitAct;
 
 

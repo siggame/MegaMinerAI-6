@@ -4,11 +4,14 @@
 class texture
 {
 private:
-	QImage texture;
-	QImage buffer;
+        QImage texture;
 	unsigned int texId;
 public:
-        bool loadImage( const char *path );
+        bool loadImage( QString path );
+
+        int getWidth();
+        int getHeight();
+
 	int getTexture();
 
 };

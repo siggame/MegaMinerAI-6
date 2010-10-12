@@ -38,14 +38,24 @@ GameState *VisualizerWindow::getFrame( int frame )
 	return &gamelog->states[frame];
 }
 
-void VisualizerWindow::loadGamelog( char *filename )
+bool VisualizerWindow::loadGamelog( char *filename )
 {
-		if( gamelog )
-			delete gamelog;
-		gamelog = new Game;
-    parseFile( *gamelog, filename  );
+    Game * temp = new Game;
 
-		controlBar->setMaximum( gamelog->states.size() );
+    if ( filename == NULL )
+        return false;
+
+    if ( !parseFile( *temp, filename ) )
+        return false;
+
+    if( gamelog )
+            delete gamelog;
+
+    gamelog = temp;
+
+    controlBar->setMaximum( gamelog->states.size() );
+
+    return true;
 }
 
 void VisualizerWindow::openGamelog()
@@ -57,7 +67,10 @@ void VisualizerWindow::openGamelog()
     //todo: argument 4 should have the actual extention of a game log
        QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
 
-			 loadGamelog( (char *)fileName.toLocal8Bit().constData() );
+       if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
+       {
+            QMessageBox::critical(this,"Error","Game Log Failed to Open");
+       }
 
 }
 
@@ -70,6 +83,30 @@ void VisualizerWindow::toggleFullScreen()
 		showNormal();
 	fullScreen = !fullScreen;
 	show();
+}
+
+void VisualizerWindow::toggleMapGrid()
+{
+    gameboard->toggleMapGrid();
+}
+
+void VisualizerWindow::clearBackground()
+{
+    gameboard->clearBackground();
+}
+
+void VisualizerWindow::loadBackground()
+{
+   QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png; *.jpg; *.bmp)" );
+
+   if ( filename == tr("") )
+      return;
+
+   if ( !gameboard->loadBackground( filename ) )
+   {
+       QMessageBox::critical( this, "Error", "The file you selected for a background wouldn't load" );
+   }
+
 }
 
 void VisualizerWindow::closeGamelog()
@@ -98,6 +135,10 @@ void VisualizerWindow::createMenus()
 
 	viewMenu = menuBar()->addMenu(tr("&View"));
 	viewMenu->addAction(toggleFullScreenAct);
+        viewMenu->addAction(toggleMapGridAct);
+        viewMenu->addAction(loadBackgroundAct);
+        viewMenu->addAction(clearBackgroundAct);
+
 
 	helpMenu = menuBar()->addMenu(tr("&Help"));
 	helpMenu->addAction(viewGameDocsAct);
@@ -206,6 +247,21 @@ void VisualizerWindow::createActions()
 	toggleFullScreenAct->setStatusTip( tr("Toggle Fullscreen Mode") );
 	connect( toggleFullScreenAct, SIGNAL(triggered()), this, SLOT(toggleFullScreen()) );
 
+        //todo: give this a shortcut key
+        toggleMapGridAct = new QAction( tr("Toggle Grid"), this );
+        toggleMapGridAct->setCheckable( true );
+        toggleMapGridAct->setStatusTip( tr("Toggle the grid on the map") );
+        connect( toggleMapGridAct, SIGNAL(triggered()), this, SLOT(toggleMapGrid()) );
+
+
+        loadBackgroundAct = new QAction( tr("Load Background"), this );
+        loadBackgroundAct->setStatusTip( tr("Load a new picture as the background") );
+        connect( loadBackgroundAct, SIGNAL(triggered()), this, SLOT(loadBackground()) );
+
+
+        clearBackgroundAct = new QAction( tr("Clear Background"), this );
+        clearBackgroundAct->setStatusTip( tr("Go back to the default background") );
+        connect( clearBackgroundAct, SIGNAL(triggered()), this, SLOT(clearBackground()) );
 
 }
 

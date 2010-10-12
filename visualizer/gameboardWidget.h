@@ -14,11 +14,13 @@ class VisualizerWindow;
 //#define numTextures 2
 enum textures
 {
-	T_RED = 0,
-  T_BLUE,
-	T_BG,
+    T_RED = 0,
+    T_BLUE,
+    T_BG,
+    T_DEFAULTBG,
+    T_GRID,
 
-	numTextures
+    numTextures
 
 };
 
@@ -30,12 +32,18 @@ public:
 	Gameboard( QWidget *parent );
 	~Gameboard();
 
+        void toggleMapGrid();
+
+        bool loadBackground( QString filename );
+        void clearBackground();
+
 protected:
 	void initializeGL();
 	void resizeGL( int width, int height );
 	void paintGL();
 	void timerEvent( QTimerEvent * );
 	void drawBots();
+        void drawBackground();
 
 	void drawSprite( int x, int y, int h, int w, int texture );
 
@@ -44,6 +52,9 @@ protected:
 	VisualizerWindow *parent;
 	
 	QTime time;
+
+        bool hasMapGrid;
+        bool hasDefaultBG; //default background
 
 private:
 	int timerId;
