@@ -5,7 +5,7 @@ import com.sun.jna.Native;
 public interface Client extends Library {
   Client INSTANCE = (Client)Native.loadLibrary("client", Client.class);
   Pointer createConnection();
-  int open_server_connection(Pointer connection, String host, String port);
+  boolean serverConnect(Pointer connection, String host, String port);
 
   boolean serverLogin(Pointer connection, String username, String password);
   int createGame(Pointer connection);
