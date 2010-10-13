@@ -10,9 +10,13 @@ class GameObject(object):
     self.ptr = ptr
     self.iteration = BaseAI.iteration
 
-%for model in models:
+% for model in models:
 
+%   if model.parent:
+class ${model.name}(${model.parent.name}):
+%   else:
 class ${model.name}(GameObject):
+%   endif
 %  if model.doc:
   """${model.doc}
   """
@@ -22,45 +26,48 @@ class ${model.name}(GameObject):
     self.ptr = ptr
     self.iteration = BaseAI.iteration
     
-    self.ID = library.${lowercase(model.name)}Get${capitalize(model.key)}(ptr)
-  
+    self.ID = library.${lowercase(model.name)}GetID(ptr)
+
+%   if model.type == 'Model':
   def validify(self):
     from BaseAI import BaseAI
     #if this class is pointing to an object from before the current turn it's probably
     #somewhere else in memory now
     if self.iteration == BaseAI.iteration:
       return True
-    for i in BaseAI.${lowercase(model.name)}s:
+    for i in BaseAI.${lowercase(model.plural)}:
       if i.ID == self.ID:
         self.ptr = i.ptr
         self.iteration = BaseAI.iteration
         return True
     raise ExistentialError()
-%  for func in model.functions.keys():
-  def ${func}(self\
-%    for arg in model.functions[func]:
-, ${arg[0]}\
+%   endif
+
+%  for func in model.functions:
+  def ${func.name}(self\
+%    for arg in func.arguments:
+, ${arg.name}\
 %    endfor
 ):
     self.validify()
-%    for arg in model.functions[func]:
-%      if isinstance(arg[1], Model):
-    if ${arg[0]}.__class__ not in [${arg[1].name}]:
-      raise TypeError('${arg[0]} should be of [${arg[1].name}]')
-    ${arg[0]}.validify()
+%    for arg in func.arguments:
+%      if isinstance(arg.type, Model):
+    if ${arg.name}.__class__ not in [${arg.type.name}]:
+      raise TypeError('${arg.name} should be of [${arg.type.name}]')
+    ${arg.name}.validify()
 %      endif
 %    endfor
-    return library.${lowercase(model.name)}${capitalize(func)}(self.ptr\
-%    for arg in model.functions[func]:
-, ${arg[0]}\
+    return library.${lowercase(model.name)}${capitalize(func.name)}(self.ptr\
+%    for arg in func.arguments:
+, ${arg.name}\
 %    endfor
 )
 
 %  endfor
-%  for key in model.data.keys():
-  def get${capitalize(key)}(self):
+%  for datum in model.data:
+  def get${capitalize(datum.name)}(self):
     self.validify()
-    return library.${lowercase(model.name)}Get${capitalize(key)}(self.ptr)
+    return library.${lowercase(model.name)}Get${capitalize(datum.name)}(self.ptr)
 
 %  endfor
 %endfor

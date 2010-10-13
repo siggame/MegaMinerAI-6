@@ -4,7 +4,7 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include "sexp/sexp.h"
+#include "sexp/sfcompat.h"
 
 #ifdef WIN32
 #define DLLEXPORT extern "C" __declspec(dllexport)

@@ -1,4 +1,5 @@
 #!/bin/env python
+# -*- coding: iso-8859-1 -*-
 # -*-python-*-
 
 from library import library
@@ -12,28 +13,30 @@ def main():
     print "Please enter a host name."
     exit(1)
     
-  ai = AI()
+  connection = library.createConnection();
+  
+  ai = AI(connection)
     
-  socket = library.open_server_connection(sys.argv[1], "19000")
-  if socket == -1:
+  success = library.serverConnect(sys.argv[1], "19000")
+  if not success:
     sys.stderr.write("Unable to connect to server\n")
     exit(1)
   
-  if not library.serverLogin(socket, ai.username(), ai.password()):
+  if not library.serverLogin(connection, ai.username(), ai.password()):
     exit(1)
   
   if len(sys.argv) < 3:
-    socket = library.createGame()
+    library.createGame()
   else:
-    socket = library.joinGame(int(sys.argv[2]))
-  while library.networkLoop(socket, 0):
+    library.joinGame(int(sys.argv[2]))
+  while library.networkLoop(connection):
     if ai.startTurn():
       library.endTurn()
     else:
       library.getStatus()
   
   #request the log file
-  while library.networkLoop(socket, 0):
+  while library.networkLoop(connection):
     pass
   exit(0)
 
