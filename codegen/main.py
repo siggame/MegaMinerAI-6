@@ -34,10 +34,10 @@ if __name__ == '__main__':
   
   import writeJava
   writeJava.write(objects)
-  """
+  
   import writePython
   writePython.write(objects)
-  """
+  
   
   import writeVisualizer
   writeVisualizer.write(objects)
