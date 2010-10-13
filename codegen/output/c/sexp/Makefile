@@ -1,21 +1,24 @@
-sources = $(wildcard *.c)
-objects = $(sources:%.c=%.o)
-libclient_objects = $(sources:%.c=libclient_%.o)
-deps = $(sources:%.c=%.d)
+sources = lex.yy.cpp $(wildcard *.cpp)
+objects = $(sources:%.cpp=%.o)
+libclient_objects = $(sources:%.cpp=libclient_%.o)
+deps = $(sources:%.cpp=%.d)
 
 all: sexp.a libclient_sexp.a
 
 clean:
 	rm -f $(objects) $(libclient_objects) $(deps) sexp.a libclient_sexp.a
 
-%.d: %.c
+lex.yy.cpp: sexp.l
+	 flex --outfile=lex.yy.cpp --header-file=lex.yy.h sexp.l
+
+%.d: %.cpp
 	@set -e; rm -f $@; \
 	(dirname $< | tr '\n' '/'; $(CC) -MM $(CPPFLAGS) $<) > $@.$$$$; \
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
 	rm -f $@.$$$$
 
 libclient_%.o: override CFLAGS += -fPIC
-libclient_%.o: %.c %.d
+libclient_%.o: %.cpp %.d
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 .PHONY: clean all

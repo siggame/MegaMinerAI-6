@@ -87,7 +87,7 @@ class Match(DefaultGameWorld):
 
     self.turnNumber = -1
     
-    #self.sendIdent(self.players + self.spectators)
+    self.sendIdent(self.players + self.spectators)
 
     self.nextTurn()
     return True

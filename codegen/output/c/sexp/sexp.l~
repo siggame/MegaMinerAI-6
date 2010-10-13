@@ -1,0 +1,39 @@
+%option noyywrap
+
+%{
+#ifndef YYSTYPE
+#define YYSTYPE int
+#endif
+#define END 0
+#define STRING 1
+#define TOKEN 2
+#define LPAREN 3
+#define RPAREN 4
+
+#include <iostream>
+using namespace std;
+
+%}  
+
+%%
+
+L?\"(\\.|[^\\"])*\"  {return STRING;}
+[a-zA-Z0-9.]+         {return TOKEN;}
+[ \t\n\r]            {}
+\(                   {return LPAREN;}
+\)                   {return RPAREN;}
+<<EOF>>              {return END;}
+
+%%
+
+/*
+int main(int argc, char** argv)
+{
+  int val;
+  while(val = yylex())
+  {
+    //cout << val << "\t" << yytext << endl;
+  }
+  return 0;
+}
+*/

@@ -14,8 +14,7 @@
 #include "network.h"
 #include "structures.h"
 
-#include "sexp/sexp.h"
-#include "sexp/sexp_ops.h"
+#include "sexp/sfcompat.h"
 
 #include <stdio.h>
 #include <stdlib.h>
