@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 #include <assert.h>
 
 #ifdef WIN32
@@ -191,17 +192,6 @@ DLLEXPORT char* rec_string(int socket)
 }
 
 /*                                      sexpr functions                                       */
-DLLEXPORT sexp_t* extract_sexpr(const char* sexpr)
-{
-  static sexp_t* st = NULL;
-  if(st != NULL)
-  {
-    destroy_sexp(st);
-    st = NULL;
-  }
-  st = parse_sexp( (char*) sexpr, strlen(sexpr) );
-  return st;
-}
 
 DLLEXPORT char* escape_string(const char* string)
 {
