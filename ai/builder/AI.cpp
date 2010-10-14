@@ -32,6 +32,10 @@ char* direction[] = {"left","right","up","down"};
 bool AI::run()
 {
   cout<<"Turn: "<<turnNumber()<<endl;
+  if(walls.size()==0)
+  {
+    cout<<"\t\t\tNO WALLS!"<<endl;
+  }
   for(unsigned int i=0;i<bots.size();i++)
   {
     if(bots[i].x()<0 || bots[i].y()<0 || bots[i].x()>boardX() ||bots[i].y()>boardY())
