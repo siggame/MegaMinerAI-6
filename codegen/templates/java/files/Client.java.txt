@@ -20,7 +20,7 @@ public interface Client extends Library {
     //commands
 % for  model in models:
 %   for func in model.functions:
-  boolean ${lowercase(model.name)}${capitalize(func.name)}(Pointer object\
+  int ${lowercase(model.name)}${capitalize(func.name)}(Pointer object\
 %     for arg in func.arguments:
 , \
 ${conversions[arg.type]} ${arg.name}\

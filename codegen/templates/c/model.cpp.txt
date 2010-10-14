@@ -21,7 +21,7 @@ ${conversions[datum.type]} ${model.name}::${datum.name}()
 %   endfor
 
 %   for func in model.functions:
-bool ${model.name}::${func.name}(\
+int ${model.name}::${func.name}(\
 %     for arg in func.arguments:
 %       if func.arguments[0] != arg:
 , \

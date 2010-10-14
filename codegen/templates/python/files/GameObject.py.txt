@@ -26,7 +26,7 @@ class ${model.name}(GameObject):
     self.ptr = ptr
     self.iteration = BaseAI.iteration
     
-    self.ID = library.${lowercase(model.name)}GetID(ptr)
+    self.ID = library.${lowercase(model.name)}GetId(ptr)
 
 %   if model.type == 'Model':
   def validify(self):
@@ -36,7 +36,7 @@ class ${model.name}(GameObject):
     if self.iteration == BaseAI.iteration:
       return True
     for i in BaseAI.${lowercase(model.plural)}:
-      if i.ID == self.ID:
+      if i.id == self.id:
         self.ptr = i.ptr
         self.iteration = BaseAI.iteration
         return True

@@ -38,7 +38,7 @@ class ${model.name}
     //commands
     
 % for func in model.functions:
-  boolean ${func.name}(\
+  int ${func.name}(\
 %   for arg in func.arguments:
 %     if func.arguments[0] is not arg:
 , \

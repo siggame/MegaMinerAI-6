@@ -57,13 +57,13 @@ DLLEXPORT Connection* createConnection()
   return c;
 }
 
-DLLEXPORT bool serverConnect(Connection* c, const char* host, const char* port)
+DLLEXPORT int serverConnect(Connection* c, const char* host, const char* port)
 {
   c->socket = open_server_connection(host, port);
-  return c->socket != -1;
+  return c->socket + 1; //false if socket == -1
 }
 
-DLLEXPORT bool serverLogin(Connection* c, const char* username, const char* password)
+DLLEXPORT int serverLogin(Connection* c, const char* username, const char* password)
 {
   string expr = "(login \"";
   expr += username;
@@ -84,10 +84,10 @@ DLLEXPORT bool serverLogin(Connection* c, const char* username, const char* pass
   {
     cerr << "Unable to login to server" << endl;
     destroy_sexp(expression);
-    return false;
+    return 0;
   }
   destroy_sexp(expression);
-  return true;
+  return 1;
 }
 
 DLLEXPORT int createGame(Connection* c)
@@ -156,7 +156,7 @@ DLLEXPORT void getStatus(Connection* c)
 % for model in models:
 %   for func in model.functions:
 
-DLLEXPORT bool ${model.name.lower()}${capitalize(func.name)}(${conversions[model]} object\
+DLLEXPORT int ${model.name.lower()}${capitalize(func.name)}(${conversions[model]} object\
 %     for arg in func.arguments:
 , \
 ${conversions[arg.type]} ${arg.name}\
@@ -178,7 +178,7 @@ ${conversions[arg.type]} ${arg.name}\
   LOCK( &object->_c->mutex);
   send_string(object->_c->socket, expr.str().c_str());
   UNLOCK( &object->_c->mutex);
-  return true;
+  return 1;
 }
 %   endfor
 

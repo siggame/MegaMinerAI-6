@@ -35,7 +35,7 @@ class ${model.name} \
 
   // Actions
 % for func in model.functions:
-  bool ${func.name}(\
+  int ${func.name}(\
 %   for arg in func.arguments:
 %     if func.arguments[0] != arg:
 , \

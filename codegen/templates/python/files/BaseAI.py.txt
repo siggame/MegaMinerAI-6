@@ -25,7 +25,7 @@ class BaseAI:
 
 % for model in models:
 %   if model.type == 'Model':
-    BaseAI.${lowercase(model.plural)} = [${model.name}(library.get${model.name}(self.connection, i)) for i in xrange(library.get${model.name}Count(self,connection))]
+    BaseAI.${lowercase(model.plural)} = [${model.name}(library.get${model.name}(self.connection, i)) for i in xrange(library.get${model.name}Count(self.connection))]
 %   endif
 % endfor
 

@@ -40,9 +40,9 @@ extern "C"
 {
 #endif
   DLLEXPORT Connection* createConnection();
-  DLLEXPORT bool serverConnect(Connection* c, const char* host, const char* port);
+  DLLEXPORT int serverConnect(Connection* c, const char* host, const char* port);
 
-  DLLEXPORT bool serverLogin(Connection* c, const char* username, const char* password);
+  DLLEXPORT int serverLogin(Connection* c, const char* username, const char* password);
   DLLEXPORT int createGame(Connection* c);
   DLLEXPORT int joinGame(Connection* c, int id);
 
@@ -55,7 +55,7 @@ extern "C"
 % for model in models:
 %   for func in model.functions:
   ///${func.doc}
-  DLLEXPORT bool ${model.name.lower()}${capitalize(func.name)}(${conversions[model]} object\
+  DLLEXPORT int ${model.name.lower()}${capitalize(func.name)}(${conversions[model]} object\
 %     for arg in func.arguments:
 , \
 ${conversions[arg.type]} ${arg.name}\
