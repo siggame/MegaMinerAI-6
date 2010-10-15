@@ -143,12 +143,6 @@ class Match(DefaultGameWorld):
   def talk(self, object, talk_string):
     return object.talk(talk_string, )
 
-
-  @derefArgs(Bot, None)
-  @requireOwn
-  def talk(self, object, talk_string):
-    return object.talk(talk_string, )
-
   @derefArgs(Bot, None)
   @requireOwn
   def move(self, object, direction):
@@ -173,11 +167,6 @@ class Match(DefaultGameWorld):
   @requireOwn
   def split(self, object):
     return object.split()
-
-  @derefArgs(Unit, None)
-  @requireOwn
-  def talk(self, object, talk_string):
-    return object.talk(talk_string, )
 
 
   def sendIdent(self, players):

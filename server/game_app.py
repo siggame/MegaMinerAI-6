@@ -103,16 +103,6 @@ class GameApp(AccountsAppMixin, BaseApp):
   @errorBuffer
   @requireTurn
   @requireTypes(None, int, str)
-  def gameTalk(self, bot, talk_string):
-    """"""
-    if self.game.turn is not self:
-      return "Not your turn."
-    return self.game.talk(bot, talk_string)
-
-  @protocolmethod
-  @errorBuffer
-  @requireTurn
-  @requireTypes(None, int, str)
   def gameMove(self, bot, direction):
     """"""
     if self.game.turn is not self:
@@ -168,16 +158,6 @@ class GameApp(AccountsAppMixin, BaseApp):
     if self.game.turn is not self:
       return "Not your turn."
     return self.game.split(bot)
-
-  @protocolmethod
-  @errorBuffer
-  @requireTurn
-  @requireTypes(None, int, str)
-  def gameTalk(self, frame, talk_string):
-    """"""
-    if self.game.turn is not self:
-      return "Not your turn."
-    return self.game.talk(frame, talk_string)
 
 
   @protocolmethod
