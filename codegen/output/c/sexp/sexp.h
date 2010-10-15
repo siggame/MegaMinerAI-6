@@ -1,5 +1,5 @@
-#ifndef SEXP_H
-#define SEXP_H
+#ifndef SEXP_SEXP_H
+#define SEXP_SEXP_H
 
 #include <iostream>
 

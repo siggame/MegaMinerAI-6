@@ -2,6 +2,9 @@ sources = lex.yy.cpp $(wildcard *.cpp)
 objects = $(sources:%.cpp=%.o)
 libclient_objects = $(sources:%.cpp=libclient_%.o)
 
+CFLAGS = -g
+CXXFLAGS= -g
+
 all: sexp.a libclient_sexp.a
 
 clean:

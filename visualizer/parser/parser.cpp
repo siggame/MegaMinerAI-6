@@ -1,7 +1,12 @@
 #include "parser.h"
 #include "sexp/sexp.h"
+#include "sexp/parser.h"
+#include "sexp/sfcompat.h"
+
+#include <iostream>
 
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 using namespace std;
@@ -148,7 +153,6 @@ static void parseType(Type& object, sexp_t* expression)
 static void parseAdd(Add& object, sexp_t* expression)
 {
   sexp_t* sub;
-
   sub = expression->list;
   
   sub = sub->next;
@@ -332,10 +336,6 @@ static bool parseSexp(Game& game, sexp_t* expression)
           sub = sub->next;
         }
       }
-      else
-      {
-          return false;
-      }
     }
     game.states.push_back(gs);
   }
@@ -352,57 +352,53 @@ static bool parseSexp(Game& game, sexp_t* expression)
         parseAdd(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "attack")
+      if(string(sub->val) == "attack")
       {
         Attack* animation = new Attack;
         parseAttack(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "build")
+      if(string(sub->val) == "build")
       {
         Build* animation = new Build;
         parseBuild(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "combine")
+      if(string(sub->val) == "combine")
       {
         Combine* animation = new Combine;
         parseCombine(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "heal")
+      if(string(sub->val) == "heal")
       {
         Heal* animation = new Heal;
         parseHeal(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "move")
+      if(string(sub->val) == "move")
       {
         Move* animation = new Move;
         parseMove(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "remove")
+      if(string(sub->val) == "remove")
       {
         Remove* animation = new Remove;
         parseRemove(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "split")
+      if(string(sub->val) == "split")
       {
         Split* animation = new Split;
         parseSplit(*animation, sub);
         animations.push_back(animation);
       }
-      else if(string(sub->val) == "talk")
+      if(string(sub->val) == "talk")
       {
         Talk* animation = new Talk;
         parseTalk(*animation, sub);
         animations.push_back(animation);
-      }
-      else
-      {
-          return false;
       }
     }
     game.states[game.states.size()-1].animations = animations;
@@ -428,14 +424,9 @@ static bool parseSexp(Game& game, sexp_t* expression)
     expression = expression->next;
     game.winner = atoi(expression->val);
   }
-  else
-  {
-      return false;
-  }
-  return true;
 }
 
-bool parseFile(Game& game, char* filename)
+bool parseFile(Game& game, const char* filename)
 {
   bool value;
   FILE* in = fopen(filename, "r");
@@ -443,34 +434,35 @@ bool parseFile(Game& game, char* filename)
   if(!in)
     return false;
   
-  fseek(in, 0, SEEK_END);
-  size = ftell(in);
-  fseek(in, 0L, SEEK_SET);
+  parseFile(in);
   
-  char* buffer = new char[size+1];
-  fread(buffer, 1, size, in);
-  buffer[size] = 0;
+  sexp_t* st = NULL;
+  
+  while(st = parse())
+  {
+    cout << i++ << endl;
+    parseSexp(game, st);
+    destroy_sexp(st);
+  }
   
   fclose(in);
   
-  value = parseString(game, buffer);
-  
-  delete[] buffer;
-  
-  return value;
+  return true;
 }
 
 
-bool parseString(Game& game, char* string)
+bool parseString(Game& game, const char* string)
 {
   sexp_t* st = NULL;
-  pcont_t* cc;
-  cc = init_continuation(string);
   
-  while(st = iparse_sexp( string, strlen(string), cc))
+  st = extract_sexpr(string);
+
+  while(st)
   {
+    cout << i++ << endl;
     parseSexp(game, st);
     destroy_sexp(st);
+    st = parse();
   }
   
   return true;

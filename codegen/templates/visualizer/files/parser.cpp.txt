@@ -1,7 +1,10 @@
 #include "parser.h"
 #include "sexp/sexp.h"
+#include "sexp/parser.h"
+#include "sexp/sfcompat.h"
 
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 using namespace std;
@@ -137,7 +140,8 @@ static bool parseSexp(Game& game, sexp_t* expression)
   }
 }
 
-bool parseFile(Game& game, char* filename)
+
+bool parseFile(Game& game, const char* filename)
 {
   bool value;
   FILE* in = fopen(filename, "r");
@@ -145,34 +149,35 @@ bool parseFile(Game& game, char* filename)
   if(!in)
     return false;
   
-  fseek(in, 0, SEEK_END);
-  size = ftell(in);
-  fseek(in, 0L, SEEK_SET);
+  parseFile(in);
   
-  char* buffer = new char[size+1];
-  fread(buffer, 1, size, in);
-  buffer[size] = 0;
+  sexp_t* st = NULL;
+  
+  while(st = parse())
+  {
+    cout << i++ << endl;
+    parseSexp(game, st);
+    destroy_sexp(st);
+  }
   
   fclose(in);
   
-  value = parseString(game, buffer);
-  
-  delete[] buffer;
-  
-  return value;
+  return true;
 }
 
 
-bool parseString(Game& game, char* string)
+bool parseString(Game& game, const char* string)
 {
   sexp_t* st = NULL;
-  pcont_t* cc;
-  cc = init_continuation(string);
   
-  while(st = iparse_sexp( string, strlen(string), cc))
+  st = extract_sexpr(string);
+
+  while(st)
   {
+    cout << i++ << endl;
     parseSexp(game, st);
     destroy_sexp(st);
+    st = parse();
   }
   
   return true;
