@@ -212,11 +212,12 @@ class Bot(Unit):
         return "Stepping off the world"
 
     victims = []
-    for i in self.game.objects:
+    for i in self.game.objects.values():
       if isinstance(i, Unit):
         if self._distance(i) == 1:
           if not isinstance(i, Bot) or i.partOf == -1:
             victims.append(i)
+    
     if x == -1:
       victims = [i for i in victims if i.x+i.size == self.x]
     elif y == -1:
@@ -230,9 +231,9 @@ class Bot(Unit):
       victimHealth = sum([i.health for i in victims])
       for i in victims:
         damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
-        victim._takeDamage(damage)
+        i._takeDamage(damage)
       damage = min(sum([i.health for i in victims]), self.size**2)
-      self._damage(damage)
+      self._takeDamage(damage)
       victims = [i for i in victims if i.health > 0]
     
     if not victims:

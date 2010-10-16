@@ -20,7 +20,6 @@ extern "C"
   DLLEXPORT int send_string(int socket, const char* payload);
   DLLEXPORT char* rec_string(int socket);
   
-  DLLEXPORT sexp_t* extract_sexpr(const char* sexpr);
   DLLEXPORT char* escape_string(const char* string);
 #ifdef __cplusplus
 }

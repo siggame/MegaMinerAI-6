@@ -66,7 +66,7 @@ class AccountsAppMixin(object):
   
   @protocolmethod
   def login(self, name, password):
-    validNames = config.config.readConfig("networking/config/login.cfg")
+    validNames = config.config.readConfig("config/login.cfg")
     if (name in validNames and validNames[name]["password"] == password):
       self.logged_in = True
       self.name = name
