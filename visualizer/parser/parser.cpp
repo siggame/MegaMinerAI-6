@@ -458,7 +458,6 @@ bool parseString(Game& game, const char* string)
 
   while(st)
   {
-    cout << i++ << endl;
     parseSexp(game, st);
     destroy_sexp(st);
     st = parse();
