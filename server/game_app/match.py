@@ -50,7 +50,7 @@ class Match(DefaultGameWorld):
 
   def startBots(self):
     self.addObject(Bot.fromType(self, 0, 0, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, self.boardX, self.boardY, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, self.boardX - 1, self.boardY - 1, 1, self.objects[1]))
 
     #__init__(self, game, id, x, y, owner, health, maxHealth, actions, size, damage, range, movitude, actitude, buildRate, partOf, building)
     pass

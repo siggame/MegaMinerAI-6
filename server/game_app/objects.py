@@ -200,7 +200,7 @@ class Bot(Unit):
         return "Stepping off the world"
     elif d == 'd':
       y = 1
-      if self.y+self.size-1 >= self.game.boardX:
+      if self.y+self.size-1 >= self.game.boardY-1:
         return "Stepping off the world"
     elif d == 'l':
       x = -1
@@ -208,7 +208,7 @@ class Bot(Unit):
         return "Stepping off the world"
     elif d == 'r':
       x = 1
-      if self.x+self.size-1 >= self.game.boardY:
+      if self.x+self.size-1 >= self.game.boardX-1:
         return "Stepping off the world"
 
     victims = []
