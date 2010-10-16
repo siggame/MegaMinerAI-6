@@ -440,7 +440,6 @@ bool parseFile(Game& game, const char* filename)
   
   while(st = parse())
   {
-    cout << i++ << endl;
     parseSexp(game, st);
     destroy_sexp(st);
   }
