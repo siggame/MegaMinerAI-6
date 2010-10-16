@@ -213,14 +213,14 @@ class Bot(Unit):
 
     victims = []
     for i in self.game.objects:
-      if isinstance(i, Bot) or isinstance(i, Frame):
+      if isinstance(i, Unit):
         if self._distance(i) == 1:
           if not isinstance(i, Bot) or i.partOf == -1:
             victims.append(i)
     if x == -1:
-      victims = [i for i in victims if i.x+i.size == self.x - 2]
+      victims = [i for i in victims if i.x+i.size == self.x]
     elif y == -1:
-      victims = [i for i in victims if i.y+i.size == self.y - 2]
+      victims = [i for i in victims if i.y+i.size == self.y]
     elif x == 1:
       victims = [i for i in victims if i.x == self.x + self.size]
     elif y == 1:
@@ -244,6 +244,8 @@ class Bot(Unit):
             i.y += y
       self.x += x
       self.y += y
+    
+    self.steps -= 1
     
     return True
 
