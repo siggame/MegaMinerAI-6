@@ -131,6 +131,9 @@ heal = Animation("Heal",
 build = Animation("Build",
   data = [Variable("builder", Bot), Variable("frame", Frame)]
   )
+attack = Animation("Collide",
+  data = [Variable("attacker", Bot), Variable("victim", Unit)]
+  )
 
 
 

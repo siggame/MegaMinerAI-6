@@ -130,9 +130,9 @@ class Bot(Unit):
       elif target.x > self.x + self.size-1:
         x = target.x - (self.x + self.size-1)
       if self.y > target.y + target.size-1:
-        x = self.y - (target.y + target.size-1)
+        y = self.y - (target.y + target.size-1)
       elif target.y > self.y + self.size-1:
-        x = target.y - (self.y + self.size-1)
+        y = target.y - (self.y + self.size-1)
       return x + y
     else:
       x = y = 0
@@ -141,9 +141,9 @@ class Bot(Unit):
       if target.x > (self.x + self.size-1):
         x = target.x - (self.x + self.size-1)
       if target.y < self.y:
-        x = self.y - target.y
+        y = self.y - target.y
       if target.y > (self.y + self.size-1):
-        x = target.y - (self.y + self.size-1)
+        y = target.y - (self.y + self.size-1)
       return x + y
 
   @staticmethod
@@ -228,9 +228,11 @@ class Bot(Unit):
       victims = [i for i in victims if i.y == self.y + self.size]
 
     if victims:
+      for i in victims:
       victimHealth = sum([i.health for i in victims])
       for i in victims:
         damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
+        self.game.animations.append(['collide', self.id, i.id])
         i._takeDamage(damage)
       damage = min(sum([i.health for i in victims]), self.size**2)
       self._takeDamage(damage)
@@ -379,9 +381,9 @@ class Frame(Unit):
       elif target.x > self.x + self.size-1:
         x = target.x - (self.x + self.size-1)
       if self.y > target.y + target.size-1:
-        x = self.y - (target.y + target.size-1)
+        y = self.y - (target.y + target.size-1)
       elif target.y > self.y + self.size-1:
-        x = target.y - (self.y + self.size-1)
+        y = target.y - (self.y + self.size-1)
       return x + y
     else:
       x = y = 0
@@ -390,9 +392,9 @@ class Frame(Unit):
       if target.x > (self.x + self.size-1):
         x = target.x - (self.x + self.size-1)
       if target.y < self.y:
-        x = self.y - target.y
+        y = self.y - target.y
       if target.y > (self.y + self.size-1):
-        x = target.y - (self.y + self.size-1)
+        y = target.y - (self.y + self.size-1)
 
 
   def nextTurn(self):
