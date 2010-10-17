@@ -182,9 +182,9 @@ void Gameboard::drawBots()
             if( frame < (int)game->states.size() )
                 setAttr( frameNumber, ++frame );
 
-            parent->controlBar->blockSignals(true);
-            parent->controlBar->setSliderPosition( frame );
-            parent->controlBar->blockSignals(false);
+            parent->controlSlider->blockSignals(true);
+            parent->controlSlider->setSliderPosition( frame );
+            parent->controlSlider->blockSignals(false);
         }
 
         falloff = (float)time.elapsed()/getAttr(playSpeed);
@@ -243,9 +243,9 @@ void Gameboard::drawFrames()
             if( frame < (int)game->states.size() )
                 setAttr( frameNumber, ++frame );
 
-            parent->controlBar->blockSignals(true);
-            parent->controlBar->setSliderPosition( frame );
-            parent->controlBar->blockSignals(false);
+            parent->controlSlider->blockSignals(true);
+            parent->controlSlider->setSliderPosition( frame );
+            parent->controlSlider->blockSignals(false);
         }
 
         falloff = (float)time.elapsed()/getAttr(playSpeed);
@@ -302,9 +302,9 @@ void Gameboard::drawWalls()
             if( frame < (int)game->states.size() )
                 setAttr( frameNumber, ++frame );
 
-            parent->controlBar->blockSignals(true);
-            parent->controlBar->setSliderPosition( frame );
-            parent->controlBar->blockSignals(false);
+            parent->controlSlider->blockSignals(true);
+            parent->controlSlider->setSliderPosition( frame );
+            parent->controlSlider->blockSignals(false);
         }
 
         falloff = (float)time.elapsed()/getAttr(playSpeed);

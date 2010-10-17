@@ -33,7 +33,11 @@ public:
         bool loadGamelog( char *filename );
 
 	Game *gamelog;
-	QSlider *controlBar;
+	QSlider *controlSlider;
+        QPushButton *playButton;
+        QPushButton *rewindButton;
+        QPushButton *fastForwardButton;
+        QPushButton *stopButton;
 protected:
 	void closeEvent( QCloseEvent *event );
 
@@ -51,9 +55,9 @@ private slots:
 // Help File
 	void viewGameDocs();
 
-	void controlBarDrag();
-	void controlBarReleased();
-	void controlBarChanged(int frame);
+	void controlSliderDrag();
+	void controlSliderReleased();
+	void controlSliderChanged(int frame);
 
 private:
 	void createMenus();
@@ -65,6 +69,7 @@ private:
 	QMenu *helpMenu;
 
 	QFrame *bottomBar;
+        QFrame *controlBar;
 	QTextEdit *console;
 	QTabWidget *toolBox;
 
