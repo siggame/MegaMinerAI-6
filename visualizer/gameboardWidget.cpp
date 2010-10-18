@@ -161,178 +161,112 @@ void Gameboard::resizeGL( int w, int h )
 }
 
 
-void Gameboard::drawBots()
+void Gameboard::drawBots( Game *game, float falloff )
 {
 	
     int frame = getAttr(frameNumber);
     int unitSize = getAttr( unitSize );
 
     int x0, y0, x1, y1;
-    float falloff = 0;
 
-    if( parent->gamelog )
-    {
+			for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
+			{
 
-        Game *game = parent->gamelog;
+					x0 = x1 = i->x*unitSize;
+					y0 = y1 = i->y*unitSize;
+					if( frame+1 < game->states.size() )
+					{
 
-        if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
-        {
+							for( std::vector<Bot>::iterator j = game->states[frame+1].bots.begin(); j!= game->states[frame+1].bots.end(); j++ )
+							{
+									if( j->id == i->id )
+									{
+											x1 = j->x*unitSize;
+											y1 = j->y*unitSize;
+											break;
+									}
+							}
+					}
 
-            time.restart();
-            if( frame < (int)game->states.size() )
-                setAttr( frameNumber, ++frame );
+					int sprite = T_RED;
 
-            parent->controlSlider->blockSignals(true);
-            parent->controlSlider->setSliderPosition( frame );
-            parent->controlSlider->blockSignals(false);
-        }
+					if( i->owner == 1 )
+							sprite = T_BLUE;
 
-        falloff = (float)time.elapsed()/getAttr(playSpeed);
+					drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
 
-        for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
-        {
-
-            x0 = x1 = i->x*unitSize;
-            y0 = y1 = i->y*unitSize;
-            if( frame+1 < game->states.size() )
-            {
-
-                for( std::vector<Bot>::iterator j = game->states[frame+1].bots.begin(); j!= game->states[frame+1].bots.end(); j++ )
-                {
-                    if( j->id == i->id )
-                    {
-                        x1 = j->x*unitSize;
-                        y1 = j->y*unitSize;
-                        break;
-                    }
-                }
-            }
-
-            int sprite = T_RED;
-
-            if( i->owner == 1 )
-                sprite = T_BLUE;
-
-            drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
-
-        }
-    }
-
-	
+			}
 }
 
 //todo: naming is bad, game frames and frame bots are too similar
-void Gameboard::drawFrames()
+void Gameboard::drawFrames( Game *game, float falloff )
 {
 
     int frame = getAttr(frameNumber);
     int unitSize = getAttr( unitSize );
 
     int x0, y0, x1, y1;
-    float falloff = 0;
 
-    if( parent->gamelog )
-    {
+			for( std::vector<Frame>::iterator i = game->states[frame].frames.begin(); i != game->states[frame].frames.end(); i++ )
+			{
 
-        Game *game = parent->gamelog;
+					x0 = x1 = i->x*unitSize;
+					y0 = y1 = i->y*unitSize;
+					if( frame+1 < game->states.size() )
+					{
 
-        if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
-        {
+							for( std::vector<Frame>::iterator j = game->states[frame+1].frames.begin(); j!= game->states[frame+1].frames.end(); j++ )
+							{
+									if( j->id == i->id )
+									{
+											x1 = j->x*unitSize;
+											y1 = j->y*unitSize;
+											break;
+									}
+							}
+					}
 
-            time.restart();
-            if( frame < (int)game->states.size() )
-                setAttr( frameNumber, ++frame );
+					int sprite = T_REDFRAME;
 
-            parent->controlSlider->blockSignals(true);
-            parent->controlSlider->setSliderPosition( frame );
-            parent->controlSlider->blockSignals(false);
-        }
+					if( i->owner == 1 )
+							sprite = T_BLUEFRAME;
 
-        falloff = (float)time.elapsed()/getAttr(playSpeed);
+					drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
 
-        for( std::vector<Frame>::iterator i = game->states[frame].frames.begin(); i != game->states[frame].frames.end(); i++ )
-        {
-
-            x0 = x1 = i->x*unitSize;
-            y0 = y1 = i->y*unitSize;
-            if( frame+1 < game->states.size() )
-            {
-
-                for( std::vector<Frame>::iterator j = game->states[frame+1].frames.begin(); j!= game->states[frame+1].frames.end(); j++ )
-                {
-                    if( j->id == i->id )
-                    {
-                        x1 = j->x*unitSize;
-                        y1 = j->y*unitSize;
-                        break;
-                    }
-                }
-            }
-
-            int sprite = T_REDFRAME;
-
-            if( i->owner == 1 )
-                sprite = T_BLUEFRAME;
-
-            drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
-
-        }
-    }
+			}
 }
 
 //Warning this has been hacked from the drawbots function
-void Gameboard::drawWalls()
+void Gameboard::drawWalls( Game *game, float falloff )
 {
 
     int frame = getAttr( frameNumber );
     int unitSize = getAttr( unitSize );
 
     int x0, y0, x1, y1;
-    float falloff = 0;
 
-    if( parent->gamelog )
-    {
+		for( std::vector<Wall>::iterator i = game->states[frame].walls.begin(); i != game->states[frame].walls.end(); i++ )
+		{
 
-        Game *game = parent->gamelog;
+				x0 = x1 = i->x;
+				y0 = y1 = i->y;
+				if( frame+1 < game->states.size() )
+				{
 
-        if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
-        {
+						for( std::vector<Wall>::iterator j = game->states[frame+1].walls.begin(); j!= game->states[frame+1].walls.end(); j++ )
+						{
+								if( j->id == i->id )
+								{
+										x1 = j->x;
+										y1 = j->y;
+										break;
+								}
+						}
+				}
 
-            time.restart();
-            if( frame < (int)game->states.size() )
-                setAttr( frameNumber, ++frame );
+				drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL );
 
-            parent->controlSlider->blockSignals(true);
-            parent->controlSlider->setSliderPosition( frame );
-            parent->controlSlider->blockSignals(false);
-        }
-
-        falloff = (float)time.elapsed()/getAttr(playSpeed);
-
-
-        for( std::vector<Wall>::iterator i = game->states[frame].walls.begin(); i != game->states[frame].walls.end(); i++ )
-        {
-
-            x0 = x1 = i->x;
-            y0 = y1 = i->y;
-            if( frame+1 < game->states.size() )
-            {
-
-                for( std::vector<Wall>::iterator j = game->states[frame+1].walls.begin(); j!= game->states[frame+1].walls.end(); j++ )
-                {
-                    if( j->id == i->id )
-                    {
-                        x1 = j->x;
-                        y1 = j->y;
-                        break;
-                    }
-                }
-            }
-
-            drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL );
-
-        }
-    }
+		}
 
 }
 
@@ -415,13 +349,35 @@ void Gameboard::paintGL()
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 
-        glEnable( GL_TEXTURE_2D );
+	glEnable( GL_TEXTURE_2D );
 
-        drawBackground();
+	Game *game = parent->gamelog;
+	int frame = getAttr( frameNumber );
 
-        drawWalls();
-        drawBots();
-        drawFrames();
+	drawBackground();
+	
+	if( game )
+	{
+
+		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
+		{
+
+				time.restart();
+				if( frame < (int)game->states.size() )
+						setAttr( frameNumber, ++frame );
+
+				parent->controlSlider->blockSignals(true);
+				parent->controlSlider->setSliderPosition( frame );
+				parent->controlSlider->blockSignals(false);
+		}
+
+		float falloff = (float)time.elapsed()/getAttr(playSpeed);
+
+
+		drawWalls( game, falloff );
+		drawBots( game, falloff );
+		drawFrames( game, falloff );
+	}
 }	
 
 

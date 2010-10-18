@@ -45,10 +45,10 @@ protected:
 	void resizeGL( int width, int height );
 	void paintGL();
 	void timerEvent( QTimerEvent * );
-	void drawBots();
-        void drawBackground();
-        void drawWalls();
-        void drawFrames();
+	void drawBots( Game* game, float falloff );
+        void drawBackground( );
+        void drawWalls( Game *game, float falloff);
+        void drawFrames( Game *game, float falloff);
 
 	void drawSprite( int x, int y, int h, int w, int texture );
 
