@@ -192,11 +192,11 @@ void VisualizerWindow::createLayout()
 
         // Creates the layout for the controlBar
         QHBoxLayout *controlLayout = new QHBoxLayout;
+        controlLayout->addWidget(controlSlider);
         controlLayout->addWidget(playButton);
         controlLayout->addWidget(rewindButton);
         controlLayout->addWidget(fastForwardButton);
         controlLayout->addWidget(stopButton);
-        controlLayout->addWidget(controlSlider);
         controlBar->setLayout(controlLayout);
 
 	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
@@ -214,7 +214,11 @@ void VisualizerWindow::createLayout()
 	vbox->setContentsMargins( 0, 0, 0, 0 );
 	debugLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	controlBar->setFixedHeight( 45 );
+        playButton->setFixedWidth(45);
+        rewindButton->setFixedWidth(30);
+        fastForwardButton->setFixedWidth(30);
+        stopButton->setFixedWidth(45);
+	controlBar->setFixedHeight( 40 );
 	controlSlider->setTickInterval( 50 );
 	controlSlider->setTickPosition( QSlider::TicksBothSides );
 	controlSlider->setMaximum( 0 );
