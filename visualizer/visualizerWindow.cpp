@@ -221,13 +221,12 @@ void VisualizerWindow::createLayout()
 	controlSlider->setMinimum( 0 );
 	controlSlider->setTracking( true );
 
-	connect( controlSlider, SIGNAL(sliderPressed()), this, SLOT(controlBarDrag()));
-	connect( controlSlider, SIGNAL(sliderReleased()), this, SLOT(controlBarReleased()));
-	connect( controlSlider, SIGNAL(valueChanged(int)), this, SLOT(controlBarChanged(int)));
+	connect( controlSlider, SIGNAL(sliderPressed()), this, SLOT(controlSliderDrag()));
+	connect( controlSlider, SIGNAL(sliderReleased()), this, SLOT(controlSliderReleased()));
+	connect( controlSlider, SIGNAL(valueChanged(int)), this, SLOT(controlSliderChanged(int)));
 
   vbox->addWidget(gameboard, 4);
 	vbox->addWidget(bottomBar, 2);
-	//todo: Change this to control layout and add play, pause buttons
 	vbox->addWidget(controlBar, 1);
 
 
