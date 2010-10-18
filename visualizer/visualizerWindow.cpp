@@ -68,7 +68,13 @@ void VisualizerWindow::openGamelog()
 
 	//todo: argument 3 should be the default directory of the game logs
 	//todo: argument 4 should have the actual extention of a game log
-	QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
+	QString fileName =
+		QFileDialog::getOpenFileName(
+		this,
+		tr("Open Game Log"),
+		"~/",
+		tr("Log Files(*.gamelog)")
+		);
 
 	if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
 	{
@@ -104,14 +110,24 @@ void VisualizerWindow::clearBackground()
 
 void VisualizerWindow::loadBackground()
 {
-	QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png)" );
+	QString filename =
+		QFileDialog::getOpenFileName(
+		this,
+		"Open Background",
+		"~/",
+		"Images(*.png)"
+		);
 
 	if ( filename == tr("") )
 		return;
 
 	if ( !gameboard->loadBackground( filename ) )
 	{
-		QMessageBox::critical( this, "Error", "The file you selected for a background wouldn't load" );
+		QMessageBox::critical(
+			this,
+			"Error",
+			"The file you selected for a background wouldn't load"
+			);
 	}
 
 }
@@ -181,7 +197,11 @@ void VisualizerWindow::createLayout()
 	QGLFormat::setDefaultFormat(f);
 	if (!QGLFormat::hasOpenGL())
 	{
-		QMessageBox::information( 0, "Opengl", "SYSTEM DOES NOT SUPPORT OPENGL", QMessageBox::Ok);
+		QMessageBox::information(
+			0,
+			"Opengl",
+			"SYSTEM DOES NOT SUPPORT OPENGL",
+			QMessageBox::Ok);
 		return;
 	}
 
@@ -235,9 +255,24 @@ void VisualizerWindow::createLayout()
 	controlSlider->setMinimum( 0 );
 	controlSlider->setTracking( true );
 
-	connect( controlSlider, SIGNAL(sliderPressed()), this, SLOT(controlSliderDrag()));
-	connect( controlSlider, SIGNAL(sliderReleased()), this, SLOT(controlSliderReleased()));
-	connect( controlSlider, SIGNAL(valueChanged(int)), this, SLOT(controlSliderChanged(int)));
+	connect(
+		controlSlider,
+		SIGNAL(sliderPressed()),
+		this,
+		SLOT(controlSliderDrag())
+		);
+	connect(
+		controlSlider,
+		SIGNAL(sliderReleased()),
+		this,
+		SLOT(controlSliderReleased())
+		);
+	connect(
+		controlSlider,
+		SIGNAL(valueChanged(int)),
+		this,
+		SLOT(controlSliderChanged(int))
+		);
 
 	vbox->addWidget(gameboard, 4);
 	vbox->addWidget(bottomBar, 2);

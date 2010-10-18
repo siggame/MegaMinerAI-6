@@ -113,7 +113,11 @@ void Gameboard::initializeGL()
 
 	if (flag)
 	{
-		QMessageBox::critical(this,"Error",tr("Default textures failed to load: ") + errString);
+		QMessageBox::critical(
+			this,
+			"Error",
+			tr("Default textures failed to load: ") + errString
+			);
 	}
 
 }
@@ -166,7 +170,11 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 	int x0, y0, x1, y1;
 
-	for( std::vector<Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
+	for(
+		std::vector<Bot>::iterator i = game->states[frame].bots.begin();
+		i != game->states[frame].bots.end();
+		i++
+		)
 	{
 
 		x0 = x1 = i->x*unitSize;
@@ -174,7 +182,11 @@ void Gameboard::drawBots( Game *game, float falloff )
 		if( frame+1 < game->states.size() )
 		{
 
-			for( std::vector<Bot>::iterator j = game->states[frame+1].bots.begin(); j!= game->states[frame+1].bots.end(); j++ )
+			for(
+				std::vector<Bot>::iterator j = game->states[frame+1].bots.begin();
+				j!= game->states[frame+1].bots.end();
+				j++
+				)
 			{
 				if( j->id == i->id )
 				{
@@ -205,7 +217,14 @@ void Gameboard::drawFrames( Game *game, float falloff )
 
 	int x0, y0, x1, y1;
 
-	for( std::vector<Frame>::iterator i = game->states[frame].frames.begin(); i != game->states[frame].frames.end(); i++ )
+	#include <iostream>
+	std::cout << game->states[frame].frames.size() << std::endl;
+
+	for(
+		std::vector<Frame>::iterator i = game->states[frame].frames.begin();
+		i != game->states[frame].frames.end();
+		i++
+		)
 	{
 
 		x0 = x1 = i->x*unitSize;
@@ -213,7 +232,11 @@ void Gameboard::drawFrames( Game *game, float falloff )
 		if( frame+1 < game->states.size() )
 		{
 
-			for( std::vector<Frame>::iterator j = game->states[frame+1].frames.begin(); j!= game->states[frame+1].frames.end(); j++ )
+			for(
+				std::vector<Frame>::iterator j = game->states[frame+1].frames.begin();
+				j!= game->states[frame+1].frames.end();
+				j++
+				)
 			{
 				if( j->id == i->id )
 				{
@@ -244,7 +267,11 @@ void Gameboard::drawWalls( Game *game, float falloff )
 
 	int x0, y0, x1, y1;
 
-	for( std::vector<Wall>::iterator i = game->states[frame].walls.begin(); i != game->states[frame].walls.end(); i++ )
+	for(
+		std::vector<Wall>::iterator i = game->states[frame].walls.begin();
+		i != game->states[frame].walls.end();
+		i++
+		)
 	{
 
 		x0 = x1 = i->x;
@@ -252,7 +279,11 @@ void Gameboard::drawWalls( Game *game, float falloff )
 		if( frame+1 < game->states.size() )
 		{
 
-			for( std::vector<Wall>::iterator j = game->states[frame+1].walls.begin(); j!= game->states[frame+1].walls.end(); j++ )
+			for(
+				std::vector<Wall>::iterator j = game->states[frame+1].walls.begin();
+				j!= game->states[frame+1].walls.end();
+				j++
+				)
 			{
 				if( j->id == i->id )
 				{
@@ -310,13 +341,13 @@ void Gameboard::drawBackground()
 
 		float aspect = width / height;
 
-		if ( width > 1280 )		 // width too big
+		if ( width > 1280 )					 // width too big
 		{
 			width = 1280;
 			height =  aspect / 1280;
 		}
 
-		if ( height > 640 )		 // height too big
+		if ( height > 640 )					 // height too big
 		{
 			height = 640;
 			width = aspect * 640;

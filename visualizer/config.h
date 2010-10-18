@@ -7,28 +7,28 @@
 using namespace std;
 
 /*
-   Config
+	 Config
 
-   Parse structured config files
+	 Parse structured config files
 
-   Config files contains lines with name-value assignements in the form "<name> = <value>".
-   Trailing and leading whitespace is stripped. Parsed config entries are stored in
-   a symbol map.
+	 Config files contains lines with name-value assignements in the form "<name> = <value>".
+	 Trailing and leading whitespace is stripped. Parsed config entries are stored in
+	 a symbol map.
 
-   Lines beginning with '#' are a comment and ignored.
+	 Lines beginning with '#' are a comment and ignored.
 
-   Config files may be structured (to arbitrary depth). To start a new config sub group
-   (or sub section) use a line in the form of "<name> = (".
-   Subsequent entries are stured in the sub group, until a line containing ")" is found.
+	 Config files may be structured (to arbitrary depth). To start a new config sub group
+	 (or sub section) use a line in the form of "<name> = (".
+	 Subsequent entries are stured in the sub group, until a line containing ")" is found.
 
-   Values may reuse already defined names as a variable which gets expanded during
-   the parsing process. Names for expansion are searched from the current sub group
-   upwards. Finally the process environment is searched, so also environment
-   variables may be used as expansion symbols in the config file.
+	 Values may reuse already defined names as a variable which gets expanded during
+	 the parsing process. Names for expansion are searched from the current sub group
+	 upwards. Finally the process environment is searched, so also environment
+	 variables may be used as expansion symbols in the config file.
 
-   Errors and warnings are handled by emitting logging messages (see log.h/log.cpp)
-   or by calling exit() for severe errors. Depending on project needs this may be replaced
-   by exeptions, error return codes, ...
+	 Errors and warnings are handled by emitting logging messages (see log.h/log.cpp)
+	 or by calling exit() for severe errors. Depending on project needs this may be replaced
+	 by exeptions, error return codes, ...
  */
 
 class Config
