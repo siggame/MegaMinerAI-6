@@ -1,10 +1,16 @@
 #!/bin/bash
 
-rm -r beauty
+rm -r beauty >& /dev/null
 mkdir beauty
 
 for f in "$@"
 do
 	bcpp -fnc bcpp.cfg $f > ./beauty/$f
-	cp ./beauty/$f ./$f
+	if [ $? -ne 127 ]
+	then
+		cp ./beauty/$f ./$f
+	else
+		echo "bcpp not installed.  Install and try, try again!"
+		exit
+	fi
 done
