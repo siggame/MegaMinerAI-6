@@ -3,7 +3,7 @@
 rm -r beauty >& /dev/null
 mkdir beauty
 
-for f in "$@"
+for f in *.cpp *.h 
 do
 	bcpp -fnc bcpp.cfg $f > ./beauty/$f
 	if [ $? -ne 127 ]
