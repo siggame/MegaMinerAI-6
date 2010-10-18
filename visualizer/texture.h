@@ -3,15 +3,15 @@
 
 class texture
 {
-private:
-        QImage texture;
-	unsigned int texId;
-public:
-        bool loadImage( QString path );
+	private:
+		QImage texture;
+		unsigned int texId;
+	public:
+		bool loadImage( QString path );
 
-        int getWidth();
-        int getHeight();
+		int getWidth();
+		int getHeight();
 
-	int getTexture();
+		int getTexture();
 
 };

@@ -10,5 +10,4 @@ extern LogLevel logLevel;
 #define logDebug(A) ((logLevel >= LOG_DEBUG)?((A),0):(0))
 
 void debugBreak();
-
 #endif

@@ -5,57 +5,55 @@
 #include "config.h"
 
 #define ATTRIBUTE( vType, x ) \
-  private: \
-    vType x; \
-  public: \
-    vType get##x() \
-    { \
-      return x; \
-    } \
-    void set##x( vType XXTemp ) \
-    { \
-      x = XXTemp; \
-    }
+	private: \
+		vType x; \
+		public: \
+			vType get##x() \
+			{ \
+				return x; \
+			} \
+			void set##x( vType XXTemp ) \
+			{ \
+				x = XXTemp; \
+			}
 
 #define setAttr( x, y ) visettings::instance()->set##x( y )
 #define getAttr( x ) visettings::instance()->get##x()
 
-class visettings
-{
-  // SETUP GLOBAL ATTRIBUTES
+		class visettings
+		{
+			// SETUP GLOBAL ATTRIBUTES
 
-  ATTRIBUTE( int, curX )
-  ATTRIBUTE( int, curY )
-  ATTRIBUTE( int, maxX )
-  ATTRIBUTE( int, maxY )
-  ATTRIBUTE( int, boardX )
-  ATTRIBUTE( int, boardY )
+			ATTRIBUTE( int, curX )
+				ATTRIBUTE( int, curY )
+				ATTRIBUTE( int, maxX )
+				ATTRIBUTE( int, maxY )
+				ATTRIBUTE( int, boardX )
+				ATTRIBUTE( int, boardY )
 
-	ATTRIBUTE( int, unitSize );
-	
-  ATTRIBUTE( int, currentMode );
-  ATTRIBUTE( int, frameNumber );
-  ATTRIBUTE( int, speed );
+				ATTRIBUTE( int, unitSize );
 
-  ATTRIBUTE( int, playSpeed );
+			ATTRIBUTE( int, currentMode );
+			ATTRIBUTE( int, frameNumber );
+			ATTRIBUTE( int, speed );
 
-	ATTRIBUTE( bool, dragging );
+			ATTRIBUTE( int, playSpeed );
 
-public:
-	static visettings *inst;
-	static visettings *instance()
-	{
-		if( !inst )
-			inst = new visettings();
-		return inst;
-	}
+			ATTRIBUTE( bool, dragging );
 
-	visettings();
-	~visettings();
+			public:
+				static visettings *inst;
+				static visettings *instance()
+				{
+					if( !inst )
+						inst = new visettings();
+					return inst;
+				}
 
-	void loadFromFile();
+				visettings();
+				~visettings();
 
-};
+				void loadFromFile();
 
-
+		};
 #endif

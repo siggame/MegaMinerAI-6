@@ -31,7 +31,8 @@ using namespace std;
    by exeptions, error return codes, ...
  */
 
-class Config {
+class Config
+{
 	public:
 		/* Parse config file 'configFile'. If the process environment
 		 * is provided, environment variables can be used as expansion symbols.
@@ -56,17 +57,20 @@ class Config {
 		int pInt(string name);
 
 		// get the symbol map (e.g. for iterating over all symbols)
-		inline map<string, string>& getSymbols() {
+		inline map<string, string>& getSymbols()
+		{
 			return symbols;
 		}
 
 		// get config sub group
-		inline Config* group(string name) {
+		inline Config* group(string name)
+		{
 			return groups[name];
 		}
 
 		// get config sub group map (e.g. for iterating over all groups)
-		inline map<string, Config*>& getGroups() {
+		inline map<string, Config*>& getGroups()
+		{
 			return groups;
 		}
 
@@ -97,5 +101,4 @@ class Config {
 		// debug info used for logging messages
 		string debugInfo;
 };
-
 #endif

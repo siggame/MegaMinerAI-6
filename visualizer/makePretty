@@ -1,0 +1,10 @@
+#!/bin/bash
+
+rm -r beauty
+mkdir beauty
+
+for f in "$@"
+do
+	bcpp -fnc bcpp.cfg $f > ./beauty/$f
+	cp ./beauty/$f ./$f
+done

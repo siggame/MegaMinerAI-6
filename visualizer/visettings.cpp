@@ -12,19 +12,20 @@ visettings::visettings()
 
 	unitSize = 32;
 
-
 }
+
 
 visettings::~visettings()
 {
-  if( inst )
-    delete inst;
-  inst = 0;
+	if( inst )
+		delete inst;
+	inst = 0;
 }
+
 
 void visettings::loadFromFile()
 {
-  Config configFile( "VISCONFIG" );
+	Config configFile( "VISCONFIG" );
 
-  setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
+	setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
 }

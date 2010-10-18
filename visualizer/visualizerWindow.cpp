@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 VisualizerWindow::VisualizerWindow()
 {
 	setGeometry( 0, 0, 1280, 1024 );
@@ -16,10 +15,12 @@ VisualizerWindow::VisualizerWindow()
 	gamelog = 0;
 }
 
+
 void VisualizerWindow::closeEvent( QCloseEvent *event )
 {
 	if( event ) {}
 }
+
 
 void VisualizerWindow::viewGameDocs()
 {
@@ -31,6 +32,7 @@ void VisualizerWindow::viewGameDocs()
 	cout << "Going to game docs website" << endl;
 }
 
+
 GameState *VisualizerWindow::getFrame( int frame )
 {
 	if( frame == -1 )
@@ -38,41 +40,43 @@ GameState *VisualizerWindow::getFrame( int frame )
 	return &gamelog->states[frame];
 }
 
+
 bool VisualizerWindow::loadGamelog( char *filename )
 {
-    Game * temp = new Game;
+	Game * temp = new Game;
 
-    if ( filename == NULL )
-        return false;
+	if ( filename == NULL )
+		return false;
 
-    if ( !parseFile( *temp, filename ) )
-        return false;
+	if ( !parseFile( *temp, filename ) )
+		return false;
 
-    if( gamelog )
-            delete gamelog;
+	if( gamelog )
+		delete gamelog;
 
-    gamelog = temp;
+	gamelog = temp;
 
-    controlSlider->setMaximum( gamelog->states.size() );
+	controlSlider->setMaximum( gamelog->states.size() );
 
-    return true;
+	return true;
 }
+
 
 void VisualizerWindow::openGamelog()
 {
-    //Get the gamelog's Filename:
+	//Get the gamelog's Filename:
 
+	//todo: argument 3 should be the default directory of the game logs
+	//todo: argument 4 should have the actual extention of a game log
+	QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
 
-    //todo: argument 3 should be the default directory of the game logs
-    //todo: argument 4 should have the actual extention of a game log
-       QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
-
-       if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
-       {
-            QMessageBox::critical(this,"Error","Game Log Failed to Open");
-       }
+	if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
+	{
+		QMessageBox::critical(this,"Error","Game Log Failed to Open");
+	}
 
 }
+
 
 void VisualizerWindow::toggleFullScreen()
 {
@@ -85,44 +89,48 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+
 void VisualizerWindow::toggleMapGrid()
 {
-    gameboard->toggleMapGrid();
+	gameboard->toggleMapGrid();
 }
+
 
 void VisualizerWindow::clearBackground()
 {
-    gameboard->clearBackground();
+	gameboard->clearBackground();
 }
+
 
 void VisualizerWindow::loadBackground()
 {
-   QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png)" );
+	QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png)" );
 
-   if ( filename == tr("") )
-      return;
+	if ( filename == tr("") )
+		return;
 
-   if ( !gameboard->loadBackground( filename ) )
-   {
-       QMessageBox::critical( this, "Error", "The file you selected for a background wouldn't load" );
-   }
+	if ( !gameboard->loadBackground( filename ) )
+	{
+		QMessageBox::critical( this, "Error", "The file you selected for a background wouldn't load" );
+	}
 
 }
+
 
 void VisualizerWindow::closeGamelog()
 {
-   //todo: clear out the game log and recover all allocated memory
+	//todo: clear out the game log and recover all allocated memory
 }
+
 
 void VisualizerWindow::exitProgram()
 {
-   //clear out the game log, recover all allocated memory
-   closeGamelog();
+	//clear out the game log, recover all allocated memory
+	closeGamelog();
 
-   //exit the program
-   QApplication::quit();
+	//exit the program
+	QApplication::quit();
 }
-
 
 
 void VisualizerWindow::createMenus()
@@ -135,30 +143,33 @@ void VisualizerWindow::createMenus()
 
 	viewMenu = menuBar()->addMenu(tr("&View"));
 	viewMenu->addAction(toggleFullScreenAct);
-        viewMenu->addAction(toggleMapGridAct);
-        viewMenu->addAction(loadBackgroundAct);
-        viewMenu->addAction(clearBackgroundAct);
-
+	viewMenu->addAction(toggleMapGridAct);
+	viewMenu->addAction(loadBackgroundAct);
+	viewMenu->addAction(clearBackgroundAct);
 
 	helpMenu = menuBar()->addMenu(tr("&Help"));
 	helpMenu->addAction(viewGameDocsAct);
 }
+
 
 void VisualizerWindow::controlSliderDrag()
 {
 	setAttr( dragging, true );
 }
 
+
 void VisualizerWindow::controlSliderReleased()
 {
 	setAttr( dragging, false );
 }
 
+
 void VisualizerWindow::controlSliderChanged(int frame)
 {
 	if( getAttr( dragging ) )
-		setAttr( frameNumber, frame ); 
+		setAttr( frameNumber, frame );
 }
+
 
 void VisualizerWindow::createLayout()
 {
@@ -182,30 +193,29 @@ void VisualizerWindow::createLayout()
 	console = new QTextEdit;
 	toolBox = new QTabWidget;
 	bottomBar = new QFrame;
-        controlBar = new QFrame;
+	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
 	unitSelection = new UnitSelection;
-        playButton = new QPushButton("Play");
-        rewindButton = new QPushButton("<<");
-        fastForwardButton = new QPushButton(">>");
-        stopButton = new QPushButton("Stop");
+	playButton = new QPushButton("Play");
+	rewindButton = new QPushButton("<<");
+	fastForwardButton = new QPushButton(">>");
+	stopButton = new QPushButton("Stop");
 
-        // Creates the layout for the controlBar
-        QHBoxLayout *controlLayout = new QHBoxLayout;
-        controlLayout->addWidget(controlSlider);
-        controlLayout->addWidget(playButton);
-        controlLayout->addWidget(rewindButton);
-        controlLayout->addWidget(fastForwardButton);
-        controlLayout->addWidget(stopButton);
-        controlBar->setLayout(controlLayout);
+	// Creates the layout for the controlBar
+	QHBoxLayout *controlLayout = new QHBoxLayout;
+	controlLayout->addWidget(controlSlider);
+	controlLayout->addWidget(playButton);
+	controlLayout->addWidget(rewindButton);
+	controlLayout->addWidget(fastForwardButton);
+	controlLayout->addWidget(stopButton);
+	controlBar->setLayout(controlLayout);
 
 	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
 	toolBox->addTab( unitSelection, tr( "Unit Stats" ) );
-	
 
 	debugLayout->addWidget( console );
 	debugLayout->addWidget( toolBox );
-	
+
 	bottomBar->setLayout( debugLayout );
 
 	bottomBar->setFixedHeight( 250 );
@@ -214,10 +224,10 @@ void VisualizerWindow::createLayout()
 	vbox->setContentsMargins( 0, 0, 0, 0 );
 	debugLayout->setContentsMargins( 0, 0, 0, 0 );
 
-        playButton->setFixedWidth(45);
-        rewindButton->setFixedWidth(30);
-        fastForwardButton->setFixedWidth(30);
-        stopButton->setFixedWidth(45);
+	playButton->setFixedWidth(45);
+	rewindButton->setFixedWidth(30);
+	fastForwardButton->setFixedWidth(30);
+	stopButton->setFixedWidth(45);
 	controlBar->setFixedHeight( 40 );
 	controlSlider->setTickInterval( 50 );
 	controlSlider->setTickPosition( QSlider::TicksBothSides );
@@ -229,14 +239,14 @@ void VisualizerWindow::createLayout()
 	connect( controlSlider, SIGNAL(sliderReleased()), this, SLOT(controlSliderReleased()));
 	connect( controlSlider, SIGNAL(valueChanged(int)), this, SLOT(controlSliderChanged(int)));
 
-  vbox->addWidget(gameboard, 4);
+	vbox->addWidget(gameboard, 4);
 	vbox->addWidget(bottomBar, 2);
 	vbox->addWidget(controlBar, 1);
-
 
 	centralWidget->setLayout( vbox );
 	setCentralWidget( centralWidget );
 }
+
 
 void VisualizerWindow::createActions()
 {
@@ -264,22 +274,18 @@ void VisualizerWindow::createActions()
 	toggleFullScreenAct->setStatusTip( tr("Toggle Fullscreen Mode") );
 	connect( toggleFullScreenAct, SIGNAL(triggered()), this, SLOT(toggleFullScreen()) );
 
-        //todo: give this a shortcut key
-        toggleMapGridAct = new QAction( tr("Toggle Grid"), this );
-        toggleMapGridAct->setCheckable( true );
-        toggleMapGridAct->setStatusTip( tr("Toggle the grid on the map") );
-        connect( toggleMapGridAct, SIGNAL(triggered()), this, SLOT(toggleMapGrid()) );
+	//todo: give this a shortcut key
+	toggleMapGridAct = new QAction( tr("Toggle Grid"), this );
+	toggleMapGridAct->setCheckable( true );
+	toggleMapGridAct->setStatusTip( tr("Toggle the grid on the map") );
+	connect( toggleMapGridAct, SIGNAL(triggered()), this, SLOT(toggleMapGrid()) );
 
+	loadBackgroundAct = new QAction( tr("Load Background"), this );
+	loadBackgroundAct->setStatusTip( tr("Load a new picture as the background") );
+	connect( loadBackgroundAct, SIGNAL(triggered()), this, SLOT(loadBackground()) );
 
-        loadBackgroundAct = new QAction( tr("Load Background"), this );
-        loadBackgroundAct->setStatusTip( tr("Load a new picture as the background") );
-        connect( loadBackgroundAct, SIGNAL(triggered()), this, SLOT(loadBackground()) );
-
-
-        clearBackgroundAct = new QAction( tr("Clear Background"), this );
-        clearBackgroundAct->setStatusTip( tr("Go back to the default background") );
-        connect( clearBackgroundAct, SIGNAL(triggered()), this, SLOT(clearBackground()) );
+	clearBackgroundAct = new QAction( tr("Clear Background"), this );
+	clearBackgroundAct->setStatusTip( tr("Go back to the default background") );
+	connect( clearBackgroundAct, SIGNAL(triggered()), this, SLOT(clearBackground()) );
 
 }
-
-
