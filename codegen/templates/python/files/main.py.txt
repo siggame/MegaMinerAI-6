@@ -36,8 +36,7 @@ def main():
       library.getStatus(connection)
   
   #request the log file
-  while library.networkLoop(connection):
-    pass
+  library.networkLoop(connection)
   exit(0)
 
 

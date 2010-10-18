@@ -26,7 +26,7 @@ class ${model.name}(GameObject):
     self.ptr = ptr
     self.iteration = BaseAI.iteration
     
-    self.ID = library.${lowercase(model.name)}GetId(ptr)
+    self.id = library.${lowercase(model.name)}GetId(ptr)
 
 %   if model.type == 'Model':
   def validify(self):
@@ -59,7 +59,11 @@ class ${model.name}(GameObject):
 %    endfor
     return library.${lowercase(model.name)}${capitalize(func.name)}(self.ptr\
 %    for arg in func.arguments:
+%      if not isinstance(arg.type, Model):
 , ${arg.name}\
+%      else:
+, ${arg.name}.ptr\
+%      endif
 %    endfor
 )
 
@@ -70,4 +74,12 @@ class ${model.name}(GameObject):
     return library.${lowercase(model.name)}Get${capitalize(datum.name)}(self.ptr)
 
 %  endfor
-%endfor
+
+  def __str__(self):
+    self.validify()
+    ret = ""
+%  for datum in model.data:
+    ret += "${datum.name}: %s\n" % self.get${capitalize(datum.name)}()
+%  endfor
+    return ret
+% endfor

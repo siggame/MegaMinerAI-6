@@ -11,6 +11,7 @@ class BaseAI:
   """
   initialized = False
   iteration = 0
+  runGenerator = None
   connection = None
 % for model in models:
   ${lowercase(model.plural)} = []
@@ -33,11 +34,19 @@ class BaseAI:
       self.initialized = True
       self.init()
     BaseAI.iteration += 1;
+    if self.runGenerator:
+      try:
+        return self.runGenerator.next()
+      except StopIteration:
+        self.runGenerator = None
+    r = self.run()
+    if hasattr(r, '__iter__'):
+      self.runGenerator = r
+      return r.next()
     return self.run()
   
 % for datum in globals:
-  @staticmethod
-  def ${datum.name}():
+  def ${datum.name}(self):
 %   if datum.doc:
     """${datum.doc}
     """

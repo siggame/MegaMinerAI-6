@@ -62,8 +62,8 @@ Bot.addData([
     Variable('movitude', int),
     Variable('actitude', int),
     Variable('buildRate', int),
-    Variable('partOf', Bot),
-    Variable('building', Frame),
+    Variable('partOf', int),
+    Variable('building', int),
   ])
     
 Bot.addFunctions([

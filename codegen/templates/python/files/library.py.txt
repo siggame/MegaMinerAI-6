@@ -70,7 +70,11 @@ library.get${model.name}Count.argtypes = [c_void_p]
 
 %for model in models:
 %  for datum in model.data:
+%    if not isinstance(datum.type, Model):
 library.${lowercase(model.name)}Get${capitalize(datum.name)}.restype = ${conversions[datum.type]}
+%    else:
+library.${lowercase(model.name)}Get${capitalize(datum.name)}.restype = c_int
+%    endif
 library.${lowercase(model.name)}Get${capitalize(datum.name)}.argtypes = [c_void_p]
 
 %  endfor

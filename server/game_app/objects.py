@@ -100,7 +100,7 @@ class Bot(Unit):
     id = game.nextid
     game.nextid += 1
     return Bot(game, id, x, y, owner, type.maxHealth,  type.maxHealth, 0, 0, 1, type.damage, type.range, type.movitude, type.actitude,
-      type.buildRate, -1, -1)
+      type.buildRate, 0, 0)
 
   def _takeDamage(self, damage):
     Unit._takeDamage(self, damage)
@@ -113,9 +113,9 @@ class Bot(Unit):
     self.game.nextid += 1
     #I am so sorry.
     #This calls the Bot constructor, taking the min or sum of the mini bot values as appropriate
-    newBot = Bot(game, id, min([i.x for i in bots], min([i.y for y in bots]), self.owner, sum([i.health for i in bots]),
+    newBot = Bot(self.game, id, min([i.x for i in bots]), min([i.y for i in bots]), self.owner, sum([i.health for i in bots]),
       sum([i.maxHealth for i in bots]), 0, 0, self.size * 2, sum([i.damage for i in bots]), sum([i.range for i in bots]),
-      sum([i.movitude for i in bots]), sum([i.actitude for i in bots]), sum([i.buildRate for i in bots]), -1, -1))
+      sum([i.movitude for i in bots]), sum([i.actitude for i in bots]), sum([i.buildRate for i in bots]), 0, 0)
     self.game.addObject(newBot)
     for i in bots:
       i.partOf = id
@@ -163,9 +163,9 @@ class Bot(Unit):
     self.steps = 0
     if self.game.playerID != self.owner:
       return True
-    if self.partOf != -1:
+    if self.partOf != 0:
       return True
-    if self.building == -1:
+    if self.building == 0:
       self.actions = self.actitude / self.size**2
       self.steps = self.movitude / self.size**2
       return True
@@ -176,7 +176,7 @@ class Bot(Unit):
         type = self.game.objects[baby.type]
         newBot = Bot.makeBot(self.game, baby.x, baby.y, self.owner, type, baby.size)
         self.game.removeObject(baby)
-        self.building = -1
+        self.building = 0
         self.nextTurn()
         newBot.nextTurn()
         return True
@@ -215,7 +215,7 @@ class Bot(Unit):
     for i in self.game.objects.values():
       if isinstance(i, Unit):
         if self._distance(i) == 1:
-          if not isinstance(i, Bot) or i.partOf == -1:
+          if not isinstance(i, Bot) or i.partOf == 0:
             victims.append(i)
     
     if x == -1:
@@ -229,7 +229,7 @@ class Bot(Unit):
 
     if victims:
       for i in victims:
-      victimHealth = sum([i.health for i in victims])
+        victimHealth = sum([i.health for i in victims])
       for i in victims:
         damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
         self.game.animations.append(['collide', self.id, i.id])
@@ -331,7 +331,7 @@ class Bot(Unit):
     for i in self.game.objects:
       if isinstance(i, Bot):
         if i.partOf == self.id:
-          i.partOf = -1
+          i.partOf = 0
     self.game.animations.append('Split', self.id)
     self.game.remove(self)
 

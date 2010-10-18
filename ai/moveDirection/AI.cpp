@@ -37,7 +37,7 @@ bool AI::run()
     if(bots[b].owner()==playerID())
     {
       // First player moves right, second player moves up
-      int d=playerID() + 1;
+      int d=playerID();
       cout<<"\tBot At ("<<bots[b].x()<<","<<bots[b].y()<<") Moving: "<<direction[d]<<endl;
       bots[b].move(direction[d]);      
     }
