@@ -214,22 +214,27 @@ void VisualizerWindow::fastForwardClicked()
 	if(getAttr(playSpeed) == getAttr(defaultSpeed))
 	{
 		setAttr( playSpeed, (getAttr(defaultSpeed)/2));
+		fastForwardButton->setText("x2");
 	}
 	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/2)
 	{
 		setAttr( playSpeed, (getAttr(defaultSpeed)/4));
+		fastForwardButton->setText("x4");
 	}
 	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/4)
 	{
 		setAttr( playSpeed, (getAttr(defaultSpeed)/8));
+		fastForwardButton->setText("x8");
 	}
 	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/8)
 	{
 		setAttr( playSpeed, (getAttr(defaultSpeed)/16));
+		fastForwardButton->setText("x16");
 	}
 	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/16)
 	{
 		setAttr( playSpeed, (getAttr(defaultSpeed)));
+		fastForwardButton->setText(">>");
 		setAttr( currentMode, play );
 	}
 }

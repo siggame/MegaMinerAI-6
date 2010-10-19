@@ -43,6 +43,8 @@ class VisualizerWindow: public QMainWindow
 		bool loadGamelog( char *filename );
 
 		Game *gamelog;
+
+		// Play controls
 		QSlider *controlSlider;
 		QPushButton *playButton;
 		QPushButton *rewindButton;
@@ -65,6 +67,7 @@ class VisualizerWindow: public QMainWindow
 		// Help File
 		void viewGameDocs();
 
+		// Play control fuctions
 		void controlSliderDrag();
 		void controlSliderReleased();
 		void controlSliderChanged(int frame);

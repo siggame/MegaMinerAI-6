@@ -401,8 +401,13 @@ void Gameboard::paintGL()
 
 		float falloff;
 
+		// ------------NEEDS WORK, possibly--------------------
+		// falloff assignment while rewinding
                 if(getAttr(currentMode) == rewinding)
                 	falloff = 1-((float)time.elapsed()/getAttr(playSpeed));
+
+		// This allows the visualizer to finish the animation it is
+		// currently on and then stop while paused/dragging the slider
 		else if(getAttr(currentMode) == paused||getAttr(dragging))
 		{
 			if((float)time.elapsed()/getAttr(playSpeed) <1)
@@ -411,6 +416,8 @@ void Gameboard::paintGL()
 			else
 			falloff = 1;
 		}
+
+		// The normal falloff assignment, when game is moving forwards
                 else
                 	falloff = (float)time.elapsed()/getAttr(playSpeed);
 
