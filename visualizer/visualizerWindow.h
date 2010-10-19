@@ -58,6 +58,8 @@ class VisualizerWindow: public QMainWindow
 		void controlSliderDrag();
 		void controlSliderReleased();
 		void controlSliderChanged(int frame);
+		void stopClicked();
+		void playClicked();
 
 	private:
 		void createMenus();

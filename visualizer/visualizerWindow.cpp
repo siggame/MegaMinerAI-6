@@ -186,6 +186,27 @@ void VisualizerWindow::controlSliderChanged(int frame)
 		setAttr( frameNumber, frame );
 }
 
+void VisualizerWindow::stopClicked()
+{
+	setAttr( frameNumber, 0 );
+	setAttr( currentMode, paused );
+	controlSlider->setSliderPosition( 0 );
+	playButton->setText("Play");
+}
+
+void VisualizerWindow::playClicked()
+{
+	if( getAttr( currentMode ) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+	else
+	{
+		setAttr( currentMode, paused );
+		playButton->setText("Play");
+	}
+}
 
 void VisualizerWindow::createLayout()
 {
@@ -216,7 +237,7 @@ void VisualizerWindow::createLayout()
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
 	unitSelection = new UnitSelection;
-	playButton = new QPushButton("Play");
+	playButton = new QPushButton("Pause");
 	rewindButton = new QPushButton("<<");
 	fastForwardButton = new QPushButton(">>");
 	stopButton = new QPushButton("Stop");
@@ -244,7 +265,7 @@ void VisualizerWindow::createLayout()
 	vbox->setContentsMargins( 0, 0, 0, 0 );
 	debugLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	playButton->setFixedWidth(45);
+	playButton->setFixedWidth(50);
 	rewindButton->setFixedWidth(30);
 	fastForwardButton->setFixedWidth(30);
 	stopButton->setFixedWidth(45);
@@ -272,6 +293,18 @@ void VisualizerWindow::createLayout()
 		SIGNAL(valueChanged(int)),
 		this,
 		SLOT(controlSliderChanged(int))
+		);
+	connect(
+		stopButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(stopClicked())
+		);
+	connect(
+		playButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(playClicked())
 		);
 
 	vbox->addWidget(gameboard, 4);

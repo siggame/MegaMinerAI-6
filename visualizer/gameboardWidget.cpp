@@ -390,7 +390,8 @@ void Gameboard::paintGL()
 	if( game )
 	{
 
-		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) )
+		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) 
+		    && getAttr(currentMode) != paused )
 		{
 
 			time.restart();
