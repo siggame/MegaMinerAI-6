@@ -37,6 +37,7 @@
 			ATTRIBUTE( int, frameNumber );
 			ATTRIBUTE( int, speed );
 
+			ATTRIBUTE( int, defaultSpeed);
 			ATTRIBUTE( int, playSpeed );
 
 			ATTRIBUTE( bool, dragging );

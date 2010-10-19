@@ -16,8 +16,8 @@ enum
         play = 0,
         paused,
         stop,
-        ff,
-        rw
+        fastForward,
+        rewinding
 };
 
 class UnitSelection: public QWidget
@@ -70,6 +70,8 @@ class VisualizerWindow: public QMainWindow
 		void controlSliderChanged(int frame);
 		void stopClicked();
 		void playClicked();
+		void fastForwardClicked();
+		void rewindClicked();
 
 	private:
 		void createMenus();

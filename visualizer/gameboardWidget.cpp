@@ -399,7 +399,20 @@ void Gameboard::paintGL()
 			parent->controlSlider->blockSignals(false);
 		}
 
-		float falloff = (float)time.elapsed()/getAttr(playSpeed);
+		float falloff;
+
+                if(getAttr(currentMode) == rewinding)
+                	falloff = 1-((float)time.elapsed()/getAttr(playSpeed));
+		else if(getAttr(currentMode) == paused||getAttr(dragging))
+		{
+			if((float)time.elapsed()/getAttr(playSpeed) <1)
+                		falloff = 
+				  (float)time.elapsed()/getAttr(playSpeed);
+			else
+			falloff = 1;
+		}
+                else
+                	falloff = (float)time.elapsed()/getAttr(playSpeed);
 
 		drawWalls( game, falloff );
 		drawBots( game, falloff );

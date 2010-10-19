@@ -5,7 +5,8 @@ visettings *visettings::inst = NULL;
 visettings::visettings()
 {
 	// Every 150 ms
-	playSpeed = 150;
+	defaultSpeed = 150;
+	playSpeed = defaultSpeed;
 	frameNumber = 0;
 
 	dragging = false;
@@ -27,5 +28,6 @@ void visettings::loadFromFile()
 {
 	Config configFile( "VISCONFIG" );
 
+	setAttr( defaultSpeed, configFile.pInt( "DefaultSpeed" ) );
 	setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
 }

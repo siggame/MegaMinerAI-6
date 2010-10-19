@@ -208,6 +208,32 @@ void VisualizerWindow::playClicked()
 	}
 }
 
+void VisualizerWindow::fastForwardClicked()
+{
+	setAttr( currentMode, fastForward );
+	if(getAttr(playSpeed) == getAttr(defaultSpeed))
+	{
+		setAttr( playSpeed, (getAttr(defaultSpeed)/2));
+	}
+	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/2)
+	{
+		setAttr( playSpeed, (getAttr(defaultSpeed)/4));
+	}
+	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/4)
+	{
+		setAttr( playSpeed, (getAttr(defaultSpeed)/8));
+	}
+	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/8)
+	{
+		setAttr( playSpeed, (getAttr(defaultSpeed)/16));
+	}
+}
+
+void VisualizerWindow::rewindClicked()
+{
+//	setAttr( currentMode, rewinding );
+}
+
 void VisualizerWindow::createLayout()
 {
 	// Remove awkward spacing around the edges
@@ -305,6 +331,18 @@ void VisualizerWindow::createLayout()
 		SIGNAL(clicked()),
 		this,
 		SLOT(playClicked())
+		);
+	connect(
+		fastForwardButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(fastForwardClicked())
+		);
+	connect(
+		rewindButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(rewindClicked())
 		);
 
 	vbox->addWidget(gameboard, 4);
