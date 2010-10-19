@@ -149,7 +149,6 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 void Gameboard::resizeGL( int w, int h )
 {
 	h = h?h:1;
-	//cout << "resize" << endl;
 
 	glViewport( 0, 0, (GLint)w, (GLint)h);
 
@@ -216,9 +215,6 @@ void Gameboard::drawFrames( Game *game, float falloff )
 	int unitSize = getAttr( unitSize );
 
 	int x0, y0, x1, y1;
-
-	#include <iostream>
-	std::cout << game->states[frame].frames.size() << std::endl;
 
 	for(
 		std::vector<Frame>::iterator i = game->states[frame].frames.begin();
