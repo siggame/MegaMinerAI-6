@@ -10,6 +10,16 @@
 
 class Gameboard;
 
+// defines playback modes
+enum
+{
+        play = 0,
+        paused,
+        stop,
+        ff,
+        rw
+};
+
 class UnitSelection: public QWidget
 {
 	Q_OBJECT

@@ -27,15 +27,6 @@ enum textures
 
 };
 
-enum
-{
-	play = 0,
-	paused,
-	stop,
-	ff,
-	rw
-};
-
 class Gameboard : public QGLWidget
 {
 	Q_OBJECT
