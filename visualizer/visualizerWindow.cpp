@@ -227,6 +227,11 @@ void VisualizerWindow::fastForwardClicked()
 	{
 		setAttr( playSpeed, (getAttr(defaultSpeed)/16));
 	}
+	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/16)
+	{
+		setAttr( playSpeed, (getAttr(defaultSpeed)));
+		setAttr( currentMode, play );
+	}
 }
 
 void VisualizerWindow::rewindClicked()
