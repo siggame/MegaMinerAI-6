@@ -24,14 +24,14 @@
 		{
 			// SETUP GLOBAL ATTRIBUTES
 
-			ATTRIBUTE( int, curX )
-				ATTRIBUTE( int, curY )
-				ATTRIBUTE( int, maxX )
-				ATTRIBUTE( int, maxY )
-				ATTRIBUTE( int, boardX )
-				ATTRIBUTE( int, boardY )
+			ATTRIBUTE( int, curX );
+			ATTRIBUTE( int, curY );
+			ATTRIBUTE( int, maxX );
+			ATTRIBUTE( int, maxY );
+			ATTRIBUTE( int, boardX );
+			ATTRIBUTE( int, boardY );
 
-				ATTRIBUTE( int, unitSize );
+			ATTRIBUTE( int, unitSize );
 
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
