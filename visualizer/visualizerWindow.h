@@ -20,7 +20,6 @@ enum
 	rewinding
 };
 
-
 class UnitSelection: public QWidget
 {
 	Q_OBJECT

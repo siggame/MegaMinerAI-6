@@ -170,6 +170,7 @@ void VisualizerWindow::createMenus()
 	helpMenu->addAction(viewGameDocsAct);
 }
 
+
 void VisualizerWindow::createSpeeds()
 {
 	// Don't make fun of me for typing these out manually
@@ -179,6 +180,7 @@ void VisualizerWindow::createSpeeds()
 	setAttr( x8Speed, getAttr( defaultSpeed )/8);
 	setAttr( x16Speed, getAttr( defaultSpeed )/16);
 }
+
 
 void VisualizerWindow::controlSliderDrag()
 {
