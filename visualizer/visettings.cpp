@@ -38,6 +38,10 @@ void visettings::loadFromFile()
         setAttr( wallFileName, configFile.pString( "wallFileName" ) );
         setAttr( gridFileName, configFile.pString( "gridFileName" ) );
 
+	//For Board Drawing, these are the maximums
+	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx" ));
+	setAttr( boardWidthPx, configFile.pInt( "BoardWidthPx" ));
+
         
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:

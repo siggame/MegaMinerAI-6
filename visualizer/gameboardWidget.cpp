@@ -298,6 +298,10 @@ void Gameboard::drawWalls( Game *game, float falloff )
 
 void Gameboard::drawBackground()
 {
+
+	float baseHeight = getAttr( boardHeightPx );
+	float baseWidth  = getAttr( boardWidthPx );
+
 	if ( hasDefaultBG || (!hasDefaultBG && hasMapGrid ) )
 	{
 		if ( hasDefaultBG )
@@ -311,17 +315,20 @@ void Gameboard::drawBackground()
 		glBegin( GL_QUADS );
 		//todo: set sizes configurable by config file
 
+
 		// float heightRatio = 10.0f / 640.0f;
+
+
 		// float widthRatio  = 20.0f / 1280.0f;
 
 		glTexCoord2f( 0, 0 );
 		glVertex3f( 0, 0, 0 );
 		glTexCoord2f( 20, 0 );
-		glVertex3f( 1280, 0, 0 );
+		glVertex3f( baseWidth, 0, 0 );
 		glTexCoord2f( 20, 10 );
-		glVertex3f( 1280, 640, 0 );
+		glVertex3f( baseWidth, baseHeight, 0 );
 		glTexCoord2f( 0, 10 );
-		glVertex3f( 0, 640, 0 );
+		glVertex3f( 0, baseHeight, 0 );
 
 		glEnd();
 	}
@@ -336,16 +343,16 @@ void Gameboard::drawBackground()
 
 		float aspect = width / height;
 
-		if ( width > 1280 )					 // width too big
+		if ( width > baseWidth )					 // width too big
 		{
-			width = 1280;
-			height =  aspect / 1280;
+			width = baseWidth;
+			height =  aspect / baseWidth;
 		}
 
-		if ( height > 640 )					 // height too big
+		if ( height > baseHeight )					 // height too big
 		{
-			height = 640;
-			width = aspect * 640;
+			height = baseHeight;
+			width = aspect * baseHeight;
 		}
 		glBegin( GL_QUADS );
 

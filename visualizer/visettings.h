@@ -48,6 +48,10 @@
 
 			ATTRIBUTE( bool, dragging );
 
+			ATTRIBUTE( int, boardHeightPx );
+			ATTRIBUTE( int, boardWidthPx );
+
+
 			// Texture Files
 
 			ATTRIBUTE( string, defBGFileName );
