@@ -1,10 +1,5 @@
 #include "AI.h"
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <queue>
-#include <fstream>
-#include <list>
+
 using namespace std;
 AI::AI(Connection* conn) : BaseAI(conn) {}
 
@@ -19,6 +14,8 @@ const char* AI::password()
 }
 
 vector<Type> gTypes;
+
+
 
 //This function is run once, before your first turn.
 void AI::init()
@@ -46,9 +43,16 @@ struct Order
   int targetID;
   int buildType,buildSize;
   int x,y;
+  int c1,c2,c3;
+
+  float fitness;
+  
   // Default
   Order():type(MOVE),dir(UP),toOrder(0),targetID(0),buildType(0),buildSize(1),x(0),y(0){};
   
+  // Stubs
+  Order(int WHO,OTYPE T):
+    type(T),dir(UP),toOrder(WHO),targetID(0),buildType(0),buildSize(1),x(0),y(0){};  
   // Move
   Order(OTYPE T,int WHO, DIR D):
     type(T),dir(D),toOrder(WHO),targetID(0),buildType(0),buildSize(1),x(0),y(0){};
@@ -64,7 +68,7 @@ struct Order
   // Combine and Split
   Order(OTYPE T,int WHO):type(T),dir(UP),toOrder(WHO),targetID(0),buildType(0),buildSize(1),x(0),y(0){};
   
-  float fitness;
+
   friend bool operator<(const Order& lhs, const Order& rhs)
   {
     return lhs.fitness<rhs.fitness;
@@ -91,34 +95,159 @@ struct Order
         break;
     }
   }
-  void execute()
-  {
-    cout<<"Trying to execute: "<<*this<<endl;
-  }
-  
-  bool isValid()
-  {
-    cout<<"Performing validity check on: "<<*this<<endl;
-    return true;
-  }
 };
 
-void appendMoves(list<Order> & orders, int toOrder)
+// This structure is used as a stub for each unit.  Contains what actions could be available to this unit
+struct Stub
 {
-  for(int i=0;i<4;i++)
+  list<Order> stubs;
+  // Points at the best order in the list
+  list<Order>::iterator bestOrder;
+  
+  Stub(){ };
+  Stub(int id)
   {
-    orders.push_back(Order(MOVE,toOrder,(DIR)i));
-    cout<<"Pushing back: "<<Order(MOVE,toOrder,(DIR)i)<<endl;
+    init(id);
   }
-}
+
+  void init(int id)
+  {
+    stubs.clear();
+    for(unsigned int i=0;i<OTYPE_SIZE;i++)
+    {
+      stubs.push_back(Order(id,(OTYPE)i));
+    }
+  }
+  
+  bool empty()
+  {
+    return stubs.size()==0;
+  }
+};
 
 
 int xMod[] = {0,0,-1,1,0};
 int yMod[] = {-1,1,0,0,0};
 
-float getScore(const Order& order)
+float AI::getScore(Stub& stub)
 {
-  return rand()%20;
+  stub.bestOrder=stub.stubs.begin();
+  float best = INT_MIN;
+  for(list<Order>::iterator it=stub.stubs.begin();it!=stub.stubs.end();it++)
+  {
+    float score=INT_MIN;
+    // depending on the type of order
+    switch(it->type)
+    {
+      case MOVE:
+        score=bestMove(*it);
+        break;
+      case ATTACK:
+        score=bestAttack(*it);
+        break;
+      case HEAL:
+        score=bestHeal(*it);
+        break;
+      case BUILD:
+        score=bestBuild(*it);
+        break;
+      case COMBINE:
+        score=bestCombine(*it);
+        break;
+      case SPLIT:
+        score=bestSplit(*it);
+        break;
+    }
+    if(score>best)
+    {
+      best=score;
+      stub.bestOrder=it;
+    }
+  }
+  return best;
+}
+
+float AI::bestMove(Order& order)
+{
+  int b = idToBot.find(order.toOrder)->second;
+  order.fitness=INT_MIN;
+  // calculate the quality of each type of move
+  for(unsigned int i=0;i<DIR_SIZE;i++)
+  {
+    //TODO score move
+    float score = rand()%20-10;
+    if(score > order.fitness)
+    {
+      order.fitness=score;
+      order.dir = (DIR)i;
+    }
+  }
+  cout<<"Scored move: "<<order.fitness<<endl;
+  return order.fitness;
+}
+
+float AI::bestAttack(Order&order)
+{
+  return INT_MIN;
+}
+float AI::bestHeal(Order&order)
+{
+  return INT_MIN;
+}
+float AI::bestBuild(Order&order)
+{
+  return INT_MIN;
+}
+float AI::bestCombine(Order&order)
+{
+  return INT_MIN;
+}
+float AI::bestSplit(Order&order)
+{
+  return INT_MIN;
+}
+
+
+
+void removeInvalid(Stub& stub)
+{
+  cout<<"Attempting to remove invalid actions from a stub"<<endl;
+}
+
+void AI::execute(Order& order)
+{
+  cout<<"Executing: "<<order<<endl;
+  int b=idToBot.find(order.toOrder)->second;
+  int target;
+  int c1,c2,c3;
+  switch(order.type)
+  {
+    case MOVE:
+      bots[b].move(direction[order.dir]);
+      break;
+    case ATTACK:
+      target=idToBot.find(order.targetID)->second;
+      bots[b].attack(bots[target]);
+      break;
+    case HEAL:
+      target=idToBot.find(order.targetID)->second;
+      bots[b].heal(bots[target]);
+      break;
+    case BUILD:
+      bots[b].build(types[order.buildType],order.x,order.y,order.buildSize);
+      break;
+    case COMBINE:
+      c1=target=idToBot.find(order.c1)->second;
+      c2=target=idToBot.find(order.c2)->second;
+      c3=target=idToBot.find(order.c3)->second;
+      bots[b].combine(bots[c1],bots[c2],bots[c3]);
+    case SPLIT:
+      bots[b].split();
+      break;
+    default:
+      cout<<"Unknown order type!"<<endl;
+      break;
+  }
 }
 
 //This function is called each time it is your turn.
@@ -127,50 +256,61 @@ bool AI::run()
 {
   cout<<"Turn: "<<turnNumber()<<endl;
 
-  list<Order> orderList;
+  list<Stub> orderList;
+  
+  // set up the map
+  idToBot.clear();
+  for(unsigned int b=0;b<bots.size();b++)
+  {
+    idToBot[bots[b].id()]=b;
+  }
+  
   // This section generates actions
   for(unsigned int b=0;b<bots.size();b++)
   {
     if(bots[b].owner()==playerID())
     {
-      appendMoves(orderList,bots[b].id());
-      // TODO Add all other kinds of moves      
+      Stub toAdd(bots[b].id());
+      removeInvalid(toAdd);
+      // Pushes on a stub for this unit
+      if(!toAdd.empty())
+      {
+        cout<<"Pushing back orders for: "<<bots[b].id()<<endl;
+        orderList.push_back(toAdd);
+      }
     }
   }
-  list<Order>::iterator it,bestIt;
+  list<Stub>::iterator it,bestIt;
   bool goodOrders=true;
   while(!orderList.empty() && goodOrders)
   {
     float best = -10;
     for(it=orderList.begin();it != orderList.end();it++)
     {
-      // Checks that that order is valid on this turn
-      if(it->isValid())
+      int score=getScore(*it);
+      if(score>best)
       {
-        int score=getScore(*it);
-        if(score>best)
-        {
-          bestIt=it;
-          best=score;
-        }
-      }
-      else
-      {
-        cout<<"Invalid"<<endl;
+        cout<<"better found: "<<score<<endl;
+        bestIt=it;
+        best=score;
       }
     }
     if(best>0)
     {
-      bestIt->execute();
-      orderList.erase(bestIt);
+      cout<<"About to call execute"<<endl;
+      execute(*(bestIt->bestOrder));
+      removeInvalid(*bestIt);
+      if(bestIt->empty())
+      {
+        cout<<"\t\tRemoving stub"<<endl;
+        orderList.erase(bestIt);
+      }
     }
     else
     {
+      cout<<"Good orders exhausted"<<endl;
       goodOrders=false;
     }
-    
-    // TODO Perform cleanup for things that will never be valid again
   }
-  
   return true;
 }

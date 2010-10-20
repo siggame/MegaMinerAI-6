@@ -28,8 +28,8 @@ int shitDist(int x, int y, int ox, int oy)
   return abs(x-ox)+abs(y-oy);
 }
 
-int xMod[] = {-1, 1,-1, 0,0};
-int yMod[] = { 0, 0,-1, 1,0};
+int xMod[] = {-1, 1, 0, 0,0};
+int yMod[] = { 0, 0, -1, 1,0};
 
 char* direction[] = {"left","right","up","down"};
 
@@ -73,6 +73,7 @@ bool AI::run()
         int d = 1+playerID();
         // Builds a fat bot
         bots[b].build(types[5],bots[b].x()+xMod[d], bots[b].y()+yMod[d],1);
+//        cout<<"Building at: "<<
       }
     }
     else if(bots[b].owner()==playerID())
@@ -97,7 +98,7 @@ bool AI::run()
       for(unsigned int i=0;i<5;i++)
       {
         int tempDist = shitDist(bots[b].x()+xMod[i],bots[b].y()+yMod[i],bots[target].x(),bots[target].y());
-        if(tempDist < dist)
+        if(tempDist < dist || (tempDist==dist && rand()%2))
         {
           dist=tempDist;
           best=i;
