@@ -391,8 +391,16 @@ void Gameboard::paintGL()
 		{
 
 			time.restart();
-			if( frame < (int)game->states.size() )
-				setAttr( frameNumber, ++frame );
+
+		// This is where we advance to the next frame
+			if( frame < (int)game->states.size() && frame >= 0 )
+			{
+				if(getAttr(currentMode) == rewinding &&
+				     frame>0)
+					setAttr( frameNumber, --frame );
+				else
+					setAttr( frameNumber, ++frame );
+			}
 
 			parent->controlSlider->blockSignals(true);
 			parent->controlSlider->setSliderPosition( frame );
@@ -401,7 +409,6 @@ void Gameboard::paintGL()
 
 		float falloff;
 
-		// ------------NEEDS WORK, possibly--------------------
 		// falloff assignment while rewinding
                 if(getAttr(currentMode) == rewinding)
                 	falloff = 1-((float)time.elapsed()/getAttr(playSpeed));
