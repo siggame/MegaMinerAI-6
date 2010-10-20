@@ -247,7 +247,7 @@ void Gameboard::drawFrames( Game *game, float falloff )
 		if( i->owner == 1 )
 			sprite = T_BLUEFRAME;
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
+		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite );
 
 	}
 }
@@ -397,12 +397,6 @@ void Gameboard::paintGL()
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
 					setAttr( frameNumber, --frame );
-				else if(getAttr(currentMode) == rewinding &&
-					frame == 0)
-				{
-					setAttr( currentMode, paused );
-					parent->playButton->setText("Play");
-				}
 				else
 					setAttr( frameNumber, ++frame );
 			}
