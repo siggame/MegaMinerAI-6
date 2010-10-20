@@ -30,4 +30,12 @@ void visettings::loadFromFile()
 
 	setAttr( defaultSpeed, configFile.pInt( "DefaultSpeed" ) );
 	setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
+	setAttr( unitSize, configFile.pInt( "UnitSize" ) );
+
+	//setAttr( filename, configFile.pString( "filenameString" ) );
+	// Eh.... to retrieve a particular type of input it's:
+	// configFile.pString,pBool,pDouble,or pInt
+	//
+	// I don't remember what happens if it turns out not to be there.
 }
+
