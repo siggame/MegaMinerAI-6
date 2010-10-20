@@ -8,7 +8,6 @@ Gameboard::Gameboard( QWidget *prt )
 	// This timer tells us when to repaint the gameboard.
 	// 20 milliseconds or microseconds, I'm not sure
 
-	initializeGL();
 	// This makes it about 50 Frames Per Second
 	timerId = startTimer(15);
 	parent = ((VisualizerWindow*)prt);
@@ -61,34 +60,34 @@ void Gameboard::initializeGL()
 
 	}
 
-	if( !textures[T_DEFAULTBG].loadImage( "background.png" ) )
+	if( !textures[T_DEFAULTBG].loadImage( getAttr( defBGFileName ).c_str() ) )
 	{
 		if (flag)
 		{
 			errString += ", ";
 		}
 		flag = true;
-		errString += "background.png";
+		errString += getAttr( defBGFileName ).c_str();
 	}
 
-	if ( !textures[T_GRID].loadImage( "grid.png" ) )
+	if ( !textures[T_GRID].loadImage( getAttr( gridFileName ).c_str() ) )
 	{
 		if (flag)
 		{
 			errString += ", ";
 		}
 		flag = true;
-		errString += "grid.png";
+		errString += getAttr( gridFileName ).c_str();
 	}
 
-	if ( !textures[T_WALL].loadImage( "wall.png" ) )
+	if ( !textures[T_WALL].loadImage( getAttr( wallFileName ).c_str() ) )
 	{
 		if (flag)
 		{
 			errString += ", ";
 		}
 		flag = true;
-		errString += "wall.png";
+		errString += getAttr( wallFileName ).c_str();
 	}
 
 	if ( !textures[T_BLUEFRAME].loadImage( "frameblue.png" ) )
