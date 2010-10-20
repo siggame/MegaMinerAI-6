@@ -80,6 +80,7 @@ class VisualizerWindow: public QMainWindow
 		void createMenus();
 		void createLayout();
 		void createActions();
+		void createSpeeds();
 
 		QMenu *fileMenu;
 		QMenu *viewMenu;

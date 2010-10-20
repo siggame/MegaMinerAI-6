@@ -37,8 +37,14 @@
 			ATTRIBUTE( int, frameNumber );
 			ATTRIBUTE( int, speed );
 
-			ATTRIBUTE( int, defaultSpeed);
+			// This is the current play speed
 			ATTRIBUTE( int, playSpeed );
+
+			ATTRIBUTE( int, defaultSpeed);
+			ATTRIBUTE( int, x2Speed );
+			ATTRIBUTE( int, x4Speed );
+			ATTRIBUTE( int, x8Speed );
+			ATTRIBUTE( int, x16Speed );
 
 			ATTRIBUTE( bool, dragging );
 

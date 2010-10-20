@@ -38,4 +38,3 @@ void visettings::loadFromFile()
 	//
 	// I don't remember what happens if it turns out not to be there.
 }
-
