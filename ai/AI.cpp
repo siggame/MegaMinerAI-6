@@ -1,5 +1,6 @@
 #include "AI.h"
 #include <iostream>
+#include <cstdlib>
 #include <ctime>
 using namespace std;
 AI::AI(Connection* conn) : BaseAI(conn) {}

@@ -16,11 +16,14 @@ const char* AI::password()
   return "password";
 }
 
-
+int seed;
 //This function is run once, before your first turn.
 void AI::init()
 {
-  srand(time(NULL));
+//  seed= time(NULL);
+  seed=1287585768;
+  srand(seed);
+  
 }
 
 int shitDist(int x, int y, int ox, int oy)
@@ -37,7 +40,7 @@ char* direction[] = {"left","right","up","down"};
 //Return true to end your turn, return false to ask the server for updated information.
 bool AI::run()
 {
-  cout<<"Turn: "<<turnNumber()<<endl;
+  cout<<"Turn: "<<turnNumber()<<" Bots: "<<bots.size()<<" "<<seed<<" "<<playerID()<<endl;
   /*
   // Shows types
   for(unsigned int t=0;t<types.size();t++)
@@ -57,22 +60,33 @@ bool AI::run()
   }
   */
   bool hasAttacker=false;
+  int mine=0,theirs=0;
   for(unsigned int b=0;b<bots.size();b++)
   {
     if(bots[b].owner()==playerID() && bots[b].damage()>0)
     {
       hasAttacker=true;
     }    
+    if(bots[b].owner()==playerID())
+    {
+      mine++;
+    }
+    else
+    {
+      theirs++;
+    }
   }
   for(unsigned int b=0;b<bots.size();b++)
   {
     if(bots[b].owner()==playerID() && bots[b].buildRate()>0 )
     {
-      if(bots[b].actions()>0 && !hasAttacker)
+      if(bots[b].actions()>0)
       {
-        int d = 1+playerID();
+        int d = rand()%4;
+  //      int d = 1+playerID();
         // Builds a fat bot
-        bots[b].build(types[5],bots[b].x()+xMod[d], bots[b].y()+yMod[d],1);
+//        bots[b].build(types[5],bots[b].x()+xMod[d], bots[b].y()+yMod[d],1);
+        bots[b].build(types[rand()%types.size()],bots[b].x()+xMod[d], bots[b].y()+yMod[d],1);
 //        cout<<"Building at: "<<
       }
     }
@@ -110,9 +124,12 @@ bool AI::run()
       }
       else
       {
-        // attack the target
-        bots[b].attack(bots[target]); 
-        cout<<"Attacking for: "<<bots[b].damage()<<endl;
+        if(playerID()==1 || theirs!=1)// || rand()%10==0)
+        {
+          // attack the target
+          bots[b].attack(bots[target]); 
+          cout<<"Attacking for: "<<bots[b].damage()<<endl;
+        }
       }
     }
   }

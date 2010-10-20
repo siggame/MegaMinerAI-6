@@ -1,12 +1,12 @@
 GENDIR=../../codegen/output/c
 all:
-	cp AI.cpp $(GENDIR)
+	cp *.cpp *.h $(GENDIR)
 	make -C $(GENDIR)
 	cp $(GENDIR)/client .
 
 clean:
 	rm -f client
-
+	make -C $(GENDIR) clean
 extra_clean: clean
 	rm -rf *~
 	rm -rf *.gamelog
