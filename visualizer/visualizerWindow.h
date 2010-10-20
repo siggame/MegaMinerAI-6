@@ -13,11 +13,11 @@ class Gameboard;
 // defines playback modes
 enum
 {
-        play = 0,
-        paused,
-        stop,
-        fastForward,
-        rewinding
+	play = 0,
+	paused,
+	stop,
+	fastForward,
+	rewinding
 };
 
 

@@ -11,6 +11,8 @@ VisualizerWindow::VisualizerWindow()
 	createLayout();
 	createSpeeds();
 
+	visettings::instance()->loadFromFile();
+
 	setWindowTitle( "Modular Visualizer" );
 	fullScreen = false;
 	gamelog = 0;
@@ -196,6 +198,7 @@ void VisualizerWindow::controlSliderChanged(int frame)
 		setAttr( frameNumber, frame );
 }
 
+
 void VisualizerWindow::stopClicked()
 {
 	setAttr( frameNumber, 0 );
@@ -203,6 +206,7 @@ void VisualizerWindow::stopClicked()
 	controlSlider->setSliderPosition( 0 );
 	playButton->setText("Play");
 }
+
 
 void VisualizerWindow::playClicked()
 {
@@ -218,6 +222,7 @@ void VisualizerWindow::playClicked()
 		playButton->setText("Play");
 	}
 }
+
 
 void VisualizerWindow::fastForwardClicked()
 {
@@ -263,6 +268,7 @@ void VisualizerWindow::fastForwardClicked()
 	}
 }
 
+
 void VisualizerWindow::rewindClicked()
 {
 	if(getAttr(currentMode) == play)
@@ -306,6 +312,7 @@ void VisualizerWindow::rewindClicked()
 		}
 	}
 }
+
 
 void VisualizerWindow::createLayout()
 {
