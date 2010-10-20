@@ -228,6 +228,12 @@ void VisualizerWindow::playClicked()
 
 void VisualizerWindow::fastForwardClicked()
 {
+	if(getAttr(currentMode) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+
 	if(getAttr(currentMode) == play)
 	{
 		setAttr( currentMode, fastForward );
@@ -273,6 +279,12 @@ void VisualizerWindow::fastForwardClicked()
 
 void VisualizerWindow::rewindClicked()
 {
+	if(getAttr(currentMode) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+
 	if(getAttr(currentMode) == play)
 	{
 		setAttr( currentMode, rewinding );

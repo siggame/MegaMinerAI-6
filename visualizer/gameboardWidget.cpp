@@ -399,11 +399,11 @@ void Gameboard::paintGL()
 					frame>0)
 					setAttr( frameNumber, --frame );
 				else if(getAttr(currentMode) == rewinding &&
-                                          frame == 0)
-                                {
-	                		setAttr( currentMode, paused );
-                			parent->playButton->setText("Play");
-                                }
+					frame == 0)
+				{
+					setAttr( currentMode, paused );
+					parent->playButton->setText("Play");
+				}
 				else
 					setAttr( frameNumber, ++frame );
 			}
