@@ -9,6 +9,9 @@ VisualizerWindow::VisualizerWindow()
 	createActions();
 	createMenus();
 	createLayout();
+	createSpeeds();
+
+	visettings::instance()->loadFromFile();
 
 	setWindowTitle( "Modular Visualizer" );
 	fullScreen = false;
@@ -168,6 +171,17 @@ void VisualizerWindow::createMenus()
 }
 
 
+void VisualizerWindow::createSpeeds()
+{
+	// Don't make fun of me for typing these out manually
+
+	setAttr( x2Speed, getAttr( defaultSpeed )/2);
+	setAttr( x4Speed, getAttr( defaultSpeed )/4);
+	setAttr( x8Speed, getAttr( defaultSpeed )/8);
+	setAttr( x16Speed, getAttr( defaultSpeed )/16);
+}
+
+
 void VisualizerWindow::controlSliderDrag()
 {
 	setAttr( dragging, true );
@@ -186,6 +200,7 @@ void VisualizerWindow::controlSliderChanged(int frame)
 		setAttr( frameNumber, frame );
 }
 
+
 void VisualizerWindow::stopClicked()
 {
 	setAttr( frameNumber, 0 );
@@ -194,12 +209,14 @@ void VisualizerWindow::stopClicked()
 	playButton->setText("Play");
 }
 
+
 void VisualizerWindow::playClicked()
 {
 	if( getAttr( currentMode ) == paused)
 	{
 		setAttr( currentMode, play );
 		playButton->setText("Pause");
+		setAttr( playSpeed, getAttr(defaultSpeed));
 	}
 	else
 	{
@@ -208,41 +225,108 @@ void VisualizerWindow::playClicked()
 	}
 }
 
+
 void VisualizerWindow::fastForwardClicked()
 {
-	setAttr( currentMode, fastForward );
-	if(getAttr(playSpeed) == getAttr(defaultSpeed))
+	if(getAttr(currentMode) == paused)
 	{
-		setAttr( playSpeed, (getAttr(defaultSpeed)/2));
-		fastForwardButton->setText("x2");
-	}
-	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/2)
-	{
-		setAttr( playSpeed, (getAttr(defaultSpeed)/4));
-		fastForwardButton->setText("x4");
-	}
-	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/4)
-	{
-		setAttr( playSpeed, (getAttr(defaultSpeed)/8));
-		fastForwardButton->setText("x8");
-	}
-	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/8)
-	{
-		setAttr( playSpeed, (getAttr(defaultSpeed)/16));
-		fastForwardButton->setText("x16");
-	}
-	else if(getAttr(playSpeed) == getAttr(defaultSpeed)/16)
-	{
-		setAttr( playSpeed, (getAttr(defaultSpeed)));
-		fastForwardButton->setText(">>");
 		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+
+	if(getAttr(currentMode) == play)
+	{
+		setAttr( currentMode, fastForward );
+		setAttr( playSpeed, getAttr(x2Speed));
+	}
+	else if(getAttr(currentMode) == fastForward)
+	{
+		if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x16Speed));
+		}
+	}
+	else if(getAttr(currentMode) == rewinding)
+	{
+		if(getAttr(playSpeed) == getAttr(x16Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x2Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(defaultSpeed));
+			setAttr( currentMode, play );
+		}
 	}
 }
 
+
 void VisualizerWindow::rewindClicked()
 {
-//	setAttr( currentMode, rewinding );
+	if(getAttr(currentMode) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+
+	if(getAttr(currentMode) == play)
+	{
+		setAttr( currentMode, rewinding );
+		setAttr( playSpeed, getAttr(x2Speed));
+	}
+	else if(getAttr(currentMode) == rewinding)
+	{
+		if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x16Speed));
+		}
+	}
+	else if(getAttr(currentMode) == fastForward)
+	{
+		if(getAttr(playSpeed) == getAttr(x16Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x2Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(defaultSpeed));
+			setAttr( currentMode, play );
+		}
+	}
 }
+
 
 void VisualizerWindow::createLayout()
 {

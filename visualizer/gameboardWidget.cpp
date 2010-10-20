@@ -8,7 +8,6 @@ Gameboard::Gameboard( QWidget *prt )
 	// This timer tells us when to repaint the gameboard.
 	// 20 milliseconds or microseconds, I'm not sure
 
-	initializeGL();
 	// This makes it about 50 Frames Per Second
 	timerId = startTimer(15);
 	parent = ((VisualizerWindow*)prt);
@@ -61,34 +60,34 @@ void Gameboard::initializeGL()
 
 	}
 
-	if( !textures[T_DEFAULTBG].loadImage( "background.png" ) )
+	if( !textures[T_DEFAULTBG].loadImage( getAttr( defBGFileName ).c_str() ) )
 	{
 		if (flag)
 		{
 			errString += ", ";
 		}
 		flag = true;
-		errString += "background.png";
+		errString += getAttr( defBGFileName ).c_str();
 	}
 
-	if ( !textures[T_GRID].loadImage( "grid.png" ) )
+	if ( !textures[T_GRID].loadImage( getAttr( gridFileName ).c_str() ) )
 	{
 		if (flag)
 		{
 			errString += ", ";
 		}
 		flag = true;
-		errString += "grid.png";
+		errString += getAttr( gridFileName ).c_str();
 	}
 
-	if ( !textures[T_WALL].loadImage( "wall.png" ) )
+	if ( !textures[T_WALL].loadImage( getAttr( wallFileName ).c_str() ) )
 	{
 		if (flag)
 		{
 			errString += ", ";
 		}
 		flag = true;
-		errString += "wall.png";
+		errString += getAttr( wallFileName ).c_str();
 	}
 
 	if ( !textures[T_BLUEFRAME].loadImage( "frameblue.png" ) )
@@ -248,7 +247,7 @@ void Gameboard::drawFrames( Game *game, float falloff )
 		if( i->owner == 1 )
 			sprite = T_BLUEFRAME;
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
+		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite );
 
 	}
 }
@@ -299,6 +298,10 @@ void Gameboard::drawWalls( Game *game, float falloff )
 
 void Gameboard::drawBackground()
 {
+
+	float baseHeight = getAttr( boardHeightPx );
+	float baseWidth  = getAttr( boardWidthPx );
+
 	if ( hasDefaultBG || (!hasDefaultBG && hasMapGrid ) )
 	{
 		if ( hasDefaultBG )
@@ -312,17 +315,20 @@ void Gameboard::drawBackground()
 		glBegin( GL_QUADS );
 		//todo: set sizes configurable by config file
 
+
 		// float heightRatio = 10.0f / 640.0f;
+
+
 		// float widthRatio  = 20.0f / 1280.0f;
 
 		glTexCoord2f( 0, 0 );
 		glVertex3f( 0, 0, 0 );
 		glTexCoord2f( 20, 0 );
-		glVertex3f( 1280, 0, 0 );
+		glVertex3f( baseWidth, 0, 0 );
 		glTexCoord2f( 20, 10 );
-		glVertex3f( 1280, 640, 0 );
+		glVertex3f( baseWidth, baseHeight, 0 );
 		glTexCoord2f( 0, 10 );
-		glVertex3f( 0, 640, 0 );
+		glVertex3f( 0, baseHeight, 0 );
 
 		glEnd();
 	}
@@ -337,16 +343,16 @@ void Gameboard::drawBackground()
 
 		float aspect = width / height;
 
-		if ( width > 1280 )					 // width too big
+		if ( width > baseWidth )					 // width too big
 		{
-			width = 1280;
-			height =  aspect / 1280;
+			width = baseWidth;
+			height =  aspect / baseWidth;
 		}
 
-		if ( height > 640 )					 // height too big
+		if ( height > baseHeight )					 // height too big
 		{
-			height = 640;
-			width = aspect * 640;
+			height = baseHeight;
+			width = aspect * baseHeight;
 		}
 		glBegin( GL_QUADS );
 
@@ -386,13 +392,21 @@ void Gameboard::paintGL()
 	if( game )
 	{
 
-		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging) 
-		    && getAttr(currentMode) != paused )
+		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
+			&& getAttr(currentMode) != paused )
 		{
 
 			time.restart();
-			if( frame < (int)game->states.size() )
-				setAttr( frameNumber, ++frame );
+
+			// This is where we advance to the next frame
+			if( frame < (int)game->states.size() && frame >= 0 )
+			{
+				if(getAttr(currentMode) == rewinding &&
+					frame>0)
+					setAttr( frameNumber, --frame );
+				else
+					setAttr( frameNumber, ++frame );
+			}
 
 			parent->controlSlider->blockSignals(true);
 			parent->controlSlider->setSliderPosition( frame );
@@ -401,25 +415,24 @@ void Gameboard::paintGL()
 
 		float falloff;
 
-		// ------------NEEDS WORK, possibly--------------------
 		// falloff assignment while rewinding
-                if(getAttr(currentMode) == rewinding)
-                	falloff = 1-((float)time.elapsed()/getAttr(playSpeed));
+		if(getAttr(currentMode) == rewinding)
+			falloff = 1-((float)time.elapsed()/getAttr(playSpeed));
 
 		// This allows the visualizer to finish the animation it is
 		// currently on and then stop while paused/dragging the slider
 		else if(getAttr(currentMode) == paused||getAttr(dragging))
 		{
 			if((float)time.elapsed()/getAttr(playSpeed) <1)
-                		falloff = 
-				  (float)time.elapsed()/getAttr(playSpeed);
+				falloff =
+					(float)time.elapsed()/getAttr(playSpeed);
 			else
-			falloff = 1;
+				falloff = 1;
 		}
 
 		// The normal falloff assignment, when game is moving forwards
-                else
-                	falloff = (float)time.elapsed()/getAttr(playSpeed);
+		else
+			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
 		drawWalls( game, falloff );
 		drawBots( game, falloff );

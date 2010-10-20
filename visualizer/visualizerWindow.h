@@ -13,11 +13,11 @@ class Gameboard;
 // defines playback modes
 enum
 {
-        play = 0,
-        paused,
-        stop,
-        fastForward,
-        rewinding
+	play = 0,
+	paused,
+	stop,
+	fastForward,
+	rewinding
 };
 
 class UnitSelection: public QWidget
@@ -80,6 +80,7 @@ class VisualizerWindow: public QMainWindow
 		void createMenus();
 		void createLayout();
 		void createActions();
+		void createSpeeds();
 
 		QMenu *fileMenu;
 		QMenu *viewMenu;
