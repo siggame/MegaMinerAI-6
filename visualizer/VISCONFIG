@@ -1,2 +1,5 @@
 DefaultSpeed = 150
-UnitSize = 32 
+UnitSize = 32
+defBGFileName = background.png
+wallFileName = wall.png
+gridFileName = grid.png

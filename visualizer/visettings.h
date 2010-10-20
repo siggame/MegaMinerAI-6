@@ -48,6 +48,12 @@
 
 			ATTRIBUTE( bool, dragging );
 
+			// Texture Files
+
+			ATTRIBUTE( string, defBGFileName );
+			ATTRIBUTE( string, wallFileName );
+			ATTRIBUTE( string, gridFileName );
+
 			public:
 				static visettings *inst;
 				static visettings *instance()

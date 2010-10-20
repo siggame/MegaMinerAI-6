@@ -32,6 +32,13 @@ void visettings::loadFromFile()
 	setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
 	setAttr( unitSize, configFile.pInt( "UnitSize" ) );
 
+        // File Name Attributes
+
+        setAttr( defBGFileName, configFile.pString( "defBGFileName" ) );
+        setAttr( wallFileName, configFile.pString( "wallFileName" ) );
+        setAttr( gridFileName, configFile.pString( "gridFileName" ) );
+
+        
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:
 	// configFile.pString,pBool,pDouble,or pInt
