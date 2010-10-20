@@ -13,11 +13,11 @@ class Gameboard;
 // defines playback modes
 enum
 {
-        play = 0,
-        paused,
-        stop,
-        fastForward,
-        rewinding
+	play = 0,
+	paused,
+	stop,
+	fastForward,
+	rewinding
 };
 
 class UnitSelection: public QWidget
@@ -43,6 +43,8 @@ class VisualizerWindow: public QMainWindow
 		bool loadGamelog( char *filename );
 
 		Game *gamelog;
+
+		// Play controls
 		QSlider *controlSlider;
 		QPushButton *playButton;
 		QPushButton *rewindButton;
@@ -65,6 +67,7 @@ class VisualizerWindow: public QMainWindow
 		// Help File
 		void viewGameDocs();
 
+		// Play control fuctions
 		void controlSliderDrag();
 		void controlSliderReleased();
 		void controlSliderChanged(int frame);
@@ -77,6 +80,7 @@ class VisualizerWindow: public QMainWindow
 		void createMenus();
 		void createLayout();
 		void createActions();
+		void createSpeeds();
 
 		QMenu *fileMenu;
 		QMenu *viewMenu;
