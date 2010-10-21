@@ -1,6 +1,12 @@
 INCLUDEPATH += ./parser ./parser/sexp
 
-LIBS += ./parser/sexp/sexp.a
+win32 {
+    LIBS += ./parser/sexp/sexpXP.a
+} else {
+    LIBS += ./parser/sexp/sexp.a
+}
+
+
 SOURCES += main.cpp visualizerWindow.cpp gameboardWidget.cpp
 SOURCES += ./parser/parser.cpp 
 SOURCES += ./parser/structures.cpp

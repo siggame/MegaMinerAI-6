@@ -9,6 +9,9 @@ VisualizerWindow::VisualizerWindow()
 	createActions();
 	createMenus();
 	createLayout();
+	createSpeeds();
+
+	visettings::instance()->loadFromFile();
 
 	setWindowTitle( "Modular Visualizer" );
 	fullScreen = false;
@@ -68,7 +71,13 @@ void VisualizerWindow::openGamelog()
 
 	//todo: argument 3 should be the default directory of the game logs
 	//todo: argument 4 should have the actual extention of a game log
-	QString fileName = QFileDialog::getOpenFileName(this,tr("Open Game Log"),"~/",tr("Log Files(*.gamelog)"));
+	QString fileName =
+		QFileDialog::getOpenFileName(
+		this,
+		tr("Open Game Log"),
+		"~/",
+		tr("Log Files(*.gamelog)")
+		);
 
 	if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
 	{
@@ -104,14 +113,24 @@ void VisualizerWindow::clearBackground()
 
 void VisualizerWindow::loadBackground()
 {
-	QString filename = QFileDialog::getOpenFileName( this,"Open Background","~/","Images(*.png)" );
+	QString filename =
+		QFileDialog::getOpenFileName(
+		this,
+		"Open Background",
+		"~/",
+		"Images(*.png)"
+		);
 
 	if ( filename == tr("") )
 		return;
 
 	if ( !gameboard->loadBackground( filename ) )
 	{
-		QMessageBox::critical( this, "Error", "The file you selected for a background wouldn't load" );
+		QMessageBox::critical(
+			this,
+			"Error",
+			"The file you selected for a background wouldn't load"
+			);
 	}
 
 }
@@ -152,6 +171,17 @@ void VisualizerWindow::createMenus()
 }
 
 
+void VisualizerWindow::createSpeeds()
+{
+	// Don't make fun of me for typing these out manually
+
+	setAttr( x2Speed, getAttr( defaultSpeed )/2);
+	setAttr( x4Speed, getAttr( defaultSpeed )/4);
+	setAttr( x8Speed, getAttr( defaultSpeed )/8);
+	setAttr( x16Speed, getAttr( defaultSpeed )/16);
+}
+
+
 void VisualizerWindow::controlSliderDrag()
 {
 	setAttr( dragging, true );
@@ -171,6 +201,133 @@ void VisualizerWindow::controlSliderChanged(int frame)
 }
 
 
+void VisualizerWindow::stopClicked()
+{
+	setAttr( frameNumber, 0 );
+	setAttr( currentMode, paused );
+	controlSlider->setSliderPosition( 0 );
+	playButton->setText("Play");
+}
+
+
+void VisualizerWindow::playClicked()
+{
+	if( getAttr( currentMode ) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+		setAttr( playSpeed, getAttr(defaultSpeed));
+	}
+	else
+	{
+		setAttr( currentMode, paused );
+		playButton->setText("Play");
+	}
+}
+
+
+void VisualizerWindow::fastForwardClicked()
+{
+	if(getAttr(currentMode) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+
+	if(getAttr(currentMode) == play)
+	{
+		setAttr( currentMode, fastForward );
+		setAttr( playSpeed, getAttr(x2Speed));
+	}
+	else if(getAttr(currentMode) == fastForward)
+	{
+		if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x16Speed));
+		}
+	}
+	else if(getAttr(currentMode) == rewinding)
+	{
+		if(getAttr(playSpeed) == getAttr(x16Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x2Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(defaultSpeed));
+			setAttr( currentMode, play );
+		}
+	}
+}
+
+
+void VisualizerWindow::rewindClicked()
+{
+	if(getAttr(currentMode) == paused)
+	{
+		setAttr( currentMode, play );
+		playButton->setText("Pause");
+	}
+
+	if(getAttr(currentMode) == play)
+	{
+		setAttr( currentMode, rewinding );
+		setAttr( playSpeed, getAttr(x2Speed));
+	}
+	else if(getAttr(currentMode) == rewinding)
+	{
+		if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x16Speed));
+		}
+	}
+	else if(getAttr(currentMode) == fastForward)
+	{
+		if(getAttr(playSpeed) == getAttr(x16Speed))
+		{
+			setAttr( playSpeed, getAttr(x8Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x8Speed))
+		{
+			setAttr( playSpeed, getAttr(x4Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x4Speed))
+		{
+			setAttr( playSpeed, getAttr(x2Speed));
+		}
+		else if(getAttr(playSpeed) == getAttr(x2Speed))
+		{
+			setAttr( playSpeed, getAttr(defaultSpeed));
+			setAttr( currentMode, play );
+		}
+	}
+}
+
+
 void VisualizerWindow::createLayout()
 {
 	// Remove awkward spacing around the edges
@@ -181,7 +338,11 @@ void VisualizerWindow::createLayout()
 	QGLFormat::setDefaultFormat(f);
 	if (!QGLFormat::hasOpenGL())
 	{
-		QMessageBox::information( 0, "Opengl", "SYSTEM DOES NOT SUPPORT OPENGL", QMessageBox::Ok);
+		QMessageBox::information(
+			0,
+			"Opengl",
+			"SYSTEM DOES NOT SUPPORT OPENGL",
+			QMessageBox::Ok);
 		return;
 	}
 
@@ -196,7 +357,7 @@ void VisualizerWindow::createLayout()
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
 	unitSelection = new UnitSelection;
-	playButton = new QPushButton("Play");
+	playButton = new QPushButton("Pause");
 	rewindButton = new QPushButton("<<");
 	fastForwardButton = new QPushButton(">>");
 	stopButton = new QPushButton("Stop");
@@ -224,7 +385,7 @@ void VisualizerWindow::createLayout()
 	vbox->setContentsMargins( 0, 0, 0, 0 );
 	debugLayout->setContentsMargins( 0, 0, 0, 0 );
 
-	playButton->setFixedWidth(45);
+	playButton->setFixedWidth(50);
 	rewindButton->setFixedWidth(30);
 	fastForwardButton->setFixedWidth(30);
 	stopButton->setFixedWidth(45);
@@ -235,9 +396,48 @@ void VisualizerWindow::createLayout()
 	controlSlider->setMinimum( 0 );
 	controlSlider->setTracking( true );
 
-	connect( controlSlider, SIGNAL(sliderPressed()), this, SLOT(controlSliderDrag()));
-	connect( controlSlider, SIGNAL(sliderReleased()), this, SLOT(controlSliderReleased()));
-	connect( controlSlider, SIGNAL(valueChanged(int)), this, SLOT(controlSliderChanged(int)));
+	connect(
+		controlSlider,
+		SIGNAL(sliderPressed()),
+		this,
+		SLOT(controlSliderDrag())
+		);
+	connect(
+		controlSlider,
+		SIGNAL(sliderReleased()),
+		this,
+		SLOT(controlSliderReleased())
+		);
+	connect(
+		controlSlider,
+		SIGNAL(valueChanged(int)),
+		this,
+		SLOT(controlSliderChanged(int))
+		);
+	connect(
+		stopButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(stopClicked())
+		);
+	connect(
+		playButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(playClicked())
+		);
+	connect(
+		fastForwardButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(fastForwardClicked())
+		);
+	connect(
+		rewindButton,
+		SIGNAL(clicked()),
+		this,
+		SLOT(rewindClicked())
+		);
 
 	vbox->addWidget(gameboard, 4);
 	vbox->addWidget(bottomBar, 2);

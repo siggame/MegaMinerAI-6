@@ -24,22 +24,39 @@
 		{
 			// SETUP GLOBAL ATTRIBUTES
 
-			ATTRIBUTE( int, curX )
-				ATTRIBUTE( int, curY )
-				ATTRIBUTE( int, maxX )
-				ATTRIBUTE( int, maxY )
-				ATTRIBUTE( int, boardX )
-				ATTRIBUTE( int, boardY )
+			ATTRIBUTE( int, curX );
+			ATTRIBUTE( int, curY );
+			ATTRIBUTE( int, maxX );
+			ATTRIBUTE( int, maxY );
+			ATTRIBUTE( int, boardX );
+			ATTRIBUTE( int, boardY );
 
-				ATTRIBUTE( int, unitSize );
+			ATTRIBUTE( int, unitSize );
 
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
 			ATTRIBUTE( int, speed );
 
+			// This is the current play speed
 			ATTRIBUTE( int, playSpeed );
 
+			ATTRIBUTE( int, defaultSpeed);
+			ATTRIBUTE( int, x2Speed );
+			ATTRIBUTE( int, x4Speed );
+			ATTRIBUTE( int, x8Speed );
+			ATTRIBUTE( int, x16Speed );
+
 			ATTRIBUTE( bool, dragging );
+
+			ATTRIBUTE( int, boardHeightPx );
+			ATTRIBUTE( int, boardWidthPx );
+
+
+			// Texture Files
+
+			ATTRIBUTE( string, defBGFileName );
+			ATTRIBUTE( string, wallFileName );
+			ATTRIBUTE( string, gridFileName );
 
 			public:
 				static visettings *inst;
