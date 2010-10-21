@@ -253,6 +253,8 @@ class Bot(Unit):
     return True
 
   def attack(self, target):
+    if self.damage == 0:
+      return "Bot unable to attack, damage score = 0"
     if self._distance(target) > (self.range + 1):
       return "Target out of range."
 
@@ -266,6 +268,8 @@ class Bot(Unit):
     return True
 
   def heal(self, target):
+    if self.buildRate == 0:
+      return "Bot unable to heal, build score = 0"
     if self._distance(target) > (self.range + 1):
       return "Target out of range."
     if target.owner != self.owner:
@@ -283,14 +287,14 @@ class Bot(Unit):
     return True
 
   def build(self, type, x, y, size):
+    if self.buildRate == 0:
+      return "Bot unable to build, build score = 0"
     if self.actions < 1:
       return "Out of actions"
     if x < 0 or y < 0 or x+size > self.game.boardX or y+size > self.game.boardY:
       return "Building off the world"
     if size > self.size:
       return "Building a robot larger than itself."
-    if self.buildRate == 0:
-      return "Bot unable to build. (build score = 0)"
 
     completionTime = 4 * size**2 / self.buildRate
     health = min(type.maxHealth * self.buildRate / 4, type.maxHealth * size**2)
