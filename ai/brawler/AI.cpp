@@ -28,6 +28,10 @@ void AI::init()
   }
 }
 
+
+int xMod[] = {-1, 1,0,0,0};
+int yMod[] = {0, 0,-1,1,0};
+
 enum OTYPE{MOVE,ATTACK,HEAL,BUILD,COMBINE,SPLIT,OTYPE_SIZE};
 string OTYPE_DISPLAY[]={"MOVE","ATTACK","HEAL","BUILD","COMBINE","SPLIT"};
 enum DIR{LEFT,RIGHT,UP,DOWN,DIR_SIZE};
@@ -104,6 +108,10 @@ struct Stub
   // Points at the best order in the list
   list<Order>::iterator bestOrder;
   
+  // Stuff used for order validation
+  int actionsTaken;
+  int movesTaken;
+  
   Stub(){ };
   Stub(int id)
   {
@@ -117,6 +125,8 @@ struct Stub
     {
       stubs.push_back(Order(id,(OTYPE)i));
     }
+    actionsTaken=0;
+    movesTaken=0;
   }
   
   bool empty()
@@ -125,9 +135,6 @@ struct Stub
   }
 };
 
-
-int xMod[] = {0,0,-1,1,0};
-int yMod[] = {-1,1,0,0,0};
 
 float AI::getScore(Stub& stub)
 {
@@ -174,15 +181,21 @@ float AI::bestMove(Order& order)
   // calculate the quality of each type of move
   for(unsigned int i=0;i<DIR_SIZE;i++)
   {
-    //TODO score move
-    float score = rand()%20-10;
-    if(score > order.fitness)
+    int x=bots[b].x()+xMod[i];
+    int y=bots[b].y()+yMod[i];
+    // Check if it is in bounds
+    if(x>=0 && x<boardX() && y>=0 && y<boardY())
     {
-      order.fitness=score;
-      order.dir = (DIR)i;
+      //TODO score move
+      float score = rand()%20+1;
+      if(score > order.fitness)
+      {
+        order.fitness=score;
+        order.dir = (DIR)i;
+      }
     }
   }
-  cout<<"Scored move: "<<order.fitness<<endl;
+//  cout<<"Scored move: "<<order.fitness<<endl;
   return order.fitness;
 }
 
@@ -209,13 +222,46 @@ float AI::bestSplit(Order&order)
 
 
 
-void removeInvalid(Stub& stub)
+void AI::removeInvalid(Stub& stub)
 {
-  cout<<"Attempting to remove invalid actions from a stub"<<endl;
+  //cout<<"Attempting to remove invalid actions from a stub"<<endl;
+  for(list<Order>::iterator it=stub.stubs.begin();it!=stub.stubs.end();it++)
+  {
+    int b=idToBot.find(it->toOrder)->second;
+    bool remove=false;
+    // depending on the type of order
+    switch(it->type)
+    {
+      case MOVE:
+        remove= stub.movesTaken>=bots[b].movitude();
+        break;
+      case ATTACK:
+        remove=true;
+        break;
+      case HEAL:
+        remove=true;
+        break;
+      case BUILD:
+        remove=true;
+        break;
+      case COMBINE:
+        remove=true;
+        break;
+      case SPLIT:
+        remove=true;
+        break;
+    }
+    if(remove)
+    {
+      stub.stubs.erase(it);
+      it--;
+    }
+  }
 }
 
-void AI::execute(Order& order)
+void AI::execute(Stub& stub)
 {
+  Order order= *(stub.bestOrder);
   cout<<"Executing: "<<order<<endl;
   int b=idToBot.find(order.toOrder)->second;
   int target;
@@ -224,10 +270,12 @@ void AI::execute(Order& order)
   {
     case MOVE:
       bots[b].move(direction[order.dir]);
+      stub.movesTaken++;
       break;
     case ATTACK:
       target=idToBot.find(order.targetID)->second;
       bots[b].attack(bots[target]);
+      //stub.actionsTaken++;
       break;
     case HEAL:
       target=idToBot.find(order.targetID)->second;
@@ -275,7 +323,7 @@ bool AI::run()
       // Pushes on a stub for this unit
       if(!toAdd.empty())
       {
-        cout<<"Pushing back orders for: "<<bots[b].id()<<endl;
+        //cout<<"Pushing back orders for: "<<bots[b].id()<<endl;
         orderList.push_back(toAdd);
       }
     }
@@ -290,25 +338,21 @@ bool AI::run()
       int score=getScore(*it);
       if(score>best)
       {
-        cout<<"better found: "<<score<<endl;
         bestIt=it;
         best=score;
       }
     }
     if(best>0)
     {
-      cout<<"About to call execute"<<endl;
-      execute(*(bestIt->bestOrder));
+      execute(*bestIt);
       removeInvalid(*bestIt);
       if(bestIt->empty())
       {
-        cout<<"\t\tRemoving stub"<<endl;
         orderList.erase(bestIt);
       }
     }
     else
     {
-      cout<<"Good orders exhausted"<<endl;
       goodOrders=false;
     }
   }
