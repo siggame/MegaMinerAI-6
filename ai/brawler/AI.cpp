@@ -201,7 +201,12 @@ float AI::bestMove(Order& order)
 
 float AI::bestAttack(Order&order)
 {
-  return INT_MIN;
+  
+  order.fitness=rand()%20-10;
+  //cout<<"Attack ranked: "<<order.fitness<<endl;
+  order.targetID=bots[rand()%bots.size()].id();
+  //order.targetID=order.toOrder;
+  return order.fitness;
 }
 float AI::bestHeal(Order&order)
 {
@@ -236,7 +241,7 @@ void AI::removeInvalid(Stub& stub)
         remove= stub.movesTaken>=bots[b].movitude();
         break;
       case ATTACK:
-        remove=true;
+        remove=stub.actionsTaken>=bots[b].actitude();
         break;
       case HEAL:
         remove=true;
@@ -253,6 +258,7 @@ void AI::removeInvalid(Stub& stub)
     }
     if(remove)
     {
+      cout<<"Removing invalid: "<<OTYPE_DISPLAY[it->type]<<endl;
       stub.stubs.erase(it);
       it--;
     }
@@ -348,11 +354,13 @@ bool AI::run()
       removeInvalid(*bestIt);
       if(bestIt->empty())
       {
+        cout<<"List Empty"<<endl;
         orderList.erase(bestIt);
       }
     }
     else
     {
+      cout<<"No good orders"<<endl;
       goodOrders=false;
     }
   }
