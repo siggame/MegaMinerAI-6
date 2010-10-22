@@ -338,7 +338,7 @@ class Bot(Unit):
       if isinstance(i, Bot):
         if i.partOf == self.id:
           i.partOf = 0
-    self.game.animations.append('Split', self.id)
+    self.game.animations.append(['Split', self.id])
     self.game.remove(self)
 
     return True
