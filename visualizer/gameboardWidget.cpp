@@ -380,10 +380,9 @@ void Gameboard::drawBackground()
 
 void Gameboard::drawScoreboard()
 {
-	
 
 	glLoadIdentity();
-	
+
 	glEnable(GL_BLEND);
 
 	glTranslatef( 10, 10, 0 );
@@ -392,6 +391,7 @@ void Gameboard::drawScoreboard()
 	glColor3f( 1, 1, 1 );
 
 }
+
 
 void Gameboard::paintGL()
 {
