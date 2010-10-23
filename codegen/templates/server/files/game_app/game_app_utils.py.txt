@@ -26,7 +26,7 @@ def errorBuffer(func):
     errBuff = func(self, *args)
     name = dashify(func.__name__)
     if errBuff == True:
-      return (name,)
+      return False
     else:
       return (name + '-denied', errBuff)
   return wrappedFunc
