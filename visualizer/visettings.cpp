@@ -49,6 +49,9 @@ void visettings::loadFromFile()
 	setAttr( arenaMode, configFile.pInt( "ArenaMode" ) );
 	setAttr( winnerScreenTime, configFile.pInt( "WinnerScreenTime" ) );
 
+	setAttr( defaultFont, configFile.pString( "defaultFont" ) );
+	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidtsh" ) );
+
 
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:

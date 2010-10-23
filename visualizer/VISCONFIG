@@ -16,6 +16,13 @@ BoardWidthPx = 1280
 PauseOnLoad = 0
 
 
+# FONT STUFF
+
+# Default Font Texture
+defaultFont = "font1.png"
+# File containing list of widths for each font character
+defaultFontWidths = "font1.dat"
+
 # ARENA STUFF
 
 # Is This the Arena?
