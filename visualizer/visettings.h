@@ -63,7 +63,7 @@
 			ATTRIBUTE( int, winnerScreenTime );
 
 			// Font Stuff
-			
+
 			ATTRIBUTE( string, defaultFont );
 			ATTRIBUTE( string, defaultFontWidths );
 

@@ -50,7 +50,7 @@ void visettings::loadFromFile()
 	setAttr( winnerScreenTime, configFile.pInt( "WinnerScreenTime" ) );
 
 	setAttr( defaultFont, configFile.pString( "defaultFont" ) );
-	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidtsh" ) );
+	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths" ) );
 
 
 	//setAttr( filename, configFile.pString( "filenameString" ) );
