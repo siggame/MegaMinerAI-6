@@ -39,15 +39,21 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-	// TODO: Due to all the error checking in this file, I bet someone wants me to error check this.
-	// lulz. oh well
-	textures[T_FONT].loadImage( getAttr( defaultFont ).c_str() );
+	drawFont = NULL;
 
-	drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
-
-	//todo: filenames should come from a config file
 	bool flag = false;
 	QString errString;
+
+	if ( !textures[T_FONT].loadImage( getAttr( defaultFont ).c_str() ) )
+	{
+		errString += getAttr( defaultFont ).c_str();
+		flag = true;
+	}
+	else
+	{
+		drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
+	}
+
 
 	if ( !textures[T_RED].loadImage( "megaman.png" ) )
 	{
@@ -387,7 +393,10 @@ void Gameboard::drawScoreboard()
 
 	glTranslatef( 10, 10, 0 );
 	glColor3f( 1, 0, 0 );
-	drawFont->drawString( "The quick brown fox jumped over the lazy dog" );
+	if (drawFont != NULL)
+	{
+		drawFont->drawString( "The quick brown fox jumped over the lazy dog" );
+	}
 	glColor3f( 1, 1, 1 );
 
 }
