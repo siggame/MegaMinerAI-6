@@ -39,13 +39,11 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-
 	// TODO: Due to all the error checking in this file, I bet someone wants me to error check this.
 	// lulz. oh well
 	textures[T_FONT].loadImage( getAttr( defaultFont ).c_str() );
-		
-	drawFont = new DrawGLFont( T_FONT, getAttr( defaultFontWidths ) );
 
+	drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
 
 	//todo: filenames should come from a config file
 	bool flag = false;
@@ -380,6 +378,21 @@ void Gameboard::drawBackground()
 }
 
 
+void Gameboard::drawScoreboard()
+{
+	
+
+	glLoadIdentity();
+	
+	glEnable(GL_BLEND);
+
+	glTranslatef( 10, 10, 0 );
+	glColor3f( 1, 0, 0 );
+	drawFont->drawString( "The quick brown fox jumped over the lazy dog" );
+	glColor3f( 1, 1, 1 );
+
+}
+
 void Gameboard::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -444,6 +457,7 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawFrames( game, falloff );
 	}
+	drawScoreboard();
 }
 
 

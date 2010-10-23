@@ -9,40 +9,38 @@
 
 using namespace std;
 
-
 class DrawGLFont
 {
-public:
-	DrawGLFont();
-	DrawGLFont( int fontTextureId, string fontWidthsFile ) 
-	{
-		loadNewFont( fontTextureId, fontWidthsFile );
-	}
+	public:
+		DrawGLFont();
+		DrawGLFont( int fontTextureId, string fontWidthsFile )
+		{
+			loadNewFont( fontTextureId, fontWidthsFile );
+		}
 
-	void setBold( bool isBold )
-	{
-		bold = isBold;
-	}
+		void setBold( bool isBold )
+		{
+			bold = isBold;
+		}
 
-	bool loadNewFont( int fontTextureId, string fontWidthsFile );
+		bool loadNewFont( int fontTextureId, string fontWidthsFile );
 
-	void drawString( string message );
+		void drawString( string message );
 
-private:
+	private:
 
-	// Don't want to waste a bunch of time rebinding the font
-	// So we'll make this private and do the binding in
-	// drawString 
-	void drawCharacter( char c );
-	
-	// We know there's 256 widths
-	char widths[256];
+		// Don't want to waste a bunch of time rebinding the font
+		// So we'll make this private and do the binding in
+		// drawString
+		void drawCharacter( unsigned char c );
 
-	// ID of texture to bind
-	int textureId;
+		// We know there's 256 widths
+		char widths[256];
 
-	float kerning;
-	bool bold;
+		// ID of texture to bind
+		int textureId;
+
+		float kerning;
+		bool bold;
 };
-
 #endif

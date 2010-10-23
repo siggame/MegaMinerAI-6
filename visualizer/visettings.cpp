@@ -52,7 +52,6 @@ void visettings::loadFromFile()
 	setAttr( defaultFont, configFile.pString( "defaultFont" ) );
 	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths" ) );
 
-
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:
 	// configFile.pString,pBool,pDouble,or pInt

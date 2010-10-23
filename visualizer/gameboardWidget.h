@@ -49,6 +49,7 @@ class Gameboard : public QGLWidget
 		void timerEvent( QTimerEvent * );
 		void drawBots( Game* game, float falloff );
 		void drawBackground( );
+		void drawScoreboard();
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
 
