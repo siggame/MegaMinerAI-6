@@ -1,16 +1,15 @@
 #!/bin/bash
 
-rm -r beauty >& /dev/null
-mkdir beauty
-
 for f in *.cpp *.h 
 do
-	bcpp -fnc bcpp.cfg $f > ./beauty/$f
+	bcpp -fnc bcpp.cfg $f > ./bccpTemp~
 	if [ $? -ne 127 ]
 	then
-		cp ./beauty/$f ./$f
+		cp ./bccpTemp~ ./$f
 	else
 		echo "bcpp not installed.  Install and try, try again!"
 		exit
 	fi
 done
+
+rm ./bccpTemp~
