@@ -46,6 +46,10 @@ void visettings::loadFromFile()
 	setAttr( defaultMode, configFile.pInt( "PauseOnLoad" ) );
 	currentMode=defaultMode;
 
+	setAttr( arenaMode, configFile.pInt( "ArenaMode" ) );
+	setAttr( winnerScreenTime, configFile.pInt( "WinnerScreenTime" ) );
+
+
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:
 	// configFile.pString,pBool,pDouble,or pInt

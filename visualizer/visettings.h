@@ -58,6 +58,11 @@
 			ATTRIBUTE( string, wallFileName );
 			ATTRIBUTE( string, gridFileName );
 
+
+			// Arena Stuff
+			ATTRIBUTE( int, arenaMode );
+			ATTRIBUTE( int, winnerScreenTime );
+
 			public:
 				static visettings *inst;
 				static visettings *instance()
