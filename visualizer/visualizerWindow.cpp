@@ -67,10 +67,15 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 void VisualizerWindow::openGamelog()
 {
+
 	//Get the gamelog's Filename:
 
 	//todo: argument 3 should be the default directory of the game logs
 	//todo: argument 4 should have the actual extention of a game log
+	
+	// Kill the GL Paint interrupt timer so open dialogue can load.
+	gameboard->killTimer( gameboard->timerId );
+
 	QString fileName =
 		QFileDialog::getOpenFileName(
 		this,
@@ -83,6 +88,14 @@ void VisualizerWindow::openGamelog()
 	{
 		QMessageBox::critical(this,"Error","Game Log Failed to Open");
 	}
+
+	// Reset to frame zero
+	setAttr( frameNumber, 0 );
+	setAttr( playSpeed, getAttr( defaultSpeed ) );
+	setAttr( currentMode, getAttr( defaultMode ) );
+
+	// Start her up again
+	gameboard->timerId = gameboard->startTimer( 50 );
 
 }
 

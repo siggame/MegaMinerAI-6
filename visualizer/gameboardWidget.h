@@ -61,7 +61,7 @@ class Gameboard : public QGLWidget
 		bool hasMapGrid;
 		bool hasDefaultBG;					 //default background
 
-	private:
+	public:
 		int timerId;
 
 };

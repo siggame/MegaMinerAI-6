@@ -33,6 +33,7 @@
 
 			ATTRIBUTE( int, unitSize );
 
+			ATTRIBUTE( int, defaultMode );
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
 			ATTRIBUTE( int, speed );

@@ -12,6 +12,7 @@ visettings::visettings()
 	dragging = false;
 
 	unitSize = 32;
+	currentMode=defaultMode=0;
 
 }
 
@@ -41,6 +42,10 @@ void visettings::loadFromFile()
 	//For Board Drawing, these are the maximums
 	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx" ));
 	setAttr( boardWidthPx, configFile.pInt( "BoardWidthPx" ));
+
+
+	setAttr( defaultMode, configFile.pInt( "PauseOnLoad" ) );
+	currentMode=defaultMode;
 
         
 	//setAttr( filename, configFile.pString( "filenameString" ) );

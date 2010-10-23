@@ -5,4 +5,5 @@ wallFileName = "wall.png"
 gridFileName = "grid.png"
 BoardHeightPx = 640
 BoardWidthPx = 1280
+PauseOnLoad = 0
 
