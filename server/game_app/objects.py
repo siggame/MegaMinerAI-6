@@ -334,12 +334,12 @@ class Bot(Unit):
       return "No actions left."
     if self.size < 2:
       return "Not compound."
-    for i in self.game.objects:
+    for i in self.game.objects.values():
       if isinstance(i, Bot):
         if i.partOf == self.id:
           i.partOf = 0
     self.game.animations.append(['Split', self.id])
-    self.game.remove(self)
+    self.game.removeObject(self)
 
     return True
 
