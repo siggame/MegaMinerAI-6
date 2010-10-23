@@ -384,7 +384,11 @@ void VisualizerWindow::createLayout()
 			border-radius: 4px;\
 		  }	");
 	gameboard = new Gameboard(this);
-	QFrame *centralWidget = new QFrame;
+
+	QDockWidget *bottomDock = new QDockWidget(this );
+	bottomDock->setAllowedAreas( Qt::BottomDockWidgetArea );
+	bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
+
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
@@ -415,8 +419,9 @@ void VisualizerWindow::createLayout()
 
 	bottomBar->setLayout( debugLayout );
 
-	bottomBar->setFixedHeight( 250 );
+	//bottomBar->setMaximumHeight( 250 );
 
+	QFrame *bottomFrame = new QFrame;
 	QVBoxLayout *vbox = new QVBoxLayout;
 	vbox->setContentsMargins( 0, 0, 0, 0 );
 	debugLayout->setContentsMargins( 0, 0, 0, 0 );
@@ -431,6 +436,10 @@ void VisualizerWindow::createLayout()
 	controlSlider->setMaximum( 0 );
 	controlSlider->setMinimum( 0 );
 	controlSlider->setTracking( true );
+
+	bottomFrame->setLayout( vbox );
+	bottomDock->setWidget( bottomFrame );
+	addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
 
 	connect(
 		controlSlider,
@@ -475,12 +484,10 @@ void VisualizerWindow::createLayout()
 		SLOT(rewindClicked())
 		);
 
-	vbox->addWidget(gameboard, 4);
 	vbox->addWidget(bottomBar, 2);
 	vbox->addWidget(controlBar, 1);
 
-	centralWidget->setLayout( vbox );
-	setCentralWidget( centralWidget );
+	setCentralWidget( gameboard );
 }
 
 

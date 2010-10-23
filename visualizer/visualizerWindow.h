@@ -4,6 +4,7 @@
 #include <QtGui>
 #include <QSlider>
 #include <QMainWindow>
+#include <QDockWidget>
 #include "gameboardWidget.h"
 #include "parser.h"
 #include "statsDialog.h"
