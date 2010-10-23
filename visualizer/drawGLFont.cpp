@@ -72,8 +72,6 @@ void DrawGLFont::drawCharacter( unsigned char c )
 	float x = (float)((int)tmp%16)/16;
 	float y = 1-(float)((int)tmp/16)/16;
 
-	cout << tmp << " " << y*16 << " " <<   y << endl;
-
 	glBegin( GL_QUADS );
 
 	glTexCoord2f(x, y+off);
