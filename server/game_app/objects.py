@@ -146,6 +146,15 @@ class Bot(Unit):
         y = target.y - (self.y + self.size-1)
       return x + y
 
+  def _move(self, x, y):
+    self.x += x
+    self.y += y
+    if self.size > 1:
+      for i in self.game.objects.values():
+        if isinstance(i, Bot):
+          if i.partOf == self.id:
+            i._move(x, y)
+
   @staticmethod
   def makeBot(game, x, y, owner, type, size):
     if size == 1:
@@ -239,20 +248,7 @@ class Bot(Unit):
       victims = [i for i in victims if i.health > 0]
     
     if not victims:
-      for i in self.game.objects:
-        if isinstance(i, Bot) and i  is not self:
-          #If it's in this bot, then it's a part of this bot, and so it should move with it)
-          if self._distance(i) == 0:
-            i.x += x
-            i.y += y
-      self.x += x
-      self.y += y
-      if self.size > 1:
-        for i in self.game.objects.values():
-          if isinstance(i, Bot):
-            if i.partOf == self.id:
-              i.x += x
-              i.y += y
+      self._move(x, y)
     
     self.steps -= 1
     
