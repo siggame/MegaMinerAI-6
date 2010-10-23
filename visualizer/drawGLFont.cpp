@@ -15,7 +15,7 @@ bool DrawGLFont::loadNewFont(
 {
 	textureId = fontTextureId;
 
-	ifstream file( fontWidthsFile, "rb" );
+	ifstream file( fontWidthsFile.c_str() );
 	if( !file.is_open() )
 		return false;
 
@@ -64,7 +64,7 @@ void DrawGLFont::drawCharacter( char c )
 	float y = (c - x*16)/16;
 	glBegin( GL_QUADS );
 	
-	glTexCoord2f(x, y) 
+	glTexCoord2f(x, y); 
 	glVertex3f( 0, 0, 0 );
 	glTexCoord2f(x+off,y);
 	glVertex3f( 32, 0, 0 );
@@ -73,5 +73,5 @@ void DrawGLFont::drawCharacter( char c )
 	glTexCoord2f( x, y+off );
 	glVertex3f( 0, 32, 0 );
 
-	glEnd( GL_QUADS );
+	glEnd();
 }

@@ -39,6 +39,14 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
+
+	// TODO: Due to all the error checking in this file, I bet someone wants me to error check this.
+	// lulz. oh well
+	textures[T_FONT].loadImage( getAttr( defaultFont ).c_str() );
+		
+	drawFont = new DrawGLFont( T_FONT, getAttr( defaultFontWidths ) );
+
+
 	//todo: filenames should come from a config file
 	bool flag = false;
 	QString errString;

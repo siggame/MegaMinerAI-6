@@ -43,6 +43,6 @@ private:
 
 	float kerning;
 	bool bold;
-}
+};
 
 #endif

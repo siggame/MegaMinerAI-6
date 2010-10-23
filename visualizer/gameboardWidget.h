@@ -8,6 +8,7 @@
 #include "parser.h"
 #include "visualizerWindow.h"
 #include "visettings.h"
+#include "drawGLFont.h"
 
 class VisualizerWindow;
 
@@ -22,6 +23,7 @@ enum textures
 	T_BLUEFRAME,
 	T_GRID,
 	T_WALL,
+	T_FONT,
 
 	numTextures
 
@@ -60,6 +62,8 @@ class Gameboard : public QGLWidget
 
 		bool hasMapGrid;
 		bool hasDefaultBG;					 //default background
+
+		DrawGLFont *drawFont;
 
 	public:
 		int timerId;
