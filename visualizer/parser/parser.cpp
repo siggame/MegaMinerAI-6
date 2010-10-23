@@ -239,6 +239,8 @@ static bool parseSexp(Game& game, sexp_t* expression)
 {
   sexp_t* sub, *subsub;
   expression = expression->list;
+  if( !expression )
+		return false;
   if(expression->val != NULL && strcmp(expression->val, "status") == 0)
   {
     GameState gs;
@@ -424,6 +426,8 @@ static bool parseSexp(Game& game, sexp_t* expression)
     expression = expression->next;
     game.winner = atoi(expression->val);
   }
+
+	return true;
 }
 
 bool parseFile(Game& game, const char* filename)
@@ -440,7 +444,8 @@ bool parseFile(Game& game, const char* filename)
   
   while(st = parse())
   {
-    parseSexp(game, st);
+    if( !parseSexp(game, st) )
+			return false;
     destroy_sexp(st);
   }
   

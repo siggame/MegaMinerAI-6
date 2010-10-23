@@ -9,7 +9,7 @@ Gameboard::Gameboard( QWidget *prt )
 	// 20 milliseconds or microseconds, I'm not sure
 
 	// This makes it about 50 Frames Per Second
-	timerId = startTimer(15);
+	timerId = startTimer(50);
 	parent = ((VisualizerWindow*)prt);
 	time.start();
 
@@ -315,9 +315,7 @@ void Gameboard::drawBackground()
 		glBegin( GL_QUADS );
 		//todo: set sizes configurable by config file
 
-
 		// float heightRatio = 10.0f / 640.0f;
-
 
 		// float widthRatio  = 20.0f / 1280.0f;
 
@@ -343,13 +341,13 @@ void Gameboard::drawBackground()
 
 		float aspect = width / height;
 
-		if ( width > baseWidth )					 // width too big
+		if ( width > baseWidth )		 // width too big
 		{
 			width = baseWidth;
 			height =  aspect / baseWidth;
 		}
 
-		if ( height > baseHeight )					 // height too big
+		if ( height > baseHeight )	 // height too big
 		{
 			height = baseHeight;
 			width = aspect * baseHeight;

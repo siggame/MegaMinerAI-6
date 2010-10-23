@@ -33,6 +33,7 @@
 
 			ATTRIBUTE( int, unitSize );
 
+			ATTRIBUTE( int, defaultMode );
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
 			ATTRIBUTE( int, speed );
@@ -51,12 +52,20 @@
 			ATTRIBUTE( int, boardHeightPx );
 			ATTRIBUTE( int, boardWidthPx );
 
-
 			// Texture Files
 
 			ATTRIBUTE( string, defBGFileName );
 			ATTRIBUTE( string, wallFileName );
 			ATTRIBUTE( string, gridFileName );
+
+			// Arena Stuff
+			ATTRIBUTE( int, arenaMode );
+			ATTRIBUTE( int, winnerScreenTime );
+
+			// Font Stuff
+			
+			ATTRIBUTE( string, defaultFont );
+			ATTRIBUTE( string, defaultFontWidths );
 
 			public:
 				static visettings *inst;
