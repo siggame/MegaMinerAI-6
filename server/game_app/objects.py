@@ -174,6 +174,8 @@ class Bot(Unit):
       return True
     if self.partOf != 0:
       return True
+    if self.building and self.building not in self.game.objects:
+      self.building = 0
     if self.building == 0:
       self.actions = self.actitude / self.size**2
       self.steps = self.movitude / self.size**2
