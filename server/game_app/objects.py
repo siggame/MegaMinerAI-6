@@ -247,6 +247,12 @@ class Bot(Unit):
             i.y += y
       self.x += x
       self.y += y
+      if self.size > 1:
+        for i in self.game.objects.values():
+          if isinstance(i, Bot):
+            if i.partOf == self.id:
+              i.x += x
+              i.y += y
     
     self.steps -= 1
     
@@ -348,7 +354,10 @@ class Bot(Unit):
     pass
 
   def moveRate(self):
-    pass
+    for i in self.game.objects.values():
+      if isinstance(i, Bot):
+        if i.partOf == self.id:
+          pass
 
 
 class Frame(Unit):
