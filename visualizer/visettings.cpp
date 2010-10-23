@@ -33,21 +33,19 @@ void visettings::loadFromFile()
 	setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
 	setAttr( unitSize, configFile.pInt( "UnitSize" ) );
 
-        // File Name Attributes
+	// File Name Attributes
 
-        setAttr( defBGFileName, configFile.pString( "defBGFileName" ) );
-        setAttr( wallFileName, configFile.pString( "wallFileName" ) );
-        setAttr( gridFileName, configFile.pString( "gridFileName" ) );
+	setAttr( defBGFileName, configFile.pString( "defBGFileName" ) );
+	setAttr( wallFileName, configFile.pString( "wallFileName" ) );
+	setAttr( gridFileName, configFile.pString( "gridFileName" ) );
 
 	//For Board Drawing, these are the maximums
 	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx" ));
 	setAttr( boardWidthPx, configFile.pInt( "BoardWidthPx" ));
 
-
 	setAttr( defaultMode, configFile.pInt( "PauseOnLoad" ) );
 	currentMode=defaultMode;
 
-        
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:
 	// configFile.pString,pBool,pDouble,or pInt

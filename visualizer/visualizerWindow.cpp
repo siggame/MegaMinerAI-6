@@ -49,10 +49,17 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	Game * temp = new Game;
 
 	if ( filename == NULL )
+	{
+		QMessageBox::critical(this,"Error","No Gamelog Specified!");
 		return false;
+	}
 
 	if ( !parseFile( *temp, filename ) )
+	{
+
+		QMessageBox::critical(this,"Error","Invalid Game Log or Unknown Argument");
 		return false;
+	}
 
 	if( gamelog )
 		delete gamelog;
@@ -72,7 +79,7 @@ void VisualizerWindow::openGamelog()
 
 	//todo: argument 3 should be the default directory of the game logs
 	//todo: argument 4 should have the actual extention of a game log
-	
+
 	// Kill the GL Paint interrupt timer so open dialogue can load.
 	gameboard->killTimer( gameboard->timerId );
 
@@ -84,10 +91,7 @@ void VisualizerWindow::openGamelog()
 		tr("Log Files(*.gamelog)")
 		);
 
-	if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
-	{
-		QMessageBox::critical(this,"Error","Game Log Failed to Open");
-	}
+	loadGamelog( (char *)fileName.toLocal8Bit().constData() );
 
 	// Reset to frame zero
 	setAttr( frameNumber, 0 );
