@@ -56,7 +56,6 @@ void Gameboard::initializeGL()
 		drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
 	}
 
-
 	if ( !textures[T_RED].loadImage( "megaman.png" ) )
 	{
 		errString += "megaman.png";
@@ -440,6 +439,7 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 	return false;
 }
 
+
 #define addSelection(type1,type2) \
 	for( \
 	vector<type1>::iterator i = game->states[frame].type2.begin(); \
@@ -470,7 +470,6 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 					bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
 					bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
 
-
 				}
 
 				if( leftDoubleClick )
@@ -483,7 +482,7 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 			// TODO: Check if shift is held down.  If so, don't clear
 					selectedIDs.clear();
 			// Probably could have used templates, or anything else.  Bad implementation but works;
-				
+
 					addSelection(Unit, units);
 					addSelection(Mappable, mappables);
 					addSelection(Bot, bots);
