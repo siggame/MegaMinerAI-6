@@ -113,6 +113,10 @@ bool Gameboard::loadAllTextures( QString & message )
 	if ( !loadTexture( getAttr( redForceFile ).c_str(), T_REDBOT_FORCE, errString ) )
 		    flag = true;
 
+	if ( !loadTexture( getAttr( redFrameFile ).c_str(), T_REDBOT_FRAME, errString ) )
+		    flag = true;
+
+
 	//blue bots:
 	if ( !loadTexture( getAttr( bluActionFile ).c_str(), T_BLUBOT_ACTION, errString ) )
 		    flag = true;
@@ -133,9 +137,6 @@ bool Gameboard::loadAllTextures( QString & message )
 		    flag = true;
 
 	if ( !loadTexture( getAttr( bluFrameFile ).c_str(), T_BLUBOT_FRAME, errString ) )
-		    flag = true;
-
-	if ( !loadTexture( getAttr( redFrameFile ).c_str(), T_REDBOT_FRAME, errString ) )
 		    flag = true;
 
 
@@ -161,13 +162,14 @@ bool Gameboard::loadAllTextures( QString & message )
 }
 
 
-void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
+void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
 
 	glBindTexture( GL_TEXTURE_2D, textures[texture].getTexture() );
 	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
+	glColor4f(1.0,1.0,1.0,1.0f);
 
 	glBegin(GL_QUADS);
 
@@ -183,6 +185,39 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 	glEnd();
 
 	glPopMatrix();
+
+
+	glDisable( GL_TEXTURE_2D );
+
+	glPushMatrix();
+	if (selected)
+	{
+
+		switch (owner)
+		{
+			case 0: //player 1
+			glColor4f(1.0f,0.0f,0.0f,1.0f);
+			break;
+			case 1: //player 2
+			glColor4f(0.0f,0.0f,1.0f,1.0f);
+			break;
+			default:
+			glColor4f(0.5f,0.5f,0.5f,1.0f);
+
+		}
+		glBegin (GL_LINE_LOOP);
+
+		glVertex3f(0, 1.0f, -0.01f);
+		glVertex3f( 1.0f, 1.0f, -0.01f);
+		glVertex3f( 1.0f,0, -0.01f);
+		glVertex3f(0,0,-0.01f);
+
+		glEnd();
+	}
+	glPopMatrix();
+
+	glEnable( GL_TEXTURE_2D );
+
 
 }
 
@@ -238,12 +273,22 @@ void Gameboard::drawBots( Game *game, float falloff )
 				}
 			}
 
+			//is it selected?
+			bool selected = true;
+			for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+			{
+				if ( *l == i->id )
+				{
+
+				    selected = true;
+				}
+			}
+
 
 			// find owner
 			int owner = i->owner;
 
 			//set bot to appropriate type
-
 			int sprite;
 			if (owner == 0)
 			{
@@ -255,7 +300,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 			}
 
 
-			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite );
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
 		}
 
 	}
@@ -298,12 +343,22 @@ void Gameboard::drawFrames( Game *game, float falloff )
 			}
 		}
 
+		//is it selected?
+		bool selected = false;
+		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+		{
+			if (*l == i->id)
+			{
+			    selected = true;
+			}
+		}
+
 		int sprite = T_REDBOT_FRAME;
 
 		if( i->owner == 1 )
 			sprite = T_BLUBOT_FRAME;
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite );
+		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, i->owner );
 
 	}
 }
@@ -345,7 +400,17 @@ void Gameboard::drawWalls( Game *game, float falloff )
 			}
 		}
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL );
+		//is it selected?
+		bool selected = false;
+		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+		{
+			if (*l == i->id)
+			{
+			    selected = true;
+			}
+		}
+
+		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL, selected, 2 );
 
 	}
 
@@ -527,10 +592,19 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 					addSelection(Frame, frames);
 					addSelection(Wall, walls );
 
-					char *unitSelection = new char[255];
-					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d", selectedIDs.size(), bX, bY );
 
-					parent->console->setText( unitSelection );
+
+					char *unitSelection = new char[255];
+					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d\n", selectedIDs.size(), bX, bY );
+
+					QString OutText(unitSelection);
+
+					for (list<int>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
+					{
+					    sprintf( unitSelection, "%d\n", *it);
+					    OutText += QString(unitSelection);
+					}
+					parent->console->setText( OutText );
 				}
 
 				leftButtonDown = false;

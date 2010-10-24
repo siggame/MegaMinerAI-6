@@ -42,19 +42,19 @@ class Config
 		~Config();
 
 		// get string config entry
-		string pString(string name);
+		string pString(string name, bool & errFlag, string & errString);
 
 		/* get boolean config entry
 		 * A value of Yes/yes/YES/true/True/TRUE leads to true,
 		 * all other values leads to false.
 		 */
-		bool pBool(string name);
+		bool pBool(string name, bool & errFlag, string & errString);
 
 		// get double config entry; value is parsed using atof()
-		double pDouble(string name);
+		double pDouble(string name, bool & errFlag, string & errString);
 
 		// get int config entry; value is parsed using atoi()
-		int pInt(string name);
+		int pInt(string name, bool & errFlag, string & errString);
 
 		// get the symbol map (e.g. for iterating over all symbols)
 		inline map<string, string>& getSymbols()

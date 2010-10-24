@@ -25,58 +25,92 @@ visettings::~visettings()
 }
 
 
-void visettings::loadFromFile()
+bool visettings::loadFromFile(string & errString)
 {
 	Config configFile( "VISCONFIG" );
 
-	setAttr( defaultSpeed, configFile.pInt( "DefaultSpeed" ) );
-	setAttr( playSpeed, configFile.pInt( "DefaultSpeed" ) );
-	setAttr( unitSize, configFile.pInt( "UnitSize" ) );
+	errString = "";
+	string outString;
+	bool errFlag;
+	bool returnFlag = false;
+
+	setAttr( defaultSpeed, configFile.pInt( "DefaultSpeed", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( playSpeed, configFile.pInt( "DefaultSpeed", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( unitSize, configFile.pInt( "UnitSize", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 	// File Name Attributes
 
-	setAttr( defBGFileName, configFile.pString( "defBGFileName" ) );
-	setAttr( wallFileName, configFile.pString( "wallFileName" ) );
-	setAttr( gridFileName, configFile.pString( "gridFileName" ) );
+	setAttr( defBGFileName, configFile.pString( "defBGFileName", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( wallFileName, configFile.pString( "wallFileName", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( gridFileName, configFile.pString( "gridFileName", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 	// Bot Files
 	// Red Bots
-	setAttr( redActionFile, configFile.pString("RedActionFile"));
-	setAttr( redBuilderFile, configFile.pString("RedBuilderFile"));
-	setAttr( redCannonFile, configFile.pString("RedCannonFile"));
-	setAttr( redDamageFile, configFile.pString("RedDamageFile"));
-	setAttr( redEngineFile, configFile.pString("RedEngineFile"));
-	setAttr( redForceFile, configFile.pString("RedForceFile"));
-	setAttr( redFrameFile, configFile.pString("RedFrameFile"));
+	setAttr( redActionFile, configFile.pString("RedActionFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redBuilderFile, configFile.pString("RedBuilderFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redCannonFile, configFile.pString("RedCannonFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redDamageFile, configFile.pString("RedDamageFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redEngineFile, configFile.pString("RedEngineFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redForceFile, configFile.pString("RedForceFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redFrameFile, configFile.pString("RedFrameFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 	// Blue Bots
-	setAttr( bluActionFile, configFile.pString("BluActionFile"));
-	setAttr( bluBuilderFile, configFile.pString("BluBuilderFile"));
-	setAttr( bluCannonFile, configFile.pString("BluCannonFile"));
-	setAttr( bluDamageFile, configFile.pString("BluDamageFile"));
-	setAttr( bluEngineFile, configFile.pString("BluEngineFile"));
-	setAttr( bluForceFile, configFile.pString("BluForceFile"));
-	setAttr( bluFrameFile, configFile.pString("BluFrameFile"));
+	setAttr( bluActionFile, configFile.pString("BluActionFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluBuilderFile, configFile.pString("BluBuilderFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluCannonFile, configFile.pString("BluCannonFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluDamageFile, configFile.pString("BluDamageFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluEngineFile, configFile.pString("BluEngineFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluForceFile, configFile.pString("BluForceFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluFrameFile, configFile.pString("BluFrameFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 
 	//For Board Drawing, these are the maximums
-	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx" ));
-	setAttr( boardWidthPx, configFile.pInt( "BoardWidthPx" ));
+	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( boardWidthPx, configFile.pInt( "BoardWidthPx", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
-	setAttr( defaultMode, configFile.pInt( "PauseOnLoad" ) );
+	setAttr( defaultMode, configFile.pInt( "PauseOnLoad", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 	currentMode=defaultMode;
 
-	setAttr( arenaMode, configFile.pInt( "ArenaMode" ) );
-	setAttr( winnerScreenTime, configFile.pInt( "WinnerScreenTime" ) );
+	setAttr( arenaMode, configFile.pInt( "ArenaMode", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( winnerScreenTime, configFile.pInt( "WinnerScreenTime", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
-	setAttr( defaultFont, configFile.pString( "defaultFont" ) );
-	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths" ) );
+	setAttr( defaultFont, configFile.pString( "defaultFont", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
+	return !returnFlag;
 
-
-	//setAttr( filename, configFile.pString( "filenameString" ) );
+	//setAttr( filename, configFile.pString( "filenameString", errFlag, errString ) );
 	// Eh.... to retrieve a particular type of input it's:
 	// configFile.pString,pBool,pDouble,or pInt
 	//
-	// I don't remember what happens if it turns out not to be there.
+	// if the attribute you are looking for isnt there
+	// errFlag is set to true and errString is an error message
+	// no more messy exits when the attribute doesnt exist
 }

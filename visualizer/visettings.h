@@ -98,7 +98,7 @@
 				visettings();
 				~visettings();
 
-				void loadFromFile();
+				bool loadFromFile(string & errString);
 
 		};
 #endif

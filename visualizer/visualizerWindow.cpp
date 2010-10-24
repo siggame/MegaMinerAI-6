@@ -11,7 +11,12 @@ VisualizerWindow::VisualizerWindow()
 	createLayout();
 	createSpeeds();
 
-	visettings::instance()->loadFromFile();
+	string configErr;
+
+	if (!visettings::instance()->loadFromFile(configErr))
+	{
+	    QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
+	}
 
 	setWindowTitle( "Modular Visualizer" );
 	fullScreen = false;

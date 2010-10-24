@@ -1,6 +1,7 @@
 #include "config.h"
 
 #include <iostream>
+#include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 using namespace std;
@@ -177,21 +178,26 @@ void Config::symbolExpand(map<string, string>& symbols, string& s)
 }
 
 
-string Config::pString(string name)
+string Config::pString(string name, bool & errFlag, string & errString)
 {
 	map<string, string>::iterator i = symbols.find(name);
+	errFlag = false;
+	errString = "";
 	if (i == symbols.end())
 	{
-		logError(cout << "access of missing property '" << name << "' (" << debugInfo << ")" << endl);
-		exit(4);
+		stringstream ss;
+		ss << "access of missing property '" << name << "' (" << debugInfo << ")" << endl;
+		errFlag = true;
+		errString = ss.str();
 	}
+
 	return i->second;
 }
 
 
-bool Config::pBool(string name)
+bool Config::pBool(string name, bool & errFlag, string & errString)
 {
-	string val = pString(name);
+	string val = pString(name, errFlag, errString);
 
 	if ( (val == "yes") ||
 		(val == "Yes") ||
@@ -207,17 +213,17 @@ bool Config::pBool(string name)
 }
 
 
-double Config::pDouble(string name)
+double Config::pDouble(string name, bool & errFlag, string & errString)
 {
-	string val = pString(name);
+	string val = pString(name, errFlag, errString);
 
 	return atof(val.c_str());
 }
 
 
-int Config::pInt(string name)
+int Config::pInt(string name, bool & errFlag, string & errString)
 {
-	string val = pString(name);
+	string val = pString(name, errFlag, errString);
 
 	return atoi(val.c_str());
 }
