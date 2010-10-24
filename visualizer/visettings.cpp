@@ -39,6 +39,26 @@ void visettings::loadFromFile()
 	setAttr( wallFileName, configFile.pString( "wallFileName" ) );
 	setAttr( gridFileName, configFile.pString( "gridFileName" ) );
 
+	// Bot Files
+	// Red Bots
+	setAttr( redActionFile, configFile.pString("RedActionFile"));
+	setAttr( redBuilderFile, configFile.pString("RedBuilderFile"));
+	setAttr( redCannonFile, configFile.pString("RedCannonFile"));
+	setAttr( redDamageFile, configFile.pString("RedDamageFile"));
+	setAttr( redEngineFile, configFile.pString("RedEngineFile"));
+	setAttr( redForceFile, configFile.pString("RedForceFile"));
+	setAttr( redFrameFile, configFile.pString("RedFrameFile"));
+
+	// Blue Bots
+	setAttr( bluActionFile, configFile.pString("BluActionFile"));
+	setAttr( bluBuilderFile, configFile.pString("BluBuilderFile"));
+	setAttr( bluCannonFile, configFile.pString("BluCannonFile"));
+	setAttr( bluDamageFile, configFile.pString("BluDamageFile"));
+	setAttr( bluEngineFile, configFile.pString("BluEngineFile"));
+	setAttr( bluForceFile, configFile.pString("BluForceFile"));
+	setAttr( bluFrameFile, configFile.pString("BluFrameFile"));
+
+
 	//For Board Drawing, these are the maximums
 	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx" ));
 	setAttr( boardWidthPx, configFile.pInt( "BoardWidthPx" ));
@@ -51,6 +71,8 @@ void visettings::loadFromFile()
 
 	setAttr( defaultFont, configFile.pString( "defaultFont" ) );
 	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths" ) );
+
+
 
 	//setAttr( filename, configFile.pString( "filenameString" ) );
 	// Eh.... to retrieve a particular type of input it's:

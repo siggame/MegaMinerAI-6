@@ -54,6 +54,11 @@ bool VisualizerWindow::loadGamelog( char *filename )
 		return false;
 	}
 
+	if ( string (filename) == string("")  )
+	{
+	    return false;
+	}
+
 	if ( !parseFile( *temp, filename ) )
 	{
 
@@ -135,7 +140,7 @@ void VisualizerWindow::loadBackground()
 		this,
 		"Open Background",
 		"~/",
-		"Images(*.png)"
+		"Images(*.png;*.jpg)"
 		);
 
 	if ( filename == tr("") )

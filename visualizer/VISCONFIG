@@ -2,13 +2,8 @@
 DefaultSpeed = 150
 # Default Unit Size On Load: X pixels
 UnitSize = 32
-# Default Background Image
-defBGFileName = "background.png"
-# Default Wall Image
-wallFileName = "wall.png"
-# Default Grid Image
-gridFileName = "grid.png"
-# Default Board Height 
+
+# Default Board Height
 BoardHeightPx = 640
 # Default Board Height
 BoardWidthPx = 1280
@@ -16,12 +11,47 @@ BoardWidthPx = 1280
 PauseOnLoad = 0
 
 
+# TEXTURES
+
+## Bots
+
+### Red Bots
+RedActionFile = "textures/ActionRed512.png"
+RedBuilderFile = "textures/BuilderRed512.png"
+RedCannonFile = "textures/CannonRed512.png"
+RedDamageFile = "textures/DamageRed512.png"
+RedEngineFile = "textures/EngineRed512.png"
+RedForceFile = "textures/ForceRed512.png"
+RedFrameFile = "textures/FrameRed512.png"
+
+### Blue Bots
+BluActionFile = "textures/ActionBlu512.png"
+BluBuilderFile = "textures/BuilderBlu512.png"
+BluCannonFile = "textures/CannonBlu512.png"
+BluDamageFile = "textures/DamageBlu512.png"
+BluEngineFile = "textures/EngineBlu512.png"
+BluForceFile = "textures/ForceBlu512.png"
+BluFrameFile = "textures/FrameBlu512.png"
+
+
+## Other
+
+# Default Background Image
+defBGFileName = "textures/background.png"
+# Default Wall Image
+wallFileName = "textures/wall.png"
+# Default Grid Image
+gridFileName = "textures/grid.png"
+
+
+
+
 # FONT STUFF
 
 # Default Font Texture
-defaultFont = "font1.png"
+defaultFont = "textures/font1.png"
 # File containing list of widths for each font character
-defaultFontWidths = "font1.dat"
+defaultFontWidths = "textures/font1.dat"
 
 # ARENA STUFF
 

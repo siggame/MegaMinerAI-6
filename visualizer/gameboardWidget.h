@@ -16,15 +16,26 @@ using namespace std;
 
 class VisualizerWindow;
 
-//#define numTextures 2
-enum textures
+enum eTextures
 {
-	T_RED = 0,
-	T_BLUE,
+	T_REDBOT_ACTION = 0,
+	T_REDBOT_BUILDER,
+	T_REDBOT_CANNON,
+	T_REDBOT_DAMAGE,
+	T_REDBOT_ENGINE,
+	T_REDBOT_FORCE,
+	T_REDBOT_FRAME,
+
+	T_BLUBOT_ACTION,
+	T_BLUBOT_BUILDER,
+	T_BLUBOT_CANNON,
+	T_BLUBOT_DAMAGE,
+	T_BLUBOT_ENGINE,
+	T_BLUBOT_FORCE,
+	T_BLUBOT_FRAME,
+
 	T_BG,
 	T_DEFAULTBG,
-	T_REDFRAME,
-	T_BLUEFRAME,
 	T_GRID,
 	T_WALL,
 	T_FONT,
@@ -61,6 +72,9 @@ class Gameboard : public QGLWidget
 		void drawMouse();
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
+
+		bool loadAllTextures( QString & message );
+		bool loadTexture(QString filename, eTextures texID, QString & errString);
 
 		void drawSprite( int x, int y, int h, int w, int texture );
 

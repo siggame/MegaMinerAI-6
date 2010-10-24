@@ -4,7 +4,7 @@
 
 bool texture::loadImage( QString path )
 {
-	if (path == NULL)
+	if (path == QString(""))
 	{
 		std::cout << "Load Texture Error: No Path\n";
 		return false;
