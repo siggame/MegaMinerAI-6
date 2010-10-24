@@ -146,6 +146,15 @@ class Bot(Unit):
         y = target.y - (self.y + self.size-1)
       return x + y
 
+  def _move(self, x, y):
+    self.x += x
+    self.y += y
+    if self.size > 1:
+      for i in self.game.objects.values():
+        if isinstance(i, Bot):
+          if i.partOf == self.id:
+            i._move(x, y)
+
   @staticmethod
   def makeBot(game, x, y, owner, type, size):
     if size == 1:
@@ -165,6 +174,8 @@ class Bot(Unit):
       return True
     if self.partOf != 0:
       return True
+    if self.building and self.building not in self.game.objects:
+      self.building = 0
     if self.building == 0:
       self.actions = self.actitude / self.size**2
       self.steps = self.movitude / self.size**2
@@ -239,20 +250,15 @@ class Bot(Unit):
       victims = [i for i in victims if i.health > 0]
     
     if not victims:
-      for i in self.game.objects:
-        if isinstance(i, Bot) and i  is not self:
-          #If it's in this bot, then it's a part of this bot, and so it should move with it)
-          if self._distance(i) == 0:
-            i.x += x
-            i.y += y
-      self.x += x
-      self.y += y
+      self._move(x, y)
     
     self.steps -= 1
     
     return True
 
   def attack(self, target):
+    if self.damage == 0:
+      return "Bot unable to attack, damage score = 0"
     if self._distance(target) > (self.range + 1):
       return "Target out of range."
 
@@ -266,6 +272,8 @@ class Bot(Unit):
     return True
 
   def heal(self, target):
+    if self.buildRate == 0:
+      return "Bot unable to heal, build score = 0"
     if self._distance(target) > (self.range + 1):
       return "Target out of range."
     if target.owner != self.owner:
@@ -283,14 +291,14 @@ class Bot(Unit):
     return True
 
   def build(self, type, x, y, size):
+    if self.buildRate == 0:
+      return "Bot unable to build, build score = 0"
     if self.actions < 1:
       return "Out of actions"
     if x < 0 or y < 0 or x+size > self.game.boardX or y+size > self.game.boardY:
       return "Building off the world"
     if size > self.size:
       return "Building a robot larger than itself."
-    if self.buildRate == 0:
-      return "Bot unable to build. (build score = 0)"
 
     completionTime = 4 * size**2 / self.buildRate
     health = min(type.maxHealth * self.buildRate / 4, type.maxHealth * size**2)
@@ -330,12 +338,12 @@ class Bot(Unit):
       return "No actions left."
     if self.size < 2:
       return "Not compound."
-    for i in self.game.objects:
+    for i in self.game.objects.values():
       if isinstance(i, Bot):
         if i.partOf == self.id:
           i.partOf = 0
-    self.game.animations.append('Split', self.id)
-    self.game.remove(self)
+    self.game.animations.append(['Split', self.id])
+    self.game.removeObject(self)
 
     return True
 
@@ -344,7 +352,10 @@ class Bot(Unit):
     pass
 
   def moveRate(self):
-    pass
+    for i in self.game.objects.values():
+      if isinstance(i, Bot):
+        if i.partOf == self.id:
+          pass
 
 
 class Frame(Unit):

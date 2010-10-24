@@ -50,9 +50,25 @@ class GameApp(AccountsAppMixin, BaseApp):
     try:
       self.user = self.name
       self.screenName = self.name
-      self.game = GameApp.games[gameNumber]
-      self.game.addPlayer(self)
-      return ["join-accepted"]
+      if gameNumber == 0: #join any option, joins available game with lowest number
+        for game in GameApp.games:
+          self.game = GameApp.games[game]
+          temp = self.game.addPlayer(self)
+          if type(temp) != type(bool()):
+            self.game = None
+            continue
+          if temp:
+            gameNumber = game
+            break
+        if self.game is None:
+          return ["join-game-denied", "No games available"]
+      else: #join a specific game, gameNumber >= 1
+        self.game = GameApp.games[gameNumber]
+        temp = self.game.addPlayer(self)
+        if type(temp) != type(bool()) or not temp:
+          self.game = None
+          return ["join-game-denied", "Game is full"]
+      return ["join-accepted", gameNumber]
     except KeyError:
       return ["join-game-denied", "No such game"]
 

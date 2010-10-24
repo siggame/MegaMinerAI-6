@@ -8,10 +8,12 @@ win32 {
 
 
 SOURCES += main.cpp visualizerWindow.cpp gameboardWidget.cpp
+SOURCES += drawGLFont.cpp
 SOURCES += ./parser/parser.cpp 
 SOURCES += ./parser/structures.cpp
 SOURCES += texture.cpp statsDialog.cpp config.cpp visettings.cpp log.cpp
 HEADERS += visualizerWindow.h gameboardWidget.h log.h
 HEADERS += texture.h statsDialog.h config.h visettings.h
+HEADERS += drawGLFont.h
 CONFIG += debug
 QT += opengl

@@ -1,6 +1,7 @@
 #include "gameboardWidget.h"
 
 #include <iostream>
+using namespace std;
 
 Gameboard::Gameboard( QWidget *prt )
 : QGLWidget( QGLFormat(QGL::SampleBuffers),prt)
@@ -9,9 +10,10 @@ Gameboard::Gameboard( QWidget *prt )
 	// 20 milliseconds or microseconds, I'm not sure
 
 	// This makes it about 50 Frames Per Second
-	timerId = startTimer(15);
+	timerId = startTimer(50);
 	parent = ((VisualizerWindow*)prt);
 	time.start();
+	buttonTimes.start();
 
 	hasMapGrid = false;
 	hasDefaultBG = true;
@@ -31,7 +33,7 @@ void Gameboard::initializeGL()
 {
 	glShadeModel(GL_SMOOTH);
 
-	glClearColor(1.0f, 0.7f, 1.0f, 0.0f);
+	glClearColor(0.0f, 0.4f, 0.0f, 0.0f);
 	glClearDepth(1.0f);
 
 	glEnable(GL_DEPTH_TEST);
@@ -39,9 +41,20 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-	//todo: filenames should come from a config file
+	drawFont = NULL;
+
 	bool flag = false;
 	QString errString;
+
+	if ( !textures[T_FONT].loadImage( getAttr( defaultFont ).c_str() ) )
+	{
+		errString += getAttr( defaultFont ).c_str();
+		flag = true;
+	}
+	else
+	{
+		drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
+	}
 
 	if ( !textures[T_RED].loadImage( "megaman.png" ) )
 	{
@@ -315,9 +328,7 @@ void Gameboard::drawBackground()
 		glBegin( GL_QUADS );
 		//todo: set sizes configurable by config file
 
-
 		// float heightRatio = 10.0f / 640.0f;
-
 
 		// float widthRatio  = 20.0f / 1280.0f;
 
@@ -343,13 +354,13 @@ void Gameboard::drawBackground()
 
 		float aspect = width / height;
 
-		if ( width > baseWidth )					 // width too big
+		if ( width > baseWidth )		 // width too big
 		{
 			width = baseWidth;
 			height =  aspect / baseWidth;
 		}
 
-		if ( height > baseHeight )					 // height too big
+		if ( height > baseHeight )	 // height too big
 		{
 			height = baseHeight;
 			width = aspect * baseHeight;
@@ -370,6 +381,184 @@ void Gameboard::drawBackground()
 
 		glEnd();
 
+	}
+}
+
+
+void Gameboard::handleMouse()
+{
+	if( leftButtonDown )
+	{
+		// Do Drag event
+		leftButtonDrag = true;
+		dragX = clickX;
+		dragY = clickY;
+	}
+
+}
+
+
+void Gameboard::mousePressEvent( QMouseEvent *e )
+{
+
+	if( e->button() == Qt::LeftButton )
+	{
+		clickX = e->x();
+		clickY = e->y();
+		// TODO: Move double click time into VISCONFIG
+		if( buttonTimes.elapsed() - leftButtonTime < 275 )
+		{
+			// Do Double click event
+
+		}
+		else
+		{
+
+			leftButtonTime = buttonTimes.elapsed();
+		}
+
+		leftButtonDown = true;
+		QTimer::singleShot( 150, this, SLOT( handleMouse() ) );
+
+	} else if ( e->button() == Qt::RightButton )
+	{
+		rightButtonTime = buttonTimes.elapsed();
+		rightButtonDown = true;
+	} else if( e->button() == Qt::MidButton )
+	{
+		midButtonTime = buttonTimes.elapsed();
+		midButtonDown = true;
+	}
+}
+
+
+bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
+{
+	if( x >= bX && x <= bW && y >=bY && y <= bH )
+		return true;
+	return false;
+}
+
+
+#define addSelection(type1,type2) \
+	for( \
+	vector<type1>::iterator i = game->states[frame].type2.begin(); \
+	i != game->states[frame].type2.end(); \
+	i++ ) \
+	{ \
+		if( touchingBox( bX, bY, bW, bH, i->x, i->y ) ) \
+		{ \
+			selectedIDs.push_back( i->id ); \
+		} \
+	}
+
+		void Gameboard::mouseReleaseEvent( QMouseEvent *e )
+		{
+			curX = e->x()+1;
+			curY = e->y()+1;
+			int bW, bH;
+			int bX = bW = curX/getAttr(unitSize);
+			int bY = bH = curY/getAttr(unitSize);
+
+			if( e->button() == Qt::LeftButton )
+			{
+				if( leftButtonDrag )
+				{
+					bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
+			// I think I may have to increase bH and bW by one...
+					bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
+					bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
+					bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
+
+				}
+
+				if( leftDoubleClick )
+					return;
+
+				Game *game = parent->gamelog;
+				int frame = getAttr( frameNumber );
+				if( game )
+				{
+			// TODO: Check if shift is held down.  If so, don't clear
+					selectedIDs.clear();
+			// Probably could have used templates, or anything else.  Bad implementation but works;
+
+					addSelection(Unit, units);
+					addSelection(Mappable, mappables);
+					addSelection(Bot, bots);
+					addSelection(Frame, frames);
+					addSelection(Wall, walls );
+
+					char *unitSelection = new char[255];
+					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d", selectedIDs.size(), bX, bY );
+
+					parent->console->setText( unitSelection );
+				}
+
+				leftButtonDown = false;
+				leftButtonDrag = false;
+			} else if ( e->button() == Qt::RightButton )
+			{
+				rightButtonDown = false;
+			} else if( e->button() == Qt::MidButton )
+			{
+				rightButtonDown = false;
+			}
+		}
+
+void Gameboard::mouseMoveEvent( QMouseEvent *e )
+{
+	curX = e->x();
+	curY = e->y();
+}
+
+
+void Gameboard::drawScoreboard()
+{
+
+	glLoadIdentity();
+
+	glEnable(GL_BLEND);
+
+	glTranslatef( 10, 640, 0 );
+	glColor3f( 1, 1, 0 );
+	if (drawFont != NULL)
+	{
+		drawFont->drawString( "The quick brown fox jumped over the lazy dog" );
+	}
+	glColor3f( 1, 1, 1 );
+
+}
+
+
+void Gameboard::drawMouse()
+{
+	if( leftButtonDrag )
+	{
+
+		glDisable( GL_TEXTURE_2D );
+
+		glLoadIdentity();
+
+		glColor4f( 0, .7, 0, .4 );
+		glBegin( GL_QUADS );
+		glVertex3f( curX, curY, 0 );
+		glVertex3f( dragX, curY, 0 );
+		glVertex3f( dragX, dragY, 0 );
+		glVertex3f( curX, dragY, 0 );
+		glEnd();
+
+		glColor4f( 0, .5, 0, .7 );
+
+		glLineWidth( 2 );
+		glBegin( GL_LINE_LOOP );
+		glVertex3f( curX, curY, 0 );
+		glVertex3f( dragX, curY, 0 );
+		glVertex3f( dragX, dragY, 0 );
+		glVertex3f( curX, dragY, 0 );
+		glEnd();
+
+		glColor4f( 1, 1, 1, 1 );
 	}
 }
 
@@ -427,7 +616,8 @@ void Gameboard::paintGL()
 				falloff =
 					(float)time.elapsed()/getAttr(playSpeed);
 			else
-				falloff = 1;
+				// This needs to be 0, other wise, when paused, player sees future
+				falloff = 0;
 		}
 
 		// The normal falloff assignment, when game is moving forwards
@@ -438,6 +628,8 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawFrames( game, falloff );
 	}
+	drawScoreboard();
+	drawMouse();
 }
 
 

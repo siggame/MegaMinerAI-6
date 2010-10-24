@@ -98,9 +98,9 @@ std::ostream& operator<<(std::ostream& stream, Add ob)
 }
 
 
-std::ostream& operator<<(std::ostream& stream, Attack ob)
+std::ostream& operator<<(std::ostream& stream, Collide ob)
 {
-  stream << "Attack" << "\n";
+  stream << "Collide" << "\n";
   stream << "attacker: " << ob.attacker  <<'\n';
   stream << "victim: " << ob.victim  <<'\n';
   return stream;
@@ -201,8 +201,8 @@ std::ostream& operator<<(std::ostream& stream, GameState ob)
   {
     if((**i).type == ADD)
       stream << *((Add*)*i) << "\n";
-    if((**i).type == ATTACK)
-      stream << *((Attack*)*i) << "\n";
+    if((**i).type == COLLIDE)
+      stream << *((Collide*)*i) << "\n";
     if((**i).type == BUILD)
       stream << *((Build*)*i) << "\n";
     if((**i).type == COMBINE)

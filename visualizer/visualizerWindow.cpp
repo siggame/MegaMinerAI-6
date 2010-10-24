@@ -49,10 +49,17 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	Game * temp = new Game;
 
 	if ( filename == NULL )
+	{
+		QMessageBox::critical(this,"Error","No Gamelog Specified!");
 		return false;
+	}
 
 	if ( !parseFile( *temp, filename ) )
+	{
+
+		QMessageBox::critical(this,"Error","Invalid Game Log or Unknown Argument");
 		return false;
+	}
 
 	if( gamelog )
 		delete gamelog;
@@ -67,10 +74,15 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 void VisualizerWindow::openGamelog()
 {
+
 	//Get the gamelog's Filename:
 
 	//todo: argument 3 should be the default directory of the game logs
 	//todo: argument 4 should have the actual extention of a game log
+
+	// Kill the GL Paint interrupt timer so open dialogue can load.
+	gameboard->killTimer( gameboard->timerId );
+
 	QString fileName =
 		QFileDialog::getOpenFileName(
 		this,
@@ -79,10 +91,15 @@ void VisualizerWindow::openGamelog()
 		tr("Log Files(*.gamelog)")
 		);
 
-	if ( !loadGamelog( (char *)fileName.toLocal8Bit().constData() ))
-	{
-		QMessageBox::critical(this,"Error","Game Log Failed to Open");
-	}
+	loadGamelog( (char *)fileName.toLocal8Bit().constData() );
+
+	// Reset to frame zero
+	setAttr( frameNumber, 0 );
+	setAttr( playSpeed, getAttr( defaultSpeed ) );
+	setAttr( currentMode, getAttr( defaultMode ) );
+
+	// Start her up again
+	gameboard->timerId = gameboard->startTimer( 50 );
 
 }
 
@@ -347,8 +364,30 @@ void VisualizerWindow::createLayout()
 	}
 
 	controlSlider = new QSlider(Qt::Horizontal);
+	controlSlider->setStyleSheet( "\
+			QSlider::groove:horizontal {\
+			height: 8px;\
+			border: 1px solid #999999;\
+			background: qlineargradient( x1: 0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\
+			}\
+			QSlider::handle:horizontal {\
+			width: 50px;\
+			height: 15px;\
+			border: 1px solid #999999;\
+			margin: -2px 0px; \
+			border-radius: 3px;\
+			background: qlineargradient(x1:0, y1:0, x2:1, y2:1,stop:0 #b4b4b4, stop:1 #909090);\
+			}\
+		  QSlider::sub-page:horizontal {\
+			background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1, stop: 0 #F66E00, stop: 1 #CF5C00);\
+			height: 10px;\
+			border-radius: 4px;\
+		  }	");
 	gameboard = new Gameboard(this);
-	QFrame *centralWidget = new QFrame;
+
+	QDockWidget *bottomDock = new QDockWidget(this );
+	bottomDock->setAllowedAreas( Qt::BottomDockWidgetArea );
+	bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
@@ -379,8 +418,9 @@ void VisualizerWindow::createLayout()
 
 	bottomBar->setLayout( debugLayout );
 
-	bottomBar->setFixedHeight( 250 );
+	//bottomBar->setMaximumHeight( 250 );
 
+	QFrame *bottomFrame = new QFrame;
 	QVBoxLayout *vbox = new QVBoxLayout;
 	vbox->setContentsMargins( 0, 0, 0, 0 );
 	debugLayout->setContentsMargins( 0, 0, 0, 0 );
@@ -391,10 +431,14 @@ void VisualizerWindow::createLayout()
 	stopButton->setFixedWidth(45);
 	controlBar->setFixedHeight( 40 );
 	controlSlider->setTickInterval( 50 );
-	controlSlider->setTickPosition( QSlider::TicksBothSides );
+	//controlSlider->setTickPosition( QSlider::TicksBothSides );
 	controlSlider->setMaximum( 0 );
 	controlSlider->setMinimum( 0 );
 	controlSlider->setTracking( true );
+
+	bottomFrame->setLayout( vbox );
+	bottomDock->setWidget( bottomFrame );
+	addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
 
 	connect(
 		controlSlider,
@@ -439,12 +483,10 @@ void VisualizerWindow::createLayout()
 		SLOT(rewindClicked())
 		);
 
-	vbox->addWidget(gameboard, 4);
 	vbox->addWidget(bottomBar, 2);
 	vbox->addWidget(controlBar, 1);
 
-	centralWidget->setLayout( vbox );
-	setCentralWidget( centralWidget );
+	setCentralWidget( gameboard );
 }
 
 

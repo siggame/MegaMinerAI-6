@@ -9,7 +9,7 @@
 #include <string>
 
 const int ADD = 0;
-const int ATTACK = 1;
+const int COLLIDE = 1;
 const int BUILD = 2;
 const int COMBINE = 3;
 const int HEAL = 4;
@@ -115,12 +115,12 @@ struct Add : public Animation
   friend std::ostream& operator<<(std::ostream& stream, Add obj);
 };
 
-struct Attack : public Animation
+struct Collide : public Animation
 {
   int attacker;
   int victim;
   
-  friend std::ostream& operator<<(std::ostream& stream, Attack obj);
+  friend std::ostream& operator<<(std::ostream& stream, Collide obj);
 };
 
 struct Build : public Animation
