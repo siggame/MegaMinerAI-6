@@ -216,39 +216,47 @@ void Gameboard::drawBots( Game *game, float falloff )
 		i++
 		)
 	{
-
-		x0 = x1 = i->x*unitSize;
-		y0 = y1 = i->y*unitSize;
-		if( frame+1 < game->states.size() )
+		if (i->partOf == 0)
 		{
-
-			for(
-				std::vector<Bot>::iterator j = game->states[frame+1].bots.begin();
-				j!= game->states[frame+1].bots.end();
-				j++
-				)
+			x0 = x1 = i->x*unitSize;
+			y0 = y1 = i->y*unitSize;
+			if( frame+1 < game->states.size() )
 			{
-				if( j->id == i->id )
+
+				for(
+					std::vector<Bot>::iterator j = game->states[frame+1].bots.begin();
+					j!= game->states[frame+1].bots.end();
+					j++
+					)
 				{
-					x1 = j->x*unitSize;
-					y1 = j->y*unitSize;
-					break;
+					if( j->id == i->id )
+					{
+						x1 = j->x*unitSize;
+						y1 = j->y*unitSize;
+						break;
+					}
 				}
 			}
+
+
+			// find owner
+			int owner = i->owner;
+
+			//set bot to appropriate type
+
+			int sprite;
+			if (owner == 0)
+			{
+			    sprite = T_REDBOT_ENGINE;
+			}
+			else
+			{
+			    sprite = T_BLUBOT_ENGINE;
+			}
+
+
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite );
 		}
-
-
-		// find owner
-		int sprite = T_REDBOT_ACTION;
-
-		if( i->owner == 1 )
-			sprite = T_BLUBOT_ACTION;
-
-
-		//set bot to appropriate type
-
-
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
 
 	}
 }
