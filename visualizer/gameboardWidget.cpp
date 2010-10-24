@@ -440,7 +440,6 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 	return false;
 }
 
-
 #define addSelection(type1,type2) \
 	for( \
 	vector<type1>::iterator i = game->states[frame].type2.begin(); \
@@ -455,40 +454,48 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 
 		void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		{
+			curX = e->x()+1;
+			curY = e->y()+1;
+			int bW, bH;
+			int bX = bW = curX/getAttr(unitSize);
+			int bY = bH = curY/getAttr(unitSize);
 
 			if( e->button() == Qt::LeftButton )
 			{
 				if( leftButtonDrag )
 				{
-					int bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
+					bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
 			// I think I may have to increase bH and bW by one...
-					int bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
-					int bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
-					int bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
+					bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
+					bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
+					bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
 
-					Game *game = parent->gamelog;
-					int frame = getAttr( frameNumber );
-					if( game )
-					{
-				// TODO: Check if shift is held down.  If so, don't clear
-						selectedIDs.clear();
-				// Probably could have used templates, or anything else.  Bad implementation but works;
-						addSelection(Unit, units);
-						addSelection(Mappable, mappables);
-						addSelection(Bot, bots);
-						addSelection(Frame, frames);
-						addSelection(Wall, walls );
 
-						char *unitSelection = new char[255];
-						sprintf( unitSelection, "Selected Units: %d", selectedIDs.size() );
-
-						parent->console->setText( unitSelection );
-					}
 				}
-				else if( !leftDoubleClick )
+
+				if( leftDoubleClick )
+					return;
+
+				Game *game = parent->gamelog;
+				int frame = getAttr( frameNumber );
+				if( game )
 				{
-			// Do single click event
+			// TODO: Check if shift is held down.  If so, don't clear
+					selectedIDs.clear();
+			// Probably could have used templates, or anything else.  Bad implementation but works;
+				
+					addSelection(Unit, units);
+					addSelection(Mappable, mappables);
+					addSelection(Bot, bots);
+					addSelection(Frame, frames);
+					addSelection(Wall, walls );
+
+					char *unitSelection = new char[255];
+					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d", selectedIDs.size(), bX, bY );
+
+					parent->console->setText( unitSelection );
 				}
+
 				leftButtonDown = false;
 				leftButtonDrag = false;
 			} else if ( e->button() == Qt::RightButton )
@@ -610,7 +617,8 @@ void Gameboard::paintGL()
 				falloff =
 					(float)time.elapsed()/getAttr(playSpeed);
 			else
-				falloff = 1;
+				// This needs to be 0, other wise, when paused, player sees future
+				falloff = 0;
 		}
 
 		// The normal falloff assignment, when game is moving forwards
