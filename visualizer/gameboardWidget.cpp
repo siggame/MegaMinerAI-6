@@ -521,8 +521,8 @@ void Gameboard::drawScoreboard()
 
 	glEnable(GL_BLEND);
 
-	glTranslatef( 10, 10, 0 );
-	glColor3f( 1, 0, 0 );
+	glTranslatef( 10, 640, 0 );
+	glColor3f( 1, 1, 0 );
 	if (drawFont != NULL)
 	{
 		drawFont->drawString( "The quick brown fox jumped over the lazy dog" );
