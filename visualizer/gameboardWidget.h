@@ -5,11 +5,14 @@
 #include <QtOpenGL>
 #include <QTime>
 #include <QTimer>
+#include <list>
 #include "texture.h"
 #include "parser.h"
 #include "visualizerWindow.h"
 #include "visettings.h"
 #include "drawGLFont.h"
+
+using namespace std;
 
 class VisualizerWindow;
 
@@ -33,8 +36,9 @@ enum textures
 class Gameboard : public QGLWidget
 {
 	Q_OBJECT
+		friend class VisualizerWindow;
 
-		public:
+	public:
 		Gameboard( QWidget *parent );
 		~Gameboard();
 
@@ -60,6 +64,8 @@ class Gameboard : public QGLWidget
 
 		void drawSprite( int x, int y, int h, int w, int texture );
 
+		list<int> selectedIDs;
+
 		texture textures[numTextures];
 
 		VisualizerWindow *parent;
@@ -79,6 +85,7 @@ class Gameboard : public QGLWidget
 		bool leftButtonDown;
 		bool leftDoubleClick;
 		bool leftButtonDrag;
+
 		bool rightButtonDown;
 		bool midButtonDown;
 
@@ -95,7 +102,6 @@ class Gameboard : public QGLWidget
 		int rightButtonTime;
 		int midButtonTime;
 
-	public:
 		int timerId;
 
 };

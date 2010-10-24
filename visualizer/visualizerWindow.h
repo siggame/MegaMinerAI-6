@@ -38,7 +38,8 @@ class Scoreboard: public QWidget
 class VisualizerWindow: public QMainWindow
 {
 	Q_OBJECT
-		public:
+		friend class Gameboard;
+	public:
 		VisualizerWindow();
 		GameState *getFrame( int frame = -1 );
 		bool loadGamelog( char *filename );
@@ -46,12 +47,12 @@ class VisualizerWindow: public QMainWindow
 		Game *gamelog;
 
 		// Play controls
+	protected:
 		QSlider *controlSlider;
 		QPushButton *playButton;
 		QPushButton *rewindButton;
 		QPushButton *fastForwardButton;
 		QPushButton *stopButton;
-	protected:
 		void closeEvent( QCloseEvent *event );
 
 		bool fullScreen;

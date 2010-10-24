@@ -389,7 +389,6 @@ void VisualizerWindow::createLayout()
 	bottomDock->setAllowedAreas( Qt::BottomDockWidgetArea );
 	bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
 
-
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
 	toolBox = new QTabWidget;

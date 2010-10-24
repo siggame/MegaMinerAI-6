@@ -379,6 +379,7 @@ void Gameboard::drawBackground()
 	}
 }
 
+
 void Gameboard::handleMouse()
 {
 	if( leftButtonDown )
@@ -386,10 +387,11 @@ void Gameboard::handleMouse()
 		// Do Drag event
 		leftButtonDrag = true;
 		dragX = clickX;
-		dragY = clickY;	
+		dragY = clickY;
 	}
-		
+
 }
+
 
 void Gameboard::mousePressEvent( QMouseEvent *e )
 {
@@ -403,7 +405,9 @@ void Gameboard::mousePressEvent( QMouseEvent *e )
 		{
 			// Do Double click event
 
-		} else {
+		}
+		else
+		{
 
 			leftButtonTime = buttonTimes.elapsed();
 		}
@@ -422,21 +426,73 @@ void Gameboard::mousePressEvent( QMouseEvent *e )
 	}
 }
 
-void Gameboard::mouseReleaseEvent( QMouseEvent *e )
+
+bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 {
-	if( e->button() == Qt::LeftButton )
-	{
-		// Do single click event
-		leftButtonDown = false;
-		leftButtonDrag = false;
-	} else if ( e->button() == Qt::RightButton )
-	{
-		rightButtonDown = false;
-	} else if( e->button() == Qt::MidButton )
-	{
-		rightButtonDown = false;
-	}
+	if( x >= bX && x <= bW && y >=bY && y <= bH )
+		return true;
+	return false;
 }
+
+
+#define addSelection(type1,type2) \
+	for( \
+	vector<type1>::iterator i = game->states[frame].type2.begin(); \
+	i != game->states[frame].type2.end(); \
+	i++ ) \
+	{ \
+		if( touchingBox( bX, bY, bW, bH, i->x, i->y ) ) \
+		{ \
+			selectedIDs.push_back( i->id ); \
+		} \
+	}
+
+		void Gameboard::mouseReleaseEvent( QMouseEvent *e )
+		{
+
+			if( e->button() == Qt::LeftButton )
+			{
+				if( leftButtonDrag )
+				{
+					int bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
+			// I think I may have to increase bH and bW by one...
+					int bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
+					int bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
+					int bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
+
+					Game *game = parent->gamelog;
+					int frame = getAttr( frameNumber );
+					if( game )
+					{
+				// TODO: Check if shift is held down.  If so, don't clear
+						selectedIDs.clear();
+				// Probably could have used templates, or anything else.  Bad implementation but works;
+						addSelection(Unit, units);
+						addSelection(Mappable, mappables);
+						addSelection(Bot, bots);
+						addSelection(Frame, frames);
+						addSelection(Wall, walls );
+
+						char *unitSelection = new char[255];
+						sprintf( unitSelection, "Selected Units: %d", selectedIDs.size() );
+
+						parent->console->setText( unitSelection );
+					}
+				}
+				else if( !leftDoubleClick )
+				{
+			// Do single click event
+				}
+				leftButtonDown = false;
+				leftButtonDrag = false;
+			} else if ( e->button() == Qt::RightButton )
+			{
+				rightButtonDown = false;
+			} else if( e->button() == Qt::MidButton )
+			{
+				rightButtonDown = false;
+			}
+		}
 
 void Gameboard::mouseMoveEvent( QMouseEvent *e )
 {
@@ -459,11 +515,12 @@ void Gameboard::drawScoreboard()
 
 }
 
+
 void Gameboard::drawMouse()
 {
 	if( leftButtonDrag )
 	{
-		
+
 		glDisable( GL_TEXTURE_2D );
 
 		glLoadIdentity();
@@ -489,6 +546,7 @@ void Gameboard::drawMouse()
 		glColor4f( 1, 1, 1, 1 );
 	}
 }
+
 
 void Gameboard::paintGL()
 {
