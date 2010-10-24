@@ -4,6 +4,7 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include <QTime>
+#include <QTimer>
 #include "texture.h"
 #include "parser.h"
 #include "visualizerWindow.h"
@@ -42,6 +43,9 @@ class Gameboard : public QGLWidget
 		bool loadBackground( QString filename );
 		void clearBackground();
 
+	private slots:
+		void handleMouse();
+
 	protected:
 		void initializeGL();
 		void resizeGL( int width, int height );
@@ -50,6 +54,7 @@ class Gameboard : public QGLWidget
 		void drawBots( Game* game, float falloff );
 		void drawBackground( );
 		void drawScoreboard();
+		void drawMouse();
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
 
@@ -60,11 +65,35 @@ class Gameboard : public QGLWidget
 		VisualizerWindow *parent;
 
 		QTime time;
+		QTime buttonTimes;
 
 		bool hasMapGrid;
 		bool hasDefaultBG;					 //default background
 
+		void mousePressEvent( QMouseEvent *event );
+		void mouseReleaseEvent( QMouseEvent *event );
+		void mouseMoveEvent( QMouseEvent *event );
+
 		DrawGLFont *drawFont;
+
+		bool leftButtonDown;
+		bool leftDoubleClick;
+		bool leftButtonDrag;
+		bool rightButtonDown;
+		bool midButtonDown;
+
+		int curX;
+		int curY;
+
+		int clickX;
+		int clickY;
+
+		int dragX;
+		int dragY;
+
+		int leftButtonTime;
+		int rightButtonTime;
+		int midButtonTime;
 
 	public:
 		int timerId;

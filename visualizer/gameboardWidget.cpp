@@ -1,6 +1,7 @@
 #include "gameboardWidget.h"
 
 #include <iostream>
+using namespace std;
 
 Gameboard::Gameboard( QWidget *prt )
 : QGLWidget( QGLFormat(QGL::SampleBuffers),prt)
@@ -12,6 +13,7 @@ Gameboard::Gameboard( QWidget *prt )
 	timerId = startTimer(50);
 	parent = ((VisualizerWindow*)prt);
 	time.start();
+	buttonTimes.start();
 
 	hasMapGrid = false;
 	hasDefaultBG = true;
@@ -31,7 +33,7 @@ void Gameboard::initializeGL()
 {
 	glShadeModel(GL_SMOOTH);
 
-	glClearColor(1.0f, 0.7f, 1.0f, 0.0f);
+	glClearColor(0.0f, 0.4f, 0.0f, 0.0f);
 	glClearDepth(1.0f);
 
 	glEnable(GL_DEPTH_TEST);
@@ -383,6 +385,71 @@ void Gameboard::drawBackground()
 	}
 }
 
+void Gameboard::handleMouse()
+{
+	if( leftButtonDown )
+	{
+		// Do Drag event
+		leftButtonDrag = true;
+		dragX = clickX;
+		dragY = clickY;	
+	}
+		
+}
+
+void Gameboard::mousePressEvent( QMouseEvent *e )
+{
+
+	if( e->button() == Qt::LeftButton )
+	{
+		clickX = e->x();
+		clickY = e->y();
+		// TODO: Move double click time into VISCONFIG
+		if( buttonTimes.elapsed() - leftButtonTime < 275 )
+		{
+			// Do Double click event
+
+		} else {
+
+			leftButtonTime = buttonTimes.elapsed();
+		}
+
+		leftButtonDown = true;
+		QTimer::singleShot( 150, this, SLOT( handleMouse() ) );
+
+	} else if ( e->button() == Qt::RightButton )
+	{
+		rightButtonTime = buttonTimes.elapsed();
+		rightButtonDown = true;
+	} else if( e->button() == Qt::MidButton )
+	{
+		midButtonTime = buttonTimes.elapsed();
+		midButtonDown = true;
+	}
+}
+
+void Gameboard::mouseReleaseEvent( QMouseEvent *e )
+{
+	if( e->button() == Qt::LeftButton )
+	{
+		// Do single click event
+		leftButtonDown = false;
+		leftButtonDrag = false;
+	} else if ( e->button() == Qt::RightButton )
+	{
+		rightButtonDown = false;
+	} else if( e->button() == Qt::MidButton )
+	{
+		rightButtonDown = false;
+	}
+}
+
+void Gameboard::mouseMoveEvent( QMouseEvent *e )
+{
+	curX = e->x();
+	curY = e->y();
+}
+
 
 void Gameboard::drawScoreboard()
 {
@@ -401,6 +468,36 @@ void Gameboard::drawScoreboard()
 
 }
 
+void Gameboard::drawMouse()
+{
+	if( leftButtonDrag )
+	{
+		
+		glDisable( GL_TEXTURE_2D );
+
+		glLoadIdentity();
+
+		glColor4f( 0, .7, 0, .4 );
+		glBegin( GL_QUADS );
+		glVertex3f( curX, curY, 0 );
+		glVertex3f( dragX, curY, 0 );
+		glVertex3f( dragX, dragY, 0 );
+		glVertex3f( curX, dragY, 0 );
+		glEnd();
+
+		glColor4f( 0, .5, 0, .7 );
+
+		glLineWidth( 2 );
+		glBegin( GL_LINE_LOOP );
+		glVertex3f( curX, curY, 0 );
+		glVertex3f( dragX, curY, 0 );
+		glVertex3f( dragX, dragY, 0 );
+		glVertex3f( curX, dragY, 0 );
+		glEnd();
+
+		glColor4f( 1, 1, 1, 1 );
+	}
+}
 
 void Gameboard::paintGL()
 {
@@ -467,6 +564,7 @@ void Gameboard::paintGL()
 		drawFrames( game, falloff );
 	}
 	drawScoreboard();
+	drawMouse();
 }
 
 
