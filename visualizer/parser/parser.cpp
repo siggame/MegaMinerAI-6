@@ -3,8 +3,6 @@
 #include "sexp/parser.h"
 #include "sexp/sfcompat.h"
 
-#include <iostream>
-
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -77,7 +75,9 @@ static void parseBot(Bot& object, sexp_t* expression)
   sub = sub->next;
   object.buildRate = atoi(sub->val);
   sub = sub->next;
+  object.partOf = atoi(sub->val);
   sub = sub->next;
+  object.building = atoi(sub->val);
   sub = sub->next;
   
 }
@@ -158,7 +158,7 @@ static void parseAdd(Add& object, sexp_t* expression)
   sub = sub->next;
   
 }
-static void parseAttack(Attack& object, sexp_t* expression)
+static void parseCollide(Collide& object, sexp_t* expression)
 {
   sexp_t* sub;
   sub = expression->list;
@@ -240,7 +240,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
   sexp_t* sub, *subsub;
   expression = expression->list;
   if( !expression )
-		return false;
+    return false;
   if(expression->val != NULL && strcmp(expression->val, "status") == 0)
   {
     GameState gs;
@@ -354,10 +354,10 @@ static bool parseSexp(Game& game, sexp_t* expression)
         parseAdd(*animation, sub);
         animations.push_back(animation);
       }
-      if(string(sub->val) == "attack")
+      if(string(sub->val) == "collide")
       {
-        Attack* animation = new Attack;
-        parseAttack(*animation, sub);
+        Collide* animation = new Collide;
+        parseCollide(*animation, sub);
         animations.push_back(animation);
       }
       if(string(sub->val) == "build")
@@ -427,8 +427,9 @@ static bool parseSexp(Game& game, sexp_t* expression)
     game.winner = atoi(expression->val);
   }
 
-	return true;
+  return true;
 }
+
 
 bool parseFile(Game& game, const char* filename)
 {
@@ -445,7 +446,7 @@ bool parseFile(Game& game, const char* filename)
   while(st = parse())
   {
     if( !parseSexp(game, st) )
-			return false;
+      return false;
     destroy_sexp(st);
   }
   
