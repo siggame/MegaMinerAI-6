@@ -1,5 +1,19 @@
+#include <iostream>
+#include <iterator>
+#include <vector>
 #include <string>
 #include <map>
+
+char[] intVectorToCharArray(const std::vector<int> v)
+{
+  char[v.size()] charArray;
+  
+  for(Iterator i = v.begin(); i != v.end(); i++)
+  {
+    charArray[i] = (char)v[i];
+  }
+  return charArray;
+}
  
 // Compress a string to a list of output symbols.
 // The result will be written to the output iterator
@@ -65,38 +79,11 @@ std::string decompress(Iterator begin, Iterator end) {
   return result;
 }
  
-#include <iostream>
-#include <iterator>
-#include <vector>
-#include <fstream>
+
  
 int main() {
-  string inputFilename, outputFilename, line, unCompStr, compStr, deCompStr;
-  
-  inputFilename = "../gamelogs/140.gamelog";
-  
-  //Make the input/output streams
-  ifstream fin;
-  ofstream fout;    
-
-  //crack open the files
-  fin.open(inputFilename.c_str());
-  if(fin.is_open())
-  {
-    while(fin.good())
-    {
-      getline(fin, line);
-      str.append(line);
-    }
-    fin.close();
-  }
-  else
-  {
-    std::cerr << "Unable to open file." << std::endl;
-  }
-
   std::vector<int> compressed;
-  compress(str, std::back_inserter(compressed));
+  compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
   copy(compressed.begin(), compressed.end(), std::ostream_iterator<int>(std::cout, ", "));
   std::cout << std::endl;
   std::string decompressed = decompress(compressed.begin(), compressed.end());
