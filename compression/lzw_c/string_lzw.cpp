@@ -4,9 +4,11 @@
 #include <string>
 #include <map>
 
+char * 
+
 char[] intVectorToCharArray(const std::vector<int> v)
 {
-  char[v.size()] charArray;
+  char[v.size()] charArray
   
   for(Iterator i = v.begin(); i != v.end(); i++)
   {
