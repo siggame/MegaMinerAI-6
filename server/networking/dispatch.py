@@ -23,7 +23,6 @@ class SexpProtocol(Int32StringReceiver):
     self.app.disconnect(reason)
       
   def stringReceived(self, string):
-    print string
     expr = str2sexpr(string)
     for command in expr:
       result = self.app.run(command)

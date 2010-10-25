@@ -37,7 +37,7 @@ class Match(DefaultGameWorld):
     self.nextid += 1
     self.objects[self.nextid] = Type(self, self.nextid, "builder", 5, 0, 0, 1, 1, 1)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 10, 2, 0, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 10, 2, 1, 1, 1, 0)
     self.nextid += 1
     self.objects[self.nextid] = Type(self, self.nextid, "damage", 10, 5, 0, 1, 1, 0)
     self.nextid += 1

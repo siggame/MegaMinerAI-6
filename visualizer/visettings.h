@@ -58,6 +58,25 @@
 			ATTRIBUTE( string, wallFileName );
 			ATTRIBUTE( string, gridFileName );
 
+			    // Bot Textures
+				//red bots
+			ATTRIBUTE( string, redActionFile );
+			ATTRIBUTE( string, redBuilderFile );
+			ATTRIBUTE( string, redCannonFile );
+			ATTRIBUTE( string, redDamageFile );
+			ATTRIBUTE( string, redEngineFile );
+			ATTRIBUTE( string, redForceFile );
+			ATTRIBUTE( string, redFrameFile );
+
+				//blue bots
+			ATTRIBUTE( string, bluActionFile );
+			ATTRIBUTE( string, bluBuilderFile );
+			ATTRIBUTE( string, bluCannonFile );
+			ATTRIBUTE( string, bluDamageFile );
+			ATTRIBUTE( string, bluEngineFile );
+			ATTRIBUTE( string, bluForceFile );
+			ATTRIBUTE( string, bluFrameFile );
+
 			// Arena Stuff
 			ATTRIBUTE( int, arenaMode );
 			ATTRIBUTE( int, winnerScreenTime );
@@ -79,7 +98,7 @@
 				visettings();
 				~visettings();
 
-				void loadFromFile();
+				bool loadFromFile(string & errString);
 
 		};
 #endif

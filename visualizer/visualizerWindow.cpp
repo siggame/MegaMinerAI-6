@@ -11,7 +11,12 @@ VisualizerWindow::VisualizerWindow()
 	createLayout();
 	createSpeeds();
 
-	visettings::instance()->loadFromFile();
+	string configErr;
+
+	if (!visettings::instance()->loadFromFile(configErr))
+	{
+	    QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
+	}
 
 	setWindowTitle( "Modular Visualizer" );
 	fullScreen = false;
@@ -52,6 +57,11 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	{
 		QMessageBox::critical(this,"Error","No Gamelog Specified!");
 		return false;
+	}
+
+	if ( string (filename) == string("")  )
+	{
+	    return false;
 	}
 
 	if ( !parseFile( *temp, filename ) )
@@ -135,7 +145,7 @@ void VisualizerWindow::loadBackground()
 		this,
 		"Open Background",
 		"~/",
-		"Images(*.png)"
+		"Images(*.png;*.jpg)"
 		);
 
 	if ( filename == tr("") )

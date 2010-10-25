@@ -17,15 +17,18 @@ Gameboard::Gameboard( QWidget *prt )
 
 	hasMapGrid = false;
 	hasDefaultBG = true;
+	drawFont = NULL;
 
 }
 
 
 Gameboard::~Gameboard()
 {
+	if (drawFont != NULL)
+	{
+	    delete drawFont;
+	}
 
-	// cleanup Everything
-	//
 }
 
 
@@ -41,7 +44,39 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-	drawFont = NULL;
+
+	bool flag = false;
+	QString errString;
+
+
+	if (!loadAllTextures(errString))
+	{
+		QMessageBox::critical(
+			this,
+			"Error",
+			tr("Default textures failed to load: ") + errString
+			);
+	}
+
+}
+
+bool Gameboard::loadTexture(QString filename, eTextures texID, QString & errString)
+{
+	if ( !textures[texID].loadImage( filename ) )
+	{
+		if (QString("") != errString)
+		{
+			errString += ", ";
+		}
+
+		errString += filename;
+		return false;
+	}
+	return true;
+}
+
+bool Gameboard::loadAllTextures( QString & message )
+{
 
 	bool flag = false;
 	QString errString;
@@ -56,94 +91,88 @@ void Gameboard::initializeGL()
 		drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
 	}
 
-	if ( !textures[T_RED].loadImage( "megaman.png" ) )
-	{
-		errString += "megaman.png";
-		flag = true;
-	}
 
-	if ( !textures[T_BLUE].loadImage( "megamanblue.png" ) )
-	{
-		if (flag)
-		{
-			errString += ", ";
-		}
-		flag = true;
-		errString += "megamanblue.png";
+	//red bots:
 
-	}
 
-	if( !textures[T_DEFAULTBG].loadImage( getAttr( defBGFileName ).c_str() ) )
-	{
-		if (flag)
-		{
-			errString += ", ";
-		}
-		flag = true;
-		errString += getAttr( defBGFileName ).c_str();
-	}
+	if ( !loadTexture( getAttr( redActionFile ).c_str(), T_REDBOT_ACTION, errString ) )
+		    flag = true;
 
-	if ( !textures[T_GRID].loadImage( getAttr( gridFileName ).c_str() ) )
-	{
-		if (flag)
-		{
-			errString += ", ";
-		}
-		flag = true;
-		errString += getAttr( gridFileName ).c_str();
-	}
+	if ( !loadTexture( getAttr( redBuilderFile ).c_str(), T_REDBOT_BUILDER, errString ) )
+		    flag = true;
 
-	if ( !textures[T_WALL].loadImage( getAttr( wallFileName ).c_str() ) )
-	{
-		if (flag)
-		{
-			errString += ", ";
-		}
-		flag = true;
-		errString += getAttr( wallFileName ).c_str();
-	}
+	if ( !loadTexture( getAttr( redCannonFile ).c_str(), T_REDBOT_CANNON, errString ) )
+		    flag = true;
 
-	if ( !textures[T_BLUEFRAME].loadImage( "frameblue.png" ) )
-	{
-		if (flag)
-		{
-			errString += ", ";
-		}
-		flag = true;
-		errString += "frameblue.png";
-	}
+	if ( !loadTexture( getAttr( redDamageFile ).c_str(), T_REDBOT_DAMAGE, errString ) )
+		    flag = true;
 
-	if ( !textures[T_REDFRAME].loadImage( "framered.png" ) )
-	{
-		if (flag)
-		{
-			errString += ", ";
-		}
-		flag = true;
-		errString += "framered.png";
-	}
+	if ( !loadTexture( getAttr( redEngineFile ).c_str(), T_REDBOT_ENGINE, errString ) )
+		    flag = true;
 
-	if (flag)
-	{
-		QMessageBox::critical(
-			this,
-			"Error",
-			tr("Default textures failed to load: ") + errString
-			);
-	}
+	if ( !loadTexture( getAttr( redForceFile ).c_str(), T_REDBOT_FORCE, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( redFrameFile ).c_str(), T_REDBOT_FRAME, errString ) )
+		    flag = true;
+
+
+	//blue bots:
+	if ( !loadTexture( getAttr( bluActionFile ).c_str(), T_BLUBOT_ACTION, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluBuilderFile ).c_str(), T_BLUBOT_BUILDER, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluCannonFile ).c_str(), T_BLUBOT_CANNON, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluDamageFile ).c_str(), T_BLUBOT_DAMAGE, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluEngineFile ).c_str(), T_BLUBOT_ENGINE, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluForceFile ).c_str(), T_BLUBOT_FORCE, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluFrameFile ).c_str(), T_BLUBOT_FRAME, errString ) )
+		    flag = true;
+
+
+
+	//Other Textures
+
+	if ( !loadTexture( getAttr( defBGFileName ).c_str(), T_DEFAULTBG, errString ) )
+		    flag = true;
+
+
+	if ( !loadTexture( getAttr( gridFileName ).c_str(), T_GRID, errString ) )
+		    flag = true;
+
+
+	if ( !loadTexture( getAttr( wallFileName ).c_str(), T_WALL, errString ) )
+		    flag = true;
+
+
+	message = errString;
+
+	return !flag;
 
 }
 
 
-void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
+void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
 
 	glBindTexture( GL_TEXTURE_2D, textures[texture].getTexture() );
 	glPushMatrix();
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
+	glColor4f(1.0,1.0,1.0,1.0f);
 
 	glBegin(GL_QUADS);
+
 	glTexCoord2f( 0, 0 );
 	glVertex3f(0, 1.0f, 0);
 	glTexCoord2f( 1, 0 );
@@ -152,8 +181,43 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture )
 	glVertex3f( 1.0f,0, 0);
 	glTexCoord2f( 0, 1 );
 	glVertex3f(0,0,0);
+
 	glEnd();
+
 	glPopMatrix();
+
+
+	glDisable( GL_TEXTURE_2D );
+
+	glPushMatrix();
+	if (selected)
+	{
+
+		switch (owner)
+		{
+			case 0: //player 1
+			glColor4f(1.0f,0.0f,0.0f,1.0f);
+			break;
+			case 1: //player 2
+			glColor4f(0.0f,0.0f,1.0f,1.0f);
+			break;
+			default:
+			glColor4f(0.5f,0.5f,0.5f,1.0f);
+
+		}
+		glBegin (GL_LINE_LOOP);
+
+		glVertex3f(0, 1.0f, -0.01f);
+		glVertex3f( 1.0f, 1.0f, -0.01f);
+		glVertex3f( 1.0f,0, -0.01f);
+		glVertex3f(0,0,-0.01f);
+
+		glEnd();
+	}
+	glPopMatrix();
+
+	glEnable( GL_TEXTURE_2D );
+
 
 }
 
@@ -187,33 +251,57 @@ void Gameboard::drawBots( Game *game, float falloff )
 		i++
 		)
 	{
-
-		x0 = x1 = i->x*unitSize;
-		y0 = y1 = i->y*unitSize;
-		if( frame+1 < game->states.size() )
+		if (i->partOf == 0)
 		{
-
-			for(
-				std::vector<Bot>::iterator j = game->states[frame+1].bots.begin();
-				j!= game->states[frame+1].bots.end();
-				j++
-				)
+			x0 = x1 = i->x*unitSize;
+			y0 = y1 = i->y*unitSize;
+			if( frame+1 < game->states.size() )
 			{
-				if( j->id == i->id )
+
+				for(
+					std::vector<Bot>::iterator j = game->states[frame+1].bots.begin();
+					j!= game->states[frame+1].bots.end();
+					j++
+					)
 				{
-					x1 = j->x*unitSize;
-					y1 = j->y*unitSize;
-					break;
+					if( j->id == i->id )
+					{
+						x1 = j->x*unitSize;
+						y1 = j->y*unitSize;
+						break;
+					}
 				}
 			}
+
+			//is it selected?
+			bool selected = true;
+			for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+			{
+				if ( *l == i->id )
+				{
+
+				    selected = true;
+				}
+			}
+
+
+			// find owner
+			int owner = i->owner;
+
+			//set bot to appropriate type
+			int sprite;
+			if (owner == 0)
+			{
+			    sprite = T_REDBOT_ENGINE;
+			}
+			else
+			{
+			    sprite = T_BLUBOT_ENGINE;
+			}
+
+
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
 		}
-
-		int sprite = T_RED;
-
-		if( i->owner == 1 )
-			sprite = T_BLUE;
-
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, sprite );
 
 	}
 }
@@ -255,12 +343,22 @@ void Gameboard::drawFrames( Game *game, float falloff )
 			}
 		}
 
-		int sprite = T_REDFRAME;
+		//is it selected?
+		bool selected = false;
+		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+		{
+			if (*l == i->id)
+			{
+			    selected = true;
+			}
+		}
+
+		int sprite = T_REDBOT_FRAME;
 
 		if( i->owner == 1 )
-			sprite = T_BLUEFRAME;
+			sprite = T_BLUBOT_FRAME;
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite );
+		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, i->owner );
 
 	}
 }
@@ -302,7 +400,17 @@ void Gameboard::drawWalls( Game *game, float falloff )
 			}
 		}
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL );
+		//is it selected?
+		bool selected = false;
+		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+		{
+			if (*l == i->id)
+			{
+			    selected = true;
+			}
+		}
+
+		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL, selected, 2 );
 
 	}
 
@@ -326,11 +434,6 @@ void Gameboard::drawBackground()
 			glBindTexture( GL_TEXTURE_2D, textures[T_GRID].getTexture() );
 		}
 		glBegin( GL_QUADS );
-		//todo: set sizes configurable by config file
-
-		// float heightRatio = 10.0f / 640.0f;
-
-		// float widthRatio  = 20.0f / 1280.0f;
 
 		glTexCoord2f( 0, 0 );
 		glVertex3f( 0, 0, 0 );
@@ -489,10 +592,19 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 					addSelection(Frame, frames);
 					addSelection(Wall, walls );
 
-					char *unitSelection = new char[255];
-					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d", selectedIDs.size(), bX, bY );
 
-					parent->console->setText( unitSelection );
+
+					char *unitSelection = new char[255];
+					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d\n", selectedIDs.size(), bX, bY );
+
+					QString OutText(unitSelection);
+
+					for (list<int>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
+					{
+					    sprintf( unitSelection, "%d\n", *it);
+					    OutText += QString(unitSelection);
+					}
+					parent->console->setText( OutText );
 				}
 
 				leftButtonDown = false;
