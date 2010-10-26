@@ -1,7 +1,12 @@
 # -*- coding: iso-8859-1 -*-
 
-from twisted.internet import epollreactor
-epollreactor.install()
+try:
+  from twisted.internet import epollreactor
+  epollreactor.install()
+except ImportError:
+  print("Unabled to import epollreactor, falling back to selectreactor")
+  from twisted.internet import selectreactor
+  selectreactor.install()
 
 from sexpr.sexpr import sexpr2str, str2sexpr
 

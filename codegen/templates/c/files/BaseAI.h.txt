@@ -35,6 +35,7 @@ public:
 % endfor
   
   BaseAI(Connection* c);
+  virtual ~BaseAI();
   ///
   ///Make this your username, which should be provided.
   virtual const char* username() = 0;

@@ -10,7 +10,7 @@
 #include "${model.parent.name}.h"
 % endif
 % for dependency in depends(model):
-struct ${dependency.name};
+class ${dependency.name};
 % endfor
 
 % if model.doc:

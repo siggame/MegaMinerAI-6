@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-#ifdef WIN32
+#ifdef _WIN32
 //Doh, namespace collision.
 namespace Windows
 {
@@ -33,6 +33,9 @@ namespace Windows
 #ifndef THREADLESS
 #define LOCK(X) pthread_mutex_lock(X)
 #define UNLOCK(X) pthread_mutex_unlock(X)
+#else
+#define LOCK(X)
+#define UNLOCK(X)
 #endif
 
 using namespace std;

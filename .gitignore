@@ -1,0 +1,14 @@
+*.pyc
+codegen/output/*
+
+#Game logs don't go in the repository
+*.gamelog
+
+#Visual studio files don't go in the repository
+*.suo
+*.user
+*.ncb
+[Dd]ebug*/
+
+#Server logs don't go in the repository
+server/logs

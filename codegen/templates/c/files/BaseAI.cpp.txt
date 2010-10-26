@@ -37,3 +37,4 @@ bool BaseAI::startTurn()
 }
 
 BaseAI::BaseAI(Connection* conn) : c(conn) {}
+BaseAI::~BaseAI() {}

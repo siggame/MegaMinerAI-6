@@ -6,7 +6,7 @@
 
 #include "sexp/sfcompat.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #define DLLEXPORT extern "C" __declspec(dllexport)
 #else
 #define DLLEXPORT
