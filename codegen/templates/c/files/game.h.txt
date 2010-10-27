@@ -9,6 +9,7 @@
 
 #ifdef _WIN32
 #define DLLEXPORT extern "C" __declspec(dllexport)
+#include "pthread.h"
 #else
 #define DLLEXPORT
 #include <pthread.h>

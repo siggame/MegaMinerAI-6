@@ -9,5 +9,7 @@ Notes:
 
 *  On build, the VS project will delete codegen/output/c/AI.h and codegen/output/c/AI.cpp to prevent some weird header mismatches that cause stack corruption (The VS project adds the codegen output folder to the include path, the compiler then sees AI.h in there and in the project folder and isn't consistent about which one it uses). Since the makefile copies AI.h and AI.cpp into the codegen folder with each build, this should be fine.
 
+* I have included a win32 pthreads library. This should allow anyone to write code against the pthread api and have it work on Linux and Windows.
+
 For distribution:
 All of the steps above are one shot things and should only need to be done once. You should be able to drop the makefile in to the VS folder (or the VS sln and vcproj into a makefile based ai) and they should play nicely. I prefer the VS debugger and IDE, especially when pressed for time...
