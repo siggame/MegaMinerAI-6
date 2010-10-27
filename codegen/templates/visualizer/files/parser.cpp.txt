@@ -14,15 +14,11 @@ using namespace std;
 static bool parse${model.name}(${model.name}& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
 %   for datum in model.data:
+  if ( !sub ) return false;
 %     if datum.type == int:
   object.${datum.name} = atoi(sub->val);
 %     elif datum.type == float:
@@ -32,9 +28,6 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
   strncpy(object.${datum.name}, sub->val, strlen(sub->val));
   object.${datum.name}[strlen(sub->val)] = 0;
 %    endif
-  if ( !sub )
-    return false;
-
   sub = sub->next;
 %  endfor
   return true;
@@ -45,15 +38,10 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
 static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
 %   for datum in animation.data:
+  if( !sub ) return false;
 %     if datum.type == int:
   object.${datum.name} = atoi(sub->val);
 %     elif datum.type == float:
@@ -63,8 +51,6 @@ static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
   strncpy(object.${datum.name}, sub->val, strlen(sub->val));
   object.${datum.name}[strlen(sub->val)] = 0;
 %    endif
-
-
   sub = sub->next;
 %  endfor
   return true;
@@ -74,9 +60,9 @@ static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
 static bool parseSexp(Game& game, sexp_t* expression)
 {
   sexp_t* sub, *subsub;
+  if( !expression ) return false;
   expression = expression->list;
-  if( !expression )
-    return false;
+  if( !expression ) return false;
   if(expression->val != NULL && strcmp(expression->val, "status") == 0)
   {
     GameState gs;
@@ -84,9 +70,11 @@ static bool parseSexp(Game& game, sexp_t* expression)
     {
       expression = expression->next;
       sub = expression->list;
+      if ( !sub ) return false;
       if(string(sub->val) == "game")
       {
 % for datum in globals:
+          if ( !sub ) return false;
 %   if datum.type == int:
           gs.${datum.name} = atoi(sub->val);
 %   elif datum.type == float:
@@ -98,21 +86,21 @@ static bool parseSexp(Game& game, sexp_t* expression)
           gs.${datum.name}[strlen(sub->val)] = 0;
 %   endif
           sub = sub->next;
-
 % endfor
       }
 % for model in models:
       else if(string(sub->val) == "${model.name}")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           ${model.name} object;
-          parse${model.name}(object, sub);
+          flag = parse${model.name}(object, sub);
           gs.${lowercase(model.plural)}.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
 % endfor
     }
@@ -125,11 +113,13 @@ static bool parseSexp(Game& game, sexp_t* expression)
     {
       expression = expression->next;
       sub = expression->list;
+      if ( !sub ) return false;
 % for animation in animations:
       if(string(sub->val) == "${dashify(animation.name)}")
       {
         ${animation.name}* animation = new ${animation.name};
-        parse${capitalize(animation.name)}(*animation, sub);
+        if ( !parse${capitalize(animation.name)}(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
 % endfor
@@ -139,14 +129,19 @@ static bool parseSexp(Game& game, sexp_t* expression)
   else if(string(expression->val) == "ident")
   {
     expression = expression->next;
+    if ( !expression ) return false;
     sub = expression->list;
     while(sub)
     {
       subsub = sub->list;
+      if ( !subsub ) return false;
       int number = atoi(subsub->val);
       if(number > 0)
       {
-        subsub = subsub->next->next;
+        subsub = subsub->next;
+        if ( !subsub ) return false;
+        subsub = subsub->next;
+        if ( !subsub ) return false;
         game.players[number] = subsub->val;
       }
       sub = sub->next;
@@ -155,6 +150,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
   else if(string(expression->val) == "game-winner")
   {
     expression = expression->next;
+    if ( !expression ) return false;
     game.winner = atoi(expression->val);
   }
 
@@ -176,8 +172,7 @@ bool parseFile(Game& game, const char* filename)
 
   while(st = parse())
   {
-    if( !parseSexp(game, st) )
-      return false;
+    if( !parseSexp(game, st) ) return false;
     destroy_sexp(st);
   }
 

@@ -13,319 +13,193 @@ using namespace std;
 static bool parseMappable(Mappable& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   object.id = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.x = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.y = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
   return true;
 }
 static bool parseUnit(Unit& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   object.id = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.x = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.y = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.owner = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.health = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.maxHealth = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
   return true;
 }
 static bool parseBot(Bot& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   object.id = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.x = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.y = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.owner = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.health = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.maxHealth = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.actions = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.steps = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.size = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.damage = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.range = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.movitude = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.actitude = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.buildRate = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.partOf = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.building = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
   return true;
 }
 static bool parseFrame(Frame& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   object.id = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.x = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.y = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.owner = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.health = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.maxHealth = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   sub = sub->next;
+  if ( !sub ) return false;
   object.size = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.completionTime = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
   return true;
 }
 static bool parseWall(Wall& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   object.id = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.x = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.y = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.owner = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.health = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.maxHealth = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
   return true;
 }
 static bool parseType(Type& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
 
-  if ( !sub )
-    return false;
-
+  if ( !sub ) return false;
   object.id = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.name = new char[strlen(sub->val)+1];
   strncpy(object.name, sub->val, strlen(sub->val));
   object.name[strlen(sub->val)] = 0;
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.maxHealth = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.damage = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.range = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.movitude = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.actitude = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
+  if ( !sub ) return false;
   object.buildRate = atoi(sub->val);
-  if ( !sub )
-    return false;
-
   sub = sub->next;
   return true;
 }
@@ -333,172 +207,101 @@ static bool parseType(Type& object, sexp_t* expression)
 static bool parseAdd(Add& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseCollide(Collide& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseBuild(Build& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseCombine(Combine& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
-
-
+  if( !sub ) return false;
   sub = sub->next;
-
-
+  if( !sub ) return false;
   sub = sub->next;
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseHeal(Heal& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseMove(Move& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
+  if( !sub ) return false;
   object.direction = atoi(sub->val);
-
-
   sub = sub->next;
   return true;
 }
 static bool parseRemove(Remove& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseSplit(Split& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
   return true;
 }
 static bool parseTalk(Talk& object, sexp_t* expression)
 {
   sexp_t* sub;
-  if ( !expression )
-    return false;
-
+  if ( !expression ) return false;
   sub = expression->list;
-
-  if( !sub )
-    return false;
-
-
-
+  if( !sub ) return false;
   sub = sub->next;
+  if( !sub ) return false;
   object.message = new char[strlen(sub->val)+1];
   strncpy(object.message, sub->val, strlen(sub->val));
   object.message[strlen(sub->val)] = 0;
-
-
   sub = sub->next;
   return true;
 }
@@ -506,9 +309,9 @@ static bool parseTalk(Talk& object, sexp_t* expression)
 static bool parseSexp(Game& game, sexp_t* expression)
 {
   sexp_t* sub, *subsub;
+  if( !expression ) return false;
   expression = expression->list;
-  if( !expression )
-    return false;
+  if( !expression ) return false;
   if(expression->val != NULL && strcmp(expression->val, "status") == 0)
   {
     GameState gs;
@@ -516,95 +319,102 @@ static bool parseSexp(Game& game, sexp_t* expression)
     {
       expression = expression->next;
       sub = expression->list;
+      if ( !sub ) return false;
       if(string(sub->val) == "game")
       {
+          if ( !sub ) return false;
           gs.turnNumber = atoi(sub->val);
           sub = sub->next;
-
+          if ( !sub ) return false;
           gs.playerID = atoi(sub->val);
           sub = sub->next;
-
+          if ( !sub ) return false;
           gs.boardX = atoi(sub->val);
           sub = sub->next;
-
+          if ( !sub ) return false;
           gs.boardY = atoi(sub->val);
           sub = sub->next;
-
+          if ( !sub ) return false;
           gs.gameNumber = atoi(sub->val);
           sub = sub->next;
-
       }
       else if(string(sub->val) == "Mappable")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           Mappable object;
-          parseMappable(object, sub);
+          flag = parseMappable(object, sub);
           gs.mappables.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
       else if(string(sub->val) == "Unit")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           Unit object;
-          parseUnit(object, sub);
+          flag = parseUnit(object, sub);
           gs.units.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
       else if(string(sub->val) == "Bot")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           Bot object;
-          parseBot(object, sub);
+          flag = parseBot(object, sub);
           gs.bots.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
       else if(string(sub->val) == "Frame")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           Frame object;
-          parseFrame(object, sub);
+          flag = parseFrame(object, sub);
           gs.frames.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
       else if(string(sub->val) == "Wall")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           Wall object;
-          parseWall(object, sub);
+          flag = parseWall(object, sub);
           gs.walls.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
       else if(string(sub->val) == "Type")
       {
         sub = sub->next;
-        while(sub)
+        bool flag = true;
+        while(sub && flag)
         {
           Type object;
-          parseType(object, sub);
+          flag = parseType(object, sub);
           gs.types.push_back(object);
-
           sub = sub->next;
         }
+        if ( !flag ) return false;
       }
     }
     game.states.push_back(gs);
@@ -616,58 +426,68 @@ static bool parseSexp(Game& game, sexp_t* expression)
     {
       expression = expression->next;
       sub = expression->list;
+      if ( !sub ) return false;
       if(string(sub->val) == "add")
       {
         Add* animation = new Add;
-        parseAdd(*animation, sub);
+        if ( !parseAdd(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "collide")
       {
         Collide* animation = new Collide;
-        parseCollide(*animation, sub);
+        if ( !parseCollide(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "build")
       {
         Build* animation = new Build;
-        parseBuild(*animation, sub);
+        if ( !parseBuild(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "combine")
       {
         Combine* animation = new Combine;
-        parseCombine(*animation, sub);
+        if ( !parseCombine(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "heal")
       {
         Heal* animation = new Heal;
-        parseHeal(*animation, sub);
+        if ( !parseHeal(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "move")
       {
         Move* animation = new Move;
-        parseMove(*animation, sub);
+        if ( !parseMove(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "remove")
       {
         Remove* animation = new Remove;
-        parseRemove(*animation, sub);
+        if ( !parseRemove(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "split")
       {
         Split* animation = new Split;
-        parseSplit(*animation, sub);
+        if ( !parseSplit(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
       if(string(sub->val) == "talk")
       {
         Talk* animation = new Talk;
-        parseTalk(*animation, sub);
+        if ( !parseTalk(*animation, sub) )
+          return false;
         animations.push_back(animation);
       }
     }
@@ -676,14 +496,19 @@ static bool parseSexp(Game& game, sexp_t* expression)
   else if(string(expression->val) == "ident")
   {
     expression = expression->next;
+    if ( !expression ) return false;
     sub = expression->list;
     while(sub)
     {
       subsub = sub->list;
+      if ( !subsub ) return false;
       int number = atoi(subsub->val);
       if(number > 0)
       {
-        subsub = subsub->next->next;
+        subsub = subsub->next;
+        if ( !subsub ) return false;
+        subsub = subsub->next;
+        if ( !subsub ) return false;
         game.players[number] = subsub->val;
       }
       sub = sub->next;
@@ -692,6 +517,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
   else if(string(expression->val) == "game-winner")
   {
     expression = expression->next;
+    if ( !expression ) return false;
     game.winner = atoi(expression->val);
   }
 
@@ -713,8 +539,7 @@ bool parseFile(Game& game, const char* filename)
 
   while(st = parse())
   {
-    if( !parseSexp(game, st) )
-      return false;
+    if( !parseSexp(game, st) ) return false;
     destroy_sexp(st);
   }
 
