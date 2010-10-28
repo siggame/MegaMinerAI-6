@@ -98,7 +98,7 @@ Bot.addProperties([
   Function('maxActions',
     result = int
     ),
-  Function('moveRate',
+  Function('maxSteps',
     result = int
     ),
   ])
