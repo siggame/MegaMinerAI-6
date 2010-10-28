@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ../../codegen/output/java
+
+./run $1 $2

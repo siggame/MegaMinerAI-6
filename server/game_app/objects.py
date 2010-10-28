@@ -195,9 +195,6 @@ class Bot(Unit):
         return True
 
 
-  def talk(self, message):
-    return Unit.talk(message)
-
   def move(self, direction):
     d = direction[0].lower()
     if d not in 'udlr':
@@ -412,9 +409,6 @@ class Frame(Unit):
 
   def nextTurn(self):
     pass
-
-  def talk(self):
-    return Unit.talk(message)
 
 
 
