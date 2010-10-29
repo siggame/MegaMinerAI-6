@@ -101,10 +101,10 @@ int main()
 
   string consoleString;
 
-  consoleString = "Wiget.";
+//  consoleString = "Wiget.";
 
-  cout << endl;
-//  cin << consoleString;
+  cout <<"Input a string to get it back: "<< endl;
+  cin >> consoleString;
 
   cout << endl << consoleString << endl;
 /*
