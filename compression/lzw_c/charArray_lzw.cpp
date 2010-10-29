@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <map>
-
+using namespace std;
 
 /*
 char[] intVectorToCharArray(const std::vector<int> v)
@@ -17,6 +17,9 @@ char[] intVectorToCharArray(const std::vector<int> v)
   return charArray;
 }
 */
+
+/*
+
 // Compress a string to a list of output symbols.
 // The result will be written to the output iterator
 // starting at "result"; the final iterator is returned.
@@ -91,21 +94,26 @@ char * comp(char * input)
 char * decomp(char * output)
 {
 }
-
-int main() {
-  char * main = new char[1];
+*/
+int main() 
+{
+//  char * main = new char[1];
 
   string consoleString;
 
-  cout << endl;
-  cin << consoleString;
+  consoleString = "Wiget.";
 
+  cout << endl;
+//  cin << consoleString;
+
+  cout << endl << consoleString << endl;
+/*
   std::vector<int> compressed;
   compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
   copy(compressed.begin(), compressed.end(), std::ostream_iterator<int>(std::cout, ", "));
   std::cout << std::endl;
   std::string decompressed = decompress(compressed.begin(), compressed.end());
   std::cout << decompressed << std::endl;
- 
+ */
   return 0;
 }
