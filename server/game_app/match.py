@@ -71,13 +71,14 @@ class Match(DefaultGameWorld):
           x = random.randrange(0, self.boardX)
           y = random.randrange(0, self.boardX)
           break
-        map[x][y] = '#'
-        walls += 1
+        if random.randint(1, 100) > self.dooritude:
+          map[x][y] = '#'
+          walls += 1
 
     for x in xrange(self.boardX):
       for y in xrange(self.boardY):
         if map[x][y] == '#':
-             map[self.boardX-x-1][y] = '#'
+           map[self.boardX-x-1][y] = '#'
 
     for i in self.objects.values():
       if isinstance(i, Bot):
