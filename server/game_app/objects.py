@@ -227,17 +227,16 @@ class Bot(Unit):
             victims.append(i)
     
     if x == -1:
-      victims = [i for i in victims if i.x+i.size == self.x]
+      victims = [i for i in victims if i.x+ <  self.x]
     elif y == -1:
-      victims = [i for i in victims if i.y+i.size == self.y]
+      victims = [i for i in victims if i.y < self.y]
     elif x == 1:
-      victims = [i for i in victims if i.x == self.x + self.size]
+      victims = [i for i in victims if i.x > self.x]
     elif y == 1:
-      victims = [i for i in victims if i.y == self.y + self.size]
+      victims = [i for i in victims if i.y > self.y]
 
     if victims:
-      for i in victims:
-        victimHealth = sum([i.health for i in victims])
+      victimHealth = sum([i.health for i in victims])
       for i in victims:
         damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
         self.game.animations.append(['collide', self.id, i.id])
