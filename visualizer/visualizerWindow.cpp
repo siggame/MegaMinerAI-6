@@ -125,6 +125,15 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+void VisualizerWindow::closeFullScreen()
+{
+	if( fullScreen )
+	{
+		showNormal();
+		fullScreen = !fullScreen;
+		show();
+	}
+}
 
 void VisualizerWindow::toggleMapGrid()
 {
@@ -576,6 +585,7 @@ void VisualizerWindow::createActions()
 	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
+	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullscreen() ) );
 
 //	QAction *advance = new QAction( this );
 //	advance->setShortcut( tr("Ctrl+P") );

@@ -63,6 +63,7 @@ class VisualizerWindow: public QMainWindow
 		void closeGamelog();
 		void exitProgram();
 		void toggleFullScreen();
+		void closeFullScreen();
 		void toggleMapGrid();
 		void loadBackground();
 		void clearBackground();
