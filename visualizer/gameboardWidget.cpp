@@ -164,41 +164,18 @@ bool Gameboard::loadAllTextures( QString & message )
 void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health)
 {
   float barLength = (health/static_cast<float>(maxHealth));
- /* glPushMatrix();
-  glTranslatef( x, y, 0);
-  glScalef( w, h, 0);
 
-  glColor3f(1.0f,0.0f,0.0f);//set to red for now
-  glBegin(GL_QUADS);
-  glVertex3f(0.0f, 2.0f, 0.0f);
-  glVertex3f(barLength, 2.0f, 0.0f);
-  glVertex3f(barLength, 0.0f, 0.0f);
-  glVertex3f(0.0f,0.0f,0.0f);
-  glEnd();
-  glPopMatrix();
-
-  glPushMatrix();
-  glTranslatef( x, y+1, 0);
-  glScalef( w, h, 0);
-  glColor3f(1.0f, 0.0f, 0.0f);
-  glVertex3f(0, 1.0f, 0);
-  glVertex3f(1.0f, 1.0f, 0);
-  glVertex3f(1.0f, 0, 0);
-  glVertex3f(0, 0, 0);
-*/
-
-        cout << "x: " << x << ", y: " << y << endl;
         glDisable(GL_TEXTURE_2D);
+        glColor4f(1, 0, 0, .6);
         glLoadIdentity();
 	glPushMatrix();
-	glTranslatef( x, y, 0 );
+	glTranslatef( x, y+2, 0 );
 	glScalef( w, 1, 1 );
 
-        glColor3f(1.0f,0.0f,0.0f);
         glBegin(GL_QUADS);
         
-        glVertex3f(0.0f, 10.0f, 0.0f);
-        glVertex3f(barLength, 10.0f, 0.0f);
+        glVertex3f(0.0f, 4.0f, 0.0f);
+        glVertex3f(barLength, 4.0f, 0.0f);
         glVertex3f(barLength, 0.0f, 0.0f);
         glVertex3f(0.0f,0.0f,0.0f);
 
@@ -745,7 +722,7 @@ void Gameboard::paintGL()
 			time.restart();
 
 			// This is where we advance to the next frame
-			if( frame < (int)game->states.size()-1 && frame >= 0 )
+			if( frame < (int)game->states.size() && frame >= 0 )
 			{
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
