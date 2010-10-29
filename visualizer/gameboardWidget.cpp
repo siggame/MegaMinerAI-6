@@ -161,6 +161,22 @@ bool Gameboard::loadAllTextures( QString & message )
 
 }
 
+void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health)
+{
+  float barLength = (static_cast<float>(maxHealth)/health);
+  glPushMatrix();
+  glTranslatef( x, (y - .3), 0);
+  glScalef( w, h, 0);
+
+  glColor3f(1.0f,0.0f,0.0f);//set to red for now
+  glBegin(GL_QUADS);
+  glVertex3f(0, 0.2f, 0);
+  glVertex3f(barLength, 0.2f, 0);
+  glVertex3f(barLength, 0, 0);
+  glVertex3f(0,0,0);
+  glEnd();
+  glPopMatrix();
+}
 
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
@@ -301,6 +317,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
+                        drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*i->size, i->maxHealth, i->health );
 		}
 
 	}

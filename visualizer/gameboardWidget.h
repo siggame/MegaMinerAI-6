@@ -76,6 +76,7 @@ class Gameboard : public QGLWidget
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);
 
+                void drawHealth( int x, int y, int h, int w, int maxHealth, int health );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
 		list<int> selectedIDs;
