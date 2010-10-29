@@ -64,7 +64,7 @@ class Match(DefaultGameWorld):
     while walls < self.maxWalls:
       dx = random.randint(-1, 1)
       dy = random.randint(-1, 1)
-      for i in xrange(random.randint(1, self.wallLength))
+      for i in xrange(random.randint(1, self.wallLength)):
         x += dx
         y += dy
         if x < 0 or y < 0 or x >= self.boardX or y >= self.boardY or map[x][y] == '#':
@@ -74,8 +74,8 @@ class Match(DefaultGameWorld):
         map[x][y] = '#'
         walls += 1
     
-    for y in xrange(boardY):
-      print ''.join(map[x][y] for x in xrange(boardX))
+    for y in xrange(self.boardY):
+      print ''.join(map[x][y] for x in xrange(self.boardX))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type

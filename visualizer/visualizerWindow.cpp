@@ -51,7 +51,7 @@ GameState *VisualizerWindow::getFrame( int frame )
 
 bool VisualizerWindow::loadGamelog( char *filename )
 {
-	Game * temp = new Game;
+
 
 	if ( filename == NULL )
 	{
@@ -64,10 +64,13 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	    return false;
 	}
 
+	Game * temp = new Game;
+
 	if ( !parseFile( *temp, filename ) )
 	{
 
 		QMessageBox::critical(this,"Error","Invalid Game Log or Unknown Argument");
+		delete temp;
 		return false;
 	}
 
@@ -125,6 +128,15 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+void VisualizerWindow::closeFullScreen()
+{
+	if( fullScreen )
+	{
+		showNormal();
+		fullScreen = !fullScreen;
+		show();
+	}
+}
 
 void VisualizerWindow::toggleMapGrid()
 {
@@ -166,6 +178,8 @@ void VisualizerWindow::loadBackground()
 void VisualizerWindow::closeGamelog()
 {
 	//todo: clear out the game log and recover all allocated memory
+	//delete gamelog;
+	//gamelog = NULL;
 }
 
 
@@ -223,8 +237,7 @@ void VisualizerWindow::controlSliderReleased()
 
 void VisualizerWindow::controlSliderChanged(int frame)
 {
-	//if( getAttr( dragging ) )
-		setAttr( frameNumber, frame );
+	setAttr( frameNumber, frame );
 }
 
 
@@ -500,19 +513,37 @@ void VisualizerWindow::createLayout()
 	setCentralWidget( gameboard );
 }
 
+// TODO: Combine these two functions
 void VisualizerWindow::advanceFrame()
 {
+	setAttr( currentMode, paused );
 
 	int frame = getAttr( frameNumber );
 	if( frame < gamelog->states.size()-1 )
 		setAttr( frameNumber, frame+1 );
+	controlSlider->setSliderPosition( frame );
 }
 
 void VisualizerWindow::previousFrame() 
 {
+	setAttr( currentMode, paused );
 	int frame = getAttr( frameNumber );
 	if( frame  > 0 )
 		setAttr( frameNumber, frame-1 );
+	controlSlider->setSliderPosition( frame );
+}
+
+void VisualizerWindow::playPause()
+{
+	static int lastMode = play;
+	if( getAttr( currentMode ) == paused )
+	{
+		setAttr( currentMode, play );
+	} else {
+		lastMode = getAttr( currentMode );
+		setAttr( currentMode, paused );
+
+	}
 }
 
 void VisualizerWindow::createActions()
@@ -558,6 +589,8 @@ void VisualizerWindow::createActions()
 
 	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
+	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
+	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
 
 //	QAction *advance = new QAction( this );
 //	advance->setShortcut( tr("Ctrl+P") );

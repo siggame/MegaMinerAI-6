@@ -228,15 +228,27 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 	glVertex3f(0,0,0);
 
 	glEnd();
-	glPopMatrix();
-
 
 	glDisable( GL_TEXTURE_2D );
 
-	glPushMatrix();
 	if (selected)
 	{
 
+		switch (owner)
+		{
+			case 0: //player 1
+			glColor4f(5.0f,0.0f,0.0f,1.0f);
+			break;
+			case 1: //player 2
+			glColor4f(0.0f,0.0f,5.0f,1.0f);
+			break;
+			default:
+			glColor4f(0.5f,0.5f,0.5f,1.0f);
+
+		}
+	}
+	else
+	{
 		switch (owner)
 		{
 			case 0: //player 1
@@ -246,18 +258,19 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.0f,0.0f,1.0f,1.0f);
 			break;
 			default:
-			glColor4f(0.5f,0.5f,0.5f,1.0f);
+			glColor4f(0.8f,0.8f,0.8f,1.0f);
 
 		}
-		glBegin (GL_LINE_LOOP);
-
-		glVertex3f(0, 1.0f, -0.01f);
-		glVertex3f( 1.0f, 1.0f, -0.01f);
-		glVertex3f( 1.0f,0, -0.01f);
-		glVertex3f(0,0,-0.01f);
-
-		glEnd();
 	}
+	glBegin (GL_LINE_LOOP);
+
+	glVertex3f(0, 1.0f, 0);
+	glVertex3f( 1.0f, 1.0f, 0);
+	glVertex3f( 1.0f,0, 0);
+	glVertex3f(0,0,-0.01f);
+
+	glEnd();
+
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -525,7 +538,7 @@ void Gameboard::drawBackground()
 		glVertex3f( width, height, 0 );
 
 		glTexCoord2f( 0, 0 );
-
+		glVertex3f( 0, height, 0 );
 
 		glEnd();
 
