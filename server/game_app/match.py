@@ -6,6 +6,7 @@ import networking.config.config
 from collections import defaultdict
 from networking.sexpr.sexpr import *
 import os
+import random
 import itertools
 import scribe
 
@@ -31,29 +32,50 @@ class Match(DefaultGameWorld):
     self.gameNumber = id
     self.initTypes()
     self.startBots()
+    self.startWalls()
 
   def initTypes(self):
-    self.objects[self.nextid] = Type(self, self.nextid, "action", 10, 0, 0, 1, 4, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "action", 24, 0, 0, 1, 4, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "builder", 5, 0, 0, 1, 1, 1)
+    self.objects[self.nextid] = Type(self, self.nextid, "builder", 8, 0, 0, 1, 1, 1)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 10, 2, 1, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 24, 4, 1, 1, 1, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "damage", 10, 5, 0, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "damage", 24, 10, 0, 1, 1, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "engine", 10, 2, 0, 4, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "engine", 24, 4, 0, 4, 1, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "fat", 20, 2, 0, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "force", 40, 4, 0, 1, 1, 0)
     self.nextid += 1
     #(self.objects[self.nextid] = Type(self, self.nextid, name, maxHealth, damage, range, movitude, actitude, buildRate)
     #self.nextid += 1
 
   def startBots(self):
-    self.addObject(Bot.fromType(self, 0, 0, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, self.boardX - 1, self.boardY - 1, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[1]))
+    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[1]))
+    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[1]))
 
-    #__init__(self, game, id, x, y, owner, health, maxHealth, actions, size, damage, range, movitude, actitude, buildRate, partOf, building)
-    pass
+  def startWalls(self):
+    walls = 0
+    map = [ [' ' for i in xrange(self.boardY)] for j in xrange(self.boardX)]
+    x = random.randrange(0, self.boardX)
+    y = random.randrange(0, self.boardX)
+    while walls < self.maxWalls:
+      dx = random.randint(-1, 1)
+      dy = random.randint(-1, 1)
+      for i in xrange(random.randint(1, self.wallLength))
+        x += dx
+        y += dy
+        if x < 0 or y < 0 or x >= self.boardX or y >= self.boardY or map[x][y] == '#':
+          x = random.randrange(0, self.boardX)
+          y = random.randrange(0, self.boardX)
+          break
+        map[x][y] = '#'
+        walls += 1
+    
+    for y in xrange(boardY):
+      print ''.join(map[x][y] for x in xrange(boardX))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type

@@ -223,7 +223,7 @@ void VisualizerWindow::controlSliderReleased()
 
 void VisualizerWindow::controlSliderChanged(int frame)
 {
-	if( getAttr( dragging ) )
+	//if( getAttr( dragging ) )
 		setAttr( frameNumber, frame );
 }
 
@@ -401,6 +401,7 @@ void VisualizerWindow::createLayout()
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
+	console->setReadOnly(true);
 	toolBox = new QTabWidget;
 	bottomBar = new QFrame;
 	controlBar = new QFrame;
@@ -499,6 +500,20 @@ void VisualizerWindow::createLayout()
 	setCentralWidget( gameboard );
 }
 
+void VisualizerWindow::advanceFrame()
+{
+
+	int frame = getAttr( frameNumber );
+	if( frame < gamelog->states.size()-1 )
+		setAttr( frameNumber, frame+1 );
+}
+
+void VisualizerWindow::previousFrame() 
+{
+	int frame = getAttr( frameNumber );
+	if( frame  > 0 )
+		setAttr( frameNumber, frame-1 );
+}
 
 void VisualizerWindow::createActions()
 {
@@ -529,6 +544,7 @@ void VisualizerWindow::createActions()
 	//todo: give this a shortcut key
 	toggleMapGridAct = new QAction( tr("Toggle Grid"), this );
 	toggleMapGridAct->setCheckable( true );
+	toggleMapGridAct->setShortcut( tr( "Ctrl+G" ) );
 	toggleMapGridAct->setStatusTip( tr("Toggle the grid on the map") );
 	connect( toggleMapGridAct, SIGNAL(triggered()), this, SLOT(toggleMapGrid()) );
 
@@ -539,5 +555,12 @@ void VisualizerWindow::createActions()
 	clearBackgroundAct = new QAction( tr("Clear Background"), this );
 	clearBackgroundAct->setStatusTip( tr("Go back to the default background") );
 	connect( clearBackgroundAct, SIGNAL(triggered()), this, SLOT(clearBackground()) );
+
+	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
+	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
+
+//	QAction *advance = new QAction( this );
+//	advance->setShortcut( tr("Ctrl+P") );
+//	connect( advance, SIGNAL(triggered()), this, SLOT(openGamelog()) );
 
 }
