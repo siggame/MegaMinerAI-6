@@ -82,12 +82,12 @@ Bot.addFunctions([
     Function('heal',
       arguments = [Variable('target', Bot),],
       result = bool,
-      doc = 'Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (2 * target.size^2)'
+      doc = 'Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (4 * target.size^2)'
       ),
     Function('build',
       arguments = [Variable('type', type), Variable('x', int), Variable('y', int), Variable('size', int), ],
       result = bool,
-      doc = 'Begins building a new robot.  While building, the new robot will be a frame.  Requires the calling robot to have an action. X and Y must cause the new robot to be adjacent.  Size must be less than or equal to the calling robots size.  Completes in 4 * size^2 / self.buildRate turns'
+      doc = 'Begins building a new robot.  While building, the new robot will be a frame.  Requires the calling robot to have an action. X and Y must cause the new robot to be adjacent.  Size must be less than or equal to the calling robots size.  Completes in 8 * size^2 / self.buildRate turns'
       ),
     Function('combine',
       arguments = [Variable('bot2', Bot), Variable('bot3', Bot), Variable('bot4', Bot)],
