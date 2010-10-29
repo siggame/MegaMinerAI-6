@@ -71,11 +71,32 @@ class Match(DefaultGameWorld):
           x = random.randrange(0, self.boardX)
           y = random.randrange(0, self.boardX)
           break
-        map[x][y] = '#'
-        walls += 1
+        if random.randint(1, 100) > self.dooritude:
+          map[x][y] = '#'
+          walls += 1
+
+    for x in xrange(self.boardX):
+      for y in xrange(self.boardY):
+        if map[x][y] == '#':
+           map[self.boardX-x-1][y] = '#'
+
+    for i in self.objects.values():
+      if isinstance(i, Bot):
+        for x in xrange(i.x-1, i.x+2):
+          for y in xrange(i.y-1, i.y+2):
+            map[x][y] = ' '
+
+    for i in self.objects.values():
+      if isinstance(i, Bot):
+        map[i.x][i.y] = chr(ord('a') + i.type - 1)
     
     for y in xrange(self.boardY):
       print ''.join(map[x][y] for x in xrange(self.boardX))
+
+    for x in xrange(self.boardX):
+      for y in xrange(self.boardY):
+        if map[x][y] == '#':
+          self.addObject(Wall.make(self, x, y, self.wallHealth))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
