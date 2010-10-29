@@ -227,17 +227,16 @@ class Bot(Unit):
             victims.append(i)
     
     if x == -1:
-      victims = [i for i in victims if i.x+i.size == self.x]
+      victims = [i for i in victims if i.x <  self.x]
     elif y == -1:
-      victims = [i for i in victims if i.y+i.size == self.y]
+      victims = [i for i in victims if i.y < self.y]
     elif x == 1:
-      victims = [i for i in victims if i.x == self.x + self.size]
+      victims = [i for i in victims if i.x > self.x]
     elif y == 1:
-      victims = [i for i in victims if i.y == self.y + self.size]
+      victims = [i for i in victims if i.y > self.y]
 
     if victims:
-      for i in victims:
-        victimHealth = sum([i.health for i in victims])
+      victimHealth = sum([i.health for i in victims])
       for i in victims:
         damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
         self.game.animations.append(['collide', self.id, i.id])
@@ -283,7 +282,7 @@ class Bot(Unit):
     self.actions -= 1
 
     self.game.animations.append(['heal', self.id, target.id])
-    target._takeDamage(-target.maxHealth * self.buildRate / (2 * target.size**2))
+    target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2))
 
     return True
 
@@ -298,7 +297,7 @@ class Bot(Unit):
       return "Building a robot larger than itself."
 
     completionTime = 4 * size**2 / self.buildRate
-    health = min(type.maxHealth * self.buildRate / 4, type.maxHealth * size**2)
+    health = min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
     f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, type.id, size, completionTime)
     if f._distance(self) != 1:
       return "Target is non-adjacent."
@@ -408,7 +407,7 @@ class Frame(Unit):
 
 
   def nextTurn(self):
-    pass
+    self.health += self.maxHealth/8
 
 
 
