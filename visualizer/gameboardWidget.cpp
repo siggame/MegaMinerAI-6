@@ -161,6 +161,29 @@ bool Gameboard::loadAllTextures( QString & message )
 
 }
 
+void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health)
+{
+  float barLength = (health/static_cast<float>(maxHealth));
+
+        glDisable(GL_TEXTURE_2D);
+        glColor4f(1, 0, 0, .6);
+        glLoadIdentity();
+	glPushMatrix();
+	glTranslatef( x, y+2, 0 );
+	glScalef( w, 1, 1 );
+
+        glBegin(GL_QUADS);
+        
+        glVertex3f(0.0f, 4.0f, 0.0f);
+        glVertex3f(barLength, 4.0f, 0.0f);
+        glVertex3f(barLength, 0.0f, 0.0f);
+        glVertex3f(0.0f,0.0f,0.0f);
+
+	glEnd();
+	glPopMatrix();
+        glEnable(GL_TEXTURE_2D);
+
+}
 
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
@@ -170,7 +193,6 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
 	glColor4f(1.0,1.0,1.0,1.0f);
-
 	glBegin(GL_QUADS);
 
 	glTexCoord2f( 0, 0 );
@@ -184,15 +206,26 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 	glEnd();
 
-	glPopMatrix();
-
-
 	glDisable( GL_TEXTURE_2D );
 
-	glPushMatrix();
 	if (selected)
 	{
 
+		switch (owner)
+		{
+			case 0: //player 1
+			glColor4f(5.0f,0.0f,0.0f,1.0f);
+			break;
+			case 1: //player 2
+			glColor4f(0.0f,0.0f,5.0f,1.0f);
+			break;
+			default:
+			glColor4f(0.5f,0.5f,0.5f,1.0f);
+
+		}
+	}
+	else
+	{
 		switch (owner)
 		{
 			case 0: //player 1
@@ -202,18 +235,19 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.0f,0.0f,1.0f,1.0f);
 			break;
 			default:
-			glColor4f(0.5f,0.5f,0.5f,1.0f);
+			glColor4f(0.8f,0.8f,0.8f,1.0f);
 
 		}
-		glBegin (GL_LINE_LOOP);
-
-		glVertex3f(0, 1.0f, -0.01f);
-		glVertex3f( 1.0f, 1.0f, -0.01f);
-		glVertex3f( 1.0f,0, -0.01f);
-		glVertex3f(0,0,-0.01f);
-
-		glEnd();
 	}
+	glBegin (GL_LINE_LOOP);
+
+	glVertex3f(0, 1.0f, 0);
+	glVertex3f( 1.0f, 1.0f, 0);
+	glVertex3f( 1.0f,0, 0);
+	glVertex3f(0,0,-0.01f);
+
+	glEnd();
+
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -299,8 +333,9 @@ void Gameboard::drawBots( Game *game, float falloff )
 			    sprite = T_BLUBOT_ENGINE;
 			}
 
-
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
+                        drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*i->size, unitSize*i->size, i->maxHealth, i->health );
+  
 		}
 
 	}
@@ -700,7 +735,7 @@ void Gameboard::paintGL()
 			time.restart();
 
 			// This is where we advance to the next frame
-			if( frame < (int)game->states.size()-1 && frame >= 0 )
+			if( frame < (int)game->states.size() && frame >= 0 )
 			{
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
