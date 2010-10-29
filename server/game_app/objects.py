@@ -125,7 +125,7 @@ class Bot(Unit):
     if isinstance(target, Bot) or isinstance(target, Frame):
       x = 0
       y = 0
-      if self.x > target.x + target.size:
+      if self.x > target.x + target.size-1:
         x = self.x - (target.x + target.size-1)
       elif target.x > self.x + self.size-1:
         x = target.x - (self.x + self.size-1)
@@ -224,6 +224,7 @@ class Bot(Unit):
       if isinstance(i, Unit):
         if self._distance(i) == 1:
           if not isinstance(i, Bot) or i.partOf == 0:
+            print i
             victims.append(i)
     
     if x == -1:
