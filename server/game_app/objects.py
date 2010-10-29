@@ -55,7 +55,7 @@ class Unit(Mappable):
 
 
 class Bot(Unit):
-  def __init__(self, game, id, x, y, owner, health, maxHealth, actions, steps, size, damage, range, movitude, actitude, buildRate, partOf, buildin, type):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, actions, steps, size, damage, range, movitude, actitude, buildRate, partOf, building, type):
     self.game = game
     self.id = id
     self.x = x
