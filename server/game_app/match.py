@@ -33,17 +33,17 @@ class Match(DefaultGameWorld):
     self.startBots()
 
   def initTypes(self):
-    self.objects[self.nextid] = Type(self, self.nextid, "action", 10, 0, 0, 1, 4, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "action", 24, 0, 0, 1, 4, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "builder", 5, 0, 0, 1, 1, 1)
+    self.objects[self.nextid] = Type(self, self.nextid, "builder", 8, 0, 0, 1, 1, 1)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 10, 2, 1, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 24, 4, 1, 1, 1, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "damage", 10, 5, 0, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "damage", 24, 10, 0, 1, 1, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "engine", 10, 2, 0, 4, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "engine", 24, 4, 0, 4, 1, 0)
     self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "fat", 20, 2, 0, 1, 1, 0)
+    self.objects[self.nextid] = Type(self, self.nextid, "force", 40, 4, 0, 1, 1, 0)
     self.nextid += 1
     #(self.objects[self.nextid] = Type(self, self.nextid, name, maxHealth, damage, range, movitude, actitude, buildRate)
     #self.nextid += 1
