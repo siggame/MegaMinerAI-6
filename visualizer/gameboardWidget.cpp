@@ -161,24 +161,47 @@ bool Gameboard::loadAllTextures( QString & message )
 
 }
 
-void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health)
+void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health, int owner = 2)
 {
-  float barLength = (health/static_cast<float>(maxHealth));
+        float barLength = (health/static_cast<float>(maxHealth));
+        
 
         glDisable(GL_TEXTURE_2D);
-        glColor4f(1, 0, 0, .6);
+        switch(owner)
+	{
+		case 0://player 1
+		glColor4f(1, 0, 0, .6);
+                break;
+		case 1://player 2
+		glColor4f(0, 0, 0, .8);
+                break;
+		default://shouldn't happen
+                glColor4f(.5, .5, .5, .6);
+                break;
+	}
         glLoadIdentity();
 	glPushMatrix();
-	glTranslatef( x, y+2, 0 );
-	glScalef( w, 1, 1 );
+	glTranslatef( (x + w*.05), y+2, 0 );
+	glScalef( (w*.9), 1, 1 );
 
         glBegin(GL_QUADS);
-        
+         
         glVertex3f(0.0f, 4.0f, 0.0f);
         glVertex3f(barLength, 4.0f, 0.0f);
         glVertex3f(barLength, 0.0f, 0.0f);
         glVertex3f(0.0f,0.0f,0.0f);
+       glEnd();
+       if(owner == 1)
+       { 
+		glColor4f( 0, .2, 0, .7 );
 
+		glLineWidth( 1.5 );
+		glBegin(GL_LINE_LOOP);
+		glVertex3f( 0.0, 4.0f, 0 );
+		glVertex3f( 1, 4.0f, 0 );
+		glVertex3f( 1, 0.0, 0 );
+		glVertex3f( 0.0f, 0.0, 0 );
+	}
 	glEnd();
 	glPopMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -321,7 +344,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 			}
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
-                        drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*i->size, unitSize*i->size, i->maxHealth, i->health );
+                        drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*i->size, unitSize*i->size, i->maxHealth, i->health, owner );
   
 		}
 
