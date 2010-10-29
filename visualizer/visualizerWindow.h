@@ -5,6 +5,7 @@
 #include <QSlider>
 #include <QMainWindow>
 #include <QDockWidget>
+#include <QShortcut>
 #include "gameboardWidget.h"
 #include "parser.h"
 #include "statsDialog.h"
@@ -65,6 +66,8 @@ class VisualizerWindow: public QMainWindow
 		void toggleMapGrid();
 		void loadBackground();
 		void clearBackground();
+		void advanceFrame();
+		void previousFrame();
 
 		// Help File
 		void viewGameDocs();
