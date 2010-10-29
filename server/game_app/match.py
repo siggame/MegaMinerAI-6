@@ -141,7 +141,28 @@ class Match(DefaultGameWorld):
     elif not [i for i in self.objects.values() if isinstance(i, Bot) and i.owner == 1]:
       self.declareWinner(self.players[0])
     elif self.turnNumber >= 500:
-      self.declareWinner(self.players[0])
+      numBots = [0 ,0]
+      health = [0, 0]
+      maxHealth = [0, 0]
+      for i in self.objects.values():
+        if isinstance(i, Bot):
+          if i.size == 1:
+            numBots[i.owner] += 1
+          if i.partOf == 0:
+            health[i.owner] += i.health
+            maxHealth[i.owner] += i.maxHealth
+      percentHealth = [float(health[0]) / maxHealth[0], float(health[1]) / maxHealth[1]]
+      if numBots[0] > numBots[1]:
+        self.declareWinner(self.players[0])
+      elif numBots[1] > numBots[0]:
+        self.declareWinner(self.players[1])
+      elif percentHealth[0] > percentHealth[1]:
+        self.declareWinner(self.players[0])
+      elif percentHealth[1] > percentHealth[0]:
+        self.declareWinner(self.players[1])
+      else:
+        self.declareWinner(self.players[0])
+        
 
   def declareWinner(self, winner):
     self.winner = winner
