@@ -120,8 +120,6 @@ class Match(DefaultGameWorld):
       self.declareWinner(self.players[0])
     elif self.turnNumber >= 500:
       self.declareWinner(self.players[0])
-    
-    pass
 
   def declareWinner(self, winner):
     self.winner = winner
@@ -176,6 +174,7 @@ class Match(DefaultGameWorld):
     for i in itertools.chain(self.players, self.spectators):
       list += [[self.getPlayerIndex(i), i.user, i.screenName, i.type]]
     for i in players:
+      i.writeSExpr(['megaminer', 6])
       i.writeSExpr(['ident', list, self.id, self.getPlayerIndex(i)])
 
   def getPlayerIndex(self, player):
@@ -188,7 +187,8 @@ class Match(DefaultGameWorld):
   def sendStatus(self, players):
     for i in players:
       i.writeSExpr(self.status())
-      i.writeSExpr(self.animations)
+      if i in self.spectators:
+        i.writeSExpr(self.animations)
     return True
 
 
@@ -200,6 +200,7 @@ class Match(DefaultGameWorld):
     typeLists = []
     typeLists.append(["Bot"] + [i.toList() for i in self.objects.values() if i.__class__ is Bot])
     typeLists.append(["Frame"] + [i.toList() for i in self.objects.values() if i.__class__ is Frame])
+    typeLists.append(["Wall"] + [i.toList() for i in self.objects.values() if i.__class__ is Wall])
     if self.turnNumber < 2:
       typeLists.append(["Type"] + [i.toList() for i in self.objects.values() if i.__class__ is Type])
 
