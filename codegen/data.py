@@ -37,7 +37,7 @@ type = Model('Type',
 
 Wall = Model('Wall',
   parent = Unit,
-  doc = 'A bunch pile of hard stuff.')
+  doc = 'A pile of hard stuff that is in the way.')
 
 Frame = Model('Frame',
   parent = Unit,
@@ -54,22 +54,22 @@ Bot = Model('Bot',
   doc = 'The bot class.')
 
 Bot.addData([
-    Variable('actions', int),
-    Variable('steps', int),
-    Variable('size', int),
-    Variable('damage', int),
-    Variable('range', int),
+    Variable('actions', int, 'How many actions this bot can still perform'),
+    Variable('steps', int, 'How many steps this bot can still take'),
+    Variable('size', int, 'The width of this bot, such that size^2 = number of bots combined into this bot'),
+    Variable('damage', int, 'The amount of damage this robot does when attacking'),
+    Variable('range', int, 'How far this robot can attack from its edge'),
     Variable('movitude', int),
     Variable('actitude', int),
-    Variable('buildRate', int),
-    Variable('partOf', int),
-    Variable('building', int),
+    Variable('buildRate', int, 'How many turns it would take to build a robot one size smaller than this robot'),
+    Variable('partOf', int, 'ID of the robot this robot is apart of, 0 if not in a robot'),
+    Variable('building', int, 'ID of the robot this robot is building, 0 if not building'),
   ])
     
 Bot.addFunctions([
     Function('move',
       arguments = [Variable('direction', str),],
-      result = bool
+      result = bool,
       ),
     Function('attack',
       arguments = [Variable('target', Unit),],
@@ -140,9 +140,9 @@ attack = Animation("Collide",
 
 
 globals = [
-  Variable('turnNumber', int),
+  Variable('turnNumber', int, 'How many turns it has been since the beginning of the game'),
   Variable('playerID', int, 'Player Number; either 0 or 1'),
-  Variable('boardX', int),
-  Variable('boardY', int),
-  Variable('gameNumber', int)
+  Variable('boardX', int, 'Maximum valid position in the X (right) direction.  (0,0) is top left'),
+  Variable('boardY', int, 'Maximum valid position in the Y (down) direction.  (0,0) is top left'),
+  Variable('gameNumber', int, 'What number game this is for the server')
   ]
