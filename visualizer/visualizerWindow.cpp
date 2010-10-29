@@ -145,7 +145,7 @@ void VisualizerWindow::loadBackground()
 		this,
 		"Open Background",
 		"~/",
-		"Images(*.png;*.jpg)"
+		"Images(*.png *.jpg)"
 		);
 
 	if ( filename == tr("") )
