@@ -797,6 +797,10 @@ void Gameboard::paintGL()
 		drawWalls( game, falloff );
 		drawBots( game, falloff );
 		drawFrames( game, falloff );
+
+		
+		//parent->console
+
 	}
 	drawScoreboard();
 	drawMouse();

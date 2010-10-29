@@ -36,6 +36,18 @@ class Scoreboard: public QWidget
 
 };
 
+class Options: public QWidget
+{
+	Q_OBJECT
+	public:
+		Options();
+		void addOptions();
+		private slots:
+		void togglePersistant(bool );
+		void toggleTeam1(bool );
+		void toggleTeam2(bool );
+};
+
 class VisualizerWindow: public QMainWindow
 {
 	Q_OBJECT
@@ -100,6 +112,7 @@ class VisualizerWindow: public QMainWindow
 
 		Scoreboard *scoreboard;
 		UnitSelection *unitSelection;
+		Options *options;
 
 		QAction *viewGameDocsAct;
 		QAction *openGameAct;

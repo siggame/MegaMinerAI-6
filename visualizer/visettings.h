@@ -86,6 +86,10 @@
 			ATTRIBUTE( string, defaultFont );
 			ATTRIBUTE( string, defaultFontWidths );
 
+			ATTRIBUTE( bool, team1Talk );
+			ATTRIBUTE( bool, team2Talk );
+			ATTRIBUTE( bool, persistantTalking );
+
 			public:
 				static visettings *inst;
 				static visettings *instance()
