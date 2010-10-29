@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 class GameWorld(object):
   """
   Base class for a game world object
@@ -17,11 +18,11 @@ class GameWorld(object):
     self.animations = ["animations"]
 
   def addObject(self, newObject):
-    self.animations += [["Add", newObject.id]]
+    self.animations += [["add", newObject.id]]
     self.objects[newObject.id] = newObject
 
   def removeObject(self, oldObject):
-    self.animations += [["Remove", oldObject.id]]
+    self.animations += [["remove", oldObject.id]]
     del self.objects[oldObject.id]
 
 DefaultGameWorld = GameWorld
