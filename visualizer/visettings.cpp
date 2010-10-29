@@ -14,6 +14,10 @@ visettings::visettings()
 	unitSize = 32;
 	currentMode=defaultMode=0;
 
+	team1Talk = true;
+	team2Talk = true;
+	persistantTalking = false;
+
 }
 
 

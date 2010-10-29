@@ -464,6 +464,12 @@ class Wall(Unit):
       ]
     return value
 
+  @staticmethod
+  def make(game, x, y, health):
+    id = game.nextid
+    game.nextid += 1
+    return Wall(game, id, x, y, -1, health,  health)
+
   def nextTurn(self):
     pass
 
