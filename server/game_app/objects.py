@@ -224,7 +224,6 @@ class Bot(Unit):
       if isinstance(i, Unit):
         if self._distance(i) == 1:
           if not isinstance(i, Bot) or i.partOf == 0:
-            print i
             victims.append(i)
     
     if x == -1:
