@@ -6,6 +6,7 @@ import networking.config.config
 from collections import defaultdict
 from networking.sexpr.sexpr import *
 import os
+import random
 import itertools
 import scribe
 
@@ -31,6 +32,7 @@ class Match(DefaultGameWorld):
     self.gameNumber = id
     self.initTypes()
     self.startBots()
+    self.startWalls()
 
   def initTypes(self):
     self.objects[self.nextid] = Type(self, self.nextid, "action", 24, 0, 0, 1, 4, 0)
@@ -53,6 +55,27 @@ class Match(DefaultGameWorld):
     self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[1]))
     self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[1]))
     self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[1]))
+
+  def startWalls(self):
+    walls = 0
+    map = [ [' ' for i in xrange(self.boardY)] for j in xrange(self.boardX)]
+    x = random.randrange(0, self.boardX)
+    y = random.randrange(0, self.boardX)
+    while walls < self.maxWalls:
+      dx = random.randint(-1, 1)
+      dy = random.randint(-1, 1)
+      for i in xrange(random.randint(1, self.wallLength))
+        x += dx
+        y += dy
+        if x < 0 or y < 0 or x >= self.boardX or y >= self.boardY or map[x][y] == '#':
+          x = random.randrange(0, self.boardX)
+          y = random.randrange(0, self.boardX)
+          break
+        map[x][y] = '#'
+        walls += 1
+    
+    for y in xrange(boardY):
+      print ''.join(map[x][y] for x in xrange(boardX))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
