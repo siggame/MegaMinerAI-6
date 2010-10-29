@@ -105,6 +105,8 @@ int main()
   cin >> consoleString;
 
   cout << endl << consoleString << endl;
+  
+  delete [] main;
 /*
   std::vector<int> compressed;
   compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
