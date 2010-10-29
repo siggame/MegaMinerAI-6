@@ -55,7 +55,7 @@ class Unit(Mappable):
 
 
 class Bot(Unit):
-  def __init__(self, game, id, x, y, owner, health, maxHealth, actions, steps, size, damage, range, movitude, actitude, buildRate, partOf, building):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, actions, steps, size, damage, range, movitude, actitude, buildRate, partOf, buildin, type):
     self.game = game
     self.id = id
     self.x = x
@@ -73,6 +73,7 @@ class Bot(Unit):
     self.buildRate = buildRate
     self.partOf = partOf
     self.building = building
+    self.type = type
 
   def toList(self):
     value = [
@@ -92,6 +93,7 @@ class Bot(Unit):
       self.buildRate,
       self.partOf,
       self.building,
+      self.type,
       ]
     return value
 
@@ -100,7 +102,7 @@ class Bot(Unit):
     id = game.nextid
     game.nextid += 1
     return Bot(game, id, x, y, owner, type.maxHealth,  type.maxHealth, 0, 0, 1, type.damage, type.range, type.movitude, type.actitude,
-      type.buildRate, 0, 0)
+      type.buildRate, 0, 0, type.id)
 
   def _takeDamage(self, damage):
     Unit._takeDamage(self, damage)
@@ -115,7 +117,7 @@ class Bot(Unit):
     #This calls the Bot constructor, taking the min or sum of the mini bot values as appropriate
     newBot = Bot(self.game, id, min([i.x for i in bots]), min([i.y for i in bots]), self.owner, sum([i.health for i in bots]),
       sum([i.maxHealth for i in bots]), 0, 0, self.size * 2, sum([i.damage for i in bots]), sum([i.range for i in bots]),
-      sum([i.movitude for i in bots]), sum([i.actitude for i in bots]), sum([i.buildRate for i in bots]), 0, 0)
+      sum([i.movitude for i in bots]), sum([i.actitude for i in bots]), sum([i.buildRate for i in bots]), 0, 0, 0)
     self.game.addObject(newBot)
     for i in bots:
       i.partOf = id

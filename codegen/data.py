@@ -65,6 +65,7 @@ Bot.addData([
     Variable('buildRate', int,'This value is used to determine how many turns it takes to build a robot and how much this robot heals for'),
     Variable('partOf', int, 'ID of the robot this robot is apart of, 0 if not in a robot'),
     Variable('building', int, 'ID of the robot this robot is building, 0 if not building'),
+    Variable('type', int, 'ID of the type this robot is, 0 if a combination')
   ])
     
 Bot.addFunctions([
@@ -140,7 +141,7 @@ heal = Animation("Heal",
 build = Animation("Build",
   data = [Variable("builder", Bot), Variable("frame", Frame)]
   )
-attack = Animation("Collide",
+collide = Animation("Collide",
   data = [Variable("attacker", Bot), Variable("victim", Unit)]
   )
 
