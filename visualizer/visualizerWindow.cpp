@@ -51,7 +51,7 @@ GameState *VisualizerWindow::getFrame( int frame )
 
 bool VisualizerWindow::loadGamelog( char *filename )
 {
-	Game * temp = new Game;
+
 
 	if ( filename == NULL )
 	{
@@ -64,10 +64,13 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	    return false;
 	}
 
+	Game * temp = new Game;
+
 	if ( !parseFile( *temp, filename ) )
 	{
 
 		QMessageBox::critical(this,"Error","Invalid Game Log or Unknown Argument");
+		delete temp;
 		return false;
 	}
 
@@ -175,6 +178,8 @@ void VisualizerWindow::loadBackground()
 void VisualizerWindow::closeGamelog()
 {
 	//todo: clear out the game log and recover all allocated memory
+	//delete gamelog;
+	//gamelog = NULL;
 }
 
 
