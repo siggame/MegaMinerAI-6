@@ -585,7 +585,7 @@ void VisualizerWindow::createActions()
 	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
-	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullscreen() ) );
+	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
 
 //	QAction *advance = new QAction( this );
 //	advance->setShortcut( tr("Ctrl+P") );
