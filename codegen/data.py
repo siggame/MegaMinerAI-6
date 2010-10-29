@@ -70,6 +70,7 @@ Bot.addFunctions([
     Function('move',
       arguments = [Variable('direction', str),],
       result = bool,
+      doc = 'Move in the indicated direction (U, D, L, or R)'
       ),
     Function('attack',
       arguments = [Variable('target', Unit),],

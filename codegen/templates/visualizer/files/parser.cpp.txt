@@ -19,6 +19,7 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
 
 %   for datum in model.data:
   if ( !sub ) return false;
+  
 %     if datum.type == int:
   object.${datum.name} = atoi(sub->val);
 %     elif datum.type == float:
@@ -29,6 +30,7 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
   object.${datum.name}[strlen(sub->val)] = 0;
 %    endif
   sub = sub->next;
+  
 %  endfor
   return true;
 }
