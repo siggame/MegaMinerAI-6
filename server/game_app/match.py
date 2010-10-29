@@ -49,11 +49,10 @@ class Match(DefaultGameWorld):
     #self.nextid += 1
 
   def startBots(self):
-    self.addObject(Bot.fromType(self, 0, 0, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, self.boardX - 1, self.boardY - 1, 1, self.objects[1]))
-
-    #__init__(self, game, id, x, y, owner, health, maxHealth, actions, size, damage, range, movitude, actitude, buildRate, partOf, building)
-    pass
+    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[1]))
+    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[1]))
+    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[1]))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
