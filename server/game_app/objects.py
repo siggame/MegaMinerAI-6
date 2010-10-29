@@ -227,7 +227,7 @@ class Bot(Unit):
             victims.append(i)
     
     if x == -1:
-      victims = [i for i in victims if i.x+ <  self.x]
+      victims = [i for i in victims if i.x <  self.x]
     elif y == -1:
       victims = [i for i in victims if i.y < self.y]
     elif x == 1:
