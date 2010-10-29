@@ -223,7 +223,7 @@ void VisualizerWindow::controlSliderReleased()
 
 void VisualizerWindow::controlSliderChanged(int frame)
 {
-	if( getAttr( dragging ) )
+	//if( getAttr( dragging ) )
 		setAttr( frameNumber, frame );
 }
 
