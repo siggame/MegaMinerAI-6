@@ -4,8 +4,8 @@
 #include <string>
 #include <map>
 
-char * 
 
+/*
 char[] intVectorToCharArray(const std::vector<int> v)
 {
   char[v.size()] charArray
@@ -16,7 +16,7 @@ char[] intVectorToCharArray(const std::vector<int> v)
   }
   return charArray;
 }
-
+*/
 // Compress a string to a list of output symbols.
 // The result will be written to the output iterator
 // starting at "result"; the final iterator is returned.
@@ -81,9 +81,25 @@ std::string decompress(Iterator begin, Iterator end) {
   return result;
 }
  
+char * comp(char * input)
+{
+  string s(input);
+  vector<int> vout = compress();
+  return (char*) out;
+}
 
- 
+char * decomp(char * output)
+{
+}
+
 int main() {
+  char * main = new char[1];
+
+  string consoleString;
+
+  cout << endl;
+  cin << consoleString;
+
   std::vector<int> compressed;
   compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
   copy(compressed.begin(), compressed.end(), std::ostream_iterator<int>(std::cout, ", "));
