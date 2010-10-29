@@ -409,7 +409,7 @@ class Frame(Unit):
 
 
   def nextTurn(self):
-    self.health += self.maxHealth/completionTime
+    self.health += self.maxHealth/self.totalTime
 
 
 
