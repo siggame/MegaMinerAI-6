@@ -97,11 +97,9 @@ char * decomp(char * output)
 */
 int main() 
 {
-//  char * main = new char[1];
+  char * main = new char[1];
 
   string consoleString;
-
-//  consoleString = "Wiget.";
 
   cout <<"Input a string to get it back: "<< endl;
   cin >> consoleString;
