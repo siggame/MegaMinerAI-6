@@ -51,8 +51,8 @@ class Match(DefaultGameWorld):
   def startBots(self):
     self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[1]))
     self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, 35, 9, 1, self.objects[1]))
-    self.addObject(Bot.fromType(self, 35, 10, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[1]))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
