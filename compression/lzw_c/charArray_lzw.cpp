@@ -2,6 +2,7 @@
 #include <iterator>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <map>
 using namespace std;
 
@@ -97,14 +98,17 @@ char * decomp(char * output)
 */
 int main() 
 {
-  char * main = new char[1];
-
   string consoleString;
 
   cout <<"Input a string to get it back: "<< endl;
   cin >> consoleString;
 
-  cout << endl << consoleString << endl;
+  char * main = new char[consoleString.size()+1];
+  
+  strcpy(main, consoleString.c_str());
+
+
+  cout << endl << main << endl;
   
   delete [] main;
 /*
