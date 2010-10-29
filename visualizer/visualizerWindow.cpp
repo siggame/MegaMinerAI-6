@@ -228,8 +228,7 @@ void VisualizerWindow::controlSliderReleased()
 
 void VisualizerWindow::controlSliderChanged(int frame)
 {
-	if( getAttr( dragging ) )
-		setAttr( frameNumber, frame );
+	setAttr( frameNumber, frame );
 }
 
 
@@ -505,19 +504,37 @@ void VisualizerWindow::createLayout()
 	setCentralWidget( gameboard );
 }
 
+// TODO: Combine these two functions
 void VisualizerWindow::advanceFrame()
 {
+	setAttr( currentMode, paused );
 
 	int frame = getAttr( frameNumber );
 	if( frame < gamelog->states.size()-1 )
 		setAttr( frameNumber, frame+1 );
+	controlSlider->setSliderPosition( frame );
 }
 
 void VisualizerWindow::previousFrame() 
 {
+	setAttr( currentMode, paused );
 	int frame = getAttr( frameNumber );
 	if( frame  > 0 )
 		setAttr( frameNumber, frame-1 );
+	controlSlider->setSliderPosition( frame );
+}
+
+void VisualizerWindow::playPause()
+{
+	static int lastMode = play;
+	if( getAttr( currentMode ) == paused )
+	{
+		setAttr( currentMode, play );
+	} else {
+		lastMode = getAttr( currentMode );
+		setAttr( currentMode, paused );
+
+	}
 }
 
 void VisualizerWindow::createActions()
@@ -563,6 +580,7 @@ void VisualizerWindow::createActions()
 
 	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
+	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
 
 //	QAction *advance = new QAction( this );
 //	advance->setShortcut( tr("Ctrl+P") );

@@ -367,6 +367,8 @@ class Frame(Unit):
     self.size = size
     self.completionTime = completionTime
 
+    self.totalTime = completionTime
+
   def toList(self):
     value = [
       self.id,
@@ -407,7 +409,7 @@ class Frame(Unit):
 
 
   def nextTurn(self):
-    self.health += self.maxHealth/8
+    self.health += self.maxHealth/self.totalTime
 
 
 

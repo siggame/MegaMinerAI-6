@@ -68,6 +68,7 @@ class VisualizerWindow: public QMainWindow
 		void clearBackground();
 		void advanceFrame();
 		void previousFrame();
+		void playPause();
 
 		// Help File
 		void viewGameDocs();
