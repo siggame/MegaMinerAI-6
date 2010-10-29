@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <iostream>
+
 using namespace std;
 
 
@@ -18,7 +20,7 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
   sub = expression->list;
 
 %   for datum in model.data:
-  if ( !sub ) return false;
+  if ( !sub ) goto ERROR;
   
 %     if datum.type == int:
   object.${datum.name} = atoi(sub->val);
@@ -33,6 +35,10 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
   
 %  endfor
   return true;
+  
+  ERROR:
+  cerr << "Error in parse${model.name}.\n Parsing: " << *expression << endl;
+  return false;
 }
 % endfor
 
@@ -41,10 +47,10 @@ static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
 {
   sexp_t* sub;
   if ( !expression ) return false;
-  sub = expression->list;
+  sub = expression->list->next;
 %   for datum in animation.data:
-  if( !sub ) return false;
-%     if datum.type == int:
+  if( !sub ) goto ERROR;
+%     if datum.type == int or isinstance(datum.type, Model):
   object.${datum.name} = atoi(sub->val);
 %     elif datum.type == float:
   object.${datum.name} = atof(sub->val);
@@ -56,6 +62,11 @@ static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
   sub = sub->next;
 %  endfor
   return true;
+  
+  
+  ERROR:
+  cerr << "Error in parse${animation.name}.\n Parsing: " << *expression << endl;
+  return false;
 }
 % endfor
 
@@ -120,7 +131,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
       if(string(sub->val) == "${dashify(animation.name)}")
       {
         ${animation.name}* animation = new ${animation.name};
-        if ( !parse${capitalize(animation.name)}(*animation, sub) )
+        if ( !parse${capitalize(animation.name)}(*animation, expression) )
           return false;
         animations.push_back(animation);
       }
@@ -174,7 +185,12 @@ bool parseFile(Game& game, const char* filename)
 
   while(st = parse())
   {
-    if( !parseSexp(game, st) ) return false;
+    if( !parseSexp(game, st) )
+    {
+      while(parse()); //empty the file, keep Lex happy.
+      fclose(in);
+      return false;
+    }
     destroy_sexp(st);
   }
 
