@@ -44,7 +44,7 @@ class Unit(Mappable):
     pass
 
   def talk(self, message):
-    self.game.animations.append(['Talk', self.id, message])
+    self.game.animations.append(['talk', self.id, message])
     return True
 
   def _takeDamage(self, damage):
@@ -125,7 +125,7 @@ class Bot(Unit):
     if isinstance(target, Bot) or isinstance(target, Frame):
       x = 0
       y = 0
-      if self.x > target.x + target.size:
+      if self.x > target.x + target.size-1:
         x = self.x - (target.x + target.size-1)
       elif target.x > self.x + self.size-1:
         x = target.x - (self.x + self.size-1)
@@ -195,9 +195,6 @@ class Bot(Unit):
         return True
 
 
-  def talk(self, message):
-    return Unit.talk(message)
-
   def move(self, direction):
     d = direction[0].lower()
     if d not in 'udlr':
@@ -266,7 +263,7 @@ class Bot(Unit):
       return "Out of actions."
     self.actions -= 1
 
-    self.game.animations.append(['Attack', self.id, target.id])
+    self.game.animations.append(['attack', self.id, target.id])
     target._takeDamage(self.damage)
 
     return True
@@ -285,8 +282,8 @@ class Bot(Unit):
       return "Out of actions."
     self.actions -= 1
 
-    self.game.animations.append(['Heal', self.id, target.id])
-    target._takeDamage(-target.maxHealth * self.buildRate / (2 * target.size**2))
+    self.game.animations.append(['heal', self.id, target.id])
+    target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2))
 
     return True
 
@@ -301,7 +298,7 @@ class Bot(Unit):
       return "Building a robot larger than itself."
 
     completionTime = 4 * size**2 / self.buildRate
-    health = min(type.maxHealth * self.buildRate / 4, type.maxHealth * size**2)
+    health = min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
     f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, type.id, size, completionTime)
     if f._distance(self) != 1:
       return "Target is non-adjacent."
@@ -342,7 +339,7 @@ class Bot(Unit):
       if isinstance(i, Bot):
         if i.partOf == self.id:
           i.partOf = 0
-    self.game.animations.append(['Split', self.id])
+    self.game.animations.append(['split', self.id])
     self.game.removeObject(self)
 
     return True
@@ -411,10 +408,7 @@ class Frame(Unit):
 
 
   def nextTurn(self):
-    pass
-
-  def talk(self):
-    return Unit.talk(message)
+    self.health += self.maxHealth/8
 
 
 

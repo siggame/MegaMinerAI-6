@@ -25,7 +25,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Deleting AI.cpp and AI.h from the codegen output folder"
-				CommandLine="del .\..\..\codegen\output\c\AI.h&#x0D;&#x0A;del .\..\..\codegen\output\c\AI.cpp"
+				CommandLine="del .\..\..\codegen\output\c\AI.h&#x0D;&#x0A;del .\..\..\codegen\output\c\AI.cpp&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -42,8 +42,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../codegen/output/c/sexp;../../codegen/output/c;./"
-				PreprocessorDefinitions="THREADLESS;YY_NO_UNISTD_H"
+				AdditionalIncludeDirectories="&quot;./pthreads-w32-2-8-0-release&quot;;../../codegen/output/c/sexp;../../codegen/output/c;./"
+				PreprocessorDefinitions="YY_NO_UNISTD_H;PTW32_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -295,6 +295,110 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="pthread"
+			>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\attr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\barrier.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\cancel.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\cleanup.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\condvar.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\create.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\dll.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\exit.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\fork.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\global.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\implement.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\misc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\mutex.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\nonportable.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\private.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\pthread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\rwlock.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\sched.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\sched.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\semaphore.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\semaphore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\spin.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\sync.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pthreads-w32-2-8-0-release\tsd.c"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\AI.cpp"

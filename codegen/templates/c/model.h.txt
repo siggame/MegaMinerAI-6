@@ -35,6 +35,7 @@ class ${model.name} \
 
   // Actions
 % for func in model.functions:
+  ///${func.doc}
   int ${func.name}(\
 %   for arg in func.arguments:
 %     if func.arguments[0] != arg:
@@ -51,6 +52,7 @@ ${conversions[arg.type]} ${arg.name}\
 
   // Properties
 % for prop in model.properties:
+  ///${prop.doc}
   ${conversions[prop.result]} ${prop.name}(\
 %   for arg in prop.arguments:
 %     if prop.arguments[0] != arg:

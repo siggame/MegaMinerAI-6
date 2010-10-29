@@ -745,7 +745,7 @@ void Gameboard::paintGL()
 			time.restart();
 
 			// This is where we advance to the next frame
-			if( frame < (int)game->states.size() && frame >= 0 )
+			if( frame < (int)game->states.size()-1 && frame >= 0 )
 			{
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
