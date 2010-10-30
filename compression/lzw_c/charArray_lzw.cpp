@@ -2,10 +2,13 @@
 #include <iterator>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <map>
+#include <stdint.h>
+#include <arpa/inet.h>
+using namespace std;
 
-char * 
-
+/*
 char[] intVectorToCharArray(const std::vector<int> v)
 {
   char[v.size()] charArray
@@ -16,6 +19,9 @@ char[] intVectorToCharArray(const std::vector<int> v)
   }
   return charArray;
 }
+*/
+
+
 
 // Compress a string to a list of output symbols.
 // The result will be written to the output iterator
@@ -80,16 +86,57 @@ std::string decompress(Iterator begin, Iterator end) {
   }
   return result;
 }
- 
 
- 
-int main() {
+char * comp(char * input)
+{
+  string s(input);
+  std::vector<int> vout;
+  
+  //Compress it into a vector (vout)
+  compress(s, std::back_inserter(vout));
+  
+  uint32_t * toNetwork = new uint32_t[vout.size()+1];
+  
+  //Convert the vector into a proper array of integers
+  for(int i = 0; i < vout.size(); i++)
+  {
+    toNetwork[i] = htonl(vout[i]);
+  }
+  
+  toNetwork[vout.size()] = 0;//Null character at the end for the cast to c-string
+  
+  return (char*) toNetwork;
+}
+/*
+char * decomp(char * output)
+{
+}
+*/
+int main() 
+{
+  string consoleString = "a string";
+
+
+  char * main = new char[consoleString.size()+1];
+  
+  strcpy(main, consoleString.c_str());
+
+  cout << endl << main << endl;   
+
+  char * temp = comp(main);
+  
+  cout << endl << temp << endl;
+
+  
+  delete [] main;
+  delete [] temp;
+/*
   std::vector<int> compressed;
   compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
   copy(compressed.begin(), compressed.end(), std::ostream_iterator<int>(std::cout, ", "));
   std::cout << std::endl;
   std::string decompressed = decompress(compressed.begin(), compressed.end());
   std::cout << decompressed << std::endl;
- 
+ */
   return 0;
 }

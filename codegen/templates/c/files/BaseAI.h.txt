@@ -49,6 +49,10 @@ public:
   ///This function is called each time it is your turn
   ///Return true to end your turn, return false to ask the server for updated information
   virtual bool run() = 0;
+  ///
+  ///This function is called after the last turn.
+  virtual void end() = 0;
+
 
   bool startTurn();
 };

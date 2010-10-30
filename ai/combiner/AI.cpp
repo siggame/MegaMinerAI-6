@@ -58,7 +58,7 @@ bool AI::run()
     {
       if(o != b && bots[b].x()==bots[o].x() && bots[b].y()==bots[o].y())
       {
-        cout<<"Failed to move as group!"<<endl;
+        //cout<<"Failed to move as group!"<<endl;
       }
     }
   }
@@ -78,7 +78,14 @@ bool AI::run()
   {
     for(unsigned int b=0;b<myBots.size();b++)
     {
-      myBots[b].split();
+      if(myBots[b].size()>1)
+      {
+        myBots[b].split();
+      }
+      else
+      {
+        myBots[b].move(direction[rand()%4]);
+      }
     }
     return true;
   }
@@ -111,4 +118,9 @@ bool AI::run()
   }
   
   return true;
+}
+
+void AI::end()
+{
+  cout<<"THE GAME IS OVER, ALL IS ?"<<endl;
 }
