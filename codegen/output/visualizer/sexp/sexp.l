@@ -18,22 +18,10 @@ using namespace std;
 %%
 
 L?\"(\\.|[^\\"])*\"  {return STRING;}
-[a-zA-Z0-9.]+        {return TOKEN;}
+[^ \t\n\r()"\\]+        {return TOKEN;}
 [ \t\n\r]            {}
 \(                   {return LPAREN;}
 \)                   {return RPAREN;}
 <<EOF>>              {return END;}
 
 %%
-
-/*
-int main(int argc, char** argv)
-{
-  int val;
-  while(val = yylex())
-  {
-    //cout << val << "\t" << yytext << endl;
-  }
-  return 0;
-}
-*/

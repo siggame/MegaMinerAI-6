@@ -30,6 +30,8 @@ class Match(DefaultGameWorld):
     self.turnNumber = -1
     self.playerID = -1
     self.gameNumber = id
+    self.player0Time = 0
+    self.player1Time = 0
     self.initTypes()
     self.startBots()
     self.startWalls()
@@ -257,7 +259,7 @@ class Match(DefaultGameWorld):
   def status(self):
     msg = ["status"]
 
-    msg.append(["game", self.turnNumber, self.playerID, self.boardX, self.boardY, self.gameNumber])
+    msg.append(["game", self.turnNumber, self.playerID, self.boardX, self.boardY, self.gameNumber, self.player0Time, self.player1Time])
 
     typeLists = []
     typeLists.append(["Bot"] + [i.toList() for i in self.objects.values() if i.__class__ is Bot])
