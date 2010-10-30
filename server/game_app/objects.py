@@ -317,6 +317,7 @@ class Bot(Unit):
     self.game.nextid += 1
     self.game.addObject(f)
     self.actions = 0
+    self.steps = 0
     self.building = f.id
 
     return True

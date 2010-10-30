@@ -382,6 +382,17 @@ DLLEXPORT int botHeal(_Bot* object, _Bot* target)
 
 DLLEXPORT int botBuild(_Bot* object, _Type* type, int x, int y, int size)
 {
+  if(object->buildRate == 0)
+      return 0;
+  if(object->actions < 1)
+      return 0;
+  if(x < 0 or y < 0 or x+size > object->_c->boardX or y+size > object->_c->boardY)
+      return 0;
+  if(size > object->size)
+      return 0;
+  
+  object->actions = 0;
+  object->steps = 0;
   stringstream expr;
   expr << "(game-build " << object->id
       << " " << type->id
