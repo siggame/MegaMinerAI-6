@@ -121,6 +121,8 @@ class Bot(Unit):
     self.game.addObject(newBot)
     for i in bots:
       i.partOf = id
+      i.actions = 0
+      i.steps = 0
     return newBot
 
   def _distance(self, target):
