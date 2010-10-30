@@ -102,7 +102,7 @@ class Gameboard : public QGLWidget
 		QTime buttonTimes;
 
 		bool hasMapGrid;
-		bool hasDefaultBG;					 //default background
+		bool hasDefaultBG; //default background
 
 		void mousePressEvent( QMouseEvent *event );
 		void mouseReleaseEvent( QMouseEvent *event );

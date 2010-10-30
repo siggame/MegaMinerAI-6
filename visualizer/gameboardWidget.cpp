@@ -177,10 +177,10 @@ void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int healt
         switch(owner)
 	{
 		case 0://player 1
-		glColor4f(1, 0, 0, .6);
+		glColor4f(1, 1, 0, .6);
                 break;
 		case 1://player 2
-		glColor4f(0, 0, 0, .8);
+		glColor4f(0, 1, 1, .8);
                 break;
 		default://shouldn't happen
                 glColor4f(.5, .5, .5, .6);
@@ -199,16 +199,21 @@ void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int healt
         glVertex3f(0.0f,0.0f,0.0f);
        glEnd();
        if(owner == 1)
-       { 
-		glColor4f( 0, .2, 0, .7 );
+	   {
 
-		glLineWidth( 1.5 );
+		}
+	   else
+	   {
+	   }
+	   glColor4f( 0, 0, 0, .7 );
+
 		glBegin(GL_LINE_LOOP);
 		glVertex3f( 0.0, 4.0f, 0 );
 		glVertex3f( 1, 4.0f, 0 );
 		glVertex3f( 1, 0.0, 0 );
 		glVertex3f( 0.0f, 0.0, 0 );
-	}
+		glLineWidth (1.0);
+
 	glEnd();
 	glPopMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -812,7 +817,7 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
-
+		drawAnimations( game, falloff );
 		
 		//parent->console
 
@@ -884,7 +889,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 		glPushMatrix();
 		glTranslated(x,y,0);
-		glScalef( unitSize, unitSize, 0 );
+		glScalef( 0.5 * unitSize * state1.bots[attack->attacker].size , 0.5 * unitSize * state1.bots[attack->attacker].size, 0 );
 
 		switch (state1.bots[attack->attacker].owner)
 		{
