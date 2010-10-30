@@ -92,7 +92,7 @@ class Gameboard : public QGLWidget
 		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
-		list<int> selectedIDs;
+		map<int,string> selectedIDs;
 
 		texture textures[numTextures];
 
@@ -102,7 +102,7 @@ class Gameboard : public QGLWidget
 		QTime buttonTimes;
 
 		bool hasMapGrid;
-		bool hasDefaultBG;					 //default background
+		bool hasDefaultBG; //default background
 
 		void mousePressEvent( QMouseEvent *event );
 		void mouseReleaseEvent( QMouseEvent *event );

@@ -5,8 +5,8 @@ CFLAGS += -g
 CXXFLAGS += -g
 
 #Uncomment this line  to get a boatload of debug output.
-CPPFLAGS = -DSHOW_NETWORK
-override CPPFLAGS += -DSHOW_WARNINGS
+#CPPFLAGS = -DSHOW_NETWORK
+#override CPPFLAGS += -DSHOW_WARNINGS
 
 override CPPFLAGS += -Isexp
 
