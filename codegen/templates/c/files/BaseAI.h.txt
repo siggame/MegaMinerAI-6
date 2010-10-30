@@ -27,7 +27,7 @@ protected:
 %   endif
 % endfor
 public:
-% for datum in globals:
+% for datum in globals + constants:
 %   if datum.doc:
   ///${datum.doc}
 %   endif

@@ -9,6 +9,7 @@ import util
 
 def write(data):
   data['conversions'] = conversions.c
+  data['cppconversions'] = conversions.cpp
   data['capitalize'] = util.capitalize
   data['lowercase'] = util.lowercase
   data['dashify'] = util.dashify
