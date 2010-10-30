@@ -1,4 +1,4 @@
-import aspects
+"""import aspects
 
 import main
 from game_app.match import Match
@@ -22,4 +22,4 @@ def install():
         i.player0Time -= 1
       elif i.turn == i.players[1]:
         i.player1Time -= 1
-        
+       """ 

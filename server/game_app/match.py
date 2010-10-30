@@ -126,6 +126,8 @@ class Match(DefaultGameWorld):
     
     self.sendIdent(self.players + self.spectators)
 
+    self.turn = self.players[1]
+
     self.nextTurn()
     return True
 
