@@ -683,7 +683,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 			    sprintf( unitSelection, "%d\n", *it);
 			    OutText += QString(unitSelection);
 			}
-			parent->console->setText( OutText );
+			//parent->console->setText( OutText );
 		}
 
 		leftButtonDown = false;
@@ -843,26 +843,25 @@ void Gameboard::paintGL()
 						{
 							Talk *talker = (Talk*)(*k);
 							if( talker->speaker == *i )
+							{
 								if( 
 									( game->states[j].units[*i].owner == 0 && 
 									getAttr( team1Talk ) ) || 
 									( game->states[j].units[*i].owner == 1 &&
 									getAttr( team2Talk ) )
 									)
-									{
-									
-										console += talker->message;
-										console += '\n';
-
-									}
-
+								{
+									console += talker->message;
+									console += '\n';
+								}
+							}
 						}
 					}
 				}
 			}
 				
 		
-		parent->console->setText( console.c_str() );
+		parent->console->setText( QString( console.c_str()) );
 
 	}
 	drawScoreboard();
