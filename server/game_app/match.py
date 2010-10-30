@@ -32,23 +32,24 @@ class Match(DefaultGameWorld):
     self.gameNumber = id
     self.player0Time = 0
     self.player1Time = 0
-    self.initTypes()
-    self.startBots()
+    cfgUnits = self.initTypes()
+    self.startBots(cfgUnits)
     self.startWalls()
 
   def initTypes(self, cfgFile = "config/units.cfg"):
     cfg = networking.config.config.readConfig(cfgFile)
     for i in sorted(cfg.keys()):
-      self.objects[self.nextid] = Type(self, self.nextid, i, cfg[i]["maxHealth"], cfg[i]["damage"], cfg[i]["range"], cfg[i]["movitude"], cfg[i]["actitude"], cfg[i]["buildRate"])
-      self.nextid += 1
+      if "startbot" not in i.lower():
+        self.objects[self.nextid] = Type(self, self.nextid, i, cfg[i]["maxHealth"], cfg[i]["damage"], cfg[i]["range"], cfg[i]["movitude"], cfg[i]["actitude"], cfg[i]["buildRate"])
+        self.nextid += 1
     #(self.objects[self.nextid] = Type(self, self.nextid, name, maxHealth, damage, range, movitude, actitude, buildRate)
     #self.nextid += 1
+    return cfg
 
-  def startBots(self):
-    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[2]))
-    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[2]))
-    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[2]))
-    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[2]))
+  def startBots(self, cfg):
+    for i in cfg.keys():
+      if "startbot" in i.lower():
+        self.addObject(Bot.fromType(self, cfg[i]["x"], cfg[i]["y"], cfg[i]["owner"], self.objects[cfg[i]["type"]]))
 
   def startWalls(self):
     walls = 0
