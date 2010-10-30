@@ -11,6 +11,7 @@
 #include <fstream>
 
 #include <vector>
+#include <algorithm>
 
 #include "game.h"
 #include "network.h"
@@ -316,8 +317,7 @@ DLLEXPORT int botMove(_Bot* object, char* direction)
     for(int i = 0; i < victims.size(); i++)
       victimHealth += victims[i]->health;
     
-    int damage = victimHealth < object->size*object->size ?
-      victimHealth : object->size*object->size;
+    int damage = min(victimHealth, object->size*object->size);
     object->health -= damage;
     
     bool alive = false;
@@ -408,6 +408,36 @@ DLLEXPORT int botBuild(_Bot* object, _Type* type, int x, int y, int size)
 
 DLLEXPORT int botCombine(_Bot* object, _Bot* bot2, _Bot* bot3, _Bot* bot4)
 {
+  if(object->size != bot2->size) return 0;
+  if(bot2->size != bot3->size) return 0;
+  if(bot3->size != bot4->size) return 0;
+  int x = min( min(object->x, bot2->x), min(bot3->x, bot4->x) );
+  int y = min( min(object->y, bot2->y), min(bot3->y, bot4->y) );
+  if(!(object->x == x && object->y == y) && !(bot2->x == x && bot2->y == y)&&
+   !(bot3->x == x && bot3->y == y) && !(bot4->x == x && bot4->y == y))
+    return 0;
+  x += object->size;
+  if(!(object->x == x && object->y == y) && !(bot2->x == x && bot2->y == y)&&
+   !(bot3->x == x && bot3->y == y) && !(bot4->x == x && bot4->y == y))
+    return 0;
+  y += object->size;
+  if(!(object->x == x && object->y == y) && !(bot2->x == x && bot2->y == y)&&
+   !(bot3->x == x && bot3->y == y) && !(bot4->x == x && bot4->y == y))
+    return 0;
+  x -= object->size;
+  if(!(object->x == x && object->y == y) && !(bot2->x == x && bot2->y == y)&&
+   !(bot3->x == x && bot3->y == y) && !(bot4->x == x && bot4->y == y))
+    return 0;
+    
+  object->steps = 0;
+  object->actions = 0;
+  bot2->steps = 0;
+  bot2->actions = 0;
+  bot3->steps = 0;
+  bot3->actions = 0;
+  bot4->steps = 0;
+  bot4->actions = 0;
+  
   stringstream expr;
   expr << "(game-combine " << object->id
       << " " << bot2->id
