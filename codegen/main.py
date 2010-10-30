@@ -14,13 +14,15 @@ def insertModel(list, model):
 def parseData():
   models = []
   globals = data.globals
+  constants = data.constants
+  aspects = data.aspects
   animations = []
   for i in members(data):
     if isinstance(i, structures.Model):
       insertModel(models, i)
     elif isinstance(i, structures.Animation):
       animations.append(i)
-  return {'models':models, 'globals':globals, 'animations':animations}
+  return {'models':models, 'globals':globals, 'constants':constants, 'animations':animations, 'aspects':aspects}
 
 
 

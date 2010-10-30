@@ -23,7 +23,7 @@ struct Connection
   pthread_mutex_t mutex;
   #endif
   
-% for datum in globals:
+% for datum in globals + constants:
   ${conversions[datum.type]} ${datum.name};
 % endfor
 
@@ -81,7 +81,7 @@ ${conversions[arg.type]} ${arg.name}\
 
 //accessors
 
-% for datum in globals:
+% for datum in globals + constants:
 DLLEXPORT ${conversions[datum.type]} get${capitalize(datum.name)}(Connection* c);
 % endfor
 

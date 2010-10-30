@@ -12,6 +12,7 @@ import time
 import struct
 import bz2
 
+
 class GameApp(AccountsAppMixin, BaseApp):
   games = {}
   nextid = 1
@@ -203,4 +204,6 @@ class TestGameServer(SexpProtocol):
   app = GameApp
 
 if __name__ == "__main__":
+  import timer
+  timer.install()
   TestGameServer.main(19000)

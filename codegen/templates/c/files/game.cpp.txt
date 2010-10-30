@@ -48,7 +48,7 @@ DLLEXPORT Connection* createConnection()
   pthread_mutex_init(&c->mutex, NULL);
   #endif
   
-% for datum in globals:
+% for datum in globals + constants:
   c->${datum.name} = 0;
 % endfor
 % for model in models:
@@ -274,6 +274,23 @@ DLLEXPORT int networkLoop(Connection* c)
       strcpy(gameID, expression->val);
       cout << "Created game " << gameID << endl;
     }
+    else if(expression->val != NULL && strcmp(expression->val, "ident")==0)
+    {
+      if(c->player0Name)
+        delete[] c->player0Name;
+      int length = strlen(expression->next->list->list->next->next->val)+1;
+      c->player0Name = new char[length];
+      strcpy(c->player0Name, expression->next->list->list->next->next->val);
+      c->player0Name[length-1] = 0;
+
+      if(c->player1Name)
+        delete[] c->player1Name;
+      length = strlen(expression->next->list->next->list->next->next->val)+1;
+      c->player1Name = new char[length];
+      strcpy(c->player1Name, expression->next->list->next->list->next->next->val);
+      c->player1Name[length-1] = 0;
+    }
+
     else if(expression->val != NULL && strstr(expression->val, "denied"))
     {
       cout << expression->val << endl;
@@ -355,7 +372,7 @@ DLLEXPORT int get${model.name}Count(Connection* c)
 % endif
 % endfor
 
-% for datum in globals:
+% for datum in globals + constants:
 DLLEXPORT ${conversions[datum.type]} get${capitalize(datum.name)}(Connection* c)
 {
   return c->${datum.name};
