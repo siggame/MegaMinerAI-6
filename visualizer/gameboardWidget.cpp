@@ -765,8 +765,49 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawFrames( game, falloff );
 
+
+		string console = "";
+
+		for( 
+			list<int>::iterator i = selectedIDs.begin(); 
+			i != selectedIDs.end(); 
+			i++ )
+		{
+			int start = frame;
+			if( getAttr( persistantTalking ) )
+				start = 0;
+			for( int j = start; j < frame+1; j++ )
+			{
+				for( 
+					vector<Animation*>::iterator k = game->states[j].animations.begin();
+					k != game->states[j].animations.end();
+					k++ 
+					)
+					{
+						if( (*k)->type == TALK )
+						{
+							Talk *talker = (Talk*)(*k);
+							if( talker->speaker == *i )
+								if( 
+									( game->states[j].units[*i].owner == 0 && 
+									getAttr( team1Talk ) ) || 
+									( game->states[j].units[*i].owner == 1 &&
+									getAttr( team2Talk ) )
+									)
+									{
+									
+										console += talker->message;
+										console += '\n';
+
+									}
+
+						}
+					}
+				}
+			}
+				
 		
-		//parent->console
+		parent->console->setText( console.c_str() );
 
 	}
 	drawScoreboard();
