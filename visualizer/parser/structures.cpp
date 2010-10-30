@@ -44,6 +44,7 @@ std::ostream& operator<<(std::ostream& stream, Bot ob)
   stream << "buildRate: " << ob.buildRate  <<'\n';
   stream << "partOf: " << ob.partOf  <<'\n';
   stream << "building: " << ob.building  <<'\n';
+  stream << "type: " << ob.type  <<'\n';
   return stream;
 }
 
@@ -98,9 +99,9 @@ std::ostream& operator<<(std::ostream& stream, Add ob)
 }
 
 
-std::ostream& operator<<(std::ostream& stream, Collide ob)
+std::ostream& operator<<(std::ostream& stream, Attack ob)
 {
-  stream << "Collide" << "\n";
+  stream << "Attack" << "\n";
   stream << "attacker: " << ob.attacker  <<'\n';
   stream << "victim: " << ob.victim  <<'\n';
   return stream;
@@ -112,6 +113,15 @@ std::ostream& operator<<(std::ostream& stream, Build ob)
   stream << "Build" << "\n";
   stream << "builder: " << ob.builder  <<'\n';
   stream << "frame: " << ob.frame  <<'\n';
+  return stream;
+}
+
+
+std::ostream& operator<<(std::ostream& stream, Collide ob)
+{
+  stream << "Collide" << "\n";
+  stream << "attacker: " << ob.attacker  <<'\n';
+  stream << "victim: " << ob.victim  <<'\n';
   return stream;
 }
 
@@ -201,10 +211,12 @@ std::ostream& operator<<(std::ostream& stream, GameState ob)
   {
     if((**i).type == ADD)
       stream << *((Add*)*i) << "\n";
-    if((**i).type == COLLIDE)
-      stream << *((Collide*)*i) << "\n";
+    if((**i).type == ATTACK)
+      stream << *((Attack*)*i) << "\n";
     if((**i).type == BUILD)
       stream << *((Build*)*i) << "\n";
+    if((**i).type == COLLIDE)
+      stream << *((Collide*)*i) << "\n";
     if((**i).type == COMBINE)
       stream << *((Combine*)*i) << "\n";
     if((**i).type == HEAL)

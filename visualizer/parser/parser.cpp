@@ -167,6 +167,11 @@ static bool parseBot(Bot& object, sexp_t* expression)
   object.building = atoi(sub->val);
   sub = sub->next;
 
+  if ( !sub ) goto ERROR;
+
+  object.type = atoi(sub->val);
+  sub = sub->next;
+
   return true;
 
   ERROR:
@@ -341,7 +346,7 @@ static bool parseAdd(Add& object, sexp_t* expression)
   cerr << "Error in parseAdd.\n Parsing: " << *expression << endl;
   return false;
 }
-static bool parseCollide(Collide& object, sexp_t* expression)
+static bool parseAttack(Attack& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
@@ -356,7 +361,7 @@ static bool parseCollide(Collide& object, sexp_t* expression)
 
 
   ERROR:
-  cerr << "Error in parseCollide.\n Parsing: " << *expression << endl;
+  cerr << "Error in parseAttack.\n Parsing: " << *expression << endl;
   return false;
 }
 static bool parseBuild(Build& object, sexp_t* expression)
@@ -375,6 +380,24 @@ static bool parseBuild(Build& object, sexp_t* expression)
 
   ERROR:
   cerr << "Error in parseBuild.\n Parsing: " << *expression << endl;
+  return false;
+}
+static bool parseCollide(Collide& object, sexp_t* expression)
+{
+  sexp_t* sub;
+  if ( !expression ) return false;
+  sub = expression->list->next;
+  if( !sub ) goto ERROR;
+  object.attacker = atoi(sub->val);
+  sub = sub->next;
+  if( !sub ) goto ERROR;
+  object.victim = atoi(sub->val);
+  sub = sub->next;
+  return true;
+
+
+  ERROR:
+  cerr << "Error in parseCollide.\n Parsing: " << *expression << endl;
   return false;
 }
 static bool parseCombine(Combine& object, sexp_t* expression)
@@ -616,10 +639,10 @@ static bool parseSexp(Game& game, sexp_t* expression)
           return false;
         animations.push_back(animation);
       }
-      if(string(sub->val) == "collide")
+      if(string(sub->val) == "attack")
       {
-        Collide* animation = new Collide;
-        if ( !parseCollide(*animation, expression) )
+        Attack* animation = new Attack;
+        if ( !parseAttack(*animation, expression) )
           return false;
         animations.push_back(animation);
       }
@@ -627,6 +650,13 @@ static bool parseSexp(Game& game, sexp_t* expression)
       {
         Build* animation = new Build;
         if ( !parseBuild(*animation, expression) )
+          return false;
+        animations.push_back(animation);
+      }
+      if(string(sub->val) == "collide")
+      {
+        Collide* animation = new Collide;
+        if ( !parseCollide(*animation, expression) )
           return false;
         animations.push_back(animation);
       }

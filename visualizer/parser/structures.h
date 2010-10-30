@@ -10,14 +10,15 @@
 #include <string>
 
 const int ADD = 0;
-const int COLLIDE = 1;
+const int ATTACK = 1;
 const int BUILD = 2;
-const int COMBINE = 3;
-const int HEAL = 4;
-const int MOVE = 5;
-const int REMOVE = 6;
-const int SPLIT = 7;
-const int TALK = 8;
+const int COLLIDE = 3;
+const int COMBINE = 4;
+const int HEAL = 5;
+const int MOVE = 6;
+const int REMOVE = 7;
+const int SPLIT = 8;
+const int TALK = 9;
 
 struct Mappable
 {
@@ -58,6 +59,7 @@ struct Bot
   int buildRate;
   int partOf;
   int building;
+  int type;
 
   friend std::ostream& operator<<(std::ostream& stream, Bot obj);
 };
@@ -116,12 +118,12 @@ struct Add : public Animation
   friend std::ostream& operator<<(std::ostream& stream, Add obj);
 };
 
-struct Collide : public Animation
+struct Attack : public Animation
 {
   int attacker;
   int victim;
 
-  friend std::ostream& operator<<(std::ostream& stream, Collide obj);
+  friend std::ostream& operator<<(std::ostream& stream, Attack obj);
 };
 
 struct Build : public Animation
@@ -130,6 +132,14 @@ struct Build : public Animation
   int frame;
 
   friend std::ostream& operator<<(std::ostream& stream, Build obj);
+};
+
+struct Collide : public Animation
+{
+  int attacker;
+  int victim;
+
+  friend std::ostream& operator<<(std::ostream& stream, Collide obj);
 };
 
 struct Combine : public Animation
