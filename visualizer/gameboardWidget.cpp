@@ -244,7 +244,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.0f,0.0f,5.0f,1.0f);
 			break;
 			default:
-			glColor4f(0.5f,0.5f,0.5f,1.0f);
+			glColor4f(0.2f,0.2f,0.2f,1.0f);
 
 		}
 	}
@@ -259,7 +259,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.0f,0.0f,1.0f,1.0f);
 			break;
 			default:
-			glColor4f(0.8f,0.8f,0.8f,1.0f);
+			glColor4f(0.5f,0.5f,0.5f,1.0f);
 
 		}
 	}
@@ -351,8 +351,8 @@ void Gameboard::drawBots( Game *game, float falloff )
 			    sprite = T_BLUBOT_ENGINE;
 			}
 
-			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
-            drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*i->size, unitSize*i->size, i->maxHealth, i->health, owner );
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
+			drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
   
 		}
 
@@ -416,8 +416,8 @@ void Gameboard::drawWalls( Game *game, float falloff )
 		)
 	{
 
-		x0 = it->second.x;
-		y0 = it->second.y;
+		x0 = it->second.x*unitSize;
+		y0 = it->second.y*unitSize;
 
 
 		//is it selected?
