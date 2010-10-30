@@ -30,31 +30,26 @@ class Match(DefaultGameWorld):
     self.turnNumber = -1
     self.playerID = -1
     self.gameNumber = id
-    self.initTypes()
-    self.startBots()
+    self.player0Time = 0
+    self.player1Time = 0
+    cfgUnits = self.initTypes()
+    self.startBots(cfgUnits)
     self.startWalls()
 
-  def initTypes(self):
-    self.objects[self.nextid] = Type(self, self.nextid, "action", 24, 0, 0, 1, 4, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "builder", 8, 0, 0, 1, 1, 1)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 24, 4, 1, 1, 1, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "damage", 24, 10, 0, 1, 1, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "engine", 24, 4, 0, 4, 1, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "force", 40, 4, 0, 1, 1, 0)
-    self.nextid += 1
+  def initTypes(self, cfgFile = "config/units.cfg"):
+    cfg = networking.config.config.readConfig(cfgFile)
+    for i in sorted(cfg.keys()):
+      if "startbot" not in i.lower():
+        self.objects[self.nextid] = Type(self, self.nextid, i, cfg[i]["maxHealth"], cfg[i]["damage"], cfg[i]["range"], cfg[i]["movitude"], cfg[i]["actitude"], cfg[i]["buildRate"])
+        self.nextid += 1
     #(self.objects[self.nextid] = Type(self, self.nextid, name, maxHealth, damage, range, movitude, actitude, buildRate)
     #self.nextid += 1
+    return cfg
 
-  def startBots(self):
-    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[2]))
-    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[2]))
-    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[2]))
-    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[2]))
+  def startBots(self, cfg):
+    for i in cfg.keys():
+      if "startbot" in i.lower():
+        self.addObject(Bot.fromType(self, cfg[i]["x"], cfg[i]["y"], cfg[i]["owner"], self.objects[cfg[i]["type"]]))
 
   def startWalls(self):
     walls = 0
@@ -132,18 +127,23 @@ class Match(DefaultGameWorld):
     
     self.sendIdent(self.players + self.spectators)
 
+    self.turn = self.players[1]
+
     self.nextTurn()
     return True
 
 
   def nextTurn(self):
     self.turnNumber += 1
-    if (self.turn == self.players[0]):
+    if self.turn == self.players[0]:
       self.turn = self.players[1]
       self.playerID = 1
-    else:
+    elif self.turn == self.players[1]:
       self.turn = self.players[0]
       self.playerID = 0
+
+    else:
+      return "Game is over."
 
     for obj in self.objects.values():
       obj.nextTurn()
@@ -265,7 +265,7 @@ class Match(DefaultGameWorld):
   def status(self):
     msg = ["status"]
 
-    msg.append(["game", self.turnNumber, self.playerID, self.boardX, self.boardY, self.gameNumber])
+    msg.append(["game", self.turnNumber, self.playerID, self.boardX, self.boardY, self.gameNumber, self.player0Time, self.player1Time])
 
     typeLists = []
     typeLists.append(["Bot"] + [i.toList() for i in self.objects.values() if i.__class__ is Bot])
