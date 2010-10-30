@@ -12,15 +12,17 @@ Options::Options()
 
 void Options::togglePersistant( bool on)
 {
+	setAttr( persistantTalking, on );
 }
 
 void Options::toggleTeam1( bool on )
 {
-
+	setAttr( team1Talk, on );
 }
 
 void Options::toggleTeam2( bool on )
 {
+	setAttr( team2Talk, on );
 }
 
 void Options::addOptions()

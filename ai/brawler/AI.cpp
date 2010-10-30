@@ -1,5 +1,4 @@
 #include "AI.h"
-
 using namespace std;
 AI::AI(Connection* conn) : BaseAI(conn) {}
 
@@ -15,30 +14,127 @@ const char* AI::password()
 
 vector<Type> gTypes;
 
+int shitDist(int x, int y, int ox, int oy)
+{
+  return abs(x-ox)+abs(y-oy);
+}
 
+int xMod[] = {1, 0,-1, 0,0};
+int yMod[] = {0, 1, 0,-1,0};
+bool less(const strat&lhs, const strat&rhs)
+{
+  return lhs.score<rhs.score;
+}
+bool great(const strat&lhs, const strat&rhs)
+{
+  return lhs.score>rhs.score;
+}
+enum OTYPE{MOVE,ATTACK,HEAL,BUILD,COMBINE,SPLIT,OTYPE_SIZE};
+string OTYPE_DISPLAY[]={"MOVE","ATTACK","HEAL","BUILD","COMBINE","SPLIT"};
+enum DIR{LEFT,RIGHT,UP,DOWN,DIR_SIZE};
+char* direction[] = {"right","down","left","up"};
+
+enum GENE{FRIEND,FOE,G_SIZE};
 
 //This function is run once, before your first turn.
 void AI::init()
 {
   srand(time(NULL));
   gTypes.resize(types.size());
+  
   for(unsigned int t=0;t<types.size();t++)
   {
     gTypes[t]=types[t];
   }
+  
+  // Magic number of population size
+  pop.resize(12);
+  // TODO Load genes
+  ifstream in(dataFile.c_str());
+  // If there was a database file
+  if(in.is_open())
+  {
+    for(unsigned int i=0;i<pop.size();i++)
+    {
+      in>>pop[i].played;
+      in>>pop[i].score;
+      for(unsigned int g=0;g<G_SIZE;g++)
+      {
+        in>>pop[i].gene[g];
+      }
+    }
+  }
+  else
+  {
+    for(unsigned int i=0;i<pop.size();i++)
+    {
+      pop[i].played=false;
+      pop[i].score=false;
+      for(unsigned int g=0;g<G_SIZE;g++)
+      {
+        pop[i].gene[g]=rand()%10;
+      }
+    }
+  }
+  in.close();
+  bool found=false;
+  for(unsigned int i=0;i<pop.size()&&!found;i++)
+  {
+    if(!pop[i].played)
+    {
+      found=true;
+      popIndex=i;
+    }
+  }
+  // Handles if everyone has played
+  if(!found)
+  {
+    // Sorts the population so the best are at the lowest index
+    sort(pop.begin(),pop.end(),great);
+    
+    // ensure there are enough parents
+    int pEnd=pop.size()/2;
+    int cBegin=pop.size()*3/4;
+    // If there is not enough differentialtion,
+    if(pop[pEnd-1].score==pop[cBegin].score)
+    {
+      // reset everyone
+      for(unsigned int i=0;i<pop.size();i++)
+      {
+        pop[i].played=false;
+      }
+    }
+    else// evolution
+    {
+    
+    }
+    // start playing from the top
+    popIndex=0;
+  }
+  // Copies over the genes for easy access
+  gene.resize(G_SIZE);
+  for(unsigned int i=0;i<gene.size();i++)
+  {
+    gene[i]=pop[popIndex].gene[i];
+  }
 }
 
-
-int xMod[] = {-1, 1,0,0,0};
-int yMod[] = {0, 0,-1,1,0};
-
-enum OTYPE{MOVE,ATTACK,HEAL,BUILD,COMBINE,SPLIT,OTYPE_SIZE};
-string OTYPE_DISPLAY[]={"MOVE","ATTACK","HEAL","BUILD","COMBINE","SPLIT"};
-enum DIR{LEFT,RIGHT,UP,DOWN,DIR_SIZE};
-char* direction[] = {"left","right","up","down"};
-
-
-
+pair<int, int> AI::distToNearest(vector<Bot>& group,int x, int y, int ignore)
+{
+  pair<int,int> ret;
+  ret.first=INT_MAX;
+  ret.second=-1;
+  for(unsigned int i=0;i<group.size();i++)
+  {
+    int temp = shitDist(x,y,group[i].x(),group[i].y());
+    if(temp < ret.first && group[i].id() != ignore)
+    {
+      ret.first=temp;
+      ret.second=i;
+    }
+  }
+  return ret;
+}
 struct Order
 {
   OTYPE type;
@@ -79,7 +175,9 @@ struct Order
   }
   friend ostream& operator <<(ostream &out,const Order &toDisplay)
   {
+//    cout<<"TOP OF order << "<<endl;
     out<<toDisplay.toOrder<<" will "<<OTYPE_DISPLAY[toDisplay.type];
+//    cout<<"After type display"<<endl;
     switch(toDisplay.type)
     {
       case MOVE:
@@ -98,6 +196,7 @@ struct Order
       case SPLIT:
         break;
     }
+    return out;
   }
 };
 
@@ -150,19 +249,19 @@ float AI::getScore(Stub& stub)
         score=bestMove(*it);
         break;
       case ATTACK:
-        score=bestAttack(*it);
+        //score=bestAttack(*it);
         break;
       case HEAL:
-        score=bestHeal(*it);
+        //score=bestHeal(*it);
         break;
       case BUILD:
         score=bestBuild(*it);
         break;
       case COMBINE:
-        score=bestCombine(*it);
+        //score=bestCombine(*it);
         break;
       case SPLIT:
-        score=bestSplit(*it);
+        //score=bestSplit(*it);
         break;
     }
     if(score>best)
@@ -186,12 +285,27 @@ float AI::bestMove(Order& order)
     // Check if it is in bounds
     if(x>=0 && x<boardX() && y>=0 && y<boardY())
     {
-      //TODO score move
-      float score = rand()%20+1;
-      if(score > order.fitness)
+      float score = 0;
+      pair<int,int> ally = distToNearest(myBots,x,y,order.toOrder);
+      // if I don't hit my own guy
+      if(ally.first != 0)
       {
-        order.fitness=score;
-        order.dir = (DIR)i;
+        pair<int,int> foe = distToNearest(theirBots,x,y);
+        if(foe.first == 0)
+        {
+          //TODO Logic for ramming goes here
+          score=INT_MIN;
+        }
+        int maxMove=boardX()+boardY();
+        // friendly distance
+        //score += (maxMove-ally.first)*gene[FRIEND];
+        score += (maxMove-foe.first)*gene[FOE];       
+        
+        if(score > order.fitness)
+        {
+          order.fitness=score;
+          order.dir = (DIR)i;
+        }
       }
     }
   }
@@ -201,7 +315,6 @@ float AI::bestMove(Order& order)
 
 float AI::bestAttack(Order&order)
 {
-  
   order.fitness=rand()%20-10;
   //cout<<"Attack ranked: "<<order.fitness<<endl;
   order.targetID=bots[rand()%bots.size()].id();
@@ -210,19 +323,39 @@ float AI::bestAttack(Order&order)
 }
 float AI::bestHeal(Order&order)
 {
-  return INT_MIN;
+  order.fitness=rand()%20-10;
+  order.targetID=bots[rand()%bots.size()].id();
+  return order.fitness;
 }
 float AI::bestBuild(Order&order)
 {
-  return INT_MIN;
+/*
+  order.fitness=rand()%20-10;
+  order.buildType=rand()%types.size();
+  order.x=rand()%boardX();
+  order.y=rand()%boardY();
+  order.buildSize=pow(2.0,rand()%4);
+*/
+  // Movement bots
+  int b = idToBot.find(order.toOrder)->second;
+  order.fitness=boardX()+boardY()*100;
+  order.buildType=4;
+  order.x=bots[b].x()+xMod[playerID()*2];
+  order.y=bots[b].y()+yMod[playerID()*2];
+  return order.fitness;
 }
 float AI::bestCombine(Order&order)
 {
-  return INT_MIN;
+  order.fitness=rand()%20-10;
+  order.c1=bots[rand()%bots.size()].id();
+  order.c2=bots[rand()%bots.size()].id();
+  order.c3=bots[rand()%bots.size()].id();
+  return order.fitness;
 }
 float AI::bestSplit(Order&order)
 {
-  return INT_MIN;
+  order.fitness=rand()%20-10;
+  return order.fitness;
 }
 
 
@@ -241,19 +374,19 @@ void AI::removeInvalid(Stub& stub)
         remove= stub.movesTaken>=bots[b].movitude();
         break;
       case ATTACK:
-        remove=stub.actionsTaken>=bots[b].actitude();
+        remove=(stub.actionsTaken>=bots[b].actitude()) || (bots[b].damage()==0);
         break;
       case HEAL:
-        remove=true;
+        remove=(stub.actionsTaken>=bots[b].actitude()) || (bots[b].buildRate()==0);
         break;
       case BUILD:
-        remove=true;
+        remove=(stub.actionsTaken>=bots[b].actitude()) || (bots[b].buildRate()==0);
         break;
       case COMBINE:
-        remove=true;
+        remove=(stub.actionsTaken!=0);
         break;
       case SPLIT:
-        remove=true;
+        remove=(stub.actionsTaken!=0) || (bots[b].size()==1);
         break;
     }
     if(remove)
@@ -268,8 +401,11 @@ void AI::removeInvalid(Stub& stub)
 void AI::execute(Stub& stub)
 {
   Order order= *(stub.bestOrder);
+//  cout<<"Top of execute"<<endl;
+//  cout<<"Type of order: "<<order.type<<endl;
   cout<<"Executing: "<<order<<endl;
   int b=idToBot.find(order.toOrder)->second;
+//  cout<<"After id lookup"<<endl;
   int target;
   int c1,c2,c3;
   switch(order.type)
@@ -281,22 +417,28 @@ void AI::execute(Stub& stub)
     case ATTACK:
       target=idToBot.find(order.targetID)->second;
       bots[b].attack(bots[target]);
-      //stub.actionsTaken++;
+      stub.actionsTaken++;
       break;
     case HEAL:
       target=idToBot.find(order.targetID)->second;
       bots[b].heal(bots[target]);
+      stub.actionsTaken++;
       break;
     case BUILD:
       bots[b].build(types[order.buildType],order.x,order.y,order.buildSize);
+      stub.actionsTaken=bots[b].actitude();
+      stub.movesTaken=bots[b].movitude();
       break;
     case COMBINE:
       c1=target=idToBot.find(order.c1)->second;
       c2=target=idToBot.find(order.c2)->second;
       c3=target=idToBot.find(order.c3)->second;
       bots[b].combine(bots[c1],bots[c2],bots[c3]);
+      stub.actionsTaken++;
+      break;
     case SPLIT:
       bots[b].split();
+      stub.actionsTaken++;
       break;
     default:
       cout<<"Unknown order type!"<<endl;
@@ -304,11 +446,33 @@ void AI::execute(Stub& stub)
   }
 }
 
+void AI::setBots()
+{
+  myBots.clear();
+  theirBots.clear();
+  for(unsigned int b=0;b<bots.size();b++)
+  {
+    if(bots[b].owner()==playerID())
+    {
+      myBots.push_back(bots[b]);
+    }
+    else
+    {
+      theirBots.push_back(bots[b]);
+    }
+  }
+}
+
 //This function is called each time it is your turn.
 //Return true to end your turn, return false to ask the server for updated information.
 bool AI::run()
 {
+  if(turnNumber()>10)
+  {
+//    return true;
+  }
   cout<<"Turn: "<<turnNumber()<<endl;
+  setBots();
 
   list<Stub> orderList;
   
@@ -354,7 +518,6 @@ bool AI::run()
       removeInvalid(*bestIt);
       if(bestIt->empty())
       {
-        cout<<"List Empty"<<endl;
         orderList.erase(bestIt);
       }
     }
@@ -365,4 +528,12 @@ bool AI::run()
     }
   }
   return true;
+}
+
+
+
+
+void AI::end()
+{
+  cout<<"THE GAME IS OVER, ALL IS ?"<<endl;
 }

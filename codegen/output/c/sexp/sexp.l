@@ -25,15 +25,3 @@ L?\"(\\.|[^\\"])*\"  {return STRING;}
 <<EOF>>              {return END;}
 
 %%
-
-/*
-int main(int argc, char** argv)
-{
-  int val;
-  while(val = yylex())
-  {
-    //cout << val << "\t" << yytext << endl;
-  }
-  return 0;
-}
-*/

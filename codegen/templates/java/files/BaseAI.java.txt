@@ -36,6 +36,11 @@ public abstract class BaseAI
   ///latest game status.
   public abstract boolean run();
 
+  ///
+  ///This is run on after your last turn.
+  public abstract void end();
+
+
   public boolean startTurn()
   {
     iteration++;

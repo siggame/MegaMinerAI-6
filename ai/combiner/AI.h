@@ -22,7 +22,7 @@ public:
   virtual const char* password();
   virtual void init();
   virtual bool run();
-  
+  virtual void end();
   void execute(Order&order);
   float getScore(Stub&stub);
   
