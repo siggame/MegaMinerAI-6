@@ -1,6 +1,8 @@
 # -*- coding: iso-8859-1 -*-
 from structures import *
 
+aspects = []
+
 Mappable = Model('Mappable', 
   data = [ Variable('x', int, 'The X position of the top left corner of this object.  X is horizontal'),
     Variable('y', int, 'The Y position of the top left corner of this object.  Y is vertical'),
@@ -156,3 +158,6 @@ globals = [
   Variable('boardY', int, 'Maximum valid position in the Y (down) direction.  (0,0) is top left'),
   Variable('gameNumber', int, 'What number game this is for the server')
   ]
+
+import timerAspect
+timerAspect.install()
