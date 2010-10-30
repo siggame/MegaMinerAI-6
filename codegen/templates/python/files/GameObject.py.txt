@@ -18,7 +18,6 @@ class ${model.name}(${model.parent.name}):
 class ${model.name}(GameObject):
 %   endif
   """${model.doc}"""
-%  endif
   def __init__(self, ptr):
     from BaseAI import BaseAI
     self.ptr = ptr
