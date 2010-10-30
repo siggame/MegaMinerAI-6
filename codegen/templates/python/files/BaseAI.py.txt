@@ -46,8 +46,8 @@ class BaseAI:
     return self.run()
   
 % for datum in globals:
+  ##${datum.doc}
   def ${datum.name}(self):
-    """${datum.doc}"""
     return library.get${capitalize(datum.name)}(self.connection)
 
 % endfor

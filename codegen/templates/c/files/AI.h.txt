@@ -12,6 +12,7 @@ public:
   virtual const char* password();
   virtual void init();
   virtual bool run();
+  virtual void end();
 };
 
 #endif

@@ -33,6 +33,7 @@ public:
   float bestCombine(Order&order);
   float bestSplit(Order&order);
   map<int, int> idToBot;
+  virtual void end();
 };
 
 #endif

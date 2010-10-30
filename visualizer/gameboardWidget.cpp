@@ -247,6 +247,8 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.2f,0.2f,0.2f,1.0f);
 
 		}
+
+		glLineWidth(3.0f);
 	}
 	else
 	{
@@ -265,13 +267,13 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 	}
 	glBegin (GL_LINE_LOOP);
 
-	glVertex3f(0, 1.0f, 0);
-	glVertex3f( 1.0f, 1.0f, 0);
-	glVertex3f( 1.0f,0, 0);
-	glVertex3f(0,0,-0.01f);
+	glVertex3f(0, 1.0f, 1);
+	glVertex3f( 1.0f, 1.0f, 1);
+	glVertex3f( 1.0f,0, 1);
+	glVertex3f(0,0, 1);
 
 	glEnd();
-
+	glLineWidth(1.0f);
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -344,11 +346,63 @@ void Gameboard::drawBots( Game *game, float falloff )
 			int sprite;
 			if (owner == 0)
 			{
-			    sprite = T_REDBOT_ENGINE;
+			    switch (it->second.type)
+			    {
+				case 1: //Action
+				sprite = T_REDBOT_ACTION;
+				break;
+
+				case 2: //Builder
+				sprite = T_REDBOT_BUILDER;
+				break;
+
+				case 3: //Cannon
+				sprite = T_REDBOT_CANNON;
+				break;
+
+				case 4: //Damage
+				sprite = T_REDBOT_DAMAGE;
+				break;
+
+				case 5: //Engine
+				sprite = T_REDBOT_ENGINE;
+				break;
+
+				case 6: //Force
+				sprite = T_REDBOT_FORCE;
+				break;
+
+			    }
 			}
 			else
 			{
-			    sprite = T_BLUBOT_ENGINE;
+			    switch (it->second.type)
+			    {
+				case 1: //Action
+				sprite = T_BLUBOT_ACTION;
+				break;
+
+				case 2: //Builder
+				sprite = T_BLUBOT_BUILDER;
+				break;
+
+				case 3: //Cannon
+				sprite = T_BLUBOT_CANNON;
+				break;
+
+				case 4: //Damage
+				sprite = T_BLUBOT_DAMAGE;
+				break;
+
+				case 5: //Engine
+				sprite = T_BLUBOT_ENGINE;
+				break;
+
+				case 6: //Force
+				sprite = T_BLUBOT_FORCE;
+				break;
+
+			    }
 			}
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
@@ -629,7 +683,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 			    sprintf( unitSelection, "%d\n", *it);
 			    OutText += QString(unitSelection);
 			}
-			parent->console->setText( OutText );
+			//parent->console->setText( OutText );
 		}
 
 		leftButtonDown = false;
@@ -761,12 +815,53 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-		drawWalls( game, falloff );
+
 		drawBots( game, falloff );
+		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 
+
+		string console = "";
+
+		for( 
+			list<int>::iterator i = selectedIDs.begin(); 
+			i != selectedIDs.end(); 
+			i++ )
+		{
+			int start = frame;
+			if( getAttr( persistantTalking ) )
+				start = 0;
+			for( int j = start; j < frame+1; j++ )
+			{
+				for( 
+					vector<Animation*>::iterator k = game->states[j].animations.begin();
+					k != game->states[j].animations.end();
+					k++ 
+					)
+					{
+						if( (*k)->type == TALK )
+						{
+							Talk *talker = (Talk*)(*k);
+							if( talker->speaker == *i )
+							{
+								if( 
+									( game->states[j].units[*i].owner == 0 && 
+									getAttr( team1Talk ) ) || 
+									( game->states[j].units[*i].owner == 1 &&
+									getAttr( team2Talk ) )
+									)
+								{
+									console += talker->message;
+									console += '\n';
+								}
+							}
+						}
+					}
+				}
+			}
+				
 		
-		//parent->console
+		parent->console->setText( QString( console.c_str()) );
 
 	}
 	drawScoreboard();

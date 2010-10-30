@@ -118,3 +118,8 @@ bool AI::run()
   }
   return true;
 }
+
+void AI::end()
+{
+  cout<<"THE GAME IS OVER, ALL IS ?"<<endl;
+}
