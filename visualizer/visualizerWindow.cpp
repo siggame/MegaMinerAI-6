@@ -4,6 +4,47 @@
 
 using namespace std;
 
+
+Options::Options()
+{
+	addOptions();
+}
+
+void Options::togglePersistant( bool on)
+{
+}
+
+void Options::toggleTeam1( bool on )
+{
+
+}
+
+void Options::toggleTeam2( bool on )
+{
+}
+
+void Options::addOptions()
+{
+	QVBoxLayout *vbox = new QVBoxLayout;
+
+	QCheckBox *team1 = new QCheckBox( tr( "Show Player 1 Talk" ), this );
+	team1->setCheckState( Qt::Checked );
+	QCheckBox *team2 = new QCheckBox( tr( "Show Player 2 Talk" ), this );
+	team2->setCheckState( Qt::Checked );
+	QCheckBox *persistant = new QCheckBox( tr( "Persistant Talking?" ), this );
+
+	vbox->addWidget( team1 );
+	vbox->addWidget( team2 );
+	vbox->addWidget( persistant );
+
+	connect( team1, SIGNAL( toggled(bool) ), this, SLOT( toggleTeam1(bool) ) );
+	connect( team2, SIGNAL( toggled(bool) ), this, SLOT( toggleTeam2(bool) ) );
+	connect( persistant, SIGNAL( toggled(bool) ), this, SLOT( togglePersistant(bool) ) );
+
+	setLayout( vbox );
+	
+}
+
 VisualizerWindow::VisualizerWindow()
 {
 	setGeometry( 0, 0, 1280, 1024 );
@@ -129,6 +170,15 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+void VisualizerWindow::closeFullScreen()
+{
+	if( fullScreen )
+	{
+		showNormal();
+		fullScreen = !fullScreen;
+		show();
+	}
+}
 
 void VisualizerWindow::toggleMapGrid()
 {
@@ -412,6 +462,7 @@ void VisualizerWindow::createLayout()
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
 	unitSelection = new UnitSelection;
+	options = new Options;
 	playButton = new QPushButton("Pause");
 	rewindButton = new QPushButton("<<");
 	fastForwardButton = new QPushButton(">>");
@@ -428,6 +479,7 @@ void VisualizerWindow::createLayout()
 
 	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
 	toolBox->addTab( unitSelection, tr( "Unit Stats" ) );
+	toolBox->addTab( options, tr("Options") );
 
 	debugLayout->addWidget( console );
 	debugLayout->addWidget( toolBox );
@@ -582,6 +634,7 @@ void VisualizerWindow::createActions()
 	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
+	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
 
 //	QAction *advance = new QAction( this );
 //	advance->setShortcut( tr("Ctrl+P") );

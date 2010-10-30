@@ -65,6 +65,7 @@ Bot.addData([
     Variable('buildRate', int,'This value is used to determine how many turns it takes to build a robot and how much this robot heals for'),
     Variable('partOf', int, 'ID of the robot this robot is apart of, 0 if not in a robot'),
     Variable('building', int, 'ID of the robot this robot is building, 0 if not building'),
+    Variable('type', int, 'ID of the type this robot is, 0 if a combination')
   ])
     
 Bot.addFunctions([
@@ -81,12 +82,12 @@ Bot.addFunctions([
     Function('heal',
       arguments = [Variable('target', Bot),],
       result = bool,
-      doc = 'Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (2 * target.size^2)'
+      doc = 'Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (4 * target.size^2)'
       ),
     Function('build',
       arguments = [Variable('type', type), Variable('x', int), Variable('y', int), Variable('size', int), ],
       result = bool,
-      doc = 'Begins building a new robot.  While building, the new robot will be a frame.  Requires the calling robot to have an action. X and Y must cause the new robot to be adjacent.  Size must be less than or equal to the calling robots size.  Completes in 4 * size^2 / self.buildRate turns'
+      doc = 'Begins building a new robot.  While building, the new robot will be a frame.  Requires the calling robot to have an action. X and Y must cause the new robot to be adjacent.  Size must be less than or equal to the calling robots size.  Completes in 8 * size^2 / self.buildRate turns'
       ),
     Function('combine',
       arguments = [Variable('bot2', Bot), Variable('bot3', Bot), Variable('bot4', Bot)],
@@ -140,7 +141,7 @@ heal = Animation("Heal",
 build = Animation("Build",
   data = [Variable("builder", Bot), Variable("frame", Frame)]
   )
-attack = Animation("Collide",
+collide = Animation("Collide",
   data = [Variable("attacker", Bot), Variable("victim", Unit)]
   )
 

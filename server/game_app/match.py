@@ -51,10 +51,10 @@ class Match(DefaultGameWorld):
     #self.nextid += 1
 
   def startBots(self):
-    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[1]))
-    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[2]))
+    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[2]))
+    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[2]))
+    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[2]))
 
   def startWalls(self):
     walls = 0
@@ -64,18 +64,39 @@ class Match(DefaultGameWorld):
     while walls < self.maxWalls:
       dx = random.randint(-1, 1)
       dy = random.randint(-1, 1)
-      for i in xrange(random.randint(1, self.wallLength))
+      for i in xrange(random.randint(1, self.wallLength)):
         x += dx
         y += dy
         if x < 0 or y < 0 or x >= self.boardX or y >= self.boardY or map[x][y] == '#':
           x = random.randrange(0, self.boardX)
           y = random.randrange(0, self.boardX)
           break
-        map[x][y] = '#'
-        walls += 1
+        if random.randint(1, 100) > self.dooritude:
+          map[x][y] = '#'
+          walls += 1
+
+    for x in xrange(self.boardX):
+      for y in xrange(self.boardY):
+        if map[x][y] == '#':
+           map[self.boardX-x-1][y] = '#'
+
+    for i in self.objects.values():
+      if isinstance(i, Bot):
+        for x in xrange(i.x-1, i.x+2):
+          for y in xrange(i.y-1, i.y+2):
+            map[x][y] = ' '
+
+    for i in self.objects.values():
+      if isinstance(i, Bot):
+        map[i.x][i.y] = chr(ord('a') + i.type - 1)
     
-    for y in xrange(boardY):
-      print ''.join(map[x][y] for x in xrange(boardX))
+    for y in xrange(self.boardY):
+      print ''.join(map[x][y] for x in xrange(self.boardX))
+
+    for x in xrange(self.boardX):
+      for y in xrange(self.boardY):
+        if map[x][y] == '#':
+          self.addObject(Wall.make(self, x, y, self.wallHealth))
 
   def addPlayer(self, connection, type="player"):
     connection.type = type
@@ -141,7 +162,28 @@ class Match(DefaultGameWorld):
     elif not [i for i in self.objects.values() if isinstance(i, Bot) and i.owner == 1]:
       self.declareWinner(self.players[0])
     elif self.turnNumber >= 500:
-      self.declareWinner(self.players[0])
+      numBots = [0 ,0]
+      health = [0, 0]
+      maxHealth = [0, 0]
+      for i in self.objects.values():
+        if isinstance(i, Bot):
+          if i.size == 1:
+            numBots[i.owner] += 1
+          if i.partOf == 0:
+            health[i.owner] += i.health
+            maxHealth[i.owner] += i.maxHealth
+      percentHealth = [float(health[0]) / maxHealth[0], float(health[1]) / maxHealth[1]]
+      if numBots[0] > numBots[1]:
+        self.declareWinner(self.players[0])
+      elif numBots[1] > numBots[0]:
+        self.declareWinner(self.players[1])
+      elif percentHealth[0] > percentHealth[1]:
+        self.declareWinner(self.players[0])
+      elif percentHealth[1] > percentHealth[0]:
+        self.declareWinner(self.players[1])
+      else:
+        self.declareWinner(self.players[0])
+        
 
   def declareWinner(self, winner):
     self.winner = winner
