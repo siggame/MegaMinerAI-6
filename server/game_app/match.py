@@ -32,12 +32,12 @@ class Match(DefaultGameWorld):
     self.gameNumber = id
     self.player0Time = 0
     self.player1Time = 0
-    cfgUnits = self.initTypes()
+    cfgUnits = networking.config.config.readConfig("config/units.cfg")
+    self.initTypes(cfgUnits)
     self.startBots(cfgUnits)
     self.startWalls()
 
-  def initTypes(self, cfgFile = "config/units.cfg"):
-    cfg = networking.config.config.readConfig(cfgFile)
+  def initTypes(self, cfg):
     for i in sorted(cfg.keys()):
       if "startbot" not in i.lower():
         self.objects[self.nextid] = Type(self, self.nextid, i, cfg[i]["maxHealth"], cfg[i]["damage"], cfg[i]["range"], cfg[i]["movitude"], cfg[i]["actitude"], cfg[i]["buildRate"])
