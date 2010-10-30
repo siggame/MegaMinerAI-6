@@ -38,7 +38,7 @@ def main():
   #Grab the end game state
   library.networkLoop(connection)
   #request the log file
-  library.nteworkLoop(connection)
+  library.networkLoop(connection)
 
   ai.end()
   exit(0)
