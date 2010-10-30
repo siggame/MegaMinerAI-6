@@ -44,5 +44,8 @@ public class Main
       }
     }
     return;
+    Client.INSTANCE.networkLoop(connection); //Grab end game state
+    Client.INSTANCE.networkLoop(connection); //Grab log
+    ai.end();
   }
 }
