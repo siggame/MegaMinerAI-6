@@ -126,7 +126,7 @@ class Bot(Unit):
     return newBot
 
   def _distance(self, target):
-    if isinstance(target, Bot) or isinstance(target, Frame):
+    if isinstance(target, Bot) or isinstance(target, Frame) or isinstance(target, Wall):
       x = 0
       y = 0
       if self.x > target.x + target.size-1:
@@ -388,7 +388,7 @@ class Frame(Unit):
     return value
 
   def _distance(self, target):
-    if isinstance(target, Bot) or isinstance(target, Frame):
+    if isinstance(target, Bot) or isinstance(target, Frame) or isinstance(target, Wall):
       x = 0
       y = 0
       if self.x > target.x + target.size-1:
@@ -454,6 +454,7 @@ class Wall(Unit):
     self.owner = owner
     self.health = health
     self.maxHealth = maxHealth
+    self.size = 1
 
   def toList(self):
     value = [
@@ -463,6 +464,7 @@ class Wall(Unit):
       self.owner,
       self.health,
       self.maxHealth,
+      self.size,
       ]
     return value
 
