@@ -26,6 +26,9 @@ enum eTextures
 	T_REDBOT_FORCE,
 	T_REDBOT_FRAME,
 
+	T_REDPART_ATTACK,
+	T_REDPART_BUILD,
+
 	T_BLUBOT_ACTION,
 	T_BLUBOT_BUILDER,
 	T_BLUBOT_CANNON,
@@ -33,6 +36,9 @@ enum eTextures
 	T_BLUBOT_ENGINE,
 	T_BLUBOT_FORCE,
 	T_BLUBOT_FRAME,
+
+	T_BLUPART_ATTACK,
+	T_BLUPART_BUILD,
 
 	T_BG,
 	T_DEFAULTBG,
@@ -70,13 +76,20 @@ class Gameboard : public QGLWidget
 		void drawBackground( );
 		void drawScoreboard();
 		void drawMouse();
+
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
+
+		void drawAnimations( Game * game, float falloff);
+		void drawAttack( Game * game, Attack * attack, float falloff );
+		void drawBuild( Game * game, Build * build, float falloff );
+		void drawHeal( Game * game, Heal * heal, float falloff );
+
 
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);
 
-                void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
+		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
 		list<int> selectedIDs;

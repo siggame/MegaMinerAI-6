@@ -23,6 +23,7 @@ RedDamageFile = "textures/Damage 2 512.png"
 RedEngineFile = "textures/Engine 2 512.png"
 RedForceFile = "textures/Force 2 512.png"
 RedFrameFile = "textures/FrameRed512.png"
+RedAttackFile = "textures/Bullet 2 256.png"
 
 ### Blue Bots
 BluActionFile = "textures/Action 1 512.png"
@@ -32,7 +33,7 @@ BluDamageFile = "textures/Damage 1 512.png"
 BluEngineFile = "textures/Engine 1 512.png"
 BluForceFile = "textures/Force 1 512.png"
 BluFrameFile = "textures/FrameBlu512.png"
-
+BluAttackFile = "textures/Bullet 1 256.png"
 
 ## Other
 

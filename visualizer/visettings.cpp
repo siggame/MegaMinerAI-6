@@ -70,6 +70,8 @@ bool visettings::loadFromFile(string & errString)
 	errString += outString; returnFlag |= errFlag;
 	setAttr( redFrameFile, configFile.pString("RedFrameFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
+	setAttr( redAttackFile, configFile.pString("RedAttackFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 	// Blue Bots
 	setAttr( bluActionFile, configFile.pString("BluActionFile", errFlag, outString ) );
@@ -86,7 +88,8 @@ bool visettings::loadFromFile(string & errString)
 	errString += outString; returnFlag |= errFlag;
 	setAttr( bluFrameFile, configFile.pString("BluFrameFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
-
+	setAttr( bluAttackFile, configFile.pString("BluAttackFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 	//For Board Drawing, these are the maximums
 	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx", errFlag, outString ) );
