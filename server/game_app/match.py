@@ -196,9 +196,9 @@ class Match(DefaultGameWorld):
     for p in self.players + self.spectators:
       p.writeSExpr(msg)
 
-    self.sendStatus([self.turn] +  self.spectators)
+    self.sendStatus([self.turn])
     self.playerID ^= 1
-    self.sendStatus(self.players[self.playerID])
+    self.sendStatus([self.players[self.playerID]])
     self.playerID ^= 1
 
     self.turn = None
