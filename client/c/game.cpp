@@ -10,6 +10,8 @@
 #include <sstream>
 #include <fstream>
 
+#include <vector>
+
 #include "game.h"
 #include "network.h"
 #include "structures.h"
@@ -164,7 +166,47 @@ DLLEXPORT void getStatus(Connection* c)
   UNLOCK( &c->mutex );
 }
 
+static int distance(_Bot* bot, _Wall* target)
+{
+  int x = 0, y = 0;
+  if(target->x < bot->x)
+   x = bot->x - target->x;
+  else if(target->x > (x + bot->size-1))
+    x = target->x - (bot->x + bot->size-1);
+  if(target->y < bot->y)
+    y = bot->y - target->y;
+  else if(target->y > (bot->y + bot->size-1))
+    y = target->y - (bot->y + bot->size-1);
+  return x + y;
+}
 
+static int distance(_Bot* bot, _Bot* target)
+{
+  int x = 0, y = 0;
+  if(bot->x > target->x + target->size-1)
+    x = bot->x - (target->x + target->size-1);
+  else if(target->x > bot->x + bot->size-1)
+    x = target->x - (bot->x + bot->size-1);
+  if(bot->y > target->y + target->size-1)
+    y = bot->y - (target->y + target->size-1);
+  else if(target->y > bot->y + bot->size-1)
+    y = target->y - (bot->y + bot->size-1);
+  return x + y;
+}
+
+static int distance(_Bot* bot, _Frame* target)
+{
+  int x = 0, y = 0;
+  if(bot->x > target->x + target->size-1)
+    x = bot->x - (target->x + target->size-1);
+  else if(target->x > bot->x + bot->size-1)
+    x = target->x - (bot->x + bot->size-1);
+  if(bot->y > target->y + target->size-1)
+    y = bot->y - (target->y + target->size-1);
+  else if(target->y > bot->y + bot->size-1)
+    y = target->y - (bot->y + bot->size-1);
+  return x + y;
+}
 
 DLLEXPORT int unitTalk(_Unit* object, char* message)
 {
@@ -194,12 +236,105 @@ DLLEXPORT int botTalk(_Bot* object, char* message)
 DLLEXPORT int botMove(_Bot* object, char* direction)
 {
   stringstream expr;
+  if(object->steps < 1)
+    return 0;
+  int x = 0, y = 0;
+  if(direction[0] == 'u' || direction[0] == 'U')
+    y = -1;
+  if(direction[0] == 'd' || direction[0] == 'D')
+    y = 1;
+  if(direction[0] == 'l' || direction[0] == 'L')
+    x = -1;
+  if(direction[0] == 'r' || direction[0] == 'R')
+    x = 1;
+  
+  if(object->x + x < 0 || object->x + x >= object->_c->boardX ||
+   object->y + y < 0 || object->y + y >= object->_c->boardY)
+    return 0;
+    
+  
   expr << "(game-move " << object->id
-      << " \"" << escape_string(direction) << "\""
+       << " \"" << escape_string(direction) << "\""
        << ")";
   LOCK( &object->_c->mutex);
   send_string(object->_c->socket, expr.str().c_str());
   UNLOCK( &object->_c->mutex);
+  
+  object->steps--;
+  
+  //GAH!
+  vector<_Unit*> victims;
+  _Wall* walls = object->_c->Walls;
+  _Bot*  bots = object->_c->Bots;
+  _Frame* frames = object->_c->Frames;
+  for(int i = 0; i < object->_c->WallCount; i++)
+  {
+    if(distance(object, walls+i) == 1 && walls[i].health > 0)
+    {
+      if(y == -1 && walls[i].y < object->y)
+        victims.push_back((_Unit*) walls+i);
+      else if(x == -1 && walls[i].x < object->x)
+        victims.push_back((_Unit*) walls+i);
+      if(y == 1 && walls[i].y == object->y+object->size)
+        victims.push_back((_Unit*) walls+i);
+      if(y == 1 && walls[i].x == object->x+object->size)
+        victims.push_back((_Unit*) walls+i);
+    }
+  }
+  for(int i = 0; i < object->_c->BotCount; i++)
+  {
+    if(distance(object, bots+i) == 1 && bots[i].health > 0)
+    {
+      if(y == -1 && bots[i].y+bots[i].size == object->y)
+        victims.push_back((_Unit*) bots+i);
+      else if(x == -1 && bots[i].x+bots[i].size == object->x)
+        victims.push_back((_Unit*) bots+i);
+      if(y == 1 && bots[i].y == object->y+object->size)
+        victims.push_back((_Unit*) bots+i);
+      if(y == 1 && bots[i].x == object->x+object->size)
+        victims.push_back((_Unit*) bots+i);
+    }
+  }
+  for(int i = 0; i < object->_c->FrameCount; i++)
+  {
+    if(distance(object, frames+i) == 1 && frames[i].health > 0)
+    {
+      if(y == -1 && frames[i].y+frames[i].size == object->y)
+        victims.push_back((_Unit*) frames+i);
+      else if(x == -1 && frames[i].x+frames[i].size == object->x)
+        victims.push_back((_Unit*) frames+i);
+      if(y == 1 && frames[i].y == object->y+object->size)
+        victims.push_back((_Unit*) frames+i);
+      if(y == 1 && frames[i].x == object->x+object->size)
+        victims.push_back((_Unit*) frames+i);
+    }
+  }
+  
+  if(victims.size())
+  {
+    int victimHealth;
+    for(int i = 0; i < victims.size(); i++)
+      victimHealth += victims[i]->health;
+    
+    int damage = victimHealth < object->size*object->size ?
+      victimHealth : object->size*object->size;
+    object->health -= damage;
+    
+    bool alive = false;
+    for(int i = 0; i < victims.size(); i++)
+    {
+      damage = (victims[i]->health * object->size*object->size + victimHealth - 1) / victimHealth;
+      victims[i]->health -= damage;
+      if(victims[i]->health > 0)
+        alive = true;
+    }
+    
+    if(alive)
+      return 1;
+  }
+  object->x += x;
+  object->y += y;
+  
   return 1;
 }
 
@@ -270,10 +405,12 @@ DLLEXPORT int botSplit(_Bot* object)
 
 DLLEXPORT int botMaxActions(_Bot* object)
 {
+  return object->actitude / (object->size * object->size);
 }
 
 DLLEXPORT int botMaxSteps(_Bot* object)
 {
+  return object->movitude / (object->size * object->size);
 }
 
 DLLEXPORT int frameTalk(_Frame* object, char* message)
