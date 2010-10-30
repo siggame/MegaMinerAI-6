@@ -489,16 +489,10 @@ void Gameboard::drawBackground()
 	float baseHeight = getAttr( boardHeightPx );
 	float baseWidth  = getAttr( boardWidthPx );
 
-	if ( hasDefaultBG || (!hasDefaultBG && hasMapGrid ) )
+	if ( hasDefaultBG )
 	{
-		if ( hasDefaultBG )
-		{
-			glBindTexture( GL_TEXTURE_2D, textures[T_DEFAULTBG].getTexture() );
-		}
-		else
-		{
-			glBindTexture( GL_TEXTURE_2D, textures[T_GRID].getTexture() );
-		}
+		glBindTexture( GL_TEXTURE_2D, textures[T_DEFAULTBG].getTexture() );
+
 		glBegin( GL_QUADS );
 
 		glTexCoord2f( 0, 0 );
@@ -511,6 +505,25 @@ void Gameboard::drawBackground()
 		glVertex3f( 0, baseHeight, 0 );
 
 		glEnd();
+		
+		
+		if ( hasMapGrid )
+		{
+			glBindTexture( GL_TEXTURE_2D, textures[T_GRID].getTexture() );
+
+			glBegin( GL_QUADS );
+
+			glTexCoord2f( 0, 0 );
+			glVertex3f( 0, 0, 0 );
+			glTexCoord2f( 20, 0 );
+			glVertex3f( baseWidth, 0, 0 );
+			glTexCoord2f( 20, 10 );
+			glVertex3f( baseWidth, baseHeight, 0 );
+			glTexCoord2f( 0, 10 );
+			glVertex3f( 0, baseHeight, 0 );
+
+			glEnd();
+		}
 	}
 
 	if ( !hasDefaultBG )
