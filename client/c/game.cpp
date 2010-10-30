@@ -422,6 +422,14 @@ DLLEXPORT int botCombine(_Bot* object, _Bot* bot2, _Bot* bot3, _Bot* bot4)
 
 DLLEXPORT int botSplit(_Bot* object)
 {
+  if(object->actions < 1)
+    return 0;
+  if(object->size < 2)
+    return 0;
+  
+  object->health = 0;
+  object->actions = 0;
+  object->steps = 0;
   stringstream expr;
   expr << "(game-split " << object->id
        << ")";
