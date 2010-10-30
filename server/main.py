@@ -204,5 +204,5 @@ class TestGameServer(SexpProtocol):
 
 if __name__ == "__main__":
   import timer
-  timer.install()
+  #timer.install()
   TestGameServer.main(19000)
