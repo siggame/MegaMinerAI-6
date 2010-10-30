@@ -67,6 +67,7 @@
 			ATTRIBUTE( string, redEngineFile );
 			ATTRIBUTE( string, redForceFile );
 			ATTRIBUTE( string, redFrameFile );
+			ATTRIBUTE( string, redAttackFile );
 
 				//blue bots
 			ATTRIBUTE( string, bluActionFile );
@@ -76,6 +77,7 @@
 			ATTRIBUTE( string, bluEngineFile );
 			ATTRIBUTE( string, bluForceFile );
 			ATTRIBUTE( string, bluFrameFile );
+			ATTRIBUTE( string, bluAttackFile );
 
 			// Arena Stuff
 			ATTRIBUTE( int, arenaMode );
