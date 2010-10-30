@@ -38,7 +38,7 @@ BluAttackFile = "textures/Bullet 1 256.png"
 ## Other
 
 # Default Background Image
-defBGFileName = "textures/background.png"
+defBGFileName = "textures/Ground Dark 64.jpg"
 # Default Wall Image
 wallFileName = "textures/wall 256.jpg"
 # Default Grid Image
