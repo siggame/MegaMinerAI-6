@@ -4,6 +4,8 @@
 #include <string>
 #include <cstring>
 #include <map>
+#include <stdint.h>
+#include <arpa/inet.h>
 using namespace std;
 
 /*
@@ -19,7 +21,7 @@ char[] intVectorToCharArray(const std::vector<int> v)
 }
 */
 
-/*
+
 
 // Compress a string to a list of output symbols.
 // The result will be written to the output iterator
@@ -84,14 +86,28 @@ std::string decompress(Iterator begin, Iterator end) {
   }
   return result;
 }
- 
+
 char * comp(char * input)
 {
   string s(input);
-  vector<int> vout = compress();
-  return (char*) out;
+  std::vector<int> vout;
+  
+  //Compress it into a vector (vout)
+  compress(s, std::back_inserter(vout));
+  
+  uint32_t * toNetwork = new uint32_t[vout.size()+1];
+  
+  //Convert the vector into a proper array of integers
+  for(int i = 0; i < vout.size(); i++)
+  {
+    toNetwork[i] = htonl(vout[i]);
+  }
+  
+  toNetwork[vout.size()] = 0;//Null character at the end for the cast to c-string
+  
+  return (char*) toNetwork;
 }
-
+/*
 char * decomp(char * output)
 {
 }
@@ -107,6 +123,7 @@ int main()
   
   strcpy(main, consoleString.c_str());
 
+   
 
   cout << endl << main << endl;
   
