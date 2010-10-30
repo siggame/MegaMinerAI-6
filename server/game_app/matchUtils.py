@@ -38,7 +38,7 @@ def derefArgs(*types):
       try:
         args = [deref(self, i, j) for i, j in zip(types, values)]
       except LookupError as e:
-        return e.message
+        return e.args[0]
       else:
         return f(self, *args)
     return wrapper
