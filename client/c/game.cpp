@@ -341,7 +341,7 @@ DLLEXPORT int botMove(_Bot* object, char* direction)
 DLLEXPORT int botAttack(_Bot* object, _Unit* target)
 {
   if(object->actions < 1)
-    return false;
+    return 0;
   
   object->actions--;
   target->health -= object->damage;
@@ -359,9 +359,11 @@ DLLEXPORT int botAttack(_Bot* object, _Unit* target)
 DLLEXPORT int botHeal(_Bot* object, _Bot* target)
 {
   if(object->actions < 1)
-    return false;
+    return 0;
   if(distance(object, target) > object->range+1)
-    return false;
+    return 0;
+  if(object->owner != target->owner)
+    return 0;
   
   object->actions--;
   target->health += target->maxHealth * object->buildRate / (4 * target->size*target->size);
