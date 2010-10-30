@@ -20,7 +20,7 @@ def parseData():
       insertModel(models, i)
     elif isinstance(i, structures.Animation):
       animations.append(i)
-  return {'models':models, 'globals':globals, 'animations':animations}
+  return {'models':models, 'globals':globals, 'animations':animations, 'aspects':data.aspects}
 
 
 
