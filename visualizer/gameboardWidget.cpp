@@ -117,6 +117,9 @@ bool Gameboard::loadAllTextures( QString & message )
 	if ( !loadTexture( getAttr( redFrameFile ).c_str(), T_REDBOT_FRAME, errString ) )
 		    flag = true;
 
+	if ( !loadTexture( getAttr( redAttackFile ).c_str(), T_REDPART_ATTACK, errString ) )
+		    flag = true;
+
 
 	//blue bots:
 	if ( !loadTexture( getAttr( bluActionFile ).c_str(), T_BLUBOT_ACTION, errString ) )
@@ -138,6 +141,9 @@ bool Gameboard::loadAllTextures( QString & message )
 		    flag = true;
 
 	if ( !loadTexture( getAttr( bluFrameFile ).c_str(), T_BLUBOT_FRAME, errString ) )
+		    flag = true;
+
+	if ( !loadTexture( getAttr( bluAttackFile ).c_str(), T_BLUPART_ATTACK, errString ) )
 		    flag = true;
 
 
@@ -234,7 +240,6 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 	if (selected)
 	{
-
 		switch (owner)
 		{
 			case 0: //player 1
@@ -249,31 +254,19 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 		}
 
 		glLineWidth(3.0f);
+
+
+		glBegin (GL_LINE_LOOP);
+
+		glVertex3f(0, 1.0f, 1);
+		glVertex3f( 1.0f, 1.0f, 1);
+		glVertex3f( 1.0f,0, 1);
+		glVertex3f(0,0, 1);
+
+		glEnd();
+		glLineWidth(1.0f);
 	}
-	else
-	{
-		switch (owner)
-		{
-			case 0: //player 1
-			glColor4f(1.0f,0.0f,0.0f,1.0f);
-			break;
-			case 1: //player 2
-			glColor4f(0.0f,0.0f,1.0f,1.0f);
-			break;
-			default:
-			glColor4f(0.5f,0.5f,0.5f,1.0f);
 
-		}
-	}
-	glBegin (GL_LINE_LOOP);
-
-	glVertex3f(0, 1.0f, 1);
-	glVertex3f( 1.0f, 1.0f, 1);
-	glVertex3f( 1.0f,0, 1);
-	glVertex3f(0,0, 1);
-
-	glEnd();
-	glLineWidth(1.0f);
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -328,7 +321,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 			}
 
 			//is it selected?
-			bool selected = true;
+			bool selected = false;
 			for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
 			{
 				if ( *l == it->second.id )
@@ -683,7 +676,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 			    sprintf( unitSelection, "%d\n", *it);
 			    OutText += QString(unitSelection);
 			}
-			//parent->console->setText( OutText );
+			parent->console->setText( OutText );
 		}
 
 		leftButtonDown = false;
@@ -820,54 +813,111 @@ void Gameboard::paintGL()
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 
-
-		string console = "";
-
-		for( 
-			list<int>::iterator i = selectedIDs.begin(); 
-			i != selectedIDs.end(); 
-			i++ )
-		{
-			int start = frame;
-			if( getAttr( persistantTalking ) )
-				start = 0;
-			for( int j = start; j < frame+1; j++ )
-			{
-				for( 
-					vector<Animation*>::iterator k = game->states[j].animations.begin();
-					k != game->states[j].animations.end();
-					k++ 
-					)
-					{
-						if( (*k)->type == TALK )
-						{
-							Talk *talker = (Talk*)(*k);
-							if( talker->speaker == *i )
-							{
-								if( 
-									( game->states[j].units[*i].owner == 0 && 
-									getAttr( team1Talk ) ) || 
-									( game->states[j].units[*i].owner == 1 &&
-									getAttr( team2Talk ) )
-									)
-								{
-									console += talker->message;
-									console += '\n';
-								}
-							}
-						}
-					}
-				}
-			}
-				
 		
-		parent->console->setText( QString( console.c_str()) );
+		//parent->console
 
 	}
 	drawScoreboard();
 	drawMouse();
 }
 
+void Gameboard::drawAnimations( Game * game, float falloff)
+{
+
+	int frame = getAttr( frameNumber );
+	for (std::vector<Animation*>::iterator it = game->states[frame].animations.begin();
+	     it != game->states[frame].animations.end();
+	     it++)
+	{
+	    switch ( (*it)->type)
+	    {
+		case ADD:
+		break;
+		case ATTACK:
+		drawAttack(game,(Attack*)(*it),falloff);
+		break;
+		case BUILD:
+		drawBuild(game,(Build*)(*it),falloff);
+		break;
+		case COLLIDE:
+		break;
+		case COMBINE:
+		break;
+		case HEAL:
+		drawHeal(game,(Heal*)(*it),falloff);
+		break;
+		case MOVE:
+		break;
+		case REMOVE:
+		break;
+		case SPLIT:
+		break;
+	    }
+	}
+}
+
+//void
+
+void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
+{
+	int x0, y0, xf, yf;
+	int frame = getAttr( frameNumber );
+	int unitSize = getAttr( unitSize );
+
+	if (frame + 1 < game->states.size()-1)
+	{
+		GameState state1 = game->states[frame];
+		GameState state2 = game->states[frame+1];
+
+		x0 = state1.bots[attack->attacker].x;
+		y0 = state1.bots[attack->attacker].y;
+
+		xf = state2.bots[attack->victim].x;
+		yf = state2.bots[attack->victim].y;
+
+
+
+		float d = sqrt((xf - x0)*(xf-x0) + (yf-y0)*(yf-y0));
+		int x, y;
+		x = (xf-x0)*falloff/d + x0;
+		y = (yf-y0)*falloff/d + y0;
+
+		glPushMatrix();
+		glTranslated(x,y,0);
+		glScalef( unitSize, unitSize, 0 );
+
+		switch (state1.bots[attack->attacker].owner)
+		{
+			case 0:
+			glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
+			break;
+			case 1:
+			glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_ATTACK].getTexture() );
+			break;
+		}
+
+		glBegin(GL_QUADS);
+
+		glTexCoord2d(0,0); glVertex3d(0,0,0);
+		glTexCoord2d(1,0); glVertex3d(1,0,0);
+		glTexCoord2d(1,1); glVertex3d(1,1,0);
+		glTexCoord2d(0,1); glVertex3d(0,1,0);
+
+		glEnd();
+
+		glPopMatrix();
+	}
+}
+
+
+
+void Gameboard::drawBuild( Game * game, Build * build, float falloff )
+{
+}
+
+void Gameboard::drawHeal( Game * game, Heal * heal, float falloff )
+{
+}
 
 void Gameboard::timerEvent( QTimerEvent *)
 {

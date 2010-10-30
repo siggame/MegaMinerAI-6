@@ -132,21 +132,44 @@ char * decomp(char * input, int & size)
 
 int main() 
 {
+  int charSize = 10000;
+
+  string inputFilename = "../gamelogs/2.gamelog";
+  string compressedOutputFilename = "../gamelogs/2.gamelog.lzw";
+  string outputFilename = "../gamelogs/2.gamelog.run";
   
-  string consoleString = "The quick brown fox jumped over the lazy dog.The quick brown fox jumped over the lazy dog.";
-  int stringSize = consoleString.size();
-
-  char * temp1 = new char[stringSize+1];
+  ifstream fin;  
+  ofstream fcout;    
+  ofstream fout;
   
-  strcpy(temp1, consoleString.c_str());
-
-  cout << endl << temp1 << endl;   
-
-  char * temp2 = comp(temp1, stringSize);
-
-  char * temp3 = decomp(temp2, stringSize);  
-
-  cout << endl << temp3 << endl;
+  fin.open(inputFilename.c_str());
+  fcout.open(compressedOutputFilename.c_str());
+  fout.open(outputFilename.c_str());
+  
+  char * temp1 = new char[charSize+1];
+  
+  std::cerr<<"charSize: " << charSize; 
+  
+  if(fin.good())
+  {
+    fin.getline(temp1, charSize);
+  }
+    std::cerr<<"charSize: " << charSize;
+  char * temp2 = comp(temp1, charSize);
+  std::cerr<<"charSize: " << charSize;
+  if(fcout.good())
+  {
+    fcout.write(temp2, charSize);
+  }
+  std::cerr<<"charSize: " << charSize;
+  char * temp3 = decomp(temp2, charSize);  
+  std::cerr<<"charSize: " << charSize;
+  if(fout.good())
+  {
+    fout.write(temp3, charSize);
+  }
+  std::cerr<<"charSize: " << charSize;
+//  cout << endl << temp3 << endl;
 
   
   delete [] temp1;
