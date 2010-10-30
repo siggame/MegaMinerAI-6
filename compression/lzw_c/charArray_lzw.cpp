@@ -114,20 +114,22 @@ char * decomp(char * output)
 */
 int main() 
 {
-  string consoleString;
+  string consoleString = "a string";
 
-  cout <<"Input a string to get it back: "<< endl;
-  cin >> consoleString;
 
   char * main = new char[consoleString.size()+1];
   
   strcpy(main, consoleString.c_str());
 
-   
+  cout << endl << main << endl;   
 
-  cout << endl << main << endl;
+  char * temp = comp(main);
+  
+  cout << endl << temp << endl;
+
   
   delete [] main;
+  delete [] temp;
 /*
   std::vector<int> compressed;
   compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
