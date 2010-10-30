@@ -51,10 +51,10 @@ class Match(DefaultGameWorld):
     #self.nextid += 1
 
   def startBots(self):
-    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[1]))
-    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[1]))
-    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[1]))
+    self.addObject(Bot.fromType(self, 3, 9, 0, self.objects[2]))
+    self.addObject(Bot.fromType(self, 3, 10, 0, self.objects[2]))
+    self.addObject(Bot.fromType(self, 36, 9, 1, self.objects[2]))
+    self.addObject(Bot.fromType(self, 36, 10, 1, self.objects[2]))
 
   def startWalls(self):
     walls = 0
