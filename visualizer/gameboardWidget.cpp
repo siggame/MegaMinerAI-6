@@ -244,9 +244,11 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.0f,0.0f,5.0f,1.0f);
 			break;
 			default:
-			glColor4f(0.5f,0.5f,0.5f,1.0f);
+			glColor4f(0.2f,0.2f,0.2f,1.0f);
 
 		}
+
+		glLineWidth(3.0f);
 	}
 	else
 	{
@@ -259,19 +261,19 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.0f,0.0f,1.0f,1.0f);
 			break;
 			default:
-			glColor4f(0.8f,0.8f,0.8f,1.0f);
+			glColor4f(0.5f,0.5f,0.5f,1.0f);
 
 		}
 	}
 	glBegin (GL_LINE_LOOP);
 
-	glVertex3f(0, 1.0f, 0);
-	glVertex3f( 1.0f, 1.0f, 0);
-	glVertex3f( 1.0f,0, 0);
-	glVertex3f(0,0,-0.01f);
+	glVertex3f(0, 1.0f, 1);
+	glVertex3f( 1.0f, 1.0f, 1);
+	glVertex3f( 1.0f,0, 1);
+	glVertex3f(0,0, 1);
 
 	glEnd();
-
+	glLineWidth(1.0f);
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -344,15 +346,67 @@ void Gameboard::drawBots( Game *game, float falloff )
 			int sprite;
 			if (owner == 0)
 			{
-			    sprite = T_REDBOT_ENGINE;
+			    switch (it->second.type)
+			    {
+				case 1: //Action
+				sprite = T_REDBOT_ACTION;
+				break;
+
+				case 2: //Builder
+				sprite = T_REDBOT_BUILDER;
+				break;
+
+				case 3: //Cannon
+				sprite = T_REDBOT_CANNON;
+				break;
+
+				case 4: //Damage
+				sprite = T_REDBOT_DAMAGE;
+				break;
+
+				case 5: //Engine
+				sprite = T_REDBOT_ENGINE;
+				break;
+
+				case 6: //Force
+				sprite = T_REDBOT_FORCE;
+				break;
+
+			    }
 			}
 			else
 			{
-			    sprite = T_BLUBOT_ENGINE;
+			    switch (it->second.type)
+			    {
+				case 1: //Action
+				sprite = T_BLUBOT_ACTION;
+				break;
+
+				case 2: //Builder
+				sprite = T_BLUBOT_BUILDER;
+				break;
+
+				case 3: //Cannon
+				sprite = T_BLUBOT_CANNON;
+				break;
+
+				case 4: //Damage
+				sprite = T_BLUBOT_DAMAGE;
+				break;
+
+				case 5: //Engine
+				sprite = T_BLUBOT_ENGINE;
+				break;
+
+				case 6: //Force
+				sprite = T_BLUBOT_FORCE;
+				break;
+
+			    }
 			}
 
-			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
-            drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*i->size, unitSize*i->size, i->maxHealth, i->health, owner );
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
+			drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
   
 		}
 
@@ -416,8 +470,8 @@ void Gameboard::drawWalls( Game *game, float falloff )
 		)
 	{
 
-		x0 = it->second.x;
-		y0 = it->second.y;
+		x0 = it->second.x*unitSize;
+		y0 = it->second.y*unitSize;
 
 
 		//is it selected?
@@ -725,7 +779,7 @@ void Gameboard::paintGL()
 			time.restart();
 
 			// This is where we advance to the next frame
-			if( frame < (int)game->states.size() && frame >= 0 )
+			if( frame < (int)game->states.size()-1 && frame >= 0 )
 			{
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
@@ -761,8 +815,9 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-		drawWalls( game, falloff );
+
 		drawBots( game, falloff );
+		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 
 		
