@@ -8,7 +8,6 @@ games = []
 
 def install():
   def wrapNextTurn(self):
-    print games
     if self not in games:
       games.append(self)
     if self.turn == self.players[0]:
