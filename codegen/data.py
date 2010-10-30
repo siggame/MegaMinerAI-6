@@ -159,5 +159,10 @@ globals = [
   Variable('gameNumber', int, 'What number game this is for the server')
   ]
 
+constants = [
+  Variable('player0Name', str, 'Player 0\'s name'),
+  Variable('player1Name', str, 'Player 1\'s name'),
+  ]
+
 import timerAspect
 timerAspect.install()
