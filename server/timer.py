@@ -14,7 +14,7 @@ def install():
       print "player0Time = ", self.player0Time
     retval = yield aspects.proceed
 
-  aspects.with_wrap(wrapNextTurn, Match.nextTurn)
+  #aspects.with_wrap(wrapNextTurn, Match.nextTurn)
 
   def tick():
     for i in main.GameApp.games.values():
