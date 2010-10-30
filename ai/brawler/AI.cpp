@@ -39,6 +39,7 @@ enum GENE{FRIEND,FOE,G_SIZE};
 //This function is run once, before your first turn.
 void AI::init()
 {
+  cout<<"INIT"<<endl;
   srand(time(NULL));
   gTypes.resize(types.size());
   
@@ -70,6 +71,7 @@ void AI::init()
     {
       pop[i].played=false;
       pop[i].score=false;
+      pop[i].gene.resize(G_SIZE);
       for(unsigned int g=0;g<G_SIZE;g++)
       {
         pop[i].gene[g]=rand()%10;
@@ -86,6 +88,7 @@ void AI::init()
       popIndex=i;
     }
   }
+  cout<<"Past beginning stuff"<<endl;
   // Handles if everyone has played
   if(!found)
   {
@@ -106,7 +109,7 @@ void AI::init()
     }
     else// evolution
     {
-    
+      // TODO 
     }
     // start playing from the top
     popIndex=0;
@@ -116,6 +119,84 @@ void AI::init()
   for(unsigned int i=0;i<gene.size();i++)
   {
     gene[i]=pop[popIndex].gene[i];
+  }
+  cout<<"FINISHED INIT"<<endl;
+}
+
+void AI::end()
+{
+  vector<Bot> mine, theirs;
+  unsigned int myCount=0,theirCount=0;
+  float myHealth=0,theirHealth=0;
+  cout<<"At the end of the game there are "<<bots.size()<<" bots "<<endl;
+  for(unsigned int i=0;i<bots.size();i++)
+  {
+    cout<<bots[i]<<endl;
+    if(bots[i].owner()==playerID())
+    {
+      if(bots[i].size()==1)
+      {
+        myCount++;
+      }
+      if(bots[i].partOf()==0)
+      {
+        myHealth+=1.0*bots[i].health()/bots[i].maxHealth();
+      }
+      mine.push_back(bots[i]);
+    }
+    else
+    {
+      if(bots[i].size()==1)
+      {
+        theirCount++;
+      }
+      if(bots[i].partOf()==0)
+      {
+        theirHealth+=1.0*bots[i].health()/bots[i].maxHealth();
+      }
+      theirs.push_back(bots[i]);
+    }
+  }
+  bool win;
+  if(myCount == theirCount)
+  {
+    if(myHealth == theirHealth)
+    {
+      cout<<"We were entirely equal, my playerID = " <<playerID()<<endl;
+      win=playerID()==1;
+    }
+    else 
+    {
+      cout<<"We had the same count "<<myHealth<<" "<<theirHealth<<endl;
+      win = (myHealth>theirHealth);
+    }
+  }
+  else
+  {
+    cout<<"We had different counts "<<myCount<<" "<<theirCount<<endl;
+    win=myCount>theirCount;
+  }
+  cout<<"MINE: "<<myCount<<" "<<myHealth<<" "<<playerID()<<endl;
+  cout<<"NTME: "<<theirCount<<" "<<theirHealth<<endl;
+  cout<<"THE GAME IS OVER, ALL IS "<<(win?"WON":"LOST")<<endl;
+  // probably unnecessary
+  int score = (win)?1:0;
+  
+  // Add the score to this player
+  pop[popIndex].score+=score;
+  pop[popIndex].played=true;
+  
+  ofstream out(dataFile.c_str());
+  // If there was a database file
+  for(unsigned int i=0;i<pop.size();i++)
+  {
+    out<<pop[i].played<<" ";
+    out<<pop[i].score<<" ";
+    for(unsigned int g=0;g<G_SIZE;g++)
+    {
+      out<<pop[i].gene[g]<<" ";
+    }
+    out<<endl;
   }
 }
 
@@ -467,11 +548,13 @@ void AI::setBots()
 //Return true to end your turn, return false to ask the server for updated information.
 bool AI::run()
 {
+
   if(turnNumber()>10)
   {
 //    return true;
   }
   cout<<"Turn: "<<turnNumber()<<endl;
+  cout<<player0Time()<<" "<<player1Time()<<" "<<player0Name()<<" "<<player1Name()<<endl;
   setBots();
 
   list<Stub> orderList;
@@ -533,7 +616,4 @@ bool AI::run()
 
 
 
-void AI::end()
-{
-  cout<<"THE GAME IS OVER, ALL IS ?"<<endl;
-}
+

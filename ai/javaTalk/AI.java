@@ -30,6 +30,12 @@ class AI extends BaseAI
   //This function is called once, before your first turn
   public void init() {}
   
+  //This function is called once, after your last turn
+  public void end() 
+  {
+    System.out.println("The end is NOW");
+  }
+
   
   public AI(Pointer c)
   {
