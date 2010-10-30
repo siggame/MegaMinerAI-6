@@ -41,12 +41,12 @@ class ${model.name}(GameObject):
 %   endif
 
 %  for func in model.functions:
-   """${func.doc}"""
   def ${func.name}(self\
 %    for arg in func.arguments:
 , ${arg.name}\
 %    endfor
 ):
+   """${func.doc}"""
     self.validify()
 %    for arg in func.arguments:
 %      if isinstance(arg.type, Model):
@@ -67,8 +67,8 @@ class ${model.name}(GameObject):
 
 %  endfor
 %  for datum in model.data:
-  """${datum.doc}"""
   def get${capitalize(datum.name)}(self):
+   """${datum.doc}"""
     self.validify()
     return library.${lowercase(model.name)}Get${capitalize(datum.name)}(self.ptr)
 
