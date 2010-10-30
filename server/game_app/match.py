@@ -140,12 +140,15 @@ class Match(DefaultGameWorld):
 
   def nextTurn(self):
     self.turnNumber += 1
-    if (self.turn == self.players[0]):
+    if self.turn == self.players[0]:
       self.turn = self.players[1]
       self.playerID = 1
-    else:
+    elif self.turn == self.players[1]:
       self.turn = self.players[0]
       self.playerID = 0
+
+    else:
+      return "Game is over."
 
     for obj in self.objects.values():
       obj.nextTurn()
