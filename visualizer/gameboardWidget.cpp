@@ -177,10 +177,10 @@ void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int healt
         switch(owner)
 	{
 		case 0://player 1
-		glColor4f(1, 0, 0, .6);
+		glColor4f(1, 1, 0, .6);
                 break;
 		case 1://player 2
-		glColor4f(0, 0, 0, .8);
+		glColor4f(0, 1, 1, .8);
                 break;
 		default://shouldn't happen
                 glColor4f(.5, .5, .5, .6);
@@ -199,16 +199,21 @@ void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int healt
         glVertex3f(0.0f,0.0f,0.0f);
        glEnd();
        if(owner == 1)
-       { 
-		glColor4f( 0, .2, 0, .7 );
+	   {
 
-		glLineWidth( 1.5 );
+		}
+	   else
+	   {
+	   }
+	   glColor4f( 0, 0, 0, .7 );
+
 		glBegin(GL_LINE_LOOP);
 		glVertex3f( 0.0, 4.0f, 0 );
 		glVertex3f( 1, 4.0f, 0 );
 		glVertex3f( 1, 0.0, 0 );
 		glVertex3f( 0.0f, 0.0, 0 );
-	}
+		glLineWidth (1.0);
+
 	glEnd();
 	glPopMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -322,13 +327,10 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 			//is it selected?
 			bool selected = false;
-			for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+			if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
 			{
-				if ( *l == it->second.id )
-				{
 
-				    selected = true;
-				}
+				selected = true;
 			}
 
 
@@ -428,12 +430,10 @@ void Gameboard::drawFrames( Game *game, float falloff )
 
 		//is it selected?
 		bool selected = false;
-		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+		if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
 		{
-			if (*l == it->second.id)
-			{
-			    selected = true;
-			}
+
+			selected = true;
 		}
 
 		int sprite = T_REDBOT_FRAME;
@@ -442,6 +442,7 @@ void Gameboard::drawFrames( Game *game, float falloff )
 			sprite = T_BLUBOT_FRAME;
 
 		drawSprite( x0,y0,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, it->second.owner );
+		drawHealth( x0,y0, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, it->second.owner );
 
 	}
 }
@@ -469,12 +470,10 @@ void Gameboard::drawWalls( Game *game, float falloff )
 
 		//is it selected?
 		bool selected = false;
-		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
+		if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
 		{
-			if (*l == it->second.id)
-			{
-			    selected = true;
-			}
+
+			selected = true;
 		}
 
 		drawSprite( x0,y0,unitSize,unitSize, T_WALL, selected, 2 );
@@ -611,7 +610,7 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 
 
 template <class T>
-void addSelection(std::map<int, T > & objects, std::list<int> & selectedIDs, const int & bX, const int & bY, const int & bW, const int & bH, const int & curX, const int & curY)
+void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedIDs, const int & bX, const int & bY, const int & bW, const int & bH, const int & curX, const int & curY)
 {
 	typename std::map < int, T > :: iterator it;
 
@@ -620,9 +619,12 @@ void addSelection(std::map<int, T > & objects, std::list<int> & selectedIDs, con
 	it != objects.end();
 	it++ )
 	{
+		stringstream ss;
 		if( touchingBox( bX, bY, bW, bH, it->second.x, it->second.y ) )
 		{
-			selectedIDs.push_back( it->second.id );
+			//ss << "Type: " << typeid(T).name() << " Owner: " << it->second.owner << " Max Health: " << it->second.maxHealth << " Health: " << it->second.health;
+			ss << it->second;
+			selectedIDs[it->second.id] = ss.str() ;
 		}
 	}
 }
@@ -659,24 +661,21 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 	// Probably could have used templates, or anything else.  Bad implementation but works;
 
 			addSelection(game->states[frame].units, selectedIDs, bX, bY, bW, bH, curX, curY);
-			addSelection(game->states[frame].mappables, selectedIDs, bX, bY, bW, bH, curX, curY);
 			addSelection(game->states[frame].bots, selectedIDs, bX, bY, bW, bH, curX, curY);
 			addSelection(game->states[frame].frames, selectedIDs, bX, bY, bW, bH, curX, curY);
 			addSelection(game->states[frame].walls, selectedIDs, bX, bY, bW, bH, curX, curY);
 
 
 
-			char *unitSelection = new char[255];
-			sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d\n", selectedIDs.size(), bX, bY );
+			stringstream ss;
+			ss << "Selected Units: " << selectedIDs.size() << ", X: " << bX << ", Y: " << bY << '\n';
 
-			QString OutText(unitSelection);
-
-			for (list<int>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
+			for (map<int,string>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
 			{
-			    sprintf( unitSelection, "%d\n", *it);
-			    OutText += QString(unitSelection);
+				ss << it->second << '\n';
 			}
-			parent->console->setText( OutText );
+
+			parent->console->setText( ss.str().c_str() );
 		}
 
 		leftButtonDown = false;
@@ -812,7 +811,7 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
-
+		drawAnimations( game, falloff );
 		
 		//parent->console
 
@@ -875,33 +874,46 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		xf = state2.bots[attack->victim].x;
 		yf = state2.bots[attack->victim].y;
 
+		 ///*
 
+		 stringstream ss;
+		 ss << "X0: " << x0 << " Y0: " << y0 << "\nXF: " << xf << " YF: " << yf;
+
+		 QString out = ss.str().c_str();
+
+		 QMessageBox::critical(
+			this,
+			"Error",
+			out
+			);
+
+		 //*/
 
 		float d = sqrt((xf - x0)*(xf-x0) + (yf-y0)*(yf-y0));
-		int x, y;
-		x = (xf-x0)*falloff/d + x0;
-		y = (yf-y0)*falloff/d + y0;
+		float x, y;
+		x = (xf-x0)*falloff + x0;
+		y = (yf-y0)*falloff + y0;
 
 		glPushMatrix();
-		glTranslated(x,y,0);
-		glScalef( unitSize, unitSize, 0 );
+		glTranslatef(x,y,0);
+		glScalef( unitSize * state1.bots[attack->attacker].size , unitSize * state1.bots[attack->attacker].size, 1 );
 
 		switch (state1.bots[attack->attacker].owner)
 		{
 			case 0:
 			glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
 			break;
-			case 1:
+			default:
 			glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_ATTACK].getTexture() );
-			break;
+
 		}
 
 		glBegin(GL_QUADS);
 
-		glTexCoord2d(0,0); glVertex3d(0,0,0);
-		glTexCoord2d(1,0); glVertex3d(1,0,0);
-		glTexCoord2d(1,1); glVertex3d(1,1,0);
-		glTexCoord2d(0,1); glVertex3d(0,1,0);
+		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
+		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
+		glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
+		glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
 
 		glEnd();
 

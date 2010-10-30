@@ -14,13 +14,19 @@ const int ${animation.name.upper()} = ${i};
 % endfor
 
 % for model in models:
-struct ${model.name}
+struct ${model.name}\
+% if model.parent:
+: public ${model.parent.name} \
+% endif
+
 {
 %   for datum in model.data:
-%     if isinstance(datum.type, Model):
+%     if not (model.parent and datum.name in [i.name for i in model.parent.data]):
+%       if isinstance(datum.type, Model):
   int ${datum.name};
-%     else:
+%       else:
   ${conversions[datum.type]} ${datum.name};
+%       endif
 %     endif
 %   endfor
 

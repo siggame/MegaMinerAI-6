@@ -71,6 +71,7 @@ class AccountsAppMixin(object):
     if (name in validNames and validNames[name]["password"] == password):
       self.logged_in = True
       self.name = name
+      self.screenName = validNames[name]["screenName"]
       return ["login-accepted"]
     return ["login-denied"]
 

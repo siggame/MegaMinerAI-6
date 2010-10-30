@@ -8,12 +8,12 @@ AI::AI(Connection* conn) : BaseAI(conn) {}
 
 const char* AI::username()
 {
-  return "Shell AI";
+  return "SpamFighter";
 }
 
 const char* AI::password()
 {
-  return "password";
+  return "FightSpammers";
 }
 
 
