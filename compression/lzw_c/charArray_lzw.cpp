@@ -87,7 +87,7 @@ std::string decompress(Iterator begin, Iterator end) {
   return result;
 }
 
-char * comp(char * input)
+char * comp(char * input, int & size)
 {
   string s(input);
   std::vector<int> vout;
@@ -95,41 +95,61 @@ char * comp(char * input)
   //Compress it into a vector (vout)
   compress(s, std::back_inserter(vout));
   
-  uint32_t * toNetwork = new uint32_t[vout.size()+1];
+  uint32_t * toNetwork = new uint32_t[vout.size()];
   
   //Convert the vector into a proper array of integers
   for(int i = 0; i < vout.size(); i++)
   {
     toNetwork[i] = htonl(vout[i]);
   }
-  
-  toNetwork[vout.size()] = 0;//Null character at the end for the cast to c-string
-  
+  size=vout.size();
   return (char*) toNetwork;
 }
-/*
-char * decomp(char * output)
+
+char * decomp(char * input, int & size)
 {
+  int* in = (int*)input;
+  //size/=4;
+  string s;
+  uint32_t * fromNetwork = new uint32_t[size];
+  std::vector<int> vin(size);
+
+
+  for(int i = 0; i < size; i++)
+  {
+    vin[i] = ntohl(in[i]);
+  }
+
+  string result = decompress(vin.begin(), vin.end());
+
+  char* ret = new char[result.size()+1];
+  
+  strcpy(ret, result.c_str());
+
+  return ret;
 }
-*/
+
 int main() 
 {
-  string consoleString = "a string";
+  string consoleString = "The quick brown fox jumped over the lazy dog.The quick brown fox jumped over the lazy dog.";
+  int stringSize = consoleString.size();
 
-
-  char * main = new char[consoleString.size()+1];
+  char * temp1 = new char[stringSize+1];
   
-  strcpy(main, consoleString.c_str());
+  strcpy(temp1, consoleString.c_str());
 
-  cout << endl << main << endl;   
+  cout << endl << temp1 << endl;   
 
-  char * temp = comp(main);
+  char * temp2 = comp(temp1, stringSize);
+
+  char * temp3 = decomp(temp2, stringSize);  
+
+  cout << endl << temp3 << endl;
+
   
-  cout << endl << temp << endl;
-
-  
-  delete [] main;
-  delete [] temp;
+  delete [] temp1;
+  delete [] temp2;
+  delete [] temp3;
 /*
   std::vector<int> compressed;
   compress("TOBEORNOTTOBEORTOBEORNOT", std::back_inserter(compressed));
