@@ -472,7 +472,7 @@ class Wall(Unit):
   def make(game, x, y, health):
     id = game.nextid
     game.nextid += 1
-    return Wall(game, id, x, y, -1, health,  health)
+    return Wall(game, id, x, y, 2, health,  health)
 
   def nextTurn(self):
     pass
