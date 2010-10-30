@@ -12,12 +12,12 @@ class GameObject(object):
 
 % for model in models:
 
+##${model.doc}
 %   if model.parent:
 class ${model.name}(${model.parent.name}):
 %   else:
 class ${model.name}(GameObject):
 %   endif
-  """${model.doc}"""
   def __init__(self, ptr):
     from BaseAI import BaseAI
     self.ptr = ptr
@@ -39,14 +39,13 @@ class ${model.name}(GameObject):
         return True
     raise ExistentialError()
 %   endif
-
+##${func.doc}
 %  for func in model.functions:
   def ${func.name}(self\
 %    for arg in func.arguments:
 , ${arg.name}\
 %    endfor
 ):
-   """${func.doc}"""
     self.validify()
 %    for arg in func.arguments:
 %      if isinstance(arg.type, Model):
@@ -67,8 +66,8 @@ class ${model.name}(GameObject):
 
 %  endfor
 %  for datum in model.data:
+  ##${datum.doc}
   def get${capitalize(datum.name)}(self):
-   """${datum.doc}"""
     self.validify()
     return library.${lowercase(model.name)}Get${capitalize(datum.name)}(self.ptr)
 
