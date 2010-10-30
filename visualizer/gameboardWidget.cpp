@@ -238,23 +238,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 	glDisable( GL_TEXTURE_2D );
 
-	if (!selected)
-	{
-		switch (owner)
-		{
-			case 0: //player 1
-			glColor4f(1.0f,0.0f,0.0f,1.0f);
-			break;
-			case 1: //player 2
-			glColor4f(0.0f,0.0f,1.0f,1.0f);
-			break;
-			default:
-			glColor4f(0.5f,0.5f,0.5f,1.0f);
-
-		}
-
-	}
-	else
+	if (selected)
 	{
 		switch (owner)
 		{
@@ -270,17 +254,19 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 		}
 
 		glLineWidth(3.0f);
+
+
+		glBegin (GL_LINE_LOOP);
+
+		glVertex3f(0, 1.0f, 1);
+		glVertex3f( 1.0f, 1.0f, 1);
+		glVertex3f( 1.0f,0, 1);
+		glVertex3f(0,0, 1);
+
+		glEnd();
+		glLineWidth(1.0f);
 	}
 
-	glBegin (GL_LINE_LOOP);
-
-	glVertex3f(0, 1.0f, 1);
-	glVertex3f( 1.0f, 1.0f, 1);
-	glVertex3f( 1.0f,0, 1);
-	glVertex3f(0,0, 1);
-
-	glEnd();
-	glLineWidth(1.0f);
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -335,7 +321,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 			}
 
 			//is it selected?
-			bool selected = true;
+			bool selected = false;
 			for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
 			{
 				if ( *l == it->second.id )
@@ -874,7 +860,53 @@ void Gameboard::drawAnimations( Game * game, float falloff)
 
 void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 {
-	//
+	int x0, y0, xf, yf;
+	int frame = getAttr( frameNumber );
+	int unitSize = getAttr( unitSize );
+
+	if (frame + 1 < game->states.size()-1)
+	{
+		GameState state1 = game->states[frame];
+		GameState state2 = game->states[frame+1];
+
+		x0 = state1.bots[attack->attacker].x;
+		y0 = state1.bots[attack->attacker].y;
+
+		xf = state2.bots[attack->victim].x;
+		yf = state2.bots[attack->victim].y;
+
+
+
+		float d = sqrt((xf - x0)*(xf-x0) + (yf-y0)*(yf-y0));
+		int x, y;
+		x = (xf-x0)*falloff/d + x0;
+		y = (yf-y0)*falloff/d + y0;
+
+		glPushMatrix();
+		glTranslated(x,y,0);
+		glScalef( unitSize, unitSize, 0 );
+
+		switch (state1.bots[attack->attacker].owner)
+		{
+			case 0:
+			glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
+			break;
+			case 1:
+			glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_ATTACK].getTexture() );
+			break;
+		}
+
+		glBegin(GL_QUADS);
+
+		glTexCoord2d(0,0); glVertex3d(0,0,0);
+		glTexCoord2d(1,0); glVertex3d(1,0,0);
+		glTexCoord2d(1,1); glVertex3d(1,1,0);
+		glTexCoord2d(0,1); glVertex3d(0,1,0);
+
+		glEnd();
+
+		glPopMatrix();
+	}
 }
 
 
