@@ -56,9 +56,9 @@ int Frame::completionTime()
 }
 
 
-int Frame::talk(char* message)
+int Frame::talk(std::string message)
 {
-  return frameTalk( (_Frame*)ptr, message);
+  return frameTalk( (_Frame*)ptr, message.c_str());
 }
 
 

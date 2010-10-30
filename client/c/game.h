@@ -61,9 +61,9 @@ extern "C"
 //commands
 
   ///Sends a message to be visualized when this unit is selected
-  DLLEXPORT int unitTalk(_Unit* object, char* message);
+  DLLEXPORT int unitTalk(_Unit* object, const char* message);
   ///Sends a message to be visualized when this unit is selected
-  DLLEXPORT int botTalk(_Bot* object, char* message);
+  DLLEXPORT int botTalk(_Bot* object, const char* message);
   ///Move in the indicated direction (U, D, L, or R).  U is y=y-1, L=x=x-1, such that the top left corner is (0,0). Requires the calling robot to have a step.
   DLLEXPORT int botMove(_Bot* object, char* direction);
   ///Attack the specified unit.  Requires the calling robot to have an action and for the target to be in range
@@ -77,9 +77,9 @@ extern "C"
   ///Splits a compound bot into the 4 robots that combined to make it.  Requires the calling robot to have an action.
   DLLEXPORT int botSplit(_Bot* object);
   ///Sends a message to be visualized when this unit is selected
-  DLLEXPORT int frameTalk(_Frame* object, char* message);
+  DLLEXPORT int frameTalk(_Frame* object, const char* message);
   ///Sends a message to be visualized when this unit is selected
-  DLLEXPORT int wallTalk(_Wall* object, char* message);
+  DLLEXPORT int wallTalk(_Wall* object, const char* message);
 
 //derived properties
 

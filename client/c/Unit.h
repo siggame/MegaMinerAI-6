@@ -4,6 +4,7 @@
 #define UNIT_H
 
 #include <iostream>
+#include <string>
 #include "structures.h"
 
 #include "Mappable.h"
@@ -29,7 +30,7 @@ class Unit : public Mappable {
 
   // Actions
   ///Sends a message to be visualized when this unit is selected
-  int talk(char* message);
+  int talk(std::string message);
 
   // Properties
 

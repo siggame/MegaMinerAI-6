@@ -98,9 +98,9 @@ int Bot::type()
 }
 
 
-int Bot::talk(char* message)
+int Bot::talk(std::string message)
 {
-  return botTalk( (_Bot*)ptr, message);
+  return botTalk( (_Bot*)ptr, message.c_str());
 }
 
 int Bot::move(char* direction)

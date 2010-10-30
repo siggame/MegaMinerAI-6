@@ -40,9 +40,9 @@ int Unit::maxHealth()
 }
 
 
-int Unit::talk(char* message)
+int Unit::talk(std::string message)
 {
-  return unitTalk( (_Unit*)ptr, message);
+  return unitTalk( (_Unit*)ptr, message.c_str());
 }
 
 

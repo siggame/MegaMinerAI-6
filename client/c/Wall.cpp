@@ -40,9 +40,9 @@ int Wall::maxHealth()
 }
 
 
-int Wall::talk(char* message)
+int Wall::talk(std::string message)
 {
-  return wallTalk( (_Wall*)ptr, message);
+  return wallTalk( (_Wall*)ptr, message.c_str());
 }
 
 

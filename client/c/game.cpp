@@ -209,7 +209,7 @@ static int distance(_Bot* bot, _Frame* target)
   return x + y;
 }
 
-DLLEXPORT int unitTalk(_Unit* object, char* message)
+DLLEXPORT int unitTalk(_Unit* object, const char* message)
 {
   stringstream expr;
   expr << "(game-talk " << object->id
@@ -222,7 +222,7 @@ DLLEXPORT int unitTalk(_Unit* object, char* message)
 }
 
 
-DLLEXPORT int botTalk(_Bot* object, char* message)
+DLLEXPORT int botTalk(_Bot* object, const char* message)
 {
   stringstream expr;
   expr << "(game-talk " << object->id
@@ -480,7 +480,7 @@ DLLEXPORT int botMaxSteps(_Bot* object)
   return object->movitude / (object->size * object->size);
 }
 
-DLLEXPORT int frameTalk(_Frame* object, char* message)
+DLLEXPORT int frameTalk(_Frame* object, const char* message)
 {
   stringstream expr;
   expr << "(game-talk " << object->id
@@ -493,7 +493,7 @@ DLLEXPORT int frameTalk(_Frame* object, char* message)
 }
 
 
-DLLEXPORT int wallTalk(_Wall* object, char* message)
+DLLEXPORT int wallTalk(_Wall* object, const char* message)
 {
   stringstream expr;
   expr << "(game-talk " << object->id
