@@ -30,8 +30,8 @@ class Match(DefaultGameWorld):
     self.turnNumber = -1
     self.playerID = -1
     self.gameNumber = id
-    self.player0Time = 0
-    self.player1Time = 0
+    self.player0Time = self.startTime
+    self.player1Time = self.startTime
     self.initTypes()
     self.startBots()
     self.startWalls()
