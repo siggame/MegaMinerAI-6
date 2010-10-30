@@ -33,7 +33,6 @@ class GameApp(AccountsAppMixin, BaseApp):
     else:
       print "Creating game %d"%(GameApp.nextid,)
       self.user = self.name
-      self.screenName = self.name
       self.game = Match(GameApp.nextid, self)
       self.game.addPlayer(self)
       GameApp.games[GameApp.nextid] = self.game
@@ -49,7 +48,6 @@ class GameApp(AccountsAppMixin, BaseApp):
       return ["join-game-denied", "You are already in a game"]
     try:
       self.user = self.name
-      self.screenName = self.name
       if gameNumber == 0: #join any option, joins available game with lowest number
         for game in GameApp.games:
           self.game = GameApp.games[game]
