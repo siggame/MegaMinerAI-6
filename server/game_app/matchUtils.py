@@ -28,7 +28,7 @@ def deref(self, type, id):
   if id not in self.objects:
     raise LookupError(str(id) + " does not exist")
   if not isinstance(self.objects[id], type):
-    raise LookupError(str(id) + " does not reference a " + references[i].__name__)
+    raise LookupError(str(id) + " does not reference a " + type.__name__)
   return self.objects[id]
 
 def derefArgs(*types):
