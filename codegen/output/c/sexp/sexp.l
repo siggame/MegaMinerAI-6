@@ -18,7 +18,7 @@ using namespace std;
 %%
 
 L?\"(\\.|[^\\"])*\"  {return STRING;}
-[a-zA-Z0-9.]+        {return TOKEN;}
+[^ \t\n\r()"\\]+        {return TOKEN;}
 [ \t\n\r]            {}
 \(                   {return LPAREN;}
 \)                   {return RPAREN;}
