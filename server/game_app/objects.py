@@ -105,6 +105,8 @@ class Bot(Unit):
       type.buildRate, 0, 0, type.id)
 
   def _takeDamage(self, damage):
+    if self.building && self.health <= damage:
+      self.game.removeObject(self.game.objects[self.building])
     Unit._takeDamage(self, damage)
     if self.health > self.maxHealth:
       self.health = self.maxHealth
@@ -300,7 +302,7 @@ class Bot(Unit):
     if size > self.size:
       return "Building a robot larger than itself."
 
-    completionTime = 4 * size**2 / self.buildRate
+    completionTime = 8 * size**2 / self.buildRate
     health = min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
     f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, type.id, size, completionTime)
     if f._distance(self) != 1:
