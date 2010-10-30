@@ -105,7 +105,7 @@ class Bot(Unit):
       type.buildRate, 0, 0, type.id)
 
   def _takeDamage(self, damage):
-    if self.building && self.health <= damage:
+    if self.building and self.health <= damage:
       self.game.removeObject(self.game.objects[self.building])
     Unit._takeDamage(self, damage)
     if self.health > self.maxHealth:
@@ -415,7 +415,8 @@ class Frame(Unit):
 
 
   def nextTurn(self):
-    self.health += self.maxHealth/self.totalTime
+    if self.game.playerID == self.owner:
+      self.health += self.maxHealth/self.totalTime
 
 
 
