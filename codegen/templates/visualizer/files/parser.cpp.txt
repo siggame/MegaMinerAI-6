@@ -47,6 +47,7 @@ static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = ${animation.name.upper()};
   sub = expression->list->next;
 %   for datum in animation.data:
   if( !sub ) goto ERROR;
