@@ -34,19 +34,11 @@ class Match(DefaultGameWorld):
     self.startBots()
     self.startWalls()
 
-  def initTypes(self):
-    self.objects[self.nextid] = Type(self, self.nextid, "action", 24, 0, 0, 1, 4, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "builder", 8, 0, 0, 1, 1, 1)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "cannon", 24, 4, 1, 1, 1, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "damage", 24, 10, 0, 1, 1, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "engine", 24, 4, 0, 4, 1, 0)
-    self.nextid += 1
-    self.objects[self.nextid] = Type(self, self.nextid, "force", 40, 4, 0, 1, 1, 0)
-    self.nextid += 1
+  def initTypes(self, cfgFile = "config/units.cfg"):
+    cfg = networking.config.config.readConfig(cfgFile)
+    for i in sorted(cfg.keys()):
+      self.objects[self.nextid] = Type(self, self.nextid, i, cfg[i]["maxHealth"], cfg[i]["damage"], cfg[i]["range"], cfg[i]["movitude"], cfg[i]["actitude"], cfg[i]["buildRate"])
+      self.nextid += 1
     #(self.objects[self.nextid] = Type(self, self.nextid, name, maxHealth, damage, range, movitude, actitude, buildRate)
     #self.nextid += 1
 
