@@ -20,7 +20,7 @@ class AI extends BaseAI
     {
       if(bots[i].getOwner() == playerID())
       {
-        bots[i].talk(Integer.toString(turnNumber()));
+        bots[i].talk("It is turn: "+Integer.toString(turnNumber()) + " And my id is: "+bots[i].getId()+" Hello World!");
       }
     }
     return true;
