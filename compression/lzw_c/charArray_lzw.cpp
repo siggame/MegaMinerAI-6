@@ -121,7 +121,6 @@ char * decomp(char * input, int & size)
   }
 
   string result = decompress(vin.begin(), vin.end());
-  cout<<endl<<result<<endl;
 
   char* ret = new char[result.size()+1];
   
@@ -138,13 +137,13 @@ int main()
   char * temp1 = new char[stringSize+1];
   
   strcpy(temp1, consoleString.c_str());
-  cout << endl << "String size: " << stringSize;
+
   cout << endl << temp1 << endl;   
-  cout << endl << "String size: " << stringSize;
+
   char * temp2 = comp(temp1, stringSize);
-   cout << endl << "String size: " << stringSize;
+
   char * temp3 = decomp(temp2, stringSize);  
-  cout << endl << "String size: " << stringSize;
+
   cout << endl << temp3 << endl;
 
   
