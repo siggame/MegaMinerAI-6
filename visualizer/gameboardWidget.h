@@ -92,7 +92,7 @@ class Gameboard : public QGLWidget
 		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
-		list<int> selectedIDs;
+		map<int,string> selectedIDs;
 
 		texture textures[numTextures];
 
