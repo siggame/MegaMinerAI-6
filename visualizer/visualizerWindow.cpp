@@ -80,15 +80,6 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	gamelog = temp;
 
-	////
-
-	std::stringstream ss;
-
-	ss << gamelog->states[0].bots.size() << " is the size of the bots";
-	QString out = ss.str().c_str();
-	QMessageBox::critical(this,"Message",out);
-	////
-
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
 	return true;

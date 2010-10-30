@@ -39,7 +39,7 @@ BluFrameFile = "textures/FrameBlu512.png"
 # Default Background Image
 defBGFileName = "textures/background.png"
 # Default Wall Image
-wallFileName = "textures/wall.png"
+wallFileName = "textures/wall 256.jpg"
 # Default Grid Image
 gridFileName = "textures/grid.png"
 
