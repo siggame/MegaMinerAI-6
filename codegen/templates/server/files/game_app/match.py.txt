@@ -65,12 +65,17 @@ class Match(DefaultGameWorld):
     return True
 
 
-  def nextTurn(self):
+def nextTurn(self):
     self.turnNumber += 1
-    if (self.turn == self.players[0]):
+    if self.turn == self.players[0]:
       self.turn = self.players[1]
-    else:
+      self.playerID = 1
+    elif self.turn == self.players[1]:
       self.turn = self.players[0]
+      self.playerID = 0
+
+    else:
+      return "Game is over."
 
     for obj in self.objects.values():
       obj.nextTurn()
@@ -81,6 +86,7 @@ class Match(DefaultGameWorld):
     else:
       self.sendStatus(self.spectators)
     self.animations = ["animations"]
+    return True
 
   def checkWinner(self):
     #TODO: Make this check if a player won, and call declareWinner with a player if they did
