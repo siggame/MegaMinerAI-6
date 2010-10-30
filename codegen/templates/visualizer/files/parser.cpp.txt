@@ -21,7 +21,7 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
 
 %   for datum in model.data:
   if ( !sub ) goto ERROR;
-  
+
 %     if datum.type == int:
   object.${datum.name} = atoi(sub->val);
 %     elif datum.type == float:
@@ -32,10 +32,10 @@ static bool parse${model.name}(${model.name}& object, sexp_t* expression)
   object.${datum.name}[strlen(sub->val)] = 0;
 %    endif
   sub = sub->next;
-  
+
 %  endfor
   return true;
-  
+
   ERROR:
   cerr << "Error in parse${model.name}.\n Parsing: " << *expression << endl;
   return false;
@@ -62,8 +62,8 @@ static bool parse${capitalize(animation.name)}(${animation.name}& object, sexp_t
   sub = sub->next;
 %  endfor
   return true;
-  
-  
+
+
   ERROR:
   cerr << "Error in parse${animation.name}.\n Parsing: " << *expression << endl;
   return false;
@@ -110,7 +110,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
         {
           ${model.name} object;
           flag = parse${model.name}(object, sub);
-          gs.${lowercase(model.plural)}.push_back(object);
+          gs.${lowercase(model.plural)}[object.id] = object;
           sub = sub->next;
         }
         if ( !flag ) return false;

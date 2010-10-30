@@ -95,6 +95,8 @@ class Gameboard : public QGLWidget
 		void mouseReleaseEvent( QMouseEvent *event );
 		void mouseMoveEvent( QMouseEvent *event );
 
+
+
 		DrawGLFont *drawFont;
 
 		bool leftButtonDown;

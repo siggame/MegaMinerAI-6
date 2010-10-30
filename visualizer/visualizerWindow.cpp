@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "visualizerWindow.h"
 
 using namespace std;
@@ -78,6 +79,15 @@ bool VisualizerWindow::loadGamelog( char *filename )
 		delete gamelog;
 
 	gamelog = temp;
+
+	////
+
+	std::stringstream ss;
+
+	ss << gamelog->states[0].bots.size() << " is the size of the bots";
+	QString out = ss.str().c_str();
+	QMessageBox::critical(this,"Message",out);
+	////
 
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
