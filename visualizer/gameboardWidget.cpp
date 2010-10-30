@@ -1,6 +1,7 @@
 #include "gameboardWidget.h"
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 Gameboard::Gameboard( QWidget *prt )
@@ -161,6 +162,52 @@ bool Gameboard::loadAllTextures( QString & message )
 
 }
 
+void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health, int owner = 2)
+{
+        float barLength = (health/static_cast<float>(maxHealth));
+        
+
+        glDisable(GL_TEXTURE_2D);
+        switch(owner)
+	{
+		case 0://player 1
+		glColor4f(1, 0, 0, .6);
+                break;
+		case 1://player 2
+		glColor4f(0, 0, 0, .8);
+                break;
+		default://shouldn't happen
+                glColor4f(.5, .5, .5, .6);
+                break;
+	}
+        glLoadIdentity();
+	glPushMatrix();
+	glTranslatef( (x + w*.05), y+2, 0 );
+	glScalef( (w*.9), 1, 1 );
+
+        glBegin(GL_QUADS);
+         
+        glVertex3f(0.0f, 4.0f, 0.0f);
+        glVertex3f(barLength, 4.0f, 0.0f);
+        glVertex3f(barLength, 0.0f, 0.0f);
+        glVertex3f(0.0f,0.0f,0.0f);
+       glEnd();
+       if(owner == 1)
+       { 
+		glColor4f( 0, .2, 0, .7 );
+
+		glLineWidth( 1.5 );
+		glBegin(GL_LINE_LOOP);
+		glVertex3f( 0.0, 4.0f, 0 );
+		glVertex3f( 1, 4.0f, 0 );
+		glVertex3f( 1, 0.0, 0 );
+		glVertex3f( 0.0f, 0.0, 0 );
+	}
+	glEnd();
+	glPopMatrix();
+        glEnable(GL_TEXTURE_2D);
+
+}
 
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
@@ -170,7 +217,6 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 	glTranslatef( x, y, 0 );
 	glScalef( w, h, 0 );
 	glColor4f(1.0,1.0,1.0,1.0f);
-
 	glBegin(GL_QUADS);
 
 	glTexCoord2f( 0, 0 );
@@ -184,15 +230,26 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 	glEnd();
 
-	glPopMatrix();
-
-
 	glDisable( GL_TEXTURE_2D );
 
-	glPushMatrix();
 	if (selected)
 	{
 
+		switch (owner)
+		{
+			case 0: //player 1
+			glColor4f(5.0f,0.0f,0.0f,1.0f);
+			break;
+			case 1: //player 2
+			glColor4f(0.0f,0.0f,5.0f,1.0f);
+			break;
+			default:
+			glColor4f(0.2f,0.2f,0.2f,1.0f);
+
+		}
+	}
+	else
+	{
 		switch (owner)
 		{
 			case 0: //player 1
@@ -205,15 +262,16 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 			glColor4f(0.5f,0.5f,0.5f,1.0f);
 
 		}
-		glBegin (GL_LINE_LOOP);
-
-		glVertex3f(0, 1.0f, -0.01f);
-		glVertex3f( 1.0f, 1.0f, -0.01f);
-		glVertex3f( 1.0f,0, -0.01f);
-		glVertex3f(0,0,-0.01f);
-
-		glEnd();
 	}
+	glBegin (GL_LINE_LOOP);
+
+	glVertex3f(0, 1.0f, 0);
+	glVertex3f( 1.0f, 1.0f, 0);
+	glVertex3f( 1.0f,0, 0);
+	glVertex3f(0,0,-0.01f);
+
+	glEnd();
+
 	glPopMatrix();
 
 	glEnable( GL_TEXTURE_2D );
@@ -246,30 +304,24 @@ void Gameboard::drawBots( Game *game, float falloff )
 	int x0, y0, x1, y1;
 
 	for(
-		std::vector<Bot>::iterator i = game->states[frame].bots.begin();
-		i != game->states[frame].bots.end();
-		i++
+		std::map<int,Bot>::iterator it = game->states[frame].bots.begin();
+		it != game->states[frame].bots.end();
+		it++
 		)
 	{
-		if (i->partOf == 0)
+
+
+		if (it->second.partOf == 0)
 		{
-			x0 = x1 = i->x*unitSize;
-			y0 = y1 = i->y*unitSize;
+
+			x0 = x1 = it->second.x*unitSize;
+			y0 = y1 = it->second.y*unitSize;
 			if( frame+1 < game->states.size() )
 			{
-
-				for(
-					std::vector<Bot>::iterator j = game->states[frame+1].bots.begin();
-					j!= game->states[frame+1].bots.end();
-					j++
-					)
+				if( game->states[frame+1].bots.find(it->second.id) != game->states[frame+1].bots.end() )
 				{
-					if( j->id == i->id )
-					{
-						x1 = j->x*unitSize;
-						y1 = j->y*unitSize;
-						break;
-					}
+					x1 = game->states[frame+1].bots[it->second.id].x*unitSize;
+					y1 = game->states[frame+1].bots[it->second.id].y*unitSize;
 				}
 			}
 
@@ -277,7 +329,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 			bool selected = true;
 			for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
 			{
-				if ( *l == i->id )
+				if ( *l == it->second.id )
 				{
 
 				    selected = true;
@@ -286,7 +338,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 
 			// find owner
-			int owner = i->owner;
+			int owner = it->second.owner;
 
 			//set bot to appropriate type
 			int sprite;
@@ -299,8 +351,9 @@ void Gameboard::drawBots( Game *game, float falloff )
 			    sprite = T_BLUBOT_ENGINE;
 			}
 
-
-			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, owner );
+			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
+			drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
+  
 		}
 
 	}
@@ -314,40 +367,23 @@ void Gameboard::drawFrames( Game *game, float falloff )
 	int frame = getAttr(frameNumber);
 	int unitSize = getAttr( unitSize );
 
-	int x0, y0, x1, y1;
+	int x0, y0;
 
 	for(
-		std::vector<Frame>::iterator i = game->states[frame].frames.begin();
-		i != game->states[frame].frames.end();
-		i++
+		std::map<int,Frame>::iterator it = game->states[frame].frames.begin();
+		it != game->states[frame].frames.end();
+		it++
 		)
 	{
 
-		x0 = x1 = i->x*unitSize;
-		y0 = y1 = i->y*unitSize;
-		if( frame+1 < game->states.size() )
-		{
-
-			for(
-				std::vector<Frame>::iterator j = game->states[frame+1].frames.begin();
-				j!= game->states[frame+1].frames.end();
-				j++
-				)
-			{
-				if( j->id == i->id )
-				{
-					x1 = j->x*unitSize;
-					y1 = j->y*unitSize;
-					break;
-				}
-			}
-		}
+		x0 = it->second.x*unitSize;
+		y0 = it->second.y*unitSize;
 
 		//is it selected?
 		bool selected = false;
 		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
 		{
-			if (*l == i->id)
+			if (*l == it->second.id)
 			{
 			    selected = true;
 			}
@@ -355,10 +391,10 @@ void Gameboard::drawFrames( Game *game, float falloff )
 
 		int sprite = T_REDBOT_FRAME;
 
-		if( i->owner == 1 )
+		if( it->second.owner == 1 )
 			sprite = T_BLUBOT_FRAME;
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*i->size,unitSize*i->size, sprite, selected, i->owner );
+		drawSprite( x0,y0,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, it->second.owner );
 
 	}
 }
@@ -371,46 +407,30 @@ void Gameboard::drawWalls( Game *game, float falloff )
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
 
-	int x0, y0, x1, y1;
+	int x0, y0;
 
 	for(
-		std::vector<Wall>::iterator i = game->states[frame].walls.begin();
-		i != game->states[frame].walls.end();
-		i++
+		std::map<int,Wall>::iterator it = game->states[frame].walls.begin();
+		it != game->states[frame].walls.end();
+		it++
 		)
 	{
 
-		x0 = x1 = i->x;
-		y0 = y1 = i->y;
-		if( frame+1 < game->states.size() )
-		{
+		x0 = it->second.x*unitSize;
+		y0 = it->second.y*unitSize;
 
-			for(
-				std::vector<Wall>::iterator j = game->states[frame+1].walls.begin();
-				j!= game->states[frame+1].walls.end();
-				j++
-				)
-			{
-				if( j->id == i->id )
-				{
-					x1 = j->x;
-					y1 = j->y;
-					break;
-				}
-			}
-		}
 
 		//is it selected?
 		bool selected = false;
 		for (list<int>::iterator l = selectedIDs.begin(); l != selectedIDs.end(); l++)
 		{
-			if (*l == i->id)
+			if (*l == it->second.id)
 			{
 			    selected = true;
 			}
 		}
 
-		drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize,unitSize, T_WALL, selected, 2 );
+		drawSprite( x0,y0,unitSize,unitSize, T_WALL, selected, 2 );
 
 	}
 
@@ -543,80 +563,85 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 }
 
 
-#define addSelection(type1,type2) \
-	for( \
-	vector<type1>::iterator i = game->states[frame].type2.begin(); \
-	i != game->states[frame].type2.end(); \
-	i++ ) \
-	{ \
-		if( touchingBox( bX, bY, bW, bH, i->x, i->y ) ) \
-		{ \
-			selectedIDs.push_back( i->id ); \
-		} \
-	}
+template <class T>
+void addSelection(std::map<int, T > & objects, std::list<int> & selectedIDs, const int & bX, const int & bY, const int & bW, const int & bH, const int & curX, const int & curY)
+{
+	typename std::map < int, T > :: iterator it;
 
-		void Gameboard::mouseReleaseEvent( QMouseEvent *e )
+    	for(
+	it = objects.begin();
+	it != objects.end();
+	it++ )
+	{
+		if( touchingBox( bX, bY, bW, bH, it->second.x, it->second.y ) )
 		{
-			curX = e->x()+1;
-			curY = e->y()+1;
-			int bW, bH;
-			int bX = bW = curX/getAttr(unitSize);
-			int bY = bH = curY/getAttr(unitSize);
-
-			if( e->button() == Qt::LeftButton )
-			{
-				if( leftButtonDrag )
-				{
-					bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
-			// I think I may have to increase bH and bW by one...
-					bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
-					bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
-					bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
-
-				}
-
-				if( leftDoubleClick )
-					return;
-
-				Game *game = parent->gamelog;
-				int frame = getAttr( frameNumber );
-				if( game )
-				{
-			// TODO: Check if shift is held down.  If so, don't clear
-					selectedIDs.clear();
-			// Probably could have used templates, or anything else.  Bad implementation but works;
-
-					addSelection(Unit, units);
-					addSelection(Mappable, mappables);
-					addSelection(Bot, bots);
-					addSelection(Frame, frames);
-					addSelection(Wall, walls );
-
-
-
-					char *unitSelection = new char[255];
-					sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d\n", selectedIDs.size(), bX, bY );
-
-					QString OutText(unitSelection);
-
-					for (list<int>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
-					{
-					    sprintf( unitSelection, "%d\n", *it);
-					    OutText += QString(unitSelection);
-					}
-					parent->console->setText( OutText );
-				}
-
-				leftButtonDown = false;
-				leftButtonDrag = false;
-			} else if ( e->button() == Qt::RightButton )
-			{
-				rightButtonDown = false;
-			} else if( e->button() == Qt::MidButton )
-			{
-				rightButtonDown = false;
-			}
+			selectedIDs.push_back( it->second.id );
 		}
+	}
+}
+
+void Gameboard::mouseReleaseEvent( QMouseEvent *e )
+{
+	curX = e->x()+1;
+	curY = e->y()+1;
+	int bW, bH;
+	int bX = bW = curX/getAttr(unitSize);
+	int bY = bH = curY/getAttr(unitSize);
+
+	if( e->button() == Qt::LeftButton )
+	{
+		if( leftButtonDrag )
+		{
+			bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
+	// I think I may have to increase bH and bW by one...
+			bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
+			bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
+			bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
+
+		}
+
+		if( leftDoubleClick )
+			return;
+
+		Game *game = parent->gamelog;
+		int frame = getAttr( frameNumber );
+		if( game )
+		{
+	// TODO: Check if shift is held down.  If so, don't clear
+			selectedIDs.clear();
+	// Probably could have used templates, or anything else.  Bad implementation but works;
+
+			addSelection(game->states[frame].units, selectedIDs, bX, bY, bW, bH, curX, curY);
+			addSelection(game->states[frame].mappables, selectedIDs, bX, bY, bW, bH, curX, curY);
+			addSelection(game->states[frame].bots, selectedIDs, bX, bY, bW, bH, curX, curY);
+			addSelection(game->states[frame].frames, selectedIDs, bX, bY, bW, bH, curX, curY);
+			addSelection(game->states[frame].walls, selectedIDs, bX, bY, bW, bH, curX, curY);
+
+
+
+			char *unitSelection = new char[255];
+			sprintf( unitSelection, "Selected Units: %d, X: %d, Y: %d\n", selectedIDs.size(), bX, bY );
+
+			QString OutText(unitSelection);
+
+			for (list<int>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
+			{
+			    sprintf( unitSelection, "%d\n", *it);
+			    OutText += QString(unitSelection);
+			}
+			parent->console->setText( OutText );
+		}
+
+		leftButtonDown = false;
+		leftButtonDrag = false;
+	} else if ( e->button() == Qt::RightButton )
+	{
+		rightButtonDown = false;
+	} else if( e->button() == Qt::MidButton )
+	{
+		rightButtonDown = false;
+	}
+}
 
 void Gameboard::mouseMoveEvent( QMouseEvent *e )
 {
@@ -739,6 +764,10 @@ void Gameboard::paintGL()
 		drawWalls( game, falloff );
 		drawBots( game, falloff );
 		drawFrames( game, falloff );
+
+		
+		//parent->console
+
 	}
 	drawScoreboard();
 	drawMouse();

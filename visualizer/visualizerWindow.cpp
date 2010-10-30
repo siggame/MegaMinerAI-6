@@ -1,7 +1,49 @@
 #include <iostream>
+#include <sstream>
 #include "visualizerWindow.h"
 
 using namespace std;
+
+
+Options::Options()
+{
+	addOptions();
+}
+
+void Options::togglePersistant( bool on)
+{
+}
+
+void Options::toggleTeam1( bool on )
+{
+
+}
+
+void Options::toggleTeam2( bool on )
+{
+}
+
+void Options::addOptions()
+{
+	QVBoxLayout *vbox = new QVBoxLayout;
+
+	QCheckBox *team1 = new QCheckBox( tr( "Show Player 1 Talk" ), this );
+	team1->setCheckState( Qt::Checked );
+	QCheckBox *team2 = new QCheckBox( tr( "Show Player 2 Talk" ), this );
+	team2->setCheckState( Qt::Checked );
+	QCheckBox *persistant = new QCheckBox( tr( "Persistant Talking?" ), this );
+
+	vbox->addWidget( team1 );
+	vbox->addWidget( team2 );
+	vbox->addWidget( persistant );
+
+	connect( team1, SIGNAL( toggled(bool) ), this, SLOT( toggleTeam1(bool) ) );
+	connect( team2, SIGNAL( toggled(bool) ), this, SLOT( toggleTeam2(bool) ) );
+	connect( persistant, SIGNAL( toggled(bool) ), this, SLOT( togglePersistant(bool) ) );
+
+	setLayout( vbox );
+	
+}
 
 VisualizerWindow::VisualizerWindow()
 {
@@ -51,7 +93,7 @@ GameState *VisualizerWindow::getFrame( int frame )
 
 bool VisualizerWindow::loadGamelog( char *filename )
 {
-	Game * temp = new Game;
+
 
 	if ( filename == NULL )
 	{
@@ -64,10 +106,13 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	    return false;
 	}
 
+	Game * temp = new Game;
+
 	if ( !parseFile( *temp, filename ) )
 	{
 
 		QMessageBox::critical(this,"Error","Invalid Game Log or Unknown Argument");
+		delete temp;
 		return false;
 	}
 
@@ -125,6 +170,15 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+void VisualizerWindow::closeFullScreen()
+{
+	if( fullScreen )
+	{
+		showNormal();
+		fullScreen = !fullScreen;
+		show();
+	}
+}
 
 void VisualizerWindow::toggleMapGrid()
 {
@@ -145,7 +199,7 @@ void VisualizerWindow::loadBackground()
 		this,
 		"Open Background",
 		"~/",
-		"Images(*.png;*.jpg)"
+		"Images(*.png *.jpg)"
 		);
 
 	if ( filename == tr("") )
@@ -166,6 +220,8 @@ void VisualizerWindow::loadBackground()
 void VisualizerWindow::closeGamelog()
 {
 	//todo: clear out the game log and recover all allocated memory
+	//delete gamelog;
+	//gamelog = NULL;
 }
 
 
@@ -223,8 +279,7 @@ void VisualizerWindow::controlSliderReleased()
 
 void VisualizerWindow::controlSliderChanged(int frame)
 {
-	//if( getAttr( dragging ) )
-		setAttr( frameNumber, frame );
+	setAttr( frameNumber, frame );
 }
 
 
@@ -407,6 +462,7 @@ void VisualizerWindow::createLayout()
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
 	unitSelection = new UnitSelection;
+	options = new Options;
 	playButton = new QPushButton("Pause");
 	rewindButton = new QPushButton("<<");
 	fastForwardButton = new QPushButton(">>");
@@ -423,6 +479,7 @@ void VisualizerWindow::createLayout()
 
 	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
 	toolBox->addTab( unitSelection, tr( "Unit Stats" ) );
+	toolBox->addTab( options, tr("Options") );
 
 	debugLayout->addWidget( console );
 	debugLayout->addWidget( toolBox );
@@ -500,19 +557,37 @@ void VisualizerWindow::createLayout()
 	setCentralWidget( gameboard );
 }
 
+// TODO: Combine these two functions
 void VisualizerWindow::advanceFrame()
 {
+	setAttr( currentMode, paused );
 
 	int frame = getAttr( frameNumber );
 	if( frame < gamelog->states.size()-1 )
 		setAttr( frameNumber, frame+1 );
+	controlSlider->setSliderPosition( frame );
 }
 
 void VisualizerWindow::previousFrame() 
 {
+	setAttr( currentMode, paused );
 	int frame = getAttr( frameNumber );
 	if( frame  > 0 )
 		setAttr( frameNumber, frame-1 );
+	controlSlider->setSliderPosition( frame );
+}
+
+void VisualizerWindow::playPause()
+{
+	static int lastMode = play;
+	if( getAttr( currentMode ) == paused )
+	{
+		setAttr( currentMode, play );
+	} else {
+		lastMode = getAttr( currentMode );
+		setAttr( currentMode, paused );
+
+	}
 }
 
 void VisualizerWindow::createActions()
@@ -558,6 +633,8 @@ void VisualizerWindow::createActions()
 
 	(void) new QShortcut( QKeySequence( tr( "Right" ) ), this, SLOT( advanceFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
+	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
+	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
 
 //	QAction *advance = new QAction( this );
 //	advance->setShortcut( tr("Ctrl+P") );

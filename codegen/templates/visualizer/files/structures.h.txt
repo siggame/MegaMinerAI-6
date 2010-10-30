@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <string>
 
 % for i, animation in enumerate(animations):
@@ -22,7 +23,7 @@ struct ${model.name}
   ${conversions[datum.type]} ${datum.name};
 %     endif
 %   endfor
-  
+
   friend std::ostream& operator<<(std::ostream& stream, ${model.name} obj);
 };
 
@@ -43,7 +44,7 @@ struct ${animation.name} : public Animation
   ${conversions[datum.type]} ${datum.name};
 %     endif
 %   endfor
-  
+
   friend std::ostream& operator<<(std::ostream& stream, ${animation.name} obj);
 };
 
@@ -52,13 +53,13 @@ struct ${animation.name} : public Animation
 struct GameState
 {
 % for model in models:
-  std::vector<${model.name}> ${lowercase(model.plural)};
+  std::map<int,${model.name}> ${lowercase(model.plural)};
 % endfor
-  
+
 % for datum in globals:
   ${conversions[datum.type]} ${datum.name};
 % endfor
-  
+
   std::vector<Animation*> animations;
   friend std::ostream& operator<<(std::ostream& stream, GameState obj);
 };

@@ -4,7 +4,7 @@ class GameWorld(object):
   Base class for a game world object
   """
   def __init__(self):
-    self.nextid = 0
+    self.nextid = 1
     self.maxid = 2147483647
     self.turnNumber = 0
     self.players = []
