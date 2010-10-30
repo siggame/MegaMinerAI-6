@@ -187,7 +187,6 @@ class Match(DefaultGameWorld):
 
   def declareWinner(self, winner):
     self.winner = winner
-    self.turn = None
 
     msg = ["game-winner", self.id, self.winner.user, self.getPlayerIndex(self.winner)]
     self.scribe.writeSExpr(msg)
@@ -196,6 +195,13 @@ class Match(DefaultGameWorld):
 
     for p in self.players + self.spectators:
       p.writeSExpr(msg)
+
+    self.sendStatus([self.turn] +  self.spectators)
+    self.playerID ^= 1
+    self.sendStatus(self.players[self.playerID])
+    self.playerID ^= 1
+
+    self.turn = None
     
   def logPath(self):
     return "logs/" + str(self.id) + ".gamelog"
