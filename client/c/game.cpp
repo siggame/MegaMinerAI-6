@@ -234,7 +234,7 @@ DLLEXPORT int botTalk(_Bot* object, const char* message)
   return 1;
 }
 
-DLLEXPORT int botMove(_Bot* object, char* direction)
+DLLEXPORT int botMove(_Bot* object, const char* direction)
 {
   stringstream expr;
   if(object->steps < 1)

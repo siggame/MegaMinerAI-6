@@ -57,7 +57,7 @@ class Bot : public Unit {
   ///Sends a message to be visualized when this unit is selected
   int talk(std::string message);
   ///Move in the indicated direction (U, D, L, or R).  U is y=y-1, L=x=x-1, such that the top left corner is (0,0). Requires the calling robot to have a step.
-  int move(char* direction);
+  int move(std::string direction);
   ///Attack the specified unit.  Requires the calling robot to have an action and for the target to be in range
   int attack(Unit& target);
   ///Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (4 * target.size^2)

@@ -1,53 +1,68 @@
-#include <string>
-#include <map>
- 
-// Compress a string to a list of output symbols.
-// The result will be written to the output iterator
-// starting at "result"; the final iterator is returned.
-template <typename Iterator>
-Iterator compress(const std::string &uncompressed, Iterator result) {
-  // Build the dictionary.
-  int dictSize = 256;
-  std::map<std::string,int> dictionary;
+#include "lzw.h"
+
+#include <algorithm>
+#include <iterator>
+#include <vector>
+
+#include <stdint.h>
+#include <arpa/inet.h> //for htonl
+
+using namespace std;
+
+lzwCompressor::lzwCompressor()
+{
+  dictSize = 256;
   for (int i = 0; i < 256; i++)
-    dictionary[std::string(1, i)] = i;
- 
-  std::string w;
-  for (std::string::const_iterator it = uncompressed.begin();
-       it != uncompressed.end(); ++it) {
+    dictionary[string(1, i)] = i;
+}
+
+string lzwCompressor::compress(string in)
+{
+  string w;
+  
+  vector<uint32_t> buf;
+  back_insert_iterator<vector<uint32_t> > result = back_inserter(buf);
+  
+  for (string::const_iterator it = in.begin();
+       it != in.end(); ++it)
+  {
     char c = *it;
     std::string wc = w + c;
     if (dictionary.count(wc))
       w = wc;
-    else {
-      *result++ = dictionary[w];
+    else
+    {
+      *result++ = htonl(dictionary[w]);
       // Add wc to the dictionary.
       dictionary[wc] = dictSize++;
       w = std::string(1, c);
     }
   }
- 
-  // Output the code for w.
   if (!w.empty())
     *result++ = dictionary[w];
-  return result;
+  
+  string out((const char*)&buf[0], 4 * buf.size());
+  return out;
 }
- 
-// Decompress a list of output ks to a string.
-// "begin" and "end" must form a valid range of ints
-template <typename Iterator>
-std::string decompress(Iterator begin, Iterator end) {
-  // Build the dictionary.
-  int dictSize = 256;
-  std::map<int,std::string> dictionary;
+
+lzwDecompressor::lzwDecompressor()
+{
+  dictSize = 256;
   for (int i = 0; i < 256; i++)
-    dictionary[i] = std::string(1, i);
- 
-  std::string w(1, *begin++);
+    dictionary[i] = string(1, i);
+}
+
+string lzwDecompressor::decompress(string in)
+{
+  uint32_t* begin = (uint32_t*)in.c_str();
+  uint32_t* end = begin + (in.size() / 4);
+  
+  std::string w = dictionary[ntohl(*begin++)];
   std::string result = w;
   std::string entry;
-  for ( ; begin != end; begin++) {
-    int k = *begin;
+  for ( ; begin < end; begin++)
+  {
+    int k = ntohl(*begin);
     if (dictionary.count(k))
       entry = dictionary[k];
     else if (k == dictSize)
@@ -63,44 +78,4 @@ std::string decompress(Iterator begin, Iterator end) {
     w = entry;
   }
   return result;
-}
- 
-#include <iostream>
-#include <iterator>
-#include <vector>
-#include <fstream>
- 
-int main() {
-  string inputFilename, outputFilename, line, str;
-  
-  inputFilename = "../gamelogs/140.gamelog";
-  
-  //Make the input/output streams
-  ifstream fin;
-  ofstream fout;    
-
-  //crack open the files
-  fin.open(inputFilename.c_str());
-  if(fin.is_open())
-  {
-    while(fin.good())
-    {
-      getline(fin, line);
-      str.append(line);
-    }
-    fin.close();
-  }
-  else
-  {
-    std::cerr << "Unable to open file." << std::endl;
-  }
-
-  std::vector<int> compressed;
-  compress(str, std::back_inserter(compressed));
-  copy(compressed.begin(), compressed.end(), std::ostream_iterator<int>(std::cout, ", "));
-  std::cout << std::endl;
-  std::string decompressed = decompress(compressed.begin(), compressed.end());
-  std::cout << decompressed << std::endl;
- 
-  return 0;
 }

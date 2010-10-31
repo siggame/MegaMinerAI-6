@@ -103,9 +103,9 @@ int Bot::talk(std::string message)
   return botTalk( (_Bot*)ptr, message.c_str());
 }
 
-int Bot::move(char* direction)
+int Bot::move(std::string direction)
 {
-  return botMove( (_Bot*)ptr, direction);
+  return botMove( (_Bot*)ptr, direction.c_str());
 }
 
 int Bot::attack(Unit& target)

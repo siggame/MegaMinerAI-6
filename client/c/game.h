@@ -65,7 +65,7 @@ extern "C"
   ///Sends a message to be visualized when this unit is selected
   DLLEXPORT int botTalk(_Bot* object, const char* message);
   ///Move in the indicated direction (U, D, L, or R).  U is y=y-1, L=x=x-1, such that the top left corner is (0,0). Requires the calling robot to have a step.
-  DLLEXPORT int botMove(_Bot* object, char* direction);
+  DLLEXPORT int botMove(_Bot* object, const char* direction);
   ///Attack the specified unit.  Requires the calling robot to have an action and for the target to be in range
   DLLEXPORT int botAttack(_Bot* object, _Unit* target);
   ///Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (4 * target.size^2)
