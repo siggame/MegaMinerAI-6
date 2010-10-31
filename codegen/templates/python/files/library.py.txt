@@ -37,6 +37,7 @@ library.getStatus.argtypes = [c_void_p]
 library.networkLoop.restype = c_int
 library.networkLoop.argtypes = [c_void_p]
 
+#Functions
 %for model in models:
 %  for func in model.functions:
 library.${model.name.lower()}${capitalize(func.name)}.restype = c_int
@@ -51,6 +52,7 @@ ${conversions[arg.type]}\
 %endfor
 # accessors
 
+#Globals 
 %for datum in globals:
 library.get${capitalize(datum.name)}.restype = ${conversions[datum.type]}
 library.get${capitalize(datum.name)}.argtypes = [c_void_p]
@@ -68,6 +70,7 @@ library.get${model.name}Count.argtypes = [c_void_p]
 %endfor
 # getters
 
+#Data
 %for model in models:
 %  for datum in model.data:
 %    if not isinstance(datum.type, Model):
@@ -78,4 +81,18 @@ library.${lowercase(model.name)}Get${capitalize(datum.name)}.restype = c_int
 library.${lowercase(model.name)}Get${capitalize(datum.name)}.argtypes = [c_void_p]
 
 %  endfor
+%endfor
+
+#Properties
+%for model in models:
+%  for prop in model.properties:
+library.${model.name.lower()}${capitalize(prop.name)}.restype = c_int
+library.${model.name.lower()}${capitalize(prop.name)}.argtypes = [${conversions[model]}\
+%    for arg in prop.arguments:
+, \
+${conversions[arg.type]}\
+%  endfor
+]
+
+% endfor
 %endfor

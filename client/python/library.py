@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 # -*-python-*-
 
 import os
@@ -37,6 +38,7 @@ library.getStatus.argtypes = [c_void_p]
 library.networkLoop.restype = c_int
 library.networkLoop.argtypes = [c_void_p]
 
+#Functions
 library.unitTalk.restype = c_int
 library.unitTalk.argtypes = [c_void_p, c_char_p]
 
@@ -69,6 +71,7 @@ library.wallTalk.argtypes = [c_void_p, c_char_p]
 
 # accessors
 
+#Globals 
 library.getTurnNumber.restype = c_int
 library.getTurnNumber.argtypes = [c_void_p]
 
@@ -116,6 +119,7 @@ library.getTypeCount.argtypes = [c_void_p]
 
 # getters
 
+#Data
 library.mappableGetId.restype = c_int
 library.mappableGetId.argtypes = [c_void_p]
 
@@ -263,3 +267,14 @@ library.typeGetActitude.argtypes = [c_void_p]
 library.typeGetBuildRate.restype = c_int
 library.typeGetBuildRate.argtypes = [c_void_p]
 
+
+#Properties
+library.botMaxActions.restype = c_int
+library.botMaxActions.argtypes = [c_void_p]
+
+library.botMaxSteps.restype = c_int
+library.botMaxSteps.argtypes = [c_void_p]
+
+#Utils
+library.distance.restype = c_int
+library.distance.argtypes = [c_int, c_int, c_int, c_int, c_int, c_int]

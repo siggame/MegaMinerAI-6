@@ -40,7 +40,7 @@ class ${model.name}(GameObject):
     raise ExistentialError()
 %   endif
 ##${func.doc}
-%  for func in model.functions:
+%  for func in model.functions + model.properties:
   def ${func.name}(self\
 %    for arg in func.arguments:
 , ${arg.name}\

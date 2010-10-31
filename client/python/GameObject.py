@@ -154,6 +154,14 @@ class Bot(Unit):
     self.validify()
     return library.botSplit(self.ptr)
 
+  def maxActions(self):
+    self.validify()
+    return library.botMaxActions(self.ptr)
+
+  def maxSteps(self):
+    self.validify()
+    return library.botMaxSteps(self.ptr)
+
   def getId(self):
     self.validify()
     return library.botGetId(self.ptr)

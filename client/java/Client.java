@@ -109,4 +109,7 @@ public interface Client extends Library {
   int botMaxActions(Pointer object);
   int botMaxSteps(Pointer object);
 
+    //utils
+  int distance(int fromX, int fromY, int fromSize, int toX, int toY, int toSize);
+
 }
