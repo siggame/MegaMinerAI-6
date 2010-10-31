@@ -5,6 +5,8 @@
 extern "C"
 {
 #endif
+
+int distance(int fromX, int fromY, int fromSize, int toX, int toY, int toSize);
   
 #ifdef __cplusplus
 }
