@@ -335,6 +335,7 @@ static bool parseAdd(Add& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = ADD;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.robot = atoi(sub->val);
@@ -350,6 +351,7 @@ static bool parseAttack(Attack& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = ATTACK;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.attacker = atoi(sub->val);
@@ -368,6 +370,7 @@ static bool parseBuild(Build& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = BUILD;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.builder = atoi(sub->val);
@@ -386,6 +389,7 @@ static bool parseCollide(Collide& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = COLLIDE;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.attacker = atoi(sub->val);
@@ -404,6 +408,7 @@ static bool parseCombine(Combine& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = COMBINE;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.bot1 = atoi(sub->val);
@@ -428,6 +433,7 @@ static bool parseHeal(Heal& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = HEAL;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.healer = atoi(sub->val);
@@ -446,6 +452,7 @@ static bool parseMove(Move& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = MOVE;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.robot = atoi(sub->val);
@@ -464,6 +471,7 @@ static bool parseRemove(Remove& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = REMOVE;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.robot = atoi(sub->val);
@@ -479,6 +487,7 @@ static bool parseSplit(Split& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = SPLIT;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.robot = atoi(sub->val);
@@ -494,6 +503,7 @@ static bool parseTalk(Talk& object, sexp_t* expression)
 {
   sexp_t* sub;
   if ( !expression ) return false;
+  object.type = TALK;
   sub = expression->list->next;
   if( !sub ) goto ERROR;
   object.speaker = atoi(sub->val);
@@ -541,6 +551,12 @@ static bool parseSexp(Game& game, sexp_t* expression)
           sub = sub->next;
           if ( !sub ) return false;
           gs.gameNumber = atoi(sub->val);
+          sub = sub->next;
+          if ( !sub ) return false;
+          gs.player0Time = atoi(sub->val);
+          sub = sub->next;
+          if ( !sub ) return false;
+          gs.player1Time = atoi(sub->val);
           sub = sub->next;
       }
       else if(string(sub->val) == "Mappable")

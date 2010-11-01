@@ -187,6 +187,8 @@ std::ostream& operator<<(std::ostream& stream, GameState ob)
   stream << "boardX: " << ob.boardX  <<'\n';
   stream << "boardY: " << ob.boardY  <<'\n';
   stream << "gameNumber: " << ob.gameNumber  <<'\n';
+  stream << "player0Time: " << ob.player0Time  <<'\n';
+  stream << "player1Time: " << ob.player1Time  <<'\n';
 
   stream << "\n\nMappables:\n";
   for(std::map<int,Mappable>::iterator i = ob.mappables.begin(); i != ob.mappables.end(); i++)

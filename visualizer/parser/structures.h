@@ -29,11 +29,8 @@ struct Mappable
   friend std::ostream& operator<<(std::ostream& stream, Mappable obj);
 };
 
-struct Unit
+struct Unit: public Mappable 
 {
-  int id;
-  int x;
-  int y;
   int owner;
   int health;
   int maxHealth;
@@ -41,14 +38,8 @@ struct Unit
   friend std::ostream& operator<<(std::ostream& stream, Unit obj);
 };
 
-struct Bot
+struct Bot: public Unit 
 {
-  int id;
-  int x;
-  int y;
-  int owner;
-  int health;
-  int maxHealth;
   int actions;
   int steps;
   int size;
@@ -64,14 +55,8 @@ struct Bot
   friend std::ostream& operator<<(std::ostream& stream, Bot obj);
 };
 
-struct Frame
+struct Frame: public Unit 
 {
-  int id;
-  int x;
-  int y;
-  int owner;
-  int health;
-  int maxHealth;
   int type;
   int size;
   int completionTime;
@@ -79,14 +64,8 @@ struct Frame
   friend std::ostream& operator<<(std::ostream& stream, Frame obj);
 };
 
-struct Wall
+struct Wall: public Unit 
 {
-  int id;
-  int x;
-  int y;
-  int owner;
-  int health;
-  int maxHealth;
 
   friend std::ostream& operator<<(std::ostream& stream, Wall obj);
 };
@@ -205,6 +184,8 @@ struct GameState
   int boardX;
   int boardY;
   int gameNumber;
+  int player0Time;
+  int player1Time;
 
   std::vector<Animation*> animations;
   friend std::ostream& operator<<(std::ostream& stream, GameState obj);
