@@ -52,12 +52,12 @@ class GameApp(AccountsAppMixin, BaseApp):
         for game in GameApp.games:
           self.game = GameApp.games[game]
           temp = self.game.addPlayer(self)
-          if type(temp) != type(bool()):
-            self.game = None
-            continue
-          if temp:
+          if temp and type(temp) == type(bool()):
             gameNumber = game
             break
+          else:
+            self.game.removePlayer(self)
+            self.game = None
         if self.game is None:
           return ["join-game-denied", "No games available"]
       else: #join a specific game, gameNumber >= 1
@@ -79,7 +79,7 @@ class GameApp(AccountsAppMixin, BaseApp):
       return "Not in a game"
     reply = self.game.removePlayer(self)
     if ((self.game.players) == 0):
-      del GameApp[self.game.id]
+      del GameApp.games[self.game.id]
     self.game = None
     return reply
 
