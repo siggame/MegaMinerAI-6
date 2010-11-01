@@ -27,8 +27,6 @@ struct strat
   vector<int> gene;
 };
 
-const static string dataFile="brawler.pop";
-
 ///The class implementing gameplay logic.
 class AI: public BaseAI
 {
@@ -43,6 +41,8 @@ public:
   float getScore(Stub&stub);
   void removeInvalid(Stub& stub);
   
+  string dataFile;  
+    
   float bestMove(Order&order);
   float bestAttack(Order&order);
   float bestHeal(Order&order);
