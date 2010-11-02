@@ -1,6 +1,8 @@
+# -*- coding: iso-8859-1 -*-
 #-*-python-*-
 from BaseAI import BaseAI
 from GameObject import *
+import util
 
 class AI(BaseAI):
   """The class implementing gameplay logic."""
