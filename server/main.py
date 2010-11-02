@@ -56,7 +56,6 @@ class GameApp(AccountsAppMixin, BaseApp):
             gameNumber = game
             break
           else:
-            self.game.removePlayer(self)
             self.game = None
         if self.game is None:
           return ["join-game-denied", "No games available"]
