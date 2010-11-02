@@ -913,7 +913,7 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
-		drawAnimations( game, falloff );
+		//drawAnimations( game, falloff );
 		drawControl( game, falloff);
             	
 		//parent->console
@@ -977,20 +977,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		xf = state2.bots[attack->victim].x;
 		yf = state2.bots[attack->victim].y;
 
-		 ///*
 
-		 stringstream ss;
-		 ss << "X0: " << x0 << " Y0: " << y0 << "\nXF: " << xf << " YF: " << yf;
-
-		 QString out = ss.str().c_str();
-
-		 QMessageBox::critical(
-			this,
-			"Error",
-			out
-			);
-
-		 //*/
 
 		float d = sqrt((xf - x0)*(xf-x0) + (yf-y0)*(yf-y0));
 		float x, y;
