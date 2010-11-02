@@ -4,12 +4,12 @@ AI::AI(Connection* conn) : BaseAI(conn) {}
 
 const char* AI::username()
 {
-  return "Shell AI";
+  return "BRAWLER";
 }
 
 const char* AI::password()
 {
-  return "password";
+  return "lolGene";
 }
 
 vector<Type> gTypes;
@@ -32,7 +32,7 @@ bool great(const strat&lhs, const strat&rhs)
 enum OTYPE{MOVE,ATTACK,HEAL,BUILD,COMBINE,SPLIT,OTYPE_SIZE};
 string OTYPE_DISPLAY[]={"MOVE","ATTACK","HEAL","BUILD","COMBINE","SPLIT"};
 enum DIR{LEFT,RIGHT,UP,DOWN,DIR_SIZE};
-char* direction[] = {"right","down","left","up"};
+string direction[] = {"right","down","left","up"};
 
 enum GENE{FRIEND,FOE,G_SIZE};
 
@@ -48,6 +48,17 @@ void AI::init()
     gTypes[t]=types[t];
   }
   
+  // build the data file name
+  if(playerID()==0)
+  {
+    dataFile=string(player1Name())+".imFirst";
+  }
+  else
+  {
+    dataFile=string(player0Name())+".imSecond";
+  }
+  
+  
   // Magic number of population size
   pop.resize(12);
   // TODO Load genes
@@ -57,8 +68,10 @@ void AI::init()
   {
     for(unsigned int i=0;i<pop.size();i++)
     {
+      cout<<"Reading in "<<i<<endl;
       in>>pop[i].played;
       in>>pop[i].score;
+      pop[i].gene.resize(G_SIZE);
       for(unsigned int g=0;g<G_SIZE;g++)
       {
         in>>pop[i].gene[g];
@@ -131,7 +144,7 @@ void AI::end()
   cout<<"At the end of the game there are "<<bots.size()<<" bots "<<endl;
   for(unsigned int i=0;i<bots.size();i++)
   {
-    cout<<bots[i]<<endl;
+    //cout<<bots[i]<<endl;
     if(bots[i].owner()==playerID())
     {
       if(bots[i].size()==1)
@@ -356,8 +369,17 @@ float AI::getScore(Stub& stub)
 
 float AI::bestMove(Order& order)
 {
+  
   int b = idToBot.find(order.toOrder)->second;
+  cout<<"Scoring move "<<order.toOrder<<" "<<bots[b].x()<<" "<<bots[b].y()<<endl;
   order.fitness=INT_MIN;
+  // Checks if they are already in range
+  pair<int,int> foe = distToNearest(theirBots,bots[b].x(),bots[b].y());
+  if(foe.first <=bots[b].range())
+  {
+    // breaks out
+    return order.fitness;
+  }
   // calculate the quality of each type of move
   for(unsigned int i=0;i<DIR_SIZE;i++)
   {
@@ -489,10 +511,18 @@ void AI::execute(Stub& stub)
 //  cout<<"After id lookup"<<endl;
   int target;
   int c1,c2,c3;
+  
+  int tempx, tempy;
   switch(order.type)
   {
     case MOVE:
+      tempx=bots[b].x();
+      tempy=bots[b].y();
       bots[b].move(direction[order.dir]);
+      if(tempx==bots[b].x() && tempy==bots[b].y())
+      {
+        cout<<"Blocked"<<endl;
+      }
       stub.movesTaken++;
       break;
     case ATTACK:
