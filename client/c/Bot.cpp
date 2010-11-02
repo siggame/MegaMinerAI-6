@@ -153,9 +153,9 @@ std::ostream& operator<<(std::ostream& stream,Bot ob)
   stream << "owner: " << ((_Bot*)ob.ptr)->owner  <<'\n';
   stream << "health: " << ((_Bot*)ob.ptr)->health  <<'\n';
   stream << "maxHealth: " << ((_Bot*)ob.ptr)->maxHealth  <<'\n';
+  stream << "size: " << ((_Bot*)ob.ptr)->size  <<'\n';
   stream << "actions: " << ((_Bot*)ob.ptr)->actions  <<'\n';
   stream << "steps: " << ((_Bot*)ob.ptr)->steps  <<'\n';
-  stream << "size: " << ((_Bot*)ob.ptr)->size  <<'\n';
   stream << "damage: " << ((_Bot*)ob.ptr)->damage  <<'\n';
   stream << "range: " << ((_Bot*)ob.ptr)->range  <<'\n';
   stream << "movitude: " << ((_Bot*)ob.ptr)->movitude  <<'\n';

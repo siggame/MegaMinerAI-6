@@ -75,5 +75,11 @@ class Wall
     validify();
     return Client.INSTANCE.wallGetMaxHealth(ptr);
   }
+  ///The length of one side of this Unit
+  public int getSize()
+  {
+    validify();
+    return Client.INSTANCE.wallGetSize(ptr);
+  }
 
 }

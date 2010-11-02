@@ -70,9 +70,9 @@ std::ostream& operator<<(std::ostream& stream,Frame ob)
   stream << "y: " << ((_Frame*)ob.ptr)->y  <<'\n';
   stream << "owner: " << ((_Frame*)ob.ptr)->owner  <<'\n';
   stream << "health: " << ((_Frame*)ob.ptr)->health  <<'\n';
+  stream << "size: " << ((_Frame*)ob.ptr)->size  <<'\n';
   stream << "maxHealth: " << ((_Frame*)ob.ptr)->maxHealth  <<'\n';
   stream << "type: " << ((_Frame*)ob.ptr)->type  <<'\n';
-  stream << "size: " << ((_Frame*)ob.ptr)->size  <<'\n';
   stream << "completionTime: " << ((_Frame*)ob.ptr)->completionTime  <<'\n';
   return stream;
 }

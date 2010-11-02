@@ -147,6 +147,9 @@ library.unitGetHealth.argtypes = [c_void_p]
 library.unitGetMaxHealth.restype = c_int
 library.unitGetMaxHealth.argtypes = [c_void_p]
 
+library.unitGetSize.restype = c_int
+library.unitGetSize.argtypes = [c_void_p]
+
 library.botGetId.restype = c_int
 library.botGetId.argtypes = [c_void_p]
 
@@ -165,14 +168,14 @@ library.botGetHealth.argtypes = [c_void_p]
 library.botGetMaxHealth.restype = c_int
 library.botGetMaxHealth.argtypes = [c_void_p]
 
+library.botGetSize.restype = c_int
+library.botGetSize.argtypes = [c_void_p]
+
 library.botGetActions.restype = c_int
 library.botGetActions.argtypes = [c_void_p]
 
 library.botGetSteps.restype = c_int
 library.botGetSteps.argtypes = [c_void_p]
-
-library.botGetSize.restype = c_int
-library.botGetSize.argtypes = [c_void_p]
 
 library.botGetDamage.restype = c_int
 library.botGetDamage.argtypes = [c_void_p]
@@ -216,11 +219,11 @@ library.frameGetHealth.argtypes = [c_void_p]
 library.frameGetMaxHealth.restype = c_int
 library.frameGetMaxHealth.argtypes = [c_void_p]
 
-library.frameGetType.restype = c_int
-library.frameGetType.argtypes = [c_void_p]
-
 library.frameGetSize.restype = c_int
 library.frameGetSize.argtypes = [c_void_p]
+
+library.frameGetType.restype = c_int
+library.frameGetType.argtypes = [c_void_p]
 
 library.frameGetCompletionTime.restype = c_int
 library.frameGetCompletionTime.argtypes = [c_void_p]
@@ -242,6 +245,9 @@ library.wallGetHealth.argtypes = [c_void_p]
 
 library.wallGetMaxHealth.restype = c_int
 library.wallGetMaxHealth.argtypes = [c_void_p]
+
+library.wallGetSize.restype = c_int
+library.wallGetSize.argtypes = [c_void_p]
 
 library.typeGetId.restype = c_int
 library.typeGetId.argtypes = [c_void_p]
@@ -274,6 +280,7 @@ library.botMaxActions.argtypes = [c_void_p]
 
 library.botMaxSteps.restype = c_int
 library.botMaxSteps.argtypes = [c_void_p]
+
 
 #Utils
 library.distance.restype = c_int

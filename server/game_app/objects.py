@@ -20,7 +20,7 @@ class Mappable:
 
 
 class Unit(Mappable):
-  def __init__(self, game, id, x, y, owner, health, maxHealth):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, size):
     self.game = game
     self.id = id
     self.x = x
@@ -28,6 +28,7 @@ class Unit(Mappable):
     self.owner = owner
     self.health = health
     self.maxHealth = maxHealth
+    self.size = size
 
   def toList(self):
     value = [
@@ -37,6 +38,7 @@ class Unit(Mappable):
       self.owner,
       self.health,
       self.maxHealth,
+      self.size,
       ]
     return value
 
@@ -55,7 +57,7 @@ class Unit(Mappable):
 
 
 class Bot(Unit):
-  def __init__(self, game, id, x, y, owner, health, maxHealth, actions, steps, size, damage, range, movitude, actitude, buildRate, partOf, building, type):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, size, actions, steps, damage, range, movitude, actitude, buildRate, partOf, building, type):
     self.game = game
     self.id = id
     self.x = x
@@ -63,9 +65,9 @@ class Bot(Unit):
     self.owner = owner
     self.health = health
     self.maxHealth = maxHealth
+    self.size = size
     self.actions = actions
     self.steps = steps
-    self.size = size
     self.damage = damage
     self.range = range
     self.movitude = movitude
@@ -83,9 +85,9 @@ class Bot(Unit):
       self.owner,
       self.health,
       self.maxHealth,
+      self.size,
       self.actions,
       self.steps,
-      self.size,
       self.damage,
       self.range,
       self.movitude,
@@ -101,7 +103,7 @@ class Bot(Unit):
   def fromType(game, x, y, owner, type):
     id = game.nextid
     game.nextid += 1
-    return Bot(game, id, x, y, owner, type.maxHealth,  type.maxHealth, 0, 0, 1, type.damage, type.range, type.movitude, type.actitude,
+    return Bot(game, id, x, y, owner, type.maxHealth,  type.maxHealth, 1, 0, 0, type.damage, type.range, type.movitude, type.actitude,
       type.buildRate, 0, 0, type.id)
 
   def _takeDamage(self, damage):
@@ -118,7 +120,7 @@ class Bot(Unit):
     #I am so sorry.
     #This calls the Bot constructor, taking the min or sum of the mini bot values as appropriate
     newBot = Bot(self.game, id, min([i.x for i in bots]), min([i.y for i in bots]), self.owner, sum([i.health for i in bots]),
-      sum([i.maxHealth for i in bots]), 0, 0, self.size * 2, sum([i.damage for i in bots]), sum([i.range for i in bots]),
+      sum([i.maxHealth for i in bots]), self.size * 2, sum([i.damage for i in bots]), 0, 0, sum([i.range for i in bots]),
       sum([i.movitude for i in bots]), sum([i.actitude for i in bots]), sum([i.buildRate for i in bots]), 0, 0, 0)
     self.game.addObject(newBot)
     for i in bots:
@@ -128,29 +130,17 @@ class Bot(Unit):
     return newBot
 
   def _distance(self, target):
-    if isinstance(target, Bot) or isinstance(target, Frame) or isinstance(target, Wall):
-      x = 0
-      y = 0
-      if self.x > target.x + target.size-1:
-        x = self.x - (target.x + target.size-1)
-      elif target.x > self.x + self.size-1:
-        x = target.x - (self.x + self.size-1)
-      if self.y > target.y + target.size-1:
-        y = self.y - (target.y + target.size-1)
-      elif target.y > self.y + self.size-1:
-        y = target.y - (self.y + self.size-1)
-      return x + y
-    else:
-      x = y = 0
-      if target.x < self.x:
-        x = self.x - target.x
-      if target.x > (self.x + self.size-1):
-        x = target.x - (self.x + self.size-1)
-      if target.y < self.y:
-        y = self.y - target.y
-      if target.y > (self.y + self.size-1):
-        y = target.y - (self.y + self.size-1)
-      return x + y
+    x = 0
+    y = 0
+    if self.x > target.x + target.size-1:
+      x = self.x - (target.x + target.size-1)
+    elif target.x > self.x + self.size-1:
+      x = target.x - (self.x + self.size-1)
+    if self.y > target.y + target.size-1:
+      y = self.y - (target.y + target.size-1)
+    elif target.y > self.y + self.size-1:
+      y = target.y - (self.y + self.size-1)
+    return x + y
 
   def _move(self, x, y):
     self.x += x
@@ -306,7 +296,7 @@ class Bot(Unit):
 
     completionTime = 8 * size**2 / self.buildRate
     health = min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
-    f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, type.id, size, completionTime)
+    f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, size, type.id, completionTime)
     if f._distance(self) != 1:
       return "Target is non-adjacent."
     for i in self.game.objects.values():
@@ -364,7 +354,7 @@ class Bot(Unit):
 
 
 class Frame(Unit):
-  def __init__(self, game, id, x, y, owner, health, maxHealth, type, size, completionTime):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, size, type, completionTime):
     self.game = game
     self.id = id
     self.x = x
@@ -372,11 +362,9 @@ class Frame(Unit):
     self.owner = owner
     self.health = health
     self.maxHealth = maxHealth
-    self.type = type
     self.size = size
+    self.type = type
     self.completionTime = completionTime
-
-    self.totalTime = completionTime
 
   def toList(self):
     value = [
@@ -386,8 +374,8 @@ class Frame(Unit):
       self.owner,
       self.health,
       self.maxHealth,
-      self.type,
       self.size,
+      self.type,
       self.completionTime,
       ]
     return value
@@ -452,7 +440,7 @@ class Type:
     pass
 
 class Wall(Unit):
-  def __init__(self, game, id, x, y, owner, health, maxHealth):
+  def __init__(self, game, id, x, y, owner, health, maxHealth, size):
     self.game = game
     self.id = id
     self.x = x
@@ -460,7 +448,7 @@ class Wall(Unit):
     self.owner = owner
     self.health = health
     self.maxHealth = maxHealth
-    self.size = 1
+    self.size = size
 
   def toList(self):
     value = [
@@ -478,7 +466,7 @@ class Wall(Unit):
   def make(game, x, y, health):
     id = game.nextid
     game.nextid += 1
-    return Wall(game, id, x, y, -1, health,  health)
+    return Wall(game, id, x, y, -1, health,  health, 1)
 
   def nextTurn(self):
     pass

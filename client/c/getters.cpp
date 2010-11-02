@@ -36,6 +36,10 @@ int unitGetMaxHealth(_Unit* ptr)
 {
   return ptr->maxHealth;
 }
+int unitGetSize(_Unit* ptr)
+{
+  return ptr->size;
+}
 int botGetId(_Bot* ptr)
 {
   return ptr->id;
@@ -60,6 +64,10 @@ int botGetMaxHealth(_Bot* ptr)
 {
   return ptr->maxHealth;
 }
+int botGetSize(_Bot* ptr)
+{
+  return ptr->size;
+}
 int botGetActions(_Bot* ptr)
 {
   return ptr->actions;
@@ -67,10 +75,6 @@ int botGetActions(_Bot* ptr)
 int botGetSteps(_Bot* ptr)
 {
   return ptr->steps;
-}
-int botGetSize(_Bot* ptr)
-{
-  return ptr->size;
 }
 int botGetDamage(_Bot* ptr)
 {
@@ -136,13 +140,13 @@ int frameGetMaxHealth(_Frame* ptr)
 {
   return ptr->maxHealth;
 }
-_Type* frameGetType(_Frame* ptr)
-{
-  return ptr->type;
-}
 int frameGetSize(_Frame* ptr)
 {
   return ptr->size;
+}
+_Type* frameGetType(_Frame* ptr)
+{
+  return ptr->type;
 }
 int frameGetCompletionTime(_Frame* ptr)
 {
@@ -171,6 +175,10 @@ int wallGetHealth(_Wall* ptr)
 int wallGetMaxHealth(_Wall* ptr)
 {
   return ptr->maxHealth;
+}
+int wallGetSize(_Wall* ptr)
+{
+  return ptr->size;
 }
 int typeGetId(_Type* ptr)
 {

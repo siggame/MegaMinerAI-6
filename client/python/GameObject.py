@@ -76,6 +76,10 @@ class Unit(Mappable):
     self.validify()
     return library.unitGetMaxHealth(self.ptr)
 
+  def getSize(self):
+    self.validify()
+    return library.unitGetSize(self.ptr)
+
 
   def __str__(self):
     self.validify()
@@ -86,6 +90,7 @@ class Unit(Mappable):
     ret += "owner: %s\n" % self.getOwner()
     ret += "health: %s\n" % self.getHealth()
     ret += "maxHealth: %s\n" % self.getMaxHealth()
+    ret += "size: %s\n" % self.getSize()
     return ret
 
 class Bot(Unit):
@@ -186,6 +191,10 @@ class Bot(Unit):
     self.validify()
     return library.botGetMaxHealth(self.ptr)
 
+  def getSize(self):
+    self.validify()
+    return library.botGetSize(self.ptr)
+
   def getActions(self):
     self.validify()
     return library.botGetActions(self.ptr)
@@ -193,10 +202,6 @@ class Bot(Unit):
   def getSteps(self):
     self.validify()
     return library.botGetSteps(self.ptr)
-
-  def getSize(self):
-    self.validify()
-    return library.botGetSize(self.ptr)
 
   def getDamage(self):
     self.validify()
@@ -240,9 +245,9 @@ class Bot(Unit):
     ret += "owner: %s\n" % self.getOwner()
     ret += "health: %s\n" % self.getHealth()
     ret += "maxHealth: %s\n" % self.getMaxHealth()
+    ret += "size: %s\n" % self.getSize()
     ret += "actions: %s\n" % self.getActions()
     ret += "steps: %s\n" % self.getSteps()
-    ret += "size: %s\n" % self.getSize()
     ret += "damage: %s\n" % self.getDamage()
     ret += "range: %s\n" % self.getRange()
     ret += "movitude: %s\n" % self.getMovitude()
@@ -301,13 +306,13 @@ class Frame(Unit):
     self.validify()
     return library.frameGetMaxHealth(self.ptr)
 
-  def getType(self):
-    self.validify()
-    return library.frameGetType(self.ptr)
-
   def getSize(self):
     self.validify()
     return library.frameGetSize(self.ptr)
+
+  def getType(self):
+    self.validify()
+    return library.frameGetType(self.ptr)
 
   def getCompletionTime(self):
     self.validify()
@@ -323,8 +328,8 @@ class Frame(Unit):
     ret += "owner: %s\n" % self.getOwner()
     ret += "health: %s\n" % self.getHealth()
     ret += "maxHealth: %s\n" % self.getMaxHealth()
-    ret += "type: %s\n" % self.getType()
     ret += "size: %s\n" % self.getSize()
+    ret += "type: %s\n" % self.getType()
     ret += "completionTime: %s\n" % self.getCompletionTime()
     return ret
 
@@ -376,6 +381,10 @@ class Wall(Unit):
     self.validify()
     return library.wallGetMaxHealth(self.ptr)
 
+  def getSize(self):
+    self.validify()
+    return library.wallGetSize(self.ptr)
+
 
   def __str__(self):
     self.validify()
@@ -386,6 +395,7 @@ class Wall(Unit):
     ret += "owner: %s\n" % self.getOwner()
     ret += "health: %s\n" % self.getHealth()
     ret += "maxHealth: %s\n" % self.getMaxHealth()
+    ret += "size: %s\n" % self.getSize()
     return ret
 
 class Type(GameObject):
