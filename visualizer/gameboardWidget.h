@@ -85,13 +85,15 @@ class Gameboard : public QGLWidget
 		void drawBuild( Game * game, Build * build, float falloff );
 		void drawHeal( Game * game, Heal * heal, float falloff );
 
-
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);
+
+		void drawControl( Game * game, float falloff);
 
 		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
+                float getPercentage(int owner = -1, int size = -1);
 		map<int,string> selectedIDs;
 
 		texture textures[numTextures];

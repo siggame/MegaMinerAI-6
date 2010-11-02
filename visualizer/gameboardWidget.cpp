@@ -168,6 +168,54 @@ bool Gameboard::loadAllTextures( QString & message )
 
 }
 
+//Draws Territory Control Bar
+void Gameboard::drawControl( Game * game, float falloff )
+{  
+	float baseHeight = getAttr( boardHeightPx );
+	float baseWidth  = getAttr( boardWidthPx );
+	
+	float barWidth = .9*baseWidth;
+        float spacer = .05*baseWidth;
+	float onePercent = getPercentage(0); //Player 1's control percentage
+        float twoPercent = getPercentage(1); //Player 2's control percentage
+
+        glColor4f(1, 1, 1, 1);
+	glLoadIdentity();
+        glPushMatrix();
+        glTranslatef( spacer, 10, 0);
+
+        glLineWidth(3.0f);
+        glBegin(GL_LINES);
+	glVertex3f(0, 8, 0);
+        glVertex3f(0, -8, 0);
+       
+	glVertex3f(0, 0, 0);
+        glVertex3f(barWidth, 0, 0);
+
+	glVertex3f(barWidth, 8, 0);
+        glVertex3f(barWidth, -8, 0);
+
+	glVertex3f(barWidth/2, 8, 0);
+	glVertex3f(barWidth/2, -8, 0);
+        glEnd();
+
+        glColor4f(1, 0, 0, .8);
+        glBegin(GL_QUADS);
+	glVertex3f(0, 7.5, 0);
+	glVertex3f(onePercent*barWidth, 7.5, 0);
+        glVertex3f(onePercent*barWidth, -7.5, 0);
+        glVertex3f(0, -7.5, 0);
+        glEnd();
+
+        glColor4f(0, 0, 1, .8);
+        glBegin(GL_QUADS);
+	glVertex3f(barWidth, 7.5, 0);
+	glVertex3f(barWidth-(twoPercent*barWidth), 7.5, 0);
+        glVertex3f(barWidth-(twoPercent*barWidth), -7.5, 0);
+        glVertex3f(barWidth, -7.5, 0);
+        glEnd();
+}
+
 void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health, int owner = 2)
 {
         float barLength = (health/static_cast<float>(maxHealth));
@@ -279,6 +327,45 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 }
 
+//Returns the percentage of the map the passed owner controls.  If given a size parameter,
+//will recalculate owner's controlled region by adding the bot's area (size*size)
+float Gameboard::getPercentage( int owner, int size )
+{
+	float baseHeight = getAttr( boardHeightPx );
+	float baseWidth  = getAttr( boardWidthPx );
+	static float onePercent = 0;
+        static float twoPercent = 0;
+	float retVal = -1;
+
+	switch(owner)
+	{
+		case 0:
+		  if(size == -1)
+		  {
+		    retVal = onePercent;
+		  }
+		  else
+		  {
+		    onePercent += (size*size)/(baseHeight*baseWidth);
+		  }
+		break;
+		case 1:
+		  if(size == -1)
+		  {
+		    retVal = twoPercent;
+		  }
+		  else
+		  {
+		    onePercent += (size*size)/(baseHeight*baseWidth);
+		  }
+		break;
+		default:
+		onePercent = 0;
+		twoPercent = 0;
+		break;
+	}
+	return retVal;
+}
 
 void Gameboard::resizeGL( int w, int h )
 {
@@ -402,7 +489,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
 			drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
-  
+			getPercentage(owner, unitSize*it->second.size);//keeps count of each player's percentage 
 		}
 
 	}
@@ -820,12 +907,13 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-
+		getPercentage();//gets function ready to recalculate percentage controlled
 		drawBots( game, falloff );
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 		drawAnimations( game, falloff );
-		
+		drawControl( game, falloff);
+            	
 		//parent->console
 
 	}
