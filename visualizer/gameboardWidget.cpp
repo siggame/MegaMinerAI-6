@@ -184,6 +184,7 @@ void Gameboard::drawControl( Game * game, float falloff )
         glPushMatrix();
         glTranslatef( spacer, 10, 0);
 
+	//draws all the basic lines that form the bar
         glLineWidth(3.0f);
         glBegin(GL_LINES);
 	glVertex3f(0, 8, 0);
@@ -199,6 +200,7 @@ void Gameboard::drawControl( Game * game, float falloff )
 	glVertex3f(barWidth/2, -8, 0);
         glEnd();
 
+	//draws player 1's control percentage
         glColor4f(1, 0, 0, .8);
         glBegin(GL_QUADS);
 	glVertex3f(0, 7.5, 0);
@@ -207,6 +209,7 @@ void Gameboard::drawControl( Game * game, float falloff )
         glVertex3f(0, -7.5, 0);
         glEnd();
 
+	//draws player 2's control percentage
         glColor4f(0, 0, 1, .8);
         glBegin(GL_QUADS);
 	glVertex3f(barWidth, 7.5, 0);
@@ -327,8 +330,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 }
 
-//Returns the percentage of the map the passed owner controls.  If given a size parameter,
-//will recalculate owner's controlled region by adding the bot's area (size*size)
+//Returns the percentage of the map the passed owner controls.  If given a size parameter, will recalculate owner's controlled region by adding the bot's area (size*size)
 float Gameboard::getPercentage( int owner, int size )
 {
 	float baseHeight = getAttr( boardHeightPx );
@@ -356,7 +358,7 @@ float Gameboard::getPercentage( int owner, int size )
 		  }
 		  else
 		  {
-		    onePercent += (size*size)/(baseHeight*baseWidth);
+		    twoPercent += (size*size)/(baseHeight*baseWidth);
 		  }
 		break;
 		default:
