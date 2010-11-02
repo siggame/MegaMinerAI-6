@@ -59,6 +59,7 @@ public interface Client extends Library {
   int unitGetOwner(Pointer ptr);
   int unitGetHealth(Pointer ptr);
   int unitGetMaxHealth(Pointer ptr);
+  int unitGetSize(Pointer ptr);
 
   int botGetId(Pointer ptr);
   int botGetX(Pointer ptr);
@@ -66,9 +67,9 @@ public interface Client extends Library {
   int botGetOwner(Pointer ptr);
   int botGetHealth(Pointer ptr);
   int botGetMaxHealth(Pointer ptr);
+  int botGetSize(Pointer ptr);
   int botGetActions(Pointer ptr);
   int botGetSteps(Pointer ptr);
-  int botGetSize(Pointer ptr);
   int botGetDamage(Pointer ptr);
   int botGetRange(Pointer ptr);
   int botGetMovitude(Pointer ptr);
@@ -84,8 +85,8 @@ public interface Client extends Library {
   int frameGetOwner(Pointer ptr);
   int frameGetHealth(Pointer ptr);
   int frameGetMaxHealth(Pointer ptr);
-  Pointer frameGetType(Pointer ptr);
   int frameGetSize(Pointer ptr);
+  Pointer frameGetType(Pointer ptr);
   int frameGetCompletionTime(Pointer ptr);
 
   int wallGetId(Pointer ptr);
@@ -94,6 +95,7 @@ public interface Client extends Library {
   int wallGetOwner(Pointer ptr);
   int wallGetHealth(Pointer ptr);
   int wallGetMaxHealth(Pointer ptr);
+  int wallGetSize(Pointer ptr);
 
   int typeGetId(Pointer ptr);
   String typeGetName(Pointer ptr);

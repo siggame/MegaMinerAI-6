@@ -1,4 +1,5 @@
 #include "AI.h"
+#include "util.h"
 
 AI::AI(Connection* conn) : BaseAI(conn) {}
 

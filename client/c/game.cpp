@@ -542,6 +542,8 @@ void parseUnit(Connection* c, _Unit* object, sexp_t* expression)
   sub = sub->next;
   object->maxHealth = atoi(sub->val);
   sub = sub->next;
+  object->size = atoi(sub->val);
+  sub = sub->next;
   
 }
 void parseBot(Connection* c, _Bot* object, sexp_t* expression)
@@ -563,11 +565,11 @@ void parseBot(Connection* c, _Bot* object, sexp_t* expression)
   sub = sub->next;
   object->maxHealth = atoi(sub->val);
   sub = sub->next;
+  object->size = atoi(sub->val);
+  sub = sub->next;
   object->actions = atoi(sub->val);
   sub = sub->next;
   object->steps = atoi(sub->val);
-  sub = sub->next;
-  object->size = atoi(sub->val);
   sub = sub->next;
   object->damage = atoi(sub->val);
   sub = sub->next;
@@ -606,8 +608,8 @@ void parseFrame(Connection* c, _Frame* object, sexp_t* expression)
   sub = sub->next;
   object->maxHealth = atoi(sub->val);
   sub = sub->next;
-  sub = sub->next;
   object->size = atoi(sub->val);
+  sub = sub->next;
   sub = sub->next;
   object->completionTime = atoi(sub->val);
   sub = sub->next;
@@ -631,6 +633,8 @@ void parseWall(Connection* c, _Wall* object, sexp_t* expression)
   object->health = atoi(sub->val);
   sub = sub->next;
   object->maxHealth = atoi(sub->val);
+  sub = sub->next;
+  object->size = atoi(sub->val);
   sub = sub->next;
   
 }

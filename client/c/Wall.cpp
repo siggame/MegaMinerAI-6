@@ -39,12 +39,15 @@ int Wall::maxHealth()
   return ((_Wall*)ptr)->maxHealth;
 }
 
+int Wall::size()
+{
+  return ((_Wall*)ptr)->size;
+}
 
 int Wall::talk(std::string message)
 {
   return wallTalk( (_Wall*)ptr, message.c_str());
 }
-
 
 
 std::ostream& operator<<(std::ostream& stream,Wall ob)
@@ -55,5 +58,7 @@ std::ostream& operator<<(std::ostream& stream,Wall ob)
   stream << "owner: " << ((_Wall*)ob.ptr)->owner  <<'\n';
   stream << "health: " << ((_Wall*)ob.ptr)->health  <<'\n';
   stream << "maxHealth: " << ((_Wall*)ob.ptr)->maxHealth  <<'\n';
+  stream << "size: " << ((_Wall*)ob.ptr)->size  <<'\n';
   return stream;
 }
+

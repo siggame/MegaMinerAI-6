@@ -16,6 +16,7 @@ Unit = Model('Unit',
   data = [ Variable('owner', int, 'The owning player'),
     Variable('health', int, 'How much health this unit currently has'),
     Variable('maxHealth', int, 'The maximum amount of health this unit can ever have'),
+    Variable('size', int, 'The length of one side of this Unit'),
     ],
   functions = [
     Function('talk',
@@ -45,7 +46,6 @@ Wall = Model('Wall',
 Frame = Model('Frame',
   parent = Unit,
   data = [Variable('type', type, 'What type this robot will be'),
-    Variable('size', int, 'The length of one side of this robot, such that size^2 = number of bots combined into this bot' ),
     Variable('completionTime', int, 'How many of your turns until this frame becomes a robot' )],
   doc = 'A baby robot.')
 
@@ -59,7 +59,6 @@ Bot = Model('Bot',
 Bot.addData([
     Variable('actions', int, 'How many actions this bot can still perform'),
     Variable('steps', int, 'How many steps this bot can still take'),
-    Variable('size', int, 'The length of one side of this robot, such that size^2 = number of bots combined into this bot'),
     Variable('damage', int, 'The amount of damage this robot does when attacking'),
     Variable('range', int, 'How far this robot can attack or heal from its edge'),
     Variable('movitude', int, 'This value divided by the number of bots = maxSteps for this robot'),

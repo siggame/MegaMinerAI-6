@@ -183,7 +183,7 @@ class Match(DefaultGameWorld):
       elif percentHealth[1] > percentHealth[0]:
         self.declareWinner(self.players[1])
       else:
-        self.declareWinner(self.players[0])
+        self.declareWinner(self.players[1])
         
 
   def declareWinner(self, winner):

@@ -29,6 +29,7 @@ struct _Unit
   int owner;
   int health;
   int maxHealth;
+  int size;
 };
 struct _Bot
 {
@@ -39,9 +40,9 @@ struct _Bot
   int owner;
   int health;
   int maxHealth;
+  int size;
   int actions;
   int steps;
-  int size;
   int damage;
   int range;
   int movitude;
@@ -60,8 +61,8 @@ struct _Frame
   int owner;
   int health;
   int maxHealth;
-  _Type* type;
   int size;
+  _Type* type;
   int completionTime;
 };
 struct _Wall
@@ -73,6 +74,7 @@ struct _Wall
   int owner;
   int health;
   int maxHealth;
+  int size;
 };
 struct _Type
 {

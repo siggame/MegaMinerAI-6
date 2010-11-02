@@ -17,6 +17,7 @@ int unitGetY(_Unit* ptr);
 int unitGetOwner(_Unit* ptr);
 int unitGetHealth(_Unit* ptr);
 int unitGetMaxHealth(_Unit* ptr);
+int unitGetSize(_Unit* ptr);
 
 
 int botGetId(_Bot* ptr);
@@ -25,9 +26,9 @@ int botGetY(_Bot* ptr);
 int botGetOwner(_Bot* ptr);
 int botGetHealth(_Bot* ptr);
 int botGetMaxHealth(_Bot* ptr);
+int botGetSize(_Bot* ptr);
 int botGetActions(_Bot* ptr);
 int botGetSteps(_Bot* ptr);
-int botGetSize(_Bot* ptr);
 int botGetDamage(_Bot* ptr);
 int botGetRange(_Bot* ptr);
 int botGetMovitude(_Bot* ptr);
@@ -46,8 +47,8 @@ int frameGetY(_Frame* ptr);
 int frameGetOwner(_Frame* ptr);
 int frameGetHealth(_Frame* ptr);
 int frameGetMaxHealth(_Frame* ptr);
-_Type* frameGetType(_Frame* ptr);
 int frameGetSize(_Frame* ptr);
+_Type* frameGetType(_Frame* ptr);
 int frameGetCompletionTime(_Frame* ptr);
 
 
@@ -57,6 +58,7 @@ int wallGetY(_Wall* ptr);
 int wallGetOwner(_Wall* ptr);
 int wallGetHealth(_Wall* ptr);
 int wallGetMaxHealth(_Wall* ptr);
+int wallGetSize(_Wall* ptr);
 
 
 int typeGetId(_Type* ptr);

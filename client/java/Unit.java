@@ -62,5 +62,11 @@ abstract class Unit
     validify();
     return Client.INSTANCE.unitGetMaxHealth(ptr);
   }
+  ///The length of one side of this Unit
+  public int getSize()
+  {
+    validify();
+    return Client.INSTANCE.unitGetSize(ptr);
+  }
 
 }

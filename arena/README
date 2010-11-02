@@ -1,0 +1,34 @@
+Programs:
+
+update/update.py: (port 18862)
+responsible for sending out compressed binaries of clients and the server (and all the versions thereof)
+
+db.py: (port 18863)
+responsible for all database i/o
+
+tentacle/tentacle.py: (port 18861)
+daemon that runs on campus linux machines, runs games it's told to do so, gets files from the update server, sends results to the db server
+
+monster.py: (port 18864)
+1) connects to all campus machines, starts tentacles on them
+2) generates and maintains a queue of games to run, using the most recent versions available (via the db)
+3) as they become available, runs the games in the queue on a tentacle
+4) runs tournaments
+
+USAGE:
+
+To Connect to a service: conn = rpyc.connect("Location",port#)
+To use an exposed function: result = conn.root.func(arg0,arg1,...)
+To call a function asyncronously:
+  a = rpyc.async(conn.root.func)
+  result = a(arg0,arg1,...)
+  
+  result.ready is False until the result has returned
+  result.value is the value (when returned)
+  result.error is True if an error was returned
+
+Be certain to stop all the tentacles, otherwise they will sit there and eat up the port
+
+launcher works (hasn't changed) and will (probably) be rewritten after everythign else works
+
+make a folder called logs, because the program assumes one is in /arena.  otherwise it'll probably yell at you.
