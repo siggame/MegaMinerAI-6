@@ -17,7 +17,8 @@ visettings::visettings()
 	team1Talk = true;
 	team2Talk = true;
 	persistantTalking = false;
-
+	
+	doubleClickTime = 275;
 }
 
 
@@ -109,6 +110,9 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( defaultFont, configFile.pString( "defaultFont", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
+	setAttr( doubleClickTime, configFile.pInt( "doubleClickTime", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
 	return !returnFlag;

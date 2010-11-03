@@ -44,7 +44,8 @@ wallFileName = "textures/wall 256.jpg"
 # Default Grid Image
 gridFileName = "textures/grid.png"
 
-
+# Time to click the mouse to register it as a double click
+doubleClickTime = 275
 
 
 # FONT STUFF

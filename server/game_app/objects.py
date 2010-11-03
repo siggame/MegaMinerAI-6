@@ -120,7 +120,7 @@ class Bot(Unit):
     #I am so sorry.
     #This calls the Bot constructor, taking the min or sum of the mini bot values as appropriate
     newBot = Bot(self.game, id, min([i.x for i in bots]), min([i.y for i in bots]), self.owner, sum([i.health for i in bots]),
-      sum([i.maxHealth for i in bots]), self.size * 2, sum([i.damage for i in bots]), 0, 0, sum([i.range for i in bots]),
+      sum([i.maxHealth for i in bots]), self.size * 2, 0, 0, sum([i.damage for i in bots]), sum([i.range for i in bots]),
       sum([i.movitude for i in bots]), sum([i.actitude for i in bots]), sum([i.buildRate for i in bots]), 0, 0, 0)
     self.game.addObject(newBot)
     for i in bots:
