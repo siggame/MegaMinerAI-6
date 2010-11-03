@@ -39,10 +39,10 @@ class Scoreboard: public QWidget
 class Options: public QWidget
 {
 	Q_OBJECT
-	public:
+		public:
 		Options();
 		void addOptions();
-		private slots:
+	private slots:
 		void togglePersistant(bool );
 		void toggleTeam1(bool );
 		void toggleTeam2(bool );

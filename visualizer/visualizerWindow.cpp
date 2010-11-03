@@ -4,26 +4,29 @@
 
 using namespace std;
 
-
 Options::Options()
 {
 	addOptions();
 }
+
 
 void Options::togglePersistant( bool on)
 {
 	setAttr( persistantTalking, on );
 }
 
+
 void Options::toggleTeam1( bool on )
 {
 	setAttr( team1Talk, on );
 }
 
+
 void Options::toggleTeam2( bool on )
 {
 	setAttr( team2Talk, on );
 }
+
 
 void Options::addOptions()
 {
@@ -44,8 +47,9 @@ void Options::addOptions()
 	connect( persistant, SIGNAL( toggled(bool) ), this, SLOT( togglePersistant(bool) ) );
 
 	setLayout( vbox );
-	
+
 }
+
 
 VisualizerWindow::VisualizerWindow()
 {
@@ -59,7 +63,7 @@ VisualizerWindow::VisualizerWindow()
 
 	if (!visettings::instance()->loadFromFile(configErr))
 	{
-	    QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
+		QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
 	}
 
 	setWindowTitle( "Modular Visualizer" );
@@ -96,7 +100,6 @@ GameState *VisualizerWindow::getFrame( int frame )
 bool VisualizerWindow::loadGamelog( char *filename )
 {
 
-
 	if ( filename == NULL )
 	{
 		QMessageBox::critical(this,"Error","No Gamelog Specified!");
@@ -105,7 +108,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	if ( string (filename) == string("")  )
 	{
-	    return false;
+		return false;
 	}
 
 	Game * temp = new Game;
@@ -172,6 +175,7 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+
 void VisualizerWindow::closeFullScreen()
 {
 	if( fullScreen )
@@ -181,6 +185,7 @@ void VisualizerWindow::closeFullScreen()
 		show();
 	}
 }
+
 
 void VisualizerWindow::toggleMapGrid()
 {
@@ -559,6 +564,7 @@ void VisualizerWindow::createLayout()
 	setCentralWidget( gameboard );
 }
 
+
 // TODO: Combine these two functions
 void VisualizerWindow::advanceFrame()
 {
@@ -570,7 +576,8 @@ void VisualizerWindow::advanceFrame()
 	controlSlider->setSliderPosition( frame );
 }
 
-void VisualizerWindow::previousFrame() 
+
+void VisualizerWindow::previousFrame()
 {
 	setAttr( currentMode, paused );
 	int frame = getAttr( frameNumber );
@@ -579,18 +586,22 @@ void VisualizerWindow::previousFrame()
 	controlSlider->setSliderPosition( frame );
 }
 
+
 void VisualizerWindow::playPause()
 {
 	static int lastMode = play;
 	if( getAttr( currentMode ) == paused )
 	{
 		setAttr( currentMode, play );
-	} else {
+	}
+	else
+	{
 		lastMode = getAttr( currentMode );
 		setAttr( currentMode, paused );
 
 	}
 }
+
 
 void VisualizerWindow::createActions()
 {
@@ -638,8 +649,8 @@ void VisualizerWindow::createActions()
 	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
 	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
 
-//	QAction *advance = new QAction( this );
-//	advance->setShortcut( tr("Ctrl+P") );
-//	connect( advance, SIGNAL(triggered()), this, SLOT(openGamelog()) );
+	//	QAction *advance = new QAction( this );
+	//	advance->setShortcut( tr("Ctrl+P") );
+	//	connect( advance, SIGNAL(triggered()), this, SLOT(openGamelog()) );
 
 }

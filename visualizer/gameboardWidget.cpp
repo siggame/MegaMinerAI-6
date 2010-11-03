@@ -27,7 +27,7 @@ Gameboard::~Gameboard()
 {
 	if (drawFont != NULL)
 	{
-	    delete drawFont;
+		delete drawFont;
 	}
 
 }
@@ -45,10 +45,8 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-
 	bool flag = false;
 	QString errString;
-
 
 	if (!loadAllTextures(errString))
 	{
@@ -60,6 +58,7 @@ void Gameboard::initializeGL()
 	}
 
 }
+
 
 bool Gameboard::loadTexture(QString filename, eTextures texID, QString & errString)
 {
@@ -75,6 +74,7 @@ bool Gameboard::loadTexture(QString filename, eTextures texID, QString & errStri
 	}
 	return true;
 }
+
 
 bool Gameboard::loadAllTextures( QString & message )
 {
@@ -92,75 +92,67 @@ bool Gameboard::loadAllTextures( QString & message )
 		drawFont = new DrawGLFont( textures[T_FONT].getTexture(), getAttr( defaultFontWidths ) );
 	}
 
-
 	//red bots:
 
-
 	if ( !loadTexture( getAttr( redActionFile ).c_str(), T_REDBOT_ACTION, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redBuilderFile ).c_str(), T_REDBOT_BUILDER, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redCannonFile ).c_str(), T_REDBOT_CANNON, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redDamageFile ).c_str(), T_REDBOT_DAMAGE, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redEngineFile ).c_str(), T_REDBOT_ENGINE, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redForceFile ).c_str(), T_REDBOT_FORCE, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redFrameFile ).c_str(), T_REDBOT_FRAME, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( redAttackFile ).c_str(), T_REDPART_ATTACK, errString ) )
-		    flag = true;
-
+		flag = true;
 
 	//blue bots:
 	if ( !loadTexture( getAttr( bluActionFile ).c_str(), T_BLUBOT_ACTION, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluBuilderFile ).c_str(), T_BLUBOT_BUILDER, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluCannonFile ).c_str(), T_BLUBOT_CANNON, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluDamageFile ).c_str(), T_BLUBOT_DAMAGE, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluEngineFile ).c_str(), T_BLUBOT_ENGINE, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluForceFile ).c_str(), T_BLUBOT_FORCE, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluFrameFile ).c_str(), T_BLUBOT_FRAME, errString ) )
-		    flag = true;
+		flag = true;
 
 	if ( !loadTexture( getAttr( bluAttackFile ).c_str(), T_BLUPART_ATTACK, errString ) )
-		    flag = true;
-
-
+		flag = true;
 
 	//Other Textures
 
 	if ( !loadTexture( getAttr( defBGFileName ).c_str(), T_DEFAULTBG, errString ) )
-		    flag = true;
-
+		flag = true;
 
 	if ( !loadTexture( getAttr( gridFileName ).c_str(), T_GRID, errString ) )
-		    flag = true;
-
+		flag = true;
 
 	if ( !loadTexture( getAttr( wallFileName ).c_str(), T_WALL, errString ) )
-		    flag = true;
-
+		flag = true;
 
 	message = errString;
 
@@ -168,108 +160,116 @@ bool Gameboard::loadAllTextures( QString & message )
 
 }
 
+
 //Draws Territory Control Bar
 void Gameboard::drawControl( Game * game, float falloff )
-{  
+{
 	float baseHeight = getAttr( boardHeightPx );
 	float baseWidth  = getAttr( boardWidthPx );
-	
-	float barWidth = .9*baseWidth;
-        float spacer = .05*baseWidth;
-	float onePercent = getPercentage(0); //Player 1's control percentage
-        float twoPercent = getPercentage(1); //Player 2's control percentage
 
-        glColor4f(1, 1, 1, 1);
+	float barWidth = .9*baseWidth;
+	float spacer = .05*baseWidth;
+																 //Player 1's control percentage
+	float onePercent = getPercentage(0);
+																 //Player 2's control percentage
+	float twoPercent = getPercentage(1);
+
+	glColor4f(1, 1, 1, 1);
 	glLoadIdentity();
-        glPushMatrix();
-        glTranslatef( spacer, 10, 0);
+	glPushMatrix();
+	glDisable( GL_TEXTURE_2D );
+
+	glTranslatef( spacer, 10, 0);
 
 	//draws all the basic lines that form the bar
-        glLineWidth(3.0f);
-        glBegin(GL_LINES);
+	glLineWidth(3.0f);
+	glBegin(GL_LINES);
 	glVertex3f(0, 8, 0);
-        glVertex3f(0, -8, 0);
-       
+	glVertex3f(0, -8, 0);
+
 	glVertex3f(0, 0, 0);
-        glVertex3f(barWidth, 0, 0);
+	glVertex3f(barWidth, 0, 0);
 
 	glVertex3f(barWidth, 8, 0);
-        glVertex3f(barWidth, -8, 0);
+	glVertex3f(barWidth, -8, 0);
 
 	glVertex3f(barWidth/2, 8, 0);
 	glVertex3f(barWidth/2, -8, 0);
-        glEnd();
+	glEnd();
 
 	//draws player 1's control percentage
-        glColor4f(1, 0, 0, .8);
-        glBegin(GL_QUADS);
+	glColor4f(1, 0, 0, .8);
+	glBegin(GL_QUADS);
 	glVertex3f(0, 7.5, 0);
 	glVertex3f(onePercent*barWidth, 7.5, 0);
-        glVertex3f(onePercent*barWidth, -7.5, 0);
-        glVertex3f(0, -7.5, 0);
-        glEnd();
+	glVertex3f(onePercent*barWidth, -7.5, 0);
+	glVertex3f(0, -7.5, 0);
+	glEnd();
 
 	//draws player 2's control percentage
-        glColor4f(0, 0, 1, .8);
-        glBegin(GL_QUADS);
+	glColor4f(0, 0, 1, .8);
+	glBegin(GL_QUADS);
 	glVertex3f(barWidth, 7.5, 0);
 	glVertex3f(barWidth-(twoPercent*barWidth), 7.5, 0);
-        glVertex3f(barWidth-(twoPercent*barWidth), -7.5, 0);
-        glVertex3f(barWidth, -7.5, 0);
-        glEnd();
+	glVertex3f(barWidth-(twoPercent*barWidth), -7.5, 0);
+	glVertex3f(barWidth, -7.5, 0);
+	glEnd();
+
+	glPopMatrix();
 }
+
 
 void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health, int owner = 2)
 {
-        float barLength = (health/static_cast<float>(maxHealth));
-        
+	float barLength = (health/static_cast<float>(maxHealth));
 
-        glDisable(GL_TEXTURE_2D);
-        switch(owner)
+	glDisable(GL_TEXTURE_2D);
+	switch(owner)
 	{
-		case 0://player 1
-		glColor4f(1, 1, 0, .6);
-                break;
-		case 1://player 2
-		glColor4f(0, 1, 1, .8);
-                break;
-		default://shouldn't happen
-                glColor4f(.5, .5, .5, .6);
-                break;
+		case 0:											 //player 1
+			glColor4f(1, 1, 0, .6);
+			break;
+		case 1:											 //player 2
+			glColor4f(0, 1, 1, .8);
+			break;
+		default:										 //shouldn't happen
+			glColor4f(.5, .5, .5, .6);
+			break;
 	}
-        glLoadIdentity();
+	glLoadIdentity();
 	glPushMatrix();
 	glTranslatef( (x + w*.05), y+2, 0 );
 	glScalef( (w*.9), 1, 1 );
 
-        glBegin(GL_QUADS);
-         
-        glVertex3f(0.0f, 4.0f, 0.0f);
-        glVertex3f(barLength, 4.0f, 0.0f);
-        glVertex3f(barLength, 0.0f, 0.0f);
-        glVertex3f(0.0f,0.0f,0.0f);
-       glEnd();
-       if(owner == 1)
-	   {
+	glBegin(GL_QUADS);
 
-		}
-	   else
-	   {
-	   }
-	   glColor4f( 0, 0, 0, .7 );
+	glVertex3f(0.0f, 4.0f, 0.0f);
+	glVertex3f(barLength, 4.0f, 0.0f);
+	glVertex3f(barLength, 0.0f, 0.0f);
+	glVertex3f(0.0f,0.0f,0.0f);
+	glEnd();
+	if(owner == 1)
+	{
 
-		glBegin(GL_LINE_LOOP);
-		glVertex3f( 0.0, 4.0f, 0 );
-		glVertex3f( 1, 4.0f, 0 );
-		glVertex3f( 1, 0.0, 0 );
-		glVertex3f( 0.0f, 0.0, 0 );
-		glLineWidth (1.0);
+	}
+	else
+	{
+	}
+	glColor4f( 0, 0, 0, .7 );
+
+	glBegin(GL_LINE_LOOP);
+	glVertex3f( 0.0, 4.0f, 0 );
+	glVertex3f( 1, 4.0f, 0 );
+	glVertex3f( 1, 0.0, 0 );
+	glVertex3f( 0.0f, 0.0, 0 );
+	glLineWidth (1.0);
 
 	glEnd();
 	glPopMatrix();
-        glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 
 }
+
 
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
@@ -298,19 +298,18 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 	{
 		switch (owner)
 		{
-			case 0: //player 1
-			glColor4f(5.0f,0.0f,0.0f,1.0f);
-			break;
-			case 1: //player 2
-			glColor4f(0.0f,0.0f,5.0f,1.0f);
-			break;
+			case 0:										 //player 1
+				glColor4f(5.0f,0.0f,0.0f,1.0f);
+				break;
+			case 1:										 //player 2
+				glColor4f(0.0f,0.0f,5.0f,1.0f);
+				break;
 			default:
-			glColor4f(0.2f,0.2f,0.2f,1.0f);
+				glColor4f(0.2f,0.2f,0.2f,1.0f);
 
 		}
 
 		glLineWidth(3.0f);
-
 
 		glBegin (GL_LINE_LOOP);
 
@@ -327,8 +326,8 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 	glEnable( GL_TEXTURE_2D );
 
-
 }
+
 
 //Returns the percentage of the map the passed owner controls.  If given a size parameter, will recalculate owner's controlled region by adding the bot's area (size*size)
 float Gameboard::getPercentage( int owner, int size )
@@ -336,38 +335,39 @@ float Gameboard::getPercentage( int owner, int size )
 	float baseHeight = getAttr( boardHeightPx );
 	float baseWidth  = getAttr( boardWidthPx );
 	static float onePercent = 0;
-        static float twoPercent = 0;
+	static float twoPercent = 0;
 	float retVal = -1;
 
 	switch(owner)
 	{
 		case 0:
-		  if(size == -1)
-		  {
-		    retVal = onePercent;
-		  }
-		  else
-		  {
-		    onePercent += (size*size)/(baseHeight*baseWidth);
-		  }
-		break;
+			if(size == -1)
+			{
+				retVal = onePercent;
+			}
+			else
+			{
+				onePercent += (size*size)/(baseHeight*baseWidth);
+			}
+			break;
 		case 1:
-		  if(size == -1)
-		  {
-		    retVal = twoPercent;
-		  }
-		  else
-		  {
-		    twoPercent += (size*size)/(baseHeight*baseWidth);
-		  }
-		break;
+			if(size == -1)
+			{
+				retVal = twoPercent;
+			}
+			else
+			{
+				twoPercent += (size*size)/(baseHeight*baseWidth);
+			}
+			break;
 		default:
-		onePercent = 0;
-		twoPercent = 0;
-		break;
+			onePercent = 0;
+			twoPercent = 0;
+			break;
 	}
 	return retVal;
 }
+
 
 void Gameboard::resizeGL( int w, int h )
 {
@@ -399,7 +399,6 @@ void Gameboard::drawBots( Game *game, float falloff )
 		)
 	{
 
-
 		if (it->second.partOf == 0)
 		{
 
@@ -422,7 +421,6 @@ void Gameboard::drawBots( Game *game, float falloff )
 				selected = true;
 			}
 
-
 			// find owner
 			int owner = it->second.owner;
 
@@ -430,68 +428,69 @@ void Gameboard::drawBots( Game *game, float falloff )
 			int sprite;
 			if (owner == 0)
 			{
-			    switch (it->second.type)
-			    {
-				case 1: //Action
-				sprite = T_REDBOT_ACTION;
-				break;
+				switch (it->second.type)
+				{
+					case 1:								 //Action
+						sprite = T_REDBOT_ACTION;
+						break;
 
-				case 2: //Builder
-				sprite = T_REDBOT_BUILDER;
-				break;
+					case 2:								 //Builder
+						sprite = T_REDBOT_BUILDER;
+						break;
 
-				case 3: //Cannon
-				sprite = T_REDBOT_CANNON;
-				break;
+					case 3:								 //Cannon
+						sprite = T_REDBOT_CANNON;
+						break;
 
-				case 4: //Damage
-				sprite = T_REDBOT_DAMAGE;
-				break;
+					case 4:								 //Damage
+						sprite = T_REDBOT_DAMAGE;
+						break;
 
-				case 5: //Engine
-				sprite = T_REDBOT_ENGINE;
-				break;
+					case 5:								 //Engine
+						sprite = T_REDBOT_ENGINE;
+						break;
 
-				case 6: //Force
-				sprite = T_REDBOT_FORCE;
-				break;
+					case 6:								 //Force
+						sprite = T_REDBOT_FORCE;
+						break;
 
-			    }
+				}
 			}
 			else
 			{
-			    switch (it->second.type)
-			    {
-				case 1: //Action
-				sprite = T_BLUBOT_ACTION;
-				break;
+				switch (it->second.type)
+				{
+					case 1:								 //Action
+						sprite = T_BLUBOT_ACTION;
+						break;
 
-				case 2: //Builder
-				sprite = T_BLUBOT_BUILDER;
-				break;
+					case 2:								 //Builder
+						sprite = T_BLUBOT_BUILDER;
+						break;
 
-				case 3: //Cannon
-				sprite = T_BLUBOT_CANNON;
-				break;
+					case 3:								 //Cannon
+						sprite = T_BLUBOT_CANNON;
+						break;
 
-				case 4: //Damage
-				sprite = T_BLUBOT_DAMAGE;
-				break;
+					case 4:								 //Damage
+						sprite = T_BLUBOT_DAMAGE;
+						break;
 
-				case 5: //Engine
-				sprite = T_BLUBOT_ENGINE;
-				break;
+					case 5:								 //Engine
+						sprite = T_BLUBOT_ENGINE;
+						break;
 
-				case 6: //Force
-				sprite = T_BLUBOT_FORCE;
-				break;
+					case 6:								 //Force
+						sprite = T_BLUBOT_FORCE;
+						break;
 
-			    }
+				}
 			}
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
 			drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
-			getPercentage(owner, unitSize*it->second.size);//keeps count of each player's percentage 
+																 //keeps count of each player's percentage
+			getPercentage(owner, unitSize*it->second.size);
 		}
 
 	}
@@ -556,7 +555,6 @@ void Gameboard::drawWalls( Game *game, float falloff )
 		x0 = it->second.x*unitSize;
 		y0 = it->second.y*unitSize;
 
-
 		//is it selected?
 		bool selected = false;
 		if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
@@ -594,8 +592,7 @@ void Gameboard::drawBackground()
 		glVertex3f( 0, baseHeight, 0 );
 
 		glEnd();
-		
-		
+
 		if ( hasMapGrid )
 		{
 			glBindTexture( GL_TEXTURE_2D, textures[T_GRID].getTexture() );
@@ -716,10 +713,10 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 {
 	typename std::map < int, T > :: iterator it;
 
-    	for(
-	it = objects.begin();
-	it != objects.end();
-	it++ )
+	for(
+		it = objects.begin();
+		it != objects.end();
+		it++ )
 	{
 		stringstream ss;
 		if( touchingBox( bX, bY, bW, bH, it->second.x, it->second.y ) )
@@ -730,6 +727,7 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 		}
 	}
 }
+
 
 void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 {
@@ -744,7 +742,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		if( leftButtonDrag )
 		{
 			bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
-	// I think I may have to increase bH and bW by one...
+			// I think I may have to increase bH and bW by one...
 			bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
 			bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
 			bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
@@ -758,16 +756,14 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		int frame = getAttr( frameNumber );
 		if( game )
 		{
-	// TODO: Check if shift is held down.  If so, don't clear
+			// TODO: Check if shift is held down.  If so, don't clear
 			selectedIDs.clear();
-	// Probably could have used templates, or anything else.  Bad implementation but works;
+			// Probably could have used templates, or anything else.  Bad implementation but works;
 
 			addSelection(game->states[frame].units, selectedIDs, bX, bY, bW, bH, curX, curY);
 			addSelection(game->states[frame].bots, selectedIDs, bX, bY, bW, bH, curX, curY);
 			addSelection(game->states[frame].frames, selectedIDs, bX, bY, bW, bH, curX, curY);
 			addSelection(game->states[frame].walls, selectedIDs, bX, bY, bW, bH, curX, curY);
-
-
 
 			stringstream ss;
 			ss << "Selected Units: " << selectedIDs.size() << ", X: " << bX << ", Y: " << bY << '\n';
@@ -790,6 +786,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		rightButtonDown = false;
 	}
 }
+
 
 void Gameboard::mouseMoveEvent( QMouseEvent *e )
 {
@@ -909,13 +906,13 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-		getPercentage();//gets function ready to recalculate percentage controlled
+		getPercentage();						 //gets function ready to recalculate percentage controlled
 		drawBots( game, falloff );
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 		drawAnimations( game, falloff );
 		drawControl( game, falloff);
-            	
+
 		//parent->console
 
 	}
@@ -923,40 +920,42 @@ void Gameboard::paintGL()
 	drawMouse();
 }
 
+
 void Gameboard::drawAnimations( Game * game, float falloff)
 {
 
 	int frame = getAttr( frameNumber );
 	for (std::vector<Animation*>::iterator it = game->states[frame].animations.begin();
-	     it != game->states[frame].animations.end();
-	     it++)
+		it != game->states[frame].animations.end();
+		it++)
 	{
-	    switch ( (*it)->type)
-	    {
-		case ADD:
-		break;
-		case ATTACK:
-		drawAttack(game,(Attack*)(*it),falloff);
-		break;
-		case BUILD:
-		drawBuild(game,(Build*)(*it),falloff);
-		break;
-		case COLLIDE:
-		break;
-		case COMBINE:
-		break;
-		case HEAL:
-		drawHeal(game,(Heal*)(*it),falloff);
-		break;
-		case MOVE:
-		break;
-		case REMOVE:
-		break;
-		case SPLIT:
-		break;
-	    }
+		switch ( (*it)->type)
+		{
+			case ADD:
+				break;
+			case ATTACK:
+				drawAttack(game,(Attack*)(*it),falloff);
+				break;
+			case BUILD:
+				drawBuild(game,(Build*)(*it),falloff);
+				break;
+			case COLLIDE:
+				break;
+			case COMBINE:
+				break;
+			case HEAL:
+				drawHeal(game,(Heal*)(*it),falloff);
+				break;
+			case MOVE:
+				break;
+			case REMOVE:
+				break;
+			case SPLIT:
+				break;
+		}
 	}
 }
+
 
 //void
 
@@ -977,20 +976,20 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		xf = state2.bots[attack->victim].x;
 		yf = state2.bots[attack->victim].y;
 
-		 ///*
+		///*
 
-		 stringstream ss;
-		 ss << "X0: " << x0 << " Y0: " << y0 << "\nXF: " << xf << " YF: " << yf;
+		stringstream ss;
+		ss << "X0: " << x0 << " Y0: " << y0 << "\nXF: " << xf << " YF: " << yf;
 
-		 QString out = ss.str().c_str();
+		QString out = ss.str().c_str();
 
-		 QMessageBox::critical(
+		QMessageBox::critical(
 			this,
 			"Error",
 			out
 			);
 
-		 //*/
+		//*/
 
 		float d = sqrt((xf - x0)*(xf-x0) + (yf-y0)*(yf-y0));
 		float x, y;
@@ -1004,10 +1003,10 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		switch (state1.bots[attack->attacker].owner)
 		{
 			case 0:
-			glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
-			break;
+				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
+				break;
 			default:
-			glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_ATTACK].getTexture() );
+				glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_ATTACK].getTexture() );
 
 		}
 
@@ -1025,14 +1024,15 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 }
 
 
-
 void Gameboard::drawBuild( Game * game, Build * build, float falloff )
 {
 }
 
+
 void Gameboard::drawHeal( Game * game, Heal * heal, float falloff )
 {
 }
+
 
 void Gameboard::timerEvent( QTimerEvent *)
 {
