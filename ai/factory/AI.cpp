@@ -12,9 +12,12 @@ const char* AI::password()
   return "password";
 }
 
+int built;
+
 //This function is run once, before your first turn.
 void AI::init()
 {
+  built=0;
   srand(time(NULL));
 }
 
@@ -52,12 +55,13 @@ bool AI::run()
   // starting builders
   if(builders.size()<4)
   {
+    
     for(unsigned int b=0;b<builders.size();b++)
     {
       int x=bots[builders[b]].x()+xMod[playerID()*2 +1];
       int y=bots[builders[b]].y()+yMod[playerID()*2 +1];
       bots[builders[b]].build(types[1], x, y, 1);
-    }
+    }    
   }
   // if there are 4 builders
   if(builders.size()==4)
@@ -84,7 +88,12 @@ bool AI::run()
       }
       int x=bots[builders[b]].x()+xMod[dir];
       int y=bots[builders[b]].y()+yMod[dir];
-      bots[builders[b]].build(types[rand()%types.size()],x,y,1);
+      if(bots[builders[b]].actions()>0)
+      {
+        // builds 4 different guys
+        bots[builders[b]].build(types[(built/4+b)%types.size()], x, y, 1);
+        built++;
+      }
     }
   }
   if(uncombined.size()==4)
@@ -107,6 +116,10 @@ bool AI::run()
   // Handles all of the non builders
   for(unsigned int b=0;b<actors.size();b++)
   {
+    if(bots[actors[b]].damage()>0)
+    {
+      cout<<"\t\tI HAVE DAMAGE!"<<endl;
+    }
     Unit* target = findNearestTarget(bots[actors[b]]);
     moveTowardsTarget(bots[actors[b]], *target);
     if(inRange(bots[actors[b]], *target))
@@ -121,6 +134,8 @@ void AI::unload(Bot& actor, Unit& target)
 {
   while(actor.actions()>0)
   {
+    if(actor.damage()==0){cout<<"NOT ";};
+    cout<<"ATTACKING!"<<endl;
     actor.attack(target);
   }
 }

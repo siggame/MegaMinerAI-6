@@ -1,8 +1,12 @@
 GENDIR=../../client/c
 all:
+	mv $(GENDIR)/AI.cpp tempAIcpp.txt
+	mv $(GENDIR)/AI.h tempAIh.txt
 	cp *.cpp *.h $(GENDIR)
 	make -C $(GENDIR)
-	cp $(GENDIR)/client .
+	mv $(GENDIR)/client .
+	mv tempAIcpp.txt $(GENDIR)/AI.cpp 
+	mv tempAIh.txt   $(GENDIR)/AI.h 
 
 clean:
 	rm -f client
