@@ -6,12 +6,19 @@ from zlib import compress
 from os import listdir, mkdir
 from os.path import isdir, exists, join
 
-import config.config
+import config
 
 dbManagerName='localhost' #we should probably add a way to change this
 
 class UpdateServer(rpyc.Service):
-  def exposed_get(self, name, version):
+  def exposed_get(self, password, name, version):
+    validNames = config.readConfig("login.cfg")
+    if validNames['admin']['password'] != password:
+      print validNames['admin']['password']
+      print password
+      print "Wrong!"
+      return None
+    
     print "sending out",name,"version",version
 
     if exists( join(name,str(version)+'.tar.bz2') ):
@@ -20,9 +27,9 @@ class UpdateServer(rpyc.Service):
     else:
       return None
 
-def exposed_update(self, name, password, binary):
+  def exposed_update(self, name, password, binary):
     #updates a program (a client, unless name=server)
-    validNames = config.config.readConfig("login.cfg")
+    validNames = config.readConfig("login.cfg")
     if not (name in validNames and validNames[name]["password"] == password):
       return False
     
@@ -40,16 +47,6 @@ def exposed_update(self, name, password, binary):
     b = open(join(name,str(v)+'.tar.bz2'),'wb')
     b.write(binary)
     b.close()
-    
-    #now update the database server
-    try:
-      db = rpyc.connect(dbManagerName,18863)
-      db.root.updateVersion('name',v)
-      db.close()
-    except:
-      import traceback
-      traceback.print_exc()
-      print "failed to connect to the db manager :("
     
     return True
 
