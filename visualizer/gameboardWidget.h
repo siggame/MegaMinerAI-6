@@ -65,7 +65,6 @@ class Gameboard : public QGLWidget
 		void clearBackground();
 
 	private slots:
-		void handleMouse();
 
 	protected:
 		void initializeGL();
@@ -88,12 +87,12 @@ class Gameboard : public QGLWidget
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);
 
-		void drawControl( Game * game, float falloff);
+		void drawControl();
 
 		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
-                float getPercentage(int owner = -1, int size = -1);
+		float getPercentage(int owner = -1, int size = -1);
 		map<int,string> selectedIDs;
 
 		texture textures[numTextures];
@@ -104,13 +103,11 @@ class Gameboard : public QGLWidget
 		QTime buttonTimes;
 
 		bool hasMapGrid;
-		bool hasDefaultBG; //default background
+		bool hasDefaultBG;					 //default background
 
 		void mousePressEvent( QMouseEvent *event );
 		void mouseReleaseEvent( QMouseEvent *event );
 		void mouseMoveEvent( QMouseEvent *event );
-
-
 
 		DrawGLFont *drawFont;
 

@@ -52,14 +52,16 @@
 			ATTRIBUTE( int, boardHeightPx );
 			ATTRIBUTE( int, boardWidthPx );
 
+			ATTRIBUTE( int, doubleClickTime );
+
 			// Texture Files
 
 			ATTRIBUTE( string, defBGFileName );
 			ATTRIBUTE( string, wallFileName );
 			ATTRIBUTE( string, gridFileName );
 
-			    // Bot Textures
-				//red bots
+			// Bot Textures
+			//red bots
 			ATTRIBUTE( string, redActionFile );
 			ATTRIBUTE( string, redBuilderFile );
 			ATTRIBUTE( string, redCannonFile );
@@ -69,7 +71,7 @@
 			ATTRIBUTE( string, redFrameFile );
 			ATTRIBUTE( string, redAttackFile );
 
-				//blue bots
+			//blue bots
 			ATTRIBUTE( string, bluActionFile );
 			ATTRIBUTE( string, bluBuilderFile );
 			ATTRIBUTE( string, bluCannonFile );
