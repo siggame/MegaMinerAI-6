@@ -915,10 +915,11 @@ void Gameboard::paintGL()
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
 		getPercentage();						 //gets function ready to recalculate percentage controlled
-		drawBots( game, falloff );
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 		drawAnimations( game, falloff );
+		drawBots( game, falloff );
+
 		drawControl();
 
 		//parent->console
