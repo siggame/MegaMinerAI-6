@@ -687,16 +687,26 @@ void Gameboard::mousePressEvent( QMouseEvent *e )
 }
 
 
-bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
+bool touchingBox( int selectX, int selectY, int selectWidth, int selectHeight, int x, int y, int size )
 {
-	if( x >= bX && x <= bW && y >=bY && y <= bH )
+	if(
+		selectX <= x+(size-1) &&
+		selectWidth >= x &&
+		selectY <=y+(size-1) &&
+		selectHeight >= y )
+	{
+		cout << "sX: " << selectX << " sY: " << selectY << " sW: " << selectWidth;
+		cout << " sH: " << selectHeight << " x: " << x << " y: " << y << endl;
 		return true;
+	}
+	//if( x >= selectX && x <= selectWidth && y >=selectY && y <= selectHeight )
+	//	return true;
 	return false;
 }
 
 
 template <class T>
-void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedIDs, const int & bX, const int & bY, const int & bW, const int & bH)
+void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedIDs, const int & selectX, const int & selectY, const int & selectWidth, const int & selectHeight)
 {
 	typename std::map < int, T > :: iterator it;
 
@@ -706,7 +716,7 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 		it++ )
 	{
 		stringstream ss;
-		if( touchingBox( bX, bY, bW, bH, it->second.x, it->second.y ) )
+		if( touchingBox( selectX, selectY, selectWidth, selectHeight, it->second.x, it->second.y, it->second.size ) )
 		{
 			//ss << "Type: " << typeid(T).name() << " Owner: " << it->second.owner << " Max Health: " << it->second.maxHealth << " Health: " << it->second.health;
 			ss << it->second;
@@ -720,18 +730,18 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 {
 	curX = e->x()+1;
 	curY = e->y()+1;
-	int bW, bH;
-	int bX = bW = curX/getAttr(unitSize);
-	int bY = bH = curY/getAttr(unitSize);
+	int selectWidth, selectHeight;
+	int selectX = selectWidth = curX/getAttr(unitSize);
+	int selectY = selectHeight = curY/getAttr(unitSize);
 
 	if( e->button() == Qt::LeftButton )
 	{
 		if( leftButtonDrag )
 		{
-			bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
-			bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
-			bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
-			bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
+			selectX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
+			selectWidth = (curX<dragX ? dragX:curX)/getAttr(unitSize);
+			selectY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
+			selectHeight = (curY<dragY ? dragY:curY)/getAttr(unitSize);
 
 		}
 
@@ -746,13 +756,13 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 			selectedIDs.clear();
 			// Probably could have used templates, or anything else.  Bad implementation but works;
 
-			addSelection(game->states[frame].units, selectedIDs, bX, bY, bW, bH);
-			addSelection(game->states[frame].bots, selectedIDs, bX, bY, bW, bH);
-			addSelection(game->states[frame].frames, selectedIDs, bX, bY, bW, bH);
-			addSelection(game->states[frame].walls, selectedIDs, bX, bY, bW, bH);
+			addSelection(game->states[frame].units, selectedIDs, selectX, selectY, selectWidth, selectHeight);
+			addSelection(game->states[frame].bots, selectedIDs, selectX, selectY, selectWidth, selectHeight);
+			addSelection(game->states[frame].frames, selectedIDs, selectX, selectY, selectWidth, selectHeight);
+			addSelection(game->states[frame].walls, selectedIDs, selectX, selectY, selectWidth, selectHeight);
 
 			stringstream ss;
-			ss << "Selected Units: " << selectedIDs.size() << ", X: " << bX << ", Y: " << bY << '\n';
+			ss << "Selected Units: " << selectedIDs.size() << ", X: " << selectX << ", Y: " << selectY << '\n';
 
 			for (map<int,string>::iterator it = selectedIDs.begin(); it != selectedIDs.end(); it++)
 			{

@@ -571,7 +571,7 @@ void VisualizerWindow::advanceFrame()
 	setAttr( currentMode, paused );
 
 	int frame = getAttr( frameNumber );
-	if( frame < gamelog->states.size()-1 )
+	if( (unsigned)frame < gamelog->states.size()-1 )
 		setAttr( frameNumber, frame+1 );
 	controlSlider->setSliderPosition( frame );
 }
