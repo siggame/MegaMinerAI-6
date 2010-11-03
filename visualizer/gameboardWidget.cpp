@@ -695,8 +695,6 @@ bool touchingBox( int selectX, int selectY, int selectWidth, int selectHeight, i
 		selectY <=y+(size-1) &&
 		selectHeight >= y )
 	{
-		cout << "sX: " << selectX << " sY: " << selectY << " sW: " << selectWidth;
-		cout << " sH: " << selectHeight << " x: " << x << " y: " << y << endl;
 		return true;
 	}
 	//if( x >= selectX && x <= selectWidth && y >=selectY && y <= selectHeight )
@@ -738,6 +736,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 	{
 		if( leftButtonDrag )
 		{
+
 			selectX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
 			selectWidth = (curX<dragX ? dragX:curX)/getAttr(unitSize);
 			selectY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
@@ -746,8 +745,12 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		}
 
 		if( leftDoubleClick )
+		{
+			leftDoubleClick = false;
 			return;
+		}
 
+		// Something very bad is happening here. 
 		Game *game = parent->gamelog;
 		int frame = getAttr( frameNumber );
 		if( game )
