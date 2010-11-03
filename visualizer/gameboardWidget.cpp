@@ -714,7 +714,7 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 		it++ )
 	{
 		stringstream ss;
-		if( touchingBox( selectX, selectY, selectWidth, selectHeight, it->second.x, it->second.y, it->second.size ) )
+		if( touchingBox( selectX, selectY, selectWidth, selectHeight, it->second.x, it->second.y, it->second.size )  )
 		{
 			//ss << "Type: " << typeid(T).name() << " Owner: " << it->second.owner << " Max Health: " << it->second.maxHealth << " Health: " << it->second.health;
 			ss << it->second;
@@ -757,12 +757,20 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		{
 			// TODO: Check if shift is held down.  If so, don't clear
 			selectedIDs.clear();
-			// Probably could have used templates, or anything else.  Bad implementation but works;
 
 			addSelection(game->states[frame].units, selectedIDs, selectX, selectY, selectWidth, selectHeight);
-			addSelection(game->states[frame].bots, selectedIDs, selectX, selectY, selectWidth, selectHeight);
+			std::map<int,Unit> tBots;
+			for( std::map<int,Bot>::iterator i = game->states[frame].bots.begin(); i != game->states[frame].bots.end(); i++ )
+			{
+				if( !i->second.partOf )
+					tBots[i->second.id] = i->second;
+			}
+			
+			addSelection(tBots, selectedIDs, selectX, selectY, selectWidth, selectHeight);
 			addSelection(game->states[frame].frames, selectedIDs, selectX, selectY, selectWidth, selectHeight);
 			addSelection(game->states[frame].walls, selectedIDs, selectX, selectY, selectWidth, selectHeight);
+
+
 
 			stringstream ss;
 			ss << "Selected Units: " << selectedIDs.size() << ", X: " << selectX << ", Y: " << selectY << '\n';
