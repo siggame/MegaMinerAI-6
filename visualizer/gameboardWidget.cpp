@@ -750,13 +750,15 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 			return;
 		}
 
-		// Something very bad is happening here. 
 		Game *game = parent->gamelog;
 		int frame = getAttr( frameNumber );
 		if( game )
 		{
 			// TODO: Check if shift is held down.  If so, don't clear
-			selectedIDs.clear();
+			//
+
+			if( !(QApplication::keyboardModifiers() & Qt::ShiftModifier) )
+				selectedIDs.clear();
 
 			addSelection(game->states[frame].units, selectedIDs, selectX, selectY, selectWidth, selectHeight);
 			std::map<int,Unit> tBots;
