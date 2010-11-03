@@ -659,8 +659,7 @@ void Gameboard::mousePressEvent( QMouseEvent *e )
 	{
 		clickX = e->x();
 		clickY = e->y();
-		// TODO: Move double click time into VISCONFIG
-		if( buttonTimes.elapsed() - leftButtonTime < 275 )
+		if( buttonTimes.elapsed() - leftButtonTime < getAttr( doubleClickTime ) )
 		{
 			// Do Double click event
 
@@ -716,7 +715,6 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 		stringstream ss;
 		if( touchingBox( selectX, selectY, selectWidth, selectHeight, it->second.x, it->second.y, it->second.size )  )
 		{
-			//ss << "Type: " << typeid(T).name() << " Owner: " << it->second.owner << " Max Health: " << it->second.maxHealth << " Health: " << it->second.health;
 			ss << it->second;
 			selectedIDs[it->second.id] = ss.str() ;
 		}
@@ -754,9 +752,6 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		int frame = getAttr( frameNumber );
 		if( game )
 		{
-			// TODO: Check if shift is held down.  If so, don't clear
-			//
-
 			if( !(QApplication::keyboardModifiers() & Qt::ShiftModifier) )
 				selectedIDs.clear();
 

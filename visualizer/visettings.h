@@ -52,6 +52,8 @@
 			ATTRIBUTE( int, boardHeightPx );
 			ATTRIBUTE( int, boardWidthPx );
 
+			ATTRIBUTE( int, doubleClickTime );
+
 			// Texture Files
 
 			ATTRIBUTE( string, defBGFileName );
