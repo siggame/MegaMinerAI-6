@@ -456,6 +456,9 @@ void Gameboard::drawBots( Game *game, float falloff )
 				sprite = T_REDBOT_FORCE;
 				break;
 
+				default: // temp fix
+				sprite = T_REDBOT_FORCE;
+
 			    }
 			}
 			else
@@ -486,6 +489,8 @@ void Gameboard::drawBots( Game *game, float falloff )
 				sprite = T_BLUBOT_FORCE;
 				break;
 
+				default: // temp fix
+				sprite = T_REDBOT_FORCE;
 			    }
 			}
 
