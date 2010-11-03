@@ -365,6 +365,7 @@ class Frame(Unit):
     self.size = size
     self.type = type
     self.completionTime = completionTime
+    self.totalTime = completionTime
 
   def toList(self):
     value = [
