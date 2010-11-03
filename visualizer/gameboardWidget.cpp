@@ -45,7 +45,6 @@ void Gameboard::initializeGL()
 
 	glEnable( GL_TEXTURE_2D );
 
-	bool flag = false;
 	QString errString;
 
 	if (!loadAllTextures(errString))
@@ -162,9 +161,8 @@ bool Gameboard::loadAllTextures( QString & message )
 
 
 //Draws Territory Control Bar
-void Gameboard::drawControl( Game * game, float falloff )
+void Gameboard::drawControl(  )
 {
-	float baseHeight = getAttr( boardHeightPx );
 	float baseWidth  = getAttr( boardWidthPx );
 
 	float barWidth = .9*baseWidth;
@@ -216,10 +214,11 @@ void Gameboard::drawControl( Game * game, float falloff )
 	glEnd();
 
 	glPopMatrix();
+	glEnable( GL_TEXTURE_2D );
 }
 
 
-void Gameboard::drawHealth( int x, int y, int w, int h, int maxHealth, int health, int owner = 2)
+void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)), int maxHealth, int health, int owner = 2)
 {
 	float barLength = (health/static_cast<float>(maxHealth));
 
@@ -404,7 +403,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 			x0 = x1 = it->second.x*unitSize;
 			y0 = y1 = it->second.y*unitSize;
-			if( frame+1 < game->states.size() )
+			if((unsigned)frame+1 < game->states.size() )
 			{
 				if( game->states[frame+1].bots.find(it->second.id) != game->states[frame+1].bots.end() )
 				{
@@ -498,7 +497,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 
 //todo: naming is bad, game frames and frame bots are too similar
-void Gameboard::drawFrames( Game *game, float falloff )
+void Gameboard::drawFrames( Game *game, float falloff __attribute__ ((unused)) )
 {
 
 	int frame = getAttr(frameNumber);
@@ -537,7 +536,7 @@ void Gameboard::drawFrames( Game *game, float falloff )
 
 
 //Warning this has been hacked from the drawbots function
-void Gameboard::drawWalls( Game *game, float falloff )
+void Gameboard::drawWalls( Game *game, float falloff __attribute__ ((unused)) )
 {
 
 	int frame = getAttr( frameNumber );
@@ -653,19 +652,6 @@ void Gameboard::drawBackground()
 }
 
 
-void Gameboard::handleMouse()
-{
-	if( leftButtonDown )
-	{
-		// Do Drag event
-		leftButtonDrag = true;
-		dragX = clickX;
-		dragY = clickY;
-	}
-
-}
-
-
 void Gameboard::mousePressEvent( QMouseEvent *e )
 {
 
@@ -686,7 +672,8 @@ void Gameboard::mousePressEvent( QMouseEvent *e )
 		}
 
 		leftButtonDown = true;
-		QTimer::singleShot( 150, this, SLOT( handleMouse() ) );
+		dragX = clickX;
+		dragY = clickY;
 
 	} else if ( e->button() == Qt::RightButton )
 	{
@@ -709,7 +696,7 @@ bool touchingBox( int bX, int bY, int bW, int bH, int x, int y )
 
 
 template <class T>
-void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedIDs, const int & bX, const int & bY, const int & bW, const int & bH, const int & curX, const int & curY)
+void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedIDs, const int & bX, const int & bY, const int & bW, const int & bH)
 {
 	typename std::map < int, T > :: iterator it;
 
@@ -742,7 +729,6 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 		if( leftButtonDrag )
 		{
 			bX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
-			// I think I may have to increase bH and bW by one...
 			bW = (curX<dragX ? dragX:curX)/getAttr(unitSize);
 			bY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
 			bH = (curY<dragY ? dragY:curY)/getAttr(unitSize);
@@ -760,10 +746,10 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 			selectedIDs.clear();
 			// Probably could have used templates, or anything else.  Bad implementation but works;
 
-			addSelection(game->states[frame].units, selectedIDs, bX, bY, bW, bH, curX, curY);
-			addSelection(game->states[frame].bots, selectedIDs, bX, bY, bW, bH, curX, curY);
-			addSelection(game->states[frame].frames, selectedIDs, bX, bY, bW, bH, curX, curY);
-			addSelection(game->states[frame].walls, selectedIDs, bX, bY, bW, bH, curX, curY);
+			addSelection(game->states[frame].units, selectedIDs, bX, bY, bW, bH);
+			addSelection(game->states[frame].bots, selectedIDs, bX, bY, bW, bH);
+			addSelection(game->states[frame].frames, selectedIDs, bX, bY, bW, bH);
+			addSelection(game->states[frame].walls, selectedIDs, bX, bY, bW, bH);
 
 			stringstream ss;
 			ss << "Selected Units: " << selectedIDs.size() << ", X: " << bX << ", Y: " << bY << '\n';
@@ -790,6 +776,10 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 
 void Gameboard::mouseMoveEvent( QMouseEvent *e )
 {
+	// If manhatten distance is 6 or greater, we're draggin
+	if( abs(curX-dragX)+abs(curY-dragY) > 6 )
+		leftButtonDrag = true;
+
 	curX = e->x();
 	curY = e->y();
 }
@@ -911,7 +901,7 @@ void Gameboard::paintGL()
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 		drawAnimations( game, falloff );
-		drawControl( game, falloff);
+		drawControl();
 
 		//parent->console
 
@@ -965,7 +955,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
 
-	if (frame + 1 < game->states.size()-1)
+	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
 		GameState state1 = game->states[frame];
 		GameState state2 = game->states[frame+1];
@@ -991,7 +981,6 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 		//*/
 
-		float d = sqrt((xf - x0)*(xf-x0) + (yf-y0)*(yf-y0));
 		float x, y;
 		x = (xf-x0)*falloff + x0;
 		y = (yf-y0)*falloff + y0;
@@ -1024,12 +1013,12 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 }
 
 
-void Gameboard::drawBuild( Game * game, Build * build, float falloff )
+void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build __attribute__ ((unused)), float falloff __attribute__ ((unused)) )
 {
 }
 
 
-void Gameboard::drawHeal( Game * game, Heal * heal, float falloff )
+void Gameboard::drawHeal( Game * game __attribute__ ((unused)), Heal * heal __attribute__ ((unused)), float falloff __attribute__ ((unused)) )
 {
 }
 

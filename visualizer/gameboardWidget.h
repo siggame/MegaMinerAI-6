@@ -65,7 +65,6 @@ class Gameboard : public QGLWidget
 		void clearBackground();
 
 	private slots:
-		void handleMouse();
 
 	protected:
 		void initializeGL();
@@ -88,7 +87,7 @@ class Gameboard : public QGLWidget
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);
 
-		void drawControl( Game * game, float falloff);
+		void drawControl();
 
 		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
