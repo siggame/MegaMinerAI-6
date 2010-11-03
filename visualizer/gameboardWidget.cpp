@@ -490,7 +490,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 				break;
 
 				default: // temp fix
-				sprite = T_REDBOT_FORCE;
+				sprite = T_BLUBOT_FORCE;
 			    }
 			}
 
