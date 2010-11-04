@@ -407,7 +407,8 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 		if (it->second.partOf != 0)
 		{
-			if (game->states[frame].bots.find(it->second.partOf)->second.type == 0) // if the bot it is part of is a non-typed bot, draw it
+																 // if the bot it is part of is a non-typed bot, draw it
+			if (game->states[frame].bots.find(it->second.partOf)->second.type == 0)
 			{
 				flag = true;
 			}
@@ -441,7 +442,6 @@ void Gameboard::drawBots( Game *game, float falloff )
 			//set bot to appropriate type
 			int sprite;
 
-
 			if (owner == 0)
 			{
 				switch (it->second.type)
@@ -470,10 +470,10 @@ void Gameboard::drawBots( Game *game, float falloff )
 						sprite = T_REDBOT_FORCE;
 						break;
 
-				default: // temp fix
-				sprite = T_REDBOT_JOINT;
+					default:							 // temp fix
+						sprite = T_REDBOT_JOINT;
 
-			    }
+				}
 			}
 			else
 			{
@@ -503,16 +503,17 @@ void Gameboard::drawBots( Game *game, float falloff )
 						sprite = T_BLUBOT_FORCE;
 						break;
 
-				default: // temp fix
-				sprite = T_BLUBOT_JOINT;
-			    }
+					default:							 // temp fix
+						sprite = T_BLUBOT_JOINT;
+				}
 			}
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
 			if ( it->second.partOf == 0)
 				drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
 
-			getPercentage(owner, unitSize*it->second.size);//keeps count of each player's percentage
+																 //keeps count of each player's percentage
+			getPercentage(owner, unitSize*it->second.size);
 		}
 
 	}
@@ -785,12 +786,10 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 				if( !i->second.partOf )
 					tBots[i->second.id] = i->second;
 			}
-			
+
 			addSelection(tBots, selectedIDs, selectX, selectY, selectWidth, selectHeight);
 			addSelection(game->states[frame].frames, selectedIDs, selectX, selectY, selectWidth, selectHeight);
 			addSelection(game->states[frame].walls, selectedIDs, selectX, selectY, selectWidth, selectHeight);
-
-
 
 			stringstream ss;
 			ss << "Selected Units: " << selectedIDs.size() << ", X: " << selectX << ", Y: " << selectY << '\n';
@@ -800,7 +799,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 				ss << it->second << '\n';
 			}
 
-			parent->console->setText( ss.str().c_str() );
+			//parent->console->setText( ss.str().c_str() );
 		}
 
 		leftButtonDown = false;
@@ -878,26 +877,26 @@ void Gameboard::drawMouse()
 	}
 }
 
+
 void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 {
 	stringstream ss;
 	int startFrame = getAttr( frameNumber )-1;
 	if( getAttr( persistantTalking ) )
-	 startFrame = 0;	
+		startFrame = 0;
 	if( startFrame < 0 )
 		startFrame = 0;
 	for( int i = startFrame; i <= getAttr(frameNumber); i++ )
 	{
 		for(
-			 	std::vector<Animation*>::iterator j = game->states[i].animations.begin();
-				j != game->states[i].animations.end();
-				j++ )
+			std::vector<Animation*>::iterator j = game->states[i].animations.begin();
+			j != game->states[i].animations.end();
+			j++ )
 		{
 
 			// Not talking, continue
 			if( (*j)->type != TALK )
 				continue;
-
 
 			Talk *t = (Talk*)*j;
 
@@ -908,9 +907,9 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 			// Ok, selected and talking... whew
 			// Let's see if the unit is in this frame:
 			if( game->states[i].bots.find( t->speaker ) == game->states[i].bots.end() )
-				continue;	
+				continue;
 
-			// Yes, he's in the frame!!! 
+			// Yes, he's in the frame!!!
 			// GETTING CLOSER!!
 			// Correct team!?!?!?!?!
 			if( (game->states[i].bots[t->speaker].owner+1)&(getAttr(team1Talk)|((getAttr(team2Talk))<<1) ) )
@@ -918,20 +917,18 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 				// CORRECT TEAM!!!!
 				ss << t->message << endl;
 			}
-			
+
 		}
 	}
 
-	
-//	parent->console->setText( ss.str().c_str() );
-
+	parent->console->setText( ss.str().c_str() );
 
 }
 
 
 void Gameboard::paintGL()
 {
-	// We only want to update output if our frame has changed.  
+	// We only want to update output if our frame has changed.
 	// Other wise we're wasting our time.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
@@ -1003,10 +1000,10 @@ void Gameboard::paintGL()
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
 			talkRobotsGodDamnitTalk(game);
-			
+
 			stringstream text;
 			text << getAttr(frameNumber) << "/" << game->states.size();
-			
+
 			parent->turnLabel->setText( text.str().c_str() );
 		}
 		//parent->console
@@ -1075,17 +1072,6 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		y0 += state1.frames[attack->attacker].y;
 		y0 += state1.walls[attack->attacker].y;
 		y0 *= getAttr(unitSize);
-			
-		//	*getAttr(unitSize);
-
-		cout << "__________" << endl;
-		cout << "ATACK: " << attack->victim << endl;
-		for( std::map<int,Mappable>::iterator i = state2.mappables.begin(); 
-				i != state2.mappables.end();
-				i++ )
-		{
-			cout << i->first << endl;
-		}
 
 		xf = state2.mappables[attack->victim].x*getAttr(unitSize);
 		yf = state2.mappables[attack->victim].y*getAttr(unitSize);
@@ -1101,8 +1087,6 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		yf += state2.frames[attack->victim].y;
 		yf += state2.walls[attack->victim].y;
 		yf *= getAttr(unitSize);
-	
-
 
 		float x, y;
 		x = (xf-x0)*falloff + x0;
@@ -1110,8 +1094,9 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 		glPushMatrix();
 		glTranslatef(x,y,0);
-		glScalef( unitSize * state1.bots[attack->attacker].size , unitSize * state1.bots[attack->attacker].size, 1 );
+		glScalef( unitSize * state1.bots[attack->attacker].size/2 , unitSize * state1.bots[attack->attacker].size/2, 1 );
 
+		glEnable( GL_TEXTURE_2D );
 		switch (state1.bots[attack->attacker].owner)
 		{
 			case 0:
