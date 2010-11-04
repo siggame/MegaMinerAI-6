@@ -793,6 +793,9 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 	{
 		rightButtonDown = false;
 	}
+
+	// Invalidate last frame so we get the latest talkers.
+	setAttr( lastFrame, -1 );
 }
 
 
@@ -910,7 +913,6 @@ void Gameboard::paintGL()
 {
 	// We only want to update output if our frame has changed.  
 	// Other wise we're wasting our time.
-	static int lastFrame = 0;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -977,9 +979,9 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawControl();
 
-		if( getAttr(frameNumber) != lastFrame )
+		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{
-			lastFrame = getAttr( frameNumber );
+			setAttr( lastFrame, getAttr( frameNumber ) );
 			talkRobotsGodDamnitTalk(game);
 		}
 		//parent->console

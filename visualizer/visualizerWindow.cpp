@@ -12,18 +12,21 @@ Options::Options()
 
 void Options::togglePersistant( bool on)
 {
+	setAttr( lastFrame, -1 );
 	setAttr( persistantTalking, on );
 }
 
 
 void Options::toggleTeam1( bool on )
 {
+	setAttr( lastFrame, -1 );
 	setAttr( team1Talk, on );
 }
 
 
 void Options::toggleTeam2( bool on )
 {
+	setAttr( lastFrame, -1 );
 	setAttr( team2Talk, on );
 }
 

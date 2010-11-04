@@ -36,6 +36,7 @@
 			ATTRIBUTE( int, defaultMode );
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
+			ATTRIBUTE( int, lastFrame );
 			ATTRIBUTE( int, speed );
 
 			// This is the current play speed
