@@ -36,6 +36,7 @@
 			ATTRIBUTE( int, defaultMode );
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
+			ATTRIBUTE( int, lastFrame );
 			ATTRIBUTE( int, speed );
 
 			// This is the current play speed
@@ -70,6 +71,8 @@
 			ATTRIBUTE( string, redForceFile );
 			ATTRIBUTE( string, redFrameFile );
 			ATTRIBUTE( string, redAttackFile );
+			ATTRIBUTE( string, redBuildAnimFile );
+			ATTRIBUTE( string, redJointFile );
 
 			//blue bots
 			ATTRIBUTE( string, bluActionFile );
@@ -80,10 +83,13 @@
 			ATTRIBUTE( string, bluForceFile );
 			ATTRIBUTE( string, bluFrameFile );
 			ATTRIBUTE( string, bluAttackFile );
+			ATTRIBUTE( string, bluBuildAnimFile );
+			ATTRIBUTE( string, bluJointFile );
 
 			// Arena Stuff
 			ATTRIBUTE( int, arenaMode );
 			ATTRIBUTE( int, winnerScreenTime );
+			ATTRIBUTE( int, initTime );
 
 			// Font Stuff
 
@@ -93,6 +99,9 @@
 			ATTRIBUTE( bool, team1Talk );
 			ATTRIBUTE( bool, team2Talk );
 			ATTRIBUTE( bool, persistantTalking );
+
+			ATTRIBUTE( int, team1Score );
+			ATTRIBUTE( int, team2Score );
 
 			public:
 				static visettings *inst;

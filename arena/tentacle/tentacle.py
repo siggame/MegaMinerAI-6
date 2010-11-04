@@ -1,70 +1,123 @@
+#!/usr/bin/env python
+# -*- coding: iso-8859-1 -*-
 import rpyc
-import multiprocessing
-import os 
+from subprocess import Popen, PIPE, STDOUT
+import os, shutil
+from os.path import isdir, exists, join
 import traceback
-import zlib
-import stat
+from bz2 import compress, decompress
+from tarfile import TarFile
+from StringIO import StringIO
 import time
+
+import config
+
 dbManagerName='localhost'
 updateServerName='localhost'
 class GladiatorService(rpyc.Service):
-  def update(self, name, version):
+  def update(self, name, version, target):
+    shutil.rmtree(target)
+    os.mkdir(target)
     try:
       updateServer=rpyc.connect(updateServerName,18862)
-      zfile = updateServer.root.get(name, version)
-      dfile = zlib.decompress(zfile)
-      if not os.path.isdir(name):
-        os.mkdir(name)
-      path = name+'/'+str(version)
-      f = open(path,'wb')
-      f.write(dfile)
-      f.close()
-      os.chmod(path,stat.S_IRWXU)
+      validNames = config.readConfig("login.cfg")
+      password = validNames['admin']['password']
+      tar = updateServer.root.get(password, name, version)
+      
+      s = StringIO(decompress(tar))
+      f = TarFile(mode='r', fileobj=s)
+      
+      f.extractall(target)
       print "updated",name
+      return True
     except:
       traceback.print_exc()
       print "Failed to connet to the update server :("
+      return False
 
-  def startServer(self, sv):
-    os.chdir('server')
-    os.execvp('python',['python',str(sv)])
+
+  def startServer(self):
+    s = Popen('./main.py -arena', stdin = None, stdout = None, stderr = None, shell = True, cwd = 'server')
+    return s
   
-  def startClient(self, name, version, args):
-    os.chdir(name)
-    os.execv(str(version), args)
+  def startClient1(self):
+    c = Popen('./run localhost', stdout = None, stderr = STDOUT, shell = True, cwd = 'client1')
+    return c
+  
+  def startClient2(self):
+    c = Popen('./run localhost 0', stdout = None, stderr = STDOUT, shell = True, cwd = 'client2')
+    return c
 
-  def exposed_runGame(self,c1,c1v,c2,c2v,sv):
+  def exposed_runGame(self, c1, c2, sv):
     #check versioning:
-    if not os.path.exists(c1+'/'+str(c1v)):
-      self.update(c1,c1v)
-    if not os.path.exists(c2+'/'+str(c2v)):
-      self.update(c2,c2v)
-    if not os.path.exists('server/'+str(sv)):
-      self.update('server',sv)
+    self.update(c1[0], c1[1], 'client1')
+    self.update(c2[0], c2[1], 'client2')
+    self.update('server',sv, 'server')
     
-    startTime=time.time()
-    server = multiprocessing.Process(target=self.startServer,args=[sv])
-    server.start()
-    time.sleep(0.5)
-    player1 = multiprocessing.Process(target=self.startClient,args=[c1,c1v,[str(c1v),'localhost']])
-    player1.start()
-    time.sleep(0.5)
-    player2 = multiprocessing.Process(target=self.startClient,args=[c2,c2v,[str(c2v),'localhost',str(1)]])
-    player2.start()
+    startTime = time.time()
+    
+    server = self.startServer()
+    time.sleep(1)
+    
+    player1 = self.startClient1()
+    time.sleep(1)
+    print 'Waiting for game created'
+    if not exists(join('server', 'created')):
+      player1.kill()
+      server.kill()
+      return -1
+    
+    
+    player2 = self.startClient2()
+    time.sleep(1)
+    
+    print 'Waiting for game started'
+    if not exists(join('server', 'started')):
+      print 'aww'
+      player1.kill()
+      player2.kill()
+      server.kill()
+      return -2
+    
+    print 'playing game'
     #wait for gamelog
-    while player1.is_alive() or player2.is_alive():
+    while time.time() < startTime + 600:
+      server.poll()
+      if server.returncode is not None:
+        break
       time.sleep(5)
-    #stop server since it's currently looking for more connections
-    server.terminate()
-    logfile=open('server/logs/1.gamelog','rb')
+    
+    print 'the game is finished!'
+    
+    if server.returncode is None:
+      player1.kill()
+      player2.kill()
+      server.kill()
+      return 0
+    
+    print 'I wonder who won!'
+    
+    time.sleep(2)
+    player1.kill()
+    player2.kill()
+    
+    
+    logfile=open('server/logs/1.gamelog.bz2','rb')
     log=logfile.read()
-    logfile.close()
-    clog=zlib.compress(log)
     try:
+      validNames = config.readConfig("login.cfg")
+      password = validNames['admin']['password']
+      
       dbServer=rpyc.connect(dbManagerName,18863)
-      dbServer.root.catalog(clog,c1,c1v,c2,c2v,sv,startTime,os.uname()[1])
+      dbServer.root.catalog(password, log, c1, c2, sv,startTime)
     except:
       traceback.print_exc()
+    
+    if not exists(join('server', 'winner')):
+      return 0
+    if 'Player 0 wins' in file(join('server', 'winner'), 'r').read():
+      return 1
+    return 2
 
   def exposed_getFree(self):
     f = open('/proc/meminfo', 'r')

@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: iso-8859-1 -*-
 import rpyc
 
 if __name__ ==  '__main__':
     import traceback
-    hosts = [i.strip() for i in open('serverList.txt', 'r').readlines()]
+    hosts = ['localhost']
 
     tentacles = []
     for i in hosts:
@@ -14,4 +16,4 @@ if __name__ ==  '__main__':
     print "Connected to",len(tentacles),"tentacles"
     
     for tentacle in tentacles:
-        print tentacle.host, tentacle.root.getFree()
+        print tentacle.host, tentacle.root.runGame(['client', 0], ['client', 0], 0)

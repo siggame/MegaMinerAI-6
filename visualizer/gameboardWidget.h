@@ -25,6 +25,7 @@ enum eTextures
 	T_REDBOT_ENGINE,
 	T_REDBOT_FORCE,
 	T_REDBOT_FRAME,
+	T_REDBOT_JOINT,
 
 	T_REDPART_ATTACK,
 	T_REDPART_BUILD,
@@ -36,6 +37,7 @@ enum eTextures
 	T_BLUBOT_ENGINE,
 	T_BLUBOT_FORCE,
 	T_BLUBOT_FRAME,
+	T_BLUBOT_JOINT,
 
 	T_BLUPART_ATTACK,
 	T_BLUPART_BUILD,
@@ -75,6 +77,7 @@ class Gameboard : public QGLWidget
 		void drawBackground( );
 		void drawScoreboard();
 		void drawMouse();
+		void drawProgressbar( Game * game);
 
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
@@ -83,6 +86,8 @@ class Gameboard : public QGLWidget
 		void drawAttack( Game * game, Attack * attack, float falloff );
 		void drawBuild( Game * game, Build * build, float falloff );
 		void drawHeal( Game * game, Heal * heal, float falloff );
+
+		void talkRobotsGodDamnitTalk(Game *game);
 
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);

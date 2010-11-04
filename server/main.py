@@ -11,6 +11,7 @@ from game_app.game_app_utils import errorBuffer, requireLogin, requireGame,     
 import time
 import struct
 import bz2
+import sys
 
 
 class GameApp(AccountsAppMixin, BaseApp):
@@ -31,7 +32,6 @@ class GameApp(AccountsAppMixin, BaseApp):
     if self.game is not None:
       return ("create-game-denied", "You are already in a game.")
     else:
-      print "Creating game %d"%(GameApp.nextid,)
       self.user = self.name
       self.game = Match(GameApp.nextid, self)
       self.game.addPlayer(self)
@@ -203,4 +203,7 @@ class TestGameServer(SexpProtocol):
 if __name__ == "__main__":
   import timer
   timer.install()
+  if '-arena' in sys.argv:
+    import arena
+    arena.install()
   TestGameServer.main(19000)

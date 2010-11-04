@@ -95,7 +95,7 @@ DLLEXPORT int send_string(int socket, const char* payload) {
    int val = send(socket, (char*)&n_msg_len, 4, 0);
     if( val != 4)
     {
-        cerr << "Network too slow to send 4 bytes: EPIC FAIL!" << endl;
+        cerr << "Connection broken." << endl;
         cerr << "Sent: " << val << endl;
         delete[] cstr;
         return -1;

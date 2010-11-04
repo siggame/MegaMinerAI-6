@@ -86,9 +86,6 @@ class Match(DefaultGameWorld):
       if isinstance(i, Bot):
         map[i.x][i.y] = chr(ord('a') + i.type - 1)
     
-    for y in xrange(self.boardY):
-      print ''.join(map[x][y] for x in xrange(self.boardX))
-
     for x in xrange(self.boardX):
       for y in xrange(self.boardY):
         if map[x][y] == '#':
