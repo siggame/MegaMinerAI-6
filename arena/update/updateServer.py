@@ -12,15 +12,12 @@ class UpdateServer(rpyc.Service):
   def exposed_get(self, password, name, version):
     validNames = config.readConfig("login.cfg")
     if validNames['admin']['password'] != password:
-      print validNames['admin']['password']
-      print password
-      print "Wrong!"
       return None
     
     print "sending out",name,"version",version
 
-    if exists( join(name,str(version)+'.tar.bz2') ):
-      return open( join(name,str(version)+'.tar.bz2'),'rb').read()
+    if exists( join('files', name,str(version)+'.tar.bz2') ):
+      return open( join('files', name,str(version)+'.tar.bz2'),'rb').read()
 
     else:
       return None
@@ -42,7 +39,7 @@ class UpdateServer(rpyc.Service):
     else:
       mkdir(name)
       v=0
-    b = open(join(name,str(v)+'.tar.bz2'),'wb')
+    b = open(join('files', name,str(v)+'.tar.bz2'),'wb')
     b.write(binary)
     b.close()
     

@@ -44,7 +44,6 @@ class BaseApp(object):
   
   def __init__(self, protocol):
     self.protocol = protocol
-    print self.__class__._mapper
 
   def run(self, coms):
     try:
