@@ -1,16 +1,32 @@
 # -*- coding: utf-8 -*-
 #New Game Visualizer Scheduler Update Function
 #the game holders themselves are not deleted so that the queue can easily tell wether a game between these two with the same version numbers has already been played, as if one has it gets no bonus to its priority.
-def visualizerQueueUpdate(newgame,visq):
-  found = False
+import heapq
+
+# tentq is a priority heap with entries of the following type:
+#   [priority, player1, player2]
+
+# visq is a priority heap with entries of the following type:
+#   [priority, player1, player2, gamelogNumber, played]
+
+# each is of size n^2 where n is the number of teams.
+
+# teamlist is a dict for current version numbers
+
+tentq = []
+visq = []
+teamlist = {}
+
+def visualizerQueueUpdate(game,gamelog):
   for game in visq:
+    found = False
     #finds the previous game between the same players in the same player numbers
-    if newgame.player1 == game.player1 and newgame.player2 == game.player2:
+    if newgame[1:3] == game[1:3]:
       found = True
       #updates the gamelog stored
-      game.gamelog = newgame.gamelog
+      game[3] = gamelog
       #makes the game playable agian
-      game.played = false
+      game[4] = False
       #Checks if its a new version
       if game.p1ver != newgame.p1ver or game.p2ver != newgame.p2ver:
 	#if so, it updates the version and increases the priority (new games are more interesting than old games!)
@@ -24,54 +40,34 @@ def visualizerQueueUpdate(newgame,visq):
     visq.append(newgame)
   
 #New Version Game Scheduler Update Function  
-def gameQueueUpdate(newAI,tentq,teamlist):
-  found = False
-  #updates the teamlist with the new ai and new version information
-  for team in teamlist:
-    if newAI.teamName == team.teamName:
-      found = True
-      newAI.ver = team.ver + 1
-      team = newAI
-  for schedule in tentq:
-    #finds all previously scheduled games and updates them for new version
-    if newAI.teamName == schedule.team1.teamName:
-      schedule.team1 = newAI
-      schedule.priority += 2 * tentq.len()
-    elif newAI.teamName == schedule.team2.teamName:
-      schedule.team2 = newAI
-      schedule.priority += 2 * tentq.len()
-  #if it is the very first submission it sets up matches and stores the team in the teamlist
-  if !found:
-    newAI.ver = 1
+def gameQueueUpdate(newAI):
+  if team in teamlist:
+    teamlist[team] += 1
+    for game in tentq:
+      if newAI in game:
+        game[0] += 2*len(tentq)
+  else:
+    teamlist[newAI] = 0
     for team in teamlist:
-      tentq.append(gamify(newAI,team,2*tentq.len()+2*teamlist.len()))
-      tentq.append(gamify(team,newAI,2*tentq.len()+2*teamlist.len()))
-    teamlist.append(newAI)
+      heapq.heappush(tentq,[2*len(tentq)+2*len(teamlist),newAI,team])
+      heapq.heappush(tentq,[2*len(tentq)+2*len(teamlist),team,newAI])
     
-#Little function that makes a temp variable because I don't know how to do that >_>    
-def gamify(t1,t2,pri):
-  schedule.team1 = t1
-  schedule.team2 = t2
-  schedule.priority = pri
-  return schedule
-  
 #Removes a competitor
-def removeCompetitor(tentq,teamlist,visq,removee):
+def removeCompetitor(removee):
   #Iterates through each of tentacle queue, visualizer queue, and team list.  Removes everything in which the team being removed participated.
-  for team in teamlist:
-    if team.name == removee:
-      teamlist.remove(team)
+  if removee in teamlist:
+    del teamlist[removee]
+  else :
+    return
   for schedule in tentq:
-    if schedule.team1.teamName == removee:
-      tentq.remove(schedule)
-    if schedule.team2.teamName == removee:
+    if removee in schedule
       tentq.remove(schedule)
   for game in visq:
-    if game.player1 == removee:
+    if removee in game:
       visq.remove(game)
-    if game.player2 == removee:
-      visq.remove(game)
-      
+  heapq.heapify(tentq)
+  heapq.heapify(visq)
+
 #grabs the next game to be run by a tentacle and makes the proper adjustments
 def nextGame(tentq):
   nextUp = tentq[0]
