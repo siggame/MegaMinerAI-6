@@ -891,14 +891,10 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 			// Yes, he's in the frame!!! 
 			// GETTING CLOSER!!
 			// Correct team!?!?!?!?!
-			cout << (game->states[i].bots[t->speaker].owner<<1) << " " << getAttr(team1Talk)<< " " <<  ((!getAttr(team2Talk))<<1) << endl;
-			if( (game->states[i].bots[t->speaker].owner<<1)^(getAttr(team1Talk)|((!getAttr(team2Talk))<<1) ) )
+			if( (game->states[i].bots[t->speaker].owner+1)&(getAttr(team1Talk)|((getAttr(team2Talk))<<1) ) )
 			{
-
 				// CORRECT TEAM!!!!
 				ss << t->message << endl;
-				
-
 			}
 			
 		}
