@@ -22,8 +22,9 @@ RedCannonFile = "textures/Cannon 2 512.png"
 RedDamageFile = "textures/Damage 2 512.png"
 RedEngineFile = "textures/Engine 2 512.png"
 RedForceFile = "textures/Force 2 512.png"
-RedFrameFile = "textures/FrameRed512.png"
+RedFrameFile = "textures/Build Frame 1.png"
 RedAttackFile = "textures/Bullet 2 256.png"
+RedBuildAnimFile = "textures/Heal Graphic copy.png"
 RedJointFile = "textures/Joint 2.png"
 
 ### Blue Bots
@@ -33,8 +34,9 @@ BluCannonFile = "textures/Cannon 1 512.png"
 BluDamageFile = "textures/Damage 1 512.png"
 BluEngineFile = "textures/Engine 1 512.png"
 BluForceFile = "textures/Force 1 512.png"
-BluFrameFile = "textures/FrameBlu512.png"
+BluFrameFile = "textures/Build Frame 1.png"
 BluAttackFile = "textures/Bullet 1 256.png"
+BluBuildAnimFile = "textures/Heal Graphic copy.png"
 BluJointFile = "textures/Joint 1.png"
 
 ## Other

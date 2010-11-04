@@ -191,7 +191,7 @@ struct Quadtree
 			child ->parent = parent;
 		}
 
-		Node * findNode ( unsigned int botid , Node * node)
+		Node * findNode ( int botid , Node * node)
 		{
 			if ( !node )
 				return NULL;
