@@ -131,6 +131,44 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
+	///* This Code fills the quadtree     ::::     REALLY UGLY CODE
+
+	vector< GameState >::iterator stateIt = gamelog->states.begin();
+	for ( ; stateIt !=  gamelog->states.end(); stateIt++)
+	{
+		map<int,Bot>::iterator botIt = stateIt->bots.begin();
+		vector< Quadtree > temp;
+		for ( ; botIt != stateIt->bots.end(); botIt++)
+		{
+			if ( botIt->second.partOf == 0)
+			{
+				temp.push_back( Quadtree( &(botIt->second) ) );
+			}
+			else
+			{
+				vector< Quadtree >::iterator quadIt = temp.begin();
+				for (; quadIt != temp.end(); quadIt++)
+				{
+					if ( quadIt->addNode(&(botIt->second)) )
+					{
+						break;
+					}
+				}
+
+			}
+		}
+
+		vector< Quadtree >::iterator conformIt = temp.begin();
+
+		for (; conformIt != temp.end(); conformIt++)
+		{
+			conformIt->conformTypes();
+		}
+
+
+	}
+
+	//*/ END OF THE REALLY UGLY CODE
 	return true;
 }
 

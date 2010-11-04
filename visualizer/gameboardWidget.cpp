@@ -117,6 +117,9 @@ bool Gameboard::loadAllTextures( QString & message )
 	if ( !loadTexture( getAttr( redAttackFile ).c_str(), T_REDPART_ATTACK, errString ) )
 		flag = true;
 
+	if ( !loadTexture( getAttr( redJointFile ).c_str(), T_REDBOT_JOINT, errString ) )
+		flag = true;
+
 	//blue bots:
 	if ( !loadTexture( getAttr( bluActionFile ).c_str(), T_BLUBOT_ACTION, errString ) )
 		flag = true;
@@ -140,6 +143,9 @@ bool Gameboard::loadAllTextures( QString & message )
 		flag = true;
 
 	if ( !loadTexture( getAttr( bluAttackFile ).c_str(), T_BLUPART_ATTACK, errString ) )
+		flag = true;
+
+	if ( !loadTexture( getAttr( bluJointFile ).c_str(), T_BLUBOT_JOINT, errString ) )
 		flag = true;
 
 	//Other Textures
@@ -397,8 +403,17 @@ void Gameboard::drawBots( Game *game, float falloff )
 		it++
 		)
 	{
+		bool flag = false;
 
-		if (it->second.partOf == 0)
+		if (it->second.partOf != 0)
+		{
+			if (game->states[frame].bots.find(it->second.partOf)->second.type == 0) // if the bot it is part of is a non-typed bot, draw it
+			{
+				flag = true;
+			}
+		}
+
+		if ((it->second.partOf == 0 ) || flag)
 		{
 
 			x0 = x1 = it->second.x*unitSize;
@@ -425,6 +440,8 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 			//set bot to appropriate type
 			int sprite;
+
+
 			if (owner == 0)
 			{
 				switch (it->second.type)
@@ -454,7 +471,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 						break;
 
 				default: // temp fix
-				sprite = T_REDBOT_FORCE;
+				sprite = T_REDBOT_JOINT;
 
 			    }
 			}
@@ -487,7 +504,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 						break;
 
 				default: // temp fix
-				sprite = T_BLUBOT_FORCE;
+				sprite = T_BLUBOT_JOINT;
 			    }
 			}
 
