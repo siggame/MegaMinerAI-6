@@ -963,7 +963,11 @@ void Gameboard::paintGL()
 			{
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
+				{
 					setAttr( frameNumber, --frame );
+					if( frame <=0 )
+						setAttr( currentMode, paused );
+				}
 				else
 					setAttr( frameNumber, ++frame );
 			}
@@ -1011,6 +1015,20 @@ void Gameboard::paintGL()
 			text << getAttr(frameNumber) << "/" << game->states.size();
 
 			parent->turnLabel->setText( text.str().c_str() );
+
+			switch( getAttr( currentMode ) )
+			{
+				case stop:
+				case paused:
+					parent->playButton->setText( "Play" );
+					break;
+				case rewinding:
+				case fastForward:
+				case play:
+				default:
+					parent->playButton->setText( "Pause" );
+					break;
+			}
 		}
 		//parent->console
 
