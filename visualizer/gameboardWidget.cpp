@@ -20,6 +20,12 @@ Gameboard::Gameboard( QWidget *prt )
 	hasDefaultBG = true;
 	drawFont = NULL;
 
+	leftButtonDown = 
+		leftDoubleClick =
+		leftButtonDrag = 
+		rightButtonDown = 
+		midButtonDown = false;
+
 }
 
 
@@ -826,7 +832,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 void Gameboard::mouseMoveEvent( QMouseEvent *e )
 {
 	// If manhatten distance is 6 or greater, we're draggin
-	if( abs(curX-dragX)+abs(curY-dragY) > 6 )
+	if( e->buttons() & Qt::LeftButton && abs(curX-dragX)+abs(curY-dragY) > 6 )
 		leftButtonDrag = true;
 
 	curX = e->x();
