@@ -223,13 +223,13 @@ class Bot(Unit):
             victims.append(i)
     
     if x == -1:
-      victims = [i for i in victims if i.x <  self.x]
+      victims = [i for i in victims if i.x + i.size == self.x]
     elif y == -1:
-      victims = [i for i in victims if i.y < self.y]
+      victims = [i for i in victims if i.y + i.size == self.y]
     elif x == 1:
-      victims = [i for i in victims if i.x > self.x]
+      victims = [i for i in victims if i.x == self.x + self.size]
     elif y == 1:
-      victims = [i for i in victims if i.y > self.y]
+      victims = [i for i in victims if i.y == self.y + self.size]
 
     if victims:
       victimHealth = sum([i.health for i in victims])

@@ -17,7 +17,7 @@ visettings::visettings()
 	team1Talk = true;
 	team2Talk = true;
 	persistantTalking = false;
-	
+
 	doubleClickTime = 275;
 }
 
@@ -95,7 +95,6 @@ bool visettings::loadFromFile(string & errString)
 	errString += outString; returnFlag |= errFlag;
 	setAttr( bluJointFile, configFile.pString("BluJointFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
-
 
 	//For Board Drawing, these are the maximums
 	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx", errFlag, outString ) );
