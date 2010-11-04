@@ -116,14 +116,11 @@ bool AI::run()
   // Handles all of the non builders
   for(unsigned int b=0;b<actors.size();b++)
   {
-    if(bots[actors[b]].damage()>0)
-    {
-      cout<<"\t\tI HAVE DAMAGE!"<<endl;
-    }
     Unit* target = findNearestTarget(bots[actors[b]]);
     moveTowardsTarget(bots[actors[b]], *target);
     if(inRange(bots[actors[b]], *target))
     {
+      cout<<"In RANGE!"<<endl;
       unload(bots[actors[b]],*target);
     }
   }
@@ -132,6 +129,10 @@ bool AI::run()
 
 void AI::unload(Bot& actor, Unit& target)
 {
+  if(actor.actions()==0)
+  {
+    cout<<"Big guy cant attack?"<<endl;
+  }
   while(actor.actions()>0)
   {
     if(actor.damage()==0){cout<<"NOT ";};
@@ -153,7 +154,7 @@ void AI::moveTowardsTarget(Bot& actor, Unit& target)
   while(actor.steps()>0 && dist > actor.range() && dist != startDist)
   {
     //startDist = distance(actor.x(),actor.y(),actor.size(), target.x(),target.y(),target.size());
-    startDist = distance(actor.x(),actor.y(),actor.size(), target.x(),target.y(),1);
+    startDist = distance(actor.x(),actor.y(),actor.size(), target.x(),target.y(),1)+1;
     cout<<"Distance to target: "<<startDist<<endl;
     dist = startDist;
     int dir = 0;
@@ -173,7 +174,8 @@ void AI::moveTowardsTarget(Bot& actor, Unit& target)
           // check if blocked TODO add other blocking calls
           for(unsigned int b=0;b<bots.size() && !blocked;b++)
           {
-            if(bots[b].x()==x && bots[b].y()==y && bots[b].partOf()==0)
+            //if(bots[b].x()==x && bots[b].y()==y && bots[b].partOf()==0)
+            if(bots[b].partOf()==0 && distance(bots[b].x(),bots[b].y(),bots[b].size(),x,y,actor.size())==0 && bots[b].id() != actor.id())
             {
               blocked=true;
             }
@@ -190,6 +192,10 @@ void AI::moveTowardsTarget(Bot& actor, Unit& target)
     {
       cout<<"Big guy moving: "<<direction[dir]<<endl;
       actor.move(direction[dir]);
+    }
+    else
+    {
+      cout<<"Nothing worth going to!"<<endl;
     }
   }
 }
@@ -217,7 +223,7 @@ Unit* AI::findNearestTarget(Bot& actor)
       }
     }
   }
-  /*
+  
   // if I am an attacker, include walls and frames
   if(attacker)
   {
@@ -232,15 +238,17 @@ Unit* AI::findNearestTarget(Bot& actor)
     }
     for(unsigned int f=0;f<frames.size();f++)
     {
-      int tempDist = distance(x,y,size, frames[f].x(),frames[f].y(),frames[f].size());
-      if(tempDist < bestDist)
+      if(frames[f].owner() != playerID())
       {
-        bestDist=tempDist;
-        target=&(frames[f]);
+        int tempDist = distance(x,y,size, frames[f].x(),frames[f].y(),frames[f].size());
+        if(tempDist < bestDist)
+        {
+          bestDist=tempDist;
+          target=&(frames[f]);
+        }
       }
     }
   }  
-  */
   return target;
 }
 
