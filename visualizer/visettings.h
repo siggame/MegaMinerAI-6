@@ -71,6 +71,7 @@
 			ATTRIBUTE( string, redForceFile );
 			ATTRIBUTE( string, redFrameFile );
 			ATTRIBUTE( string, redAttackFile );
+			ATTRIBUTE( string, redBuildAnimFile );
 			ATTRIBUTE( string, redJointFile );
 
 			//blue bots
@@ -82,6 +83,7 @@
 			ATTRIBUTE( string, bluForceFile );
 			ATTRIBUTE( string, bluFrameFile );
 			ATTRIBUTE( string, bluAttackFile );
+			ATTRIBUTE( string, bluBuildAnimFile );
 			ATTRIBUTE( string, bluJointFile );
 
 			// Arena Stuff

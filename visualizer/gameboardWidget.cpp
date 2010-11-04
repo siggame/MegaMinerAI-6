@@ -117,6 +117,9 @@ bool Gameboard::loadAllTextures( QString & message )
 	if ( !loadTexture( getAttr( redAttackFile ).c_str(), T_REDPART_ATTACK, errString ) )
 		flag = true;
 
+	if ( !loadTexture( getAttr( redBuildAnimFile ).c_str(), T_REDPART_BUILD, errString ) )
+		flag = true;
+
 	if ( !loadTexture( getAttr( redJointFile ).c_str(), T_REDBOT_JOINT, errString ) )
 		flag = true;
 
@@ -143,6 +146,9 @@ bool Gameboard::loadAllTextures( QString & message )
 		flag = true;
 
 	if ( !loadTexture( getAttr( bluAttackFile ).c_str(), T_BLUPART_ATTACK, errString ) )
+		flag = true;
+
+	if ( !loadTexture( getAttr( bluBuildAnimFile ).c_str(), T_BLUPART_BUILD, errString ) )
 		flag = true;
 
 	if ( !loadTexture( getAttr( bluJointFile ).c_str(), T_BLUBOT_JOINT, errString ) )
@@ -1218,8 +1224,65 @@ void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build _
 }
 
 
-void Gameboard::drawHeal( Game * game __attribute__ ((unused)), Heal * heal __attribute__ ((unused)), float falloff __attribute__ ((unused)) )
-{
+void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
+{	int x0, y0, xf, yf;
+	int frame = getAttr( frameNumber );
+	int unitSize = getAttr( unitSize );
+
+	if ((unsigned)frame + 1 < game->states.size()-1)
+	{
+		GameState state1 = game->states[frame];
+		GameState state2 = game->states[frame+1];
+
+		x0 = state1.bots[heal->healer].x*getAttr(unitSize);
+		y0 = state1.bots[heal->healer].y*getAttr(unitSize);
+
+		xf = state2.frames[heal->victim].x*getAttr(unitSize);
+		yf = state2.frames[heal->victim].y*getAttr(unitSize);
+
+
+
+
+		float x, y;
+		x = (xf-x0)*falloff + x0;
+		y = (yf-y0)*falloff + y0;
+
+		glPushMatrix();
+		glTranslatef(x,y,0);
+
+		if ( (xf-x0 == 0) && (yf-y0 > 0) )
+			glRotated(90, 0,0,1);
+
+		if ( (xf-x0 < 0) && (yf-y0 == 0) )
+			glRotated(90, 0,0,2);
+
+		if ( (xf-x0 == 0) && (yf-y0 < 0) )
+			glRotated(90, 0,0,-1);
+
+
+		glScalef( unitSize * state1.bots[heal->healer].size , unitSize * state1.bots[heal->healer].size, 1 );
+		glEnable( GL_TEXTURE_2D );
+		switch (state1.bots[heal->healer].owner)
+		{
+			case 0:
+				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
+				break;
+			default:
+				glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
+
+		}
+		glColor3d(1.0,1.0,1.0);
+		glBegin(GL_QUADS);
+
+		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
+		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
+		glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
+		glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
+
+		glEnd();
+
+		glPopMatrix();
+	}
 }
 
 

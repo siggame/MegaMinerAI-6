@@ -74,6 +74,8 @@ bool visettings::loadFromFile(string & errString)
 	errString += outString; returnFlag |= errFlag;
 	setAttr( redAttackFile, configFile.pString("RedAttackFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
+	setAttr( redBuildAnimFile, configFile.pString("RedBuildAnimFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 	setAttr( redJointFile, configFile.pString("RedJointFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
@@ -93,6 +95,8 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( bluFrameFile, configFile.pString("BluFrameFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 	setAttr( bluAttackFile, configFile.pString("BluAttackFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluBuildAnimFile, configFile.pString("BluBuildAnimFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 	setAttr( bluJointFile, configFile.pString("BluJointFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
