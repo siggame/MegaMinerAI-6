@@ -453,7 +453,10 @@ void Gameboard::drawBots( Game *game, float falloff )
 						sprite = T_REDBOT_FORCE;
 						break;
 
-				}
+				default: // temp fix
+				sprite = T_REDBOT_FORCE;
+
+			    }
 			}
 			else
 			{
@@ -483,13 +486,14 @@ void Gameboard::drawBots( Game *game, float falloff )
 						sprite = T_BLUBOT_FORCE;
 						break;
 
-				}
+				default: // temp fix
+				sprite = T_BLUBOT_FORCE;
+			    }
 			}
 
 			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
 			drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
-																 //keeps count of each player's percentage
-			getPercentage(owner, unitSize*it->second.size);
+			getPercentage(owner, unitSize*it->second.size);//keeps count of each player's percentage 
 		}
 
 	}
@@ -985,20 +989,8 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		xf = state2.bots[attack->victim].x;
 		yf = state2.bots[attack->victim].y;
 
-		///*
 
-		stringstream ss;
-		ss << "X0: " << x0 << " Y0: " << y0 << "\nXF: " << xf << " YF: " << yf;
 
-		QString out = ss.str().c_str();
-
-		QMessageBox::critical(
-			this,
-			"Error",
-			out
-			);
-
-		//*/
 
 		float x, y;
 		x = (xf-x0)*falloff + x0;
