@@ -58,7 +58,6 @@ VisualizerWindow::VisualizerWindow()
 {
 	setGeometry( 0, 0, 1280, 1024 );
 
-
 	string configErr;
 
 	if (!visettings::instance()->loadFromFile(configErr))
@@ -564,10 +563,12 @@ void VisualizerWindow::createLayout()
 	bottomFrame->setLayout( vbox );
 	bottomDock->setWidget( bottomFrame );
 
-	if( !getAttr(arenaMode ) )	
+	if( !getAttr(arenaMode ) )
 	{
 		addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
-	} else {
+	}
+	else
+	{
 		bottomDock->hide();
 	}
 
@@ -704,8 +705,6 @@ void VisualizerWindow::createActions()
 	(void) new QShortcut( QKeySequence( tr( "Left" ) ), this, SLOT( previousFrame() ) );
 	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
 	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
-
-
 
 	//	QAction *advance = new QAction( this );
 	//	advance->setShortcut( tr("Ctrl+P") );

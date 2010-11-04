@@ -851,6 +851,7 @@ void Gameboard::drawScoreboard()
 
 }
 
+
 void Gameboard::drawProgressbar( Game *game )
 {
 
@@ -993,9 +994,9 @@ void Gameboard::paintGL()
 		}
 
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
-			&& getAttr(currentMode) != paused && 
+			&& getAttr(currentMode) != paused &&
 			(!getAttr(arenaMode) || (getAttr(frameNumber) > 0) || time.elapsed() > getAttr(initTime))
-			 )
+			)
 		{
 			time.restart();
 
@@ -1015,7 +1016,6 @@ void Gameboard::paintGL()
 
 			if( (unsigned)frame == game->states.size()-1 )
 				setAttr( currentMode, paused );
-
 
 			parent->controlSlider->blockSignals(true);
 			parent->controlSlider->setSliderPosition( frame );
@@ -1076,6 +1076,25 @@ void Gameboard::paintGL()
 					parent->playButton->setText( "Pause" );
 					break;
 			}
+			int scores[2] = {0,0};
+			int currentHealth[2] = {0,0};
+			int maxHealth[2] = {0,0};
+
+			// Update score
+			for( std::map<int,Bot>::iterator i = game->states[getAttr(frameNumber)].bots.begin();
+				i != game->states[getAttr(frameNumber)].bots.end();
+				i++
+				)
+			{
+				if( i->second.size == 1 )
+					scores[i->second.owner] += 100;
+				currentHealth[i->second.owner] += i->second.health;
+				maxHealth[i->second.owner] += i->second.maxHealth;
+			}
+
+			setAttr( team1Score, scores[0]+100*currentHealth[0]/maxHealth[0] );
+			setAttr( team2Score, scores[1]+100*currentHealth[1]/maxHealth[1] );
+
 		}
 		//parent->console
 
@@ -1210,9 +1229,6 @@ void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build _
 		xf = state2.frames[build->frame].x*getAttr(unitSize);
 		yf = state2.frames[build->frame].y*getAttr(unitSize);
 
-
-
-
 		float x, y;
 		x = (xf-x0)*falloff + x0;
 		y = (yf-y0)*falloff + y0;
@@ -1228,7 +1244,6 @@ void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build _
 
 		if ( (xf-x0 == 0) && (yf-y0 < 0) )
 			glRotated(90, 0,0,-1);
-
 
 		glScalef( unitSize * state1.bots[build->builder].size , unitSize * state1.bots[build->builder].size, 1 );
 		glEnable( GL_TEXTURE_2D );
@@ -1257,7 +1272,8 @@ void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build _
 
 
 void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
-{	int x0, y0, xf, yf;
+{
+	int x0, y0, xf, yf;
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
 
@@ -1271,9 +1287,6 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 
 		xf = state2.frames[heal->victim].x*getAttr(unitSize);
 		yf = state2.frames[heal->victim].y*getAttr(unitSize);
-
-
-
 
 		float x, y;
 		x = (xf-x0)*falloff + x0;
@@ -1290,7 +1303,6 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 
 		if ( (xf-x0 == 0) && (yf-y0 < 0) )
 			glRotated(90, 0,0,-1);
-
 
 		glScalef( unitSize * state1.bots[heal->healer].size , unitSize * state1.bots[heal->healer].size, 1 );
 		glEnable( GL_TEXTURE_2D );

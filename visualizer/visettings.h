@@ -100,6 +100,9 @@
 			ATTRIBUTE( bool, team2Talk );
 			ATTRIBUTE( bool, persistantTalking );
 
+			ATTRIBUTE( int, team1Score );
+			ATTRIBUTE( int, team2Score );
+
 			public:
 				static visettings *inst;
 				static visettings *instance()
