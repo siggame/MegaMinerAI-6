@@ -1059,7 +1059,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
 		GameState state1 = game->states[frame];
-		GameState state2 = game->states[frame+1];
+		GameState state2 = game->states[frame-1];
 
 		x0 = state1.bots[attack->attacker].x;
 		x0 += state1.units[attack->attacker].x;
