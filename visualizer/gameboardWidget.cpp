@@ -514,9 +514,9 @@ void Gameboard::drawBots( Game *game, float falloff )
 				}
 			}
 
-			drawSprite( x0+(x1-x0)*falloff,y0+(y1-y0)*falloff,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
+			drawSprite( (int)(x0+(x1-x0)*falloff),(int)(y0+(y1-y0)*falloff),unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
 			if ( it->second.partOf == 0)
-				drawHealth( x0+(x1-x0)*falloff, y0+(y1-y0)*falloff, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
+				drawHealth( (int)(x0+(x1-x0)*falloff), (int)(y0+(y1-y0)*falloff), unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
 
 																 //keeps count of each player's percentage
 			getPercentage(owner, unitSize*it->second.size);
@@ -982,7 +982,7 @@ void Gameboard::paintGL()
 					setAttr( frameNumber, ++frame );
 			}
 
-			if( frame == game->states.size()-1 )
+			if( (unsigned)frame == game->states.size()-1 )
 				setAttr( currentMode, paused );
 
 
