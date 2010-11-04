@@ -879,7 +879,6 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 
 			Talk *t = (Talk*)*j;
 
-			cout << t->speaker << endl;
 			// If not selected, continue
 			if( selectedIDs.find( t->speaker ) == selectedIDs.end() )
 				continue;
@@ -892,7 +891,8 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 			// Yes, he's in the frame!!! 
 			// GETTING CLOSER!!
 			// Correct team!?!?!?!?!
-			if( (game->states[i].units[t->speaker].owner<<1)^(getAttr(team1Talk)|(!getAttr(team2Talk)<<1) ) )
+			cout << (game->states[i].bots[t->speaker].owner<<1) << " " << getAttr(team1Talk)<< " " <<  ((!getAttr(team2Talk))<<1) << endl;
+			if( (game->states[i].bots[t->speaker].owner<<1)^(getAttr(team1Talk)|((!getAttr(team2Talk))<<1) ) )
 			{
 
 				// CORRECT TEAM!!!!
