@@ -165,7 +165,6 @@ bool VisualizerWindow::loadGamelog( char *filename )
 			conformIt->conformTypes();
 		}
 
-
 	}
 
 	//*/ END OF THE REALLY UGLY CODE

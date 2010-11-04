@@ -6,142 +6,138 @@
 struct Node
 {
 
-    Node * parent;
+	Node * parent;
 	Node * children[4];
 
-    Bot * bot;
+	Bot * bot;
 
-    Node()
-    {
-        parent = NULL;
-        children[0] = NULL;
-        children[1] = NULL;
-        children[2] = NULL;
-        children[3] = NULL;
-        bot = NULL;
-    }
+	Node()
+	{
+		parent = NULL;
+		children[0] = NULL;
+		children[1] = NULL;
+		children[2] = NULL;
+		children[3] = NULL;
+		bot = NULL;
+	}
 
-    Node( Bot * input )
-    {
-        parent = NULL;
-        children[0] = NULL;
-        children[1] = NULL;
-        children[2] = NULL;
-        children[3] = NULL;
-        bot = input;
-    }
+	Node( Bot * input )
+	{
+		parent = NULL;
+		children[0] = NULL;
+		children[1] = NULL;
+		children[2] = NULL;
+		children[3] = NULL;
+		bot = input;
+	}
 
 };
 
-
 struct Quadtree
 {
-        Quadtree( Bot * root )
-        {
-            if ( root == NULL )
-            {
-            }
-            else
-            {
-            m_root = new Node( root );
-            }
-        }
+	Quadtree( Bot * root )
+	{
+		if ( root == NULL )
+		{
+		}
+		else
+		{
+			m_root = new Node( root );
+		}
+	}
 
-        Quadtree(  )
-        {
-            m_root = NULL;
-        }
+	Quadtree(  )
+	{
+		m_root = NULL;
+	}
 
-        virtual ~Quadtree()
-        {
-            clear();
-        }
+	virtual ~Quadtree()
+	{
+		clear();
+	}
 
-        void clear()
-        {
-            if (m_root != NULL )
-                destroyBranch( m_root );
+	void clear()
+	{
+		if (m_root != NULL )
+			destroyBranch( m_root );
 
-            m_root = NULL;
+		m_root = NULL;
+	}
+
+	bool addNode( Bot * bot )
+	{
+		if ( !m_root )							 // root case
+		{
+			m_root = new Node( bot );
+			return true;
 		}
 
+		Node * temp = findNode( bot->partOf, m_root );
 
-		bool addNode( Bot * bot )
-        {
-            if ( !m_root ) // root case
-            {
-                m_root = new Node( bot );
-				return true;
-            }
+		if ( temp )									 // all other cases
+		{
+			int botPos = 0;
+			// Find bot position relative to the other bots
+			int parentX = temp->bot->x, parentY = temp->bot->y,
+				childX = bot->x, childY = bot->y;
 
-            Node * temp = findNode( bot->partOf, m_root );
-
-
-
-
-            if ( temp ) // all other cases
+																 //Up Left
+			if ( ((parentX-childX) == 0) && ((parentY-childY) == 0))
 			{
-				int botPos = 0;
-				// Find bot position relative to the other bots
-				int parentX = temp->bot->x, parentY = temp->bot->y,
-					childX = bot->x, childY = bot->y;
+				botPos = 0;
+			}
+																 //Up Right
+			else if ( ((parentX-childX) > 0) && ((parentY-childY) == 0))
+			{
+				botPos = 1;
+			}
+																 //Down Left
+			else if ( ((parentX-childX) == 0) && ((parentY-childY) > 0))
+			{
+				botPos = 2;
+			}
+																 //Down Right
+			else if ( ((parentX-childX) > 0) && ((parentY-childY) > 0))
+			{
+				botPos = 3;
+			}
 
-				if ( ((parentX-childX) == 0) && ((parentY-childY) == 0)) //Up Left
-				{
-					botPos = 0;
-				}
-				else if ( ((parentX-childX) > 0) && ((parentY-childY) == 0)) //Up Right
-				{
-					botPos = 1;
-				}
-				else if ( ((parentX-childX) == 0) && ((parentY-childY) > 0)) //Down Left
-				{
-					botPos = 2;
-				}
-				else if ( ((parentX-childX) > 0) && ((parentY-childY) > 0)) //Down Right
-				{
-					botPos = 3;
-				}
+			if ( !temp->children[botPos] )
+			{
+				temp->children[botPos] = new Node( bot );
+				linkToParent(temp,temp->children[botPos]);
+				return true;
+			}
 
+		}
 
+		return false;
+	}
 
-                if ( !temp->children[botPos] )
-                {
-                    temp->children[botPos] = new Node( bot );
-                    linkToParent(temp,temp->children[botPos]);
+	void renderTree()
+	{
+
+	}
+
+	void conformTypes()
+	{
+		conformTypes(m_root);
+	}
+
+	private:
+		inline bool hasChildren(Node * node)
+		{
+			if (!node)
+				return false;
+
+			for (unsigned int i = 0; i < 4; i++)
+			{
+				if ( node->children[i] )
 					return true;
-				}
-
 			}
 
 			return false;
-        }
-
-        void renderTree()
-        {
-
-
-        }
-
-		void conformTypes()
-		{
-			conformTypes(m_root);
 		}
-
-        private:
-        inline bool hasChildren(Node * node)
-        {
-            if (!node)
-                return false;
-
-            for (unsigned int i = 0; i < 4; i++)
-            {
-                if ( node->children[i] )
-                    return true;
-            }
-
-            return false;
-        }
 
 		void conformTypes(Node * node)
 		{
@@ -164,64 +160,62 @@ struct Quadtree
 					}
 				}
 
-				node->bot->type = type; //my only choice
+				node->bot->type = type;	 //my only choice
 
 			}
 		}
 
-
-        void destroyBranch(Node * node)
-        {
+		void destroyBranch(Node * node)
+		{
 			if (!node)
 			{
 				return;
 			}
 
-            for (unsigned int i = 0; i < 4; i++)
-            {
-                if ( hasChildren( node->children[i] ) )
-                {
-                    destroyBranch( node->children[i] );
-                }
-                else
-                {
-                    delete node->children[i];
-                    node->children[i] = NULL;
-                }
-            }
-        }
+			for (unsigned int i = 0; i < 4; i++)
+			{
+				if ( hasChildren( node->children[i] ) )
+				{
+					destroyBranch( node->children[i] );
+				}
+				else
+				{
+					delete node->children[i];
+					node->children[i] = NULL;
+				}
+			}
+		}
 
-        inline void linkToParent( Node * parent, Node * child )
-        {
-            child ->parent = parent;
-        }
-
-        Node * findNode ( unsigned int botid , Node * node)
+		inline void linkToParent( Node * parent, Node * child )
 		{
-            if ( !node )
-                return NULL;
+			child ->parent = parent;
+		}
+
+		Node * findNode ( unsigned int botid , Node * node)
+		{
+			if ( !node )
+				return NULL;
 
 			Node * temp = node;
 
-            if ( !temp->bot )
-                return NULL;
+			if ( !temp->bot )
+				return NULL;
 
-            if ( temp->bot->id == botid )
-                return temp;
+			if ( temp->bot->id == botid )
+				return temp;
 
-            for (unsigned int i = 0; i < 4; i++)
-            {
-                Node * found = findNode( botid, temp->children[i] );
-                if ( found )
-                {
-                    return found;
-                }
-            }
+			for (unsigned int i = 0; i < 4; i++)
+			{
+				Node * found = findNode( botid, temp->children[i] );
+				if ( found )
+				{
+					return found;
+				}
+			}
 
-            return NULL;
-        }
+			return NULL;
+		}
 
-        Node * m_root;
+		Node * m_root;
 };
-
-#endif // QUADTREE_H
+#endif													 // QUADTREE_H
