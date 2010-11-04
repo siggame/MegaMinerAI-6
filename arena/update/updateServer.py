@@ -8,8 +8,6 @@ from os.path import isdir, exists, join
 
 import config
 
-dbManagerName='localhost' #we should probably add a way to change this
-
 class UpdateServer(rpyc.Service):
   def exposed_get(self, password, name, version):
     validNames = config.readConfig("login.cfg")
