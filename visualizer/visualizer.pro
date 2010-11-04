@@ -4,7 +4,11 @@ win32:LIBS += ./parser/sexp/sexpXP.a
 else:LIBS += ./parser/sexp/sexp.a
 SOURCES += main.cpp \
     visualizerWindow.cpp \
-    gameboardWidget.cpp
+    gameboardWidget.cpp \
+    gameboardTextureFxns.cpp \
+    gameboardSpriteFxns.cpp \
+    gameboardAnimationFxns.cpp \
+    gameboardOtherRenderFxns.cpp
 SOURCES += drawGLFont.cpp
 SOURCES += ./parser/parser.cpp
 SOURCES += ./parser/structures.cpp
