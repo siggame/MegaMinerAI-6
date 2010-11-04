@@ -64,7 +64,7 @@ class Unit(Mappable):
 
   def _takeDamage(self, damage):
     self.health -= damage
-    if self.health < 1:
+    if self.health < 1 and self.id in self.game.objects:
       self.game.removeObject(self)
 
 
