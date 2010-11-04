@@ -851,6 +851,37 @@ void Gameboard::drawScoreboard()
 
 }
 
+void Gameboard::drawProgressbar( Game *game )
+{
+
+	glLoadIdentity();
+	glEnable( GL_BLEND );
+	glDisable( GL_TEXTURE_2D );
+
+	glPushMatrix();
+
+	int w = 1280*getAttr(frameNumber)/(game->states.size()-1);
+	int h = 12;
+
+	// Find correct y position
+	glTranslatef( 0,640, 0 );
+
+	glColor4f( 1, 1, 1, 1 );
+	glBegin( GL_QUADS );
+
+	glVertex3f( 0, 0, 0 );
+	glVertex3f( w, 0, 0 );
+	glVertex3f( w, h, 0 );
+	glVertex3f( 0, h, 0 );
+
+	glEnd();
+
+	glPopMatrix();
+
+	glEnable( GL_TEXTURE_2D );
+
+}
+
 
 void Gameboard::drawMouse()
 {
@@ -1019,6 +1050,8 @@ void Gameboard::paintGL()
 		drawBots( game, falloff );
 		drawAnimations( game, falloff );
 		drawControl();
+		drawProgressbar( game );
+		drawScoreboard();
 
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{
@@ -1026,7 +1059,7 @@ void Gameboard::paintGL()
 			talkRobotsGodDamnitTalk(game);
 
 			stringstream text;
-			text << getAttr(frameNumber) << "/" << game->states.size();
+			text << getAttr(frameNumber)+1 << "/" << game->states.size();
 
 			parent->turnLabel->setText( text.str().c_str() );
 
@@ -1047,7 +1080,6 @@ void Gameboard::paintGL()
 		//parent->console
 
 	}
-	drawScoreboard();
 	drawMouse();
 }
 

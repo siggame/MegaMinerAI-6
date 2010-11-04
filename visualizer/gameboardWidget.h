@@ -77,6 +77,7 @@ class Gameboard : public QGLWidget
 		void drawBackground( );
 		void drawScoreboard();
 		void drawMouse();
+		void drawProgressbar( Game * game);
 
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
