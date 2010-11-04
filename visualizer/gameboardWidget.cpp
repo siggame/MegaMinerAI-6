@@ -1149,6 +1149,17 @@ void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build _
 
 		glPushMatrix();
 		glTranslatef(x,y,0);
+
+		if ( (xf-x0 == 0) && (yf-y0 > 0) )
+			glRotated(90, 0,0,1);
+
+		if ( (xf-x0 < 0) && (yf-y0 == 0) )
+			glRotated(90, 0,0,2);
+
+		if ( (xf-x0 == 0) && (yf-y0 < 0) )
+			glRotated(90, 0,0,-1);
+
+
 		glScalef( unitSize * state1.bots[build->builder].size , unitSize * state1.bots[build->builder].size, 1 );
 		glEnable( GL_TEXTURE_2D );
 		switch (state1.bots[build->builder].owner)
