@@ -994,8 +994,8 @@ void Gameboard::paintGL()
 		getPercentage();						 //gets function ready to recalculate percentage controlled
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
-		drawAnimations( game, falloff );
 		drawBots( game, falloff );
+		drawAnimations( game, falloff );
 		drawControl();
 
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
@@ -1072,8 +1072,6 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		yf = state2.bots[attack->victim].y*getAttr(unitSize);
 
 
-
-
 		float x, y;
 		x = (xf-x0)*falloff + x0;
 		y = (yf-y0)*falloff + y0;
@@ -1108,6 +1106,53 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build __attribute__ ((unused)), float falloff __attribute__ ((unused)) )
 {
+	int x0, y0, xf, yf;
+	int frame = getAttr( frameNumber );
+	int unitSize = getAttr( unitSize );
+
+	if ((unsigned)frame + 1 < game->states.size()-1)
+	{
+		GameState state1 = game->states[frame];
+		GameState state2 = game->states[frame+1];
+
+		x0 = state1.bots[build->builder].x*getAttr(unitSize);
+		y0 = state1.bots[build->builder].y*getAttr(unitSize);
+
+		xf = state2.frames[build->builder].x*getAttr(unitSize);
+		yf = state2.frames[build->builder].y*getAttr(unitSize);
+
+
+
+
+		float x, y;
+		x = (xf-x0)*falloff + x0;
+		y = (yf-y0)*falloff + y0;
+
+		glPushMatrix();
+		glTranslatef(x,y,0);
+		glScalef( unitSize * state1.bots[build->builder].size , unitSize * state1.bots[build->builder].size, 1 );
+
+		switch (state1.bots[build->builder].owner)
+		{
+			case 0:
+				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
+				break;
+			default:
+				glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
+
+		}
+		glColor3d(1.0,1.0,1.0);
+		glBegin(GL_QUADS);
+
+		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
+		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
+		glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
+		glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
+
+		glEnd();
+
+		glPopMatrix();
+	}
 }
 
 
