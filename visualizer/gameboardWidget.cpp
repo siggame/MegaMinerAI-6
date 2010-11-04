@@ -798,7 +798,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 				ss << it->second << '\n';
 			}
 
-			//parent->console->setText( ss.str().c_str() );
+			parent->console->setText( ss.str().c_str() );
 		}
 
 		leftButtonDown = false;
@@ -920,7 +920,8 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 		}
 	}
 
-	parent->console->setText( ss.str().c_str() );
+	
+//	parent->console->setText( ss.str().c_str() );
 
 
 }
@@ -1002,7 +1003,7 @@ void Gameboard::paintGL()
 			talkRobotsGodDamnitTalk(game);
 			
 			stringstream text;
-			text << getAttr(frameNumber)+1 << "/" << game->states.size();
+			text << getAttr(frameNumber) << "/" << game->states.size();
 			
 			parent->turnLabel->setText( text.str().c_str() );
 		}
@@ -1050,8 +1051,6 @@ void Gameboard::drawAnimations( Game * game, float falloff)
 }
 
 
-//void
-
 void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 {
 	int x0, y0, xf, yf;
@@ -1063,13 +1062,44 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		GameState state1 = game->states[frame];
 		GameState state2 = game->states[frame+1];
 
-		x0 = state1.bots[attack->attacker].x*getAttr(unitSize);
-		y0 = state1.bots[attack->attacker].y*getAttr(unitSize);
+		x0 = state1.bots[attack->attacker].x;
+		x0 += state1.units[attack->attacker].x;
+		x0 += state1.frames[attack->attacker].x;
+		x0 += state1.walls[attack->attacker].x;
+		x0 *= getAttr(unitSize);
 
-		xf = state2.bots[attack->victim].x*getAttr(unitSize);
-		yf = state2.bots[attack->victim].y*getAttr(unitSize);
+		y0 = state1.bots[attack->attacker].y;
+		y0 += state1.units[attack->attacker].y;
+		y0 += state1.frames[attack->attacker].y;
+		y0 += state1.walls[attack->attacker].y;
+		y0 *= getAttr(unitSize);
+			
+		//	*getAttr(unitSize);
 
+		cout << "__________" << endl;
+		cout << "ATACK: " << attack->victim << endl;
+		for( std::map<int,Mappable>::iterator i = state2.mappables.begin(); 
+				i != state2.mappables.end();
+				i++ )
+		{
+			cout << i->first << endl;
+		}
 
+		xf = state2.mappables[attack->victim].x*getAttr(unitSize);
+		yf = state2.mappables[attack->victim].y*getAttr(unitSize);
+
+		xf = state2.bots[attack->victim].x;
+		xf += state2.units[attack->victim].x;
+		xf += state2.frames[attack->victim].x;
+		xf += state2.walls[attack->victim].x;
+		xf *= getAttr(unitSize);
+
+		yf = state2.bots[attack->victim].y;
+		yf += state2.units[attack->victim].y;
+		yf += state2.frames[attack->victim].y;
+		yf += state2.walls[attack->victim].y;
+		yf *= getAttr(unitSize);
+	
 
 
 		float x, y;
