@@ -691,6 +691,7 @@ void VisualizerWindow::createActions()
 	toggleMapGridAct->setCheckable( true );
 	toggleMapGridAct->setShortcut( tr( "Ctrl+G" ) );
 	toggleMapGridAct->setStatusTip( tr("Toggle the grid on the map") );
+	toggleMapGridAct->setChecked( getAttr( MapGrid ) );
 	connect( toggleMapGridAct, SIGNAL(triggered()), this, SLOT(toggleMapGrid()) );
 
 	loadBackgroundAct = new QAction( tr("Load Background"), this );

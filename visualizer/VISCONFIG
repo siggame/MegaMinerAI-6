@@ -10,6 +10,8 @@ BoardWidthPx = 1280
 # Do you wish to pause the game when loading
 PauseOnLoad = 0
 
+#Shows the map grid on startup
+ MapGrid = Yes
 
 # TEXTURES
 

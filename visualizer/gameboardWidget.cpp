@@ -16,7 +16,8 @@ Gameboard::Gameboard( QWidget *prt )
 	time.start();
 	buttonTimes.start();
 
-	hasMapGrid = false;
+	hasMapGrid = getAttr( MapGrid );
+
 	hasDefaultBG = true;
 	drawFont = NULL;
 

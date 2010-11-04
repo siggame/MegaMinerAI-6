@@ -30,6 +30,7 @@
 			ATTRIBUTE( int, maxY );
 			ATTRIBUTE( int, boardX );
 			ATTRIBUTE( int, boardY );
+			ATTRIBUTE( bool, MapGrid );
 
 			ATTRIBUTE( int, unitSize );
 
