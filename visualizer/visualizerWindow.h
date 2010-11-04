@@ -6,9 +6,11 @@
 #include <QMainWindow>
 #include <QDockWidget>
 #include <QShortcut>
+
 #include "gameboardWidget.h"
 #include "parser.h"
 #include "statsDialog.h"
+#include "quadtree.h"
 
 class Gameboard;
 
@@ -125,5 +127,6 @@ class VisualizerWindow: public QMainWindow
 		QAction *exitAct;
 
 		Gameboard *gameboard;
+
 };
 #endif
