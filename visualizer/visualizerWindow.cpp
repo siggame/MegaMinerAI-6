@@ -57,10 +57,7 @@ void Options::addOptions()
 VisualizerWindow::VisualizerWindow()
 {
 	setGeometry( 0, 0, 1280, 1024 );
-	createActions();
-	createMenus();
-	createLayout();
-	createSpeeds();
+
 
 	string configErr;
 
@@ -69,8 +66,14 @@ VisualizerWindow::VisualizerWindow()
 		QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
 	}
 
+	createActions();
+	createMenus();
+	createLayout();
+	createSpeeds();
+
 	setWindowTitle( "Modular Visualizer" );
-	fullScreen = false;
+	fullScreen = getAttr(arenaMode) ? false : true;
+	toggleFullScreen();
 	gamelog = 0;
 }
 
@@ -560,7 +563,13 @@ void VisualizerWindow::createLayout()
 
 	bottomFrame->setLayout( vbox );
 	bottomDock->setWidget( bottomFrame );
-	addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
+
+	if( !getAttr(arenaMode ) )	
+	{
+		addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
+	} else {
+		bottomDock->hide();
+	}
 
 	connect(
 		controlSlider,

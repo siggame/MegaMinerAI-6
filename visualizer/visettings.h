@@ -87,6 +87,7 @@
 			// Arena Stuff
 			ATTRIBUTE( int, arenaMode );
 			ATTRIBUTE( int, winnerScreenTime );
+			ATTRIBUTE( int, initTime );
 
 			// Font Stuff
 

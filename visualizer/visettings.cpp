@@ -19,6 +19,7 @@ visettings::visettings()
 	persistantTalking = false;
 
 	doubleClickTime = 275;
+	arenaMode = 0;
 }
 
 
@@ -117,6 +118,9 @@ bool visettings::loadFromFile(string & errString)
 	errString += outString; returnFlag |= errFlag;
 
 	setAttr( doubleClickTime, configFile.pInt( "doubleClickTime", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
+	setAttr( initTime, configFile.pInt( "InitializationTime", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
 	return !returnFlag;

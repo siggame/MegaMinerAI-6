@@ -60,7 +60,8 @@ defaultFontWidths = "textures/font1.dat"
 # ARENA STUFF
 
 # Is This the Arena?
-ArenaMode = 0
+ArenaMode = 1
 # Time(in ms) we wish to display who the winner is
 WinnerScreenTime = 1500
-
+# Initial Screen Time
+InitializationTime = 3000

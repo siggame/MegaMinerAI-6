@@ -946,10 +946,20 @@ void Gameboard::paintGL()
 	if( game )
 	{
 
-		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
-			&& getAttr(currentMode) != paused )
+		if( getAttr(arenaMode) && frame == (int)game->states.size()-1 )
 		{
+			if( time.elapsed() > getAttr(winnerScreenTime) )
+			{
+				QApplication::quit();
+			}
 
+		}
+
+		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
+			&& getAttr(currentMode) != paused && 
+			(!getAttr(arenaMode) || (getAttr(frameNumber) > 0) || time.elapsed() > getAttr(initTime))
+			 )
+		{
 			time.restart();
 
 			// This is where we advance to the next frame
@@ -965,6 +975,10 @@ void Gameboard::paintGL()
 				else
 					setAttr( frameNumber, ++frame );
 			}
+
+			if( frame == game->states.size()-1 )
+				setAttr( currentMode, paused );
+
 
 			parent->controlSlider->blockSignals(true);
 			parent->controlSlider->setSliderPosition( frame );
