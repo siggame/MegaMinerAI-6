@@ -957,7 +957,11 @@ void Gameboard::paintGL()
 			{
 				if(getAttr(currentMode) == rewinding &&
 					frame>0)
+				{
 					setAttr( frameNumber, --frame );
+					if( frame <=0 )
+						setAttr( currentMode, paused );
+				}
 				else
 					setAttr( frameNumber, ++frame );
 			}
