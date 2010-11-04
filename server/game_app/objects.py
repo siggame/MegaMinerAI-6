@@ -49,9 +49,22 @@ class Unit(Mappable):
     self.game.animations.append(['talk', self.id, message])
     return True
 
+  def _distance(self, target):
+    x = 0
+    y = 0
+    if self.x > target.x + target.size-1:
+      x = self.x - (target.x + target.size-1)
+    elif target.x > self.x + self.size-1:
+      x = target.x - (self.x + self.size-1)
+    if self.y > target.y + target.size-1:
+      y = self.y - (target.y + target.size-1)
+    elif target.y > self.y + self.size-1:
+      y = target.y - (self.y + self.size-1)
+    return x + y
+
   def _takeDamage(self, damage):
     self.health -= damage
-    if self.health < 1:
+    if self.health < 1 and self.id in self.game.objects:
       self.game.removeObject(self)
 
 
@@ -107,7 +120,7 @@ class Bot(Unit):
       type.buildRate, 0, 0, type.id)
 
   def _takeDamage(self, damage):
-    if self.building and self.health <= damage:
+    if self.building and self.building in self.game.objects and self.health <= damage:
       self.game.removeObject(self.game.objects[self.building])
     Unit._takeDamage(self, damage)
     if self.health > self.maxHealth:
@@ -128,19 +141,6 @@ class Bot(Unit):
       i.actions = 0
       i.steps = 0
     return newBot
-
-  def _distance(self, target):
-    x = 0
-    y = 0
-    if self.x > target.x + target.size-1:
-      x = self.x - (target.x + target.size-1)
-    elif target.x > self.x + self.size-1:
-      x = target.x - (self.x + self.size-1)
-    if self.y > target.y + target.size-1:
-      y = self.y - (target.y + target.size-1)
-    elif target.y > self.y + self.size-1:
-      y = target.y - (self.y + self.size-1)
-    return x + y
 
   def _move(self, x, y):
     self.x += x
@@ -380,31 +380,6 @@ class Frame(Unit):
       self.completionTime,
       ]
     return value
-
-  def _distance(self, target):
-    if isinstance(target, Bot) or isinstance(target, Frame) or isinstance(target, Wall):
-      x = 0
-      y = 0
-      if self.x > target.x + target.size-1:
-        x = self.x - (target.x + target.size-1)
-      elif target.x > self.x + self.size-1:
-        x = target.x - (self.x + self.size-1)
-      if self.y > target.y + target.size-1:
-        y = self.y - (target.y + target.size-1)
-      elif target.y > self.y + self.size-1:
-        y = target.y - (self.y + self.size-1)
-      return x + y
-    else:
-      x = y = 0
-      if target.x < self.x:
-        x = self.x - target.x
-      if target.x > (self.x + self.size-1):
-        x = target.x - (self.x + self.size-1)
-      if target.y < self.y:
-        y = self.y - target.y
-      if target.y > (self.y + self.size-1):
-        y = target.y - (self.y + self.size-1)
-
 
   def nextTurn(self):
     if self.game.playerID == self.owner:
