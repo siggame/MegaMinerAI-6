@@ -781,7 +781,7 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 				ss << it->second << '\n';
 			}
 
-			parent->console->setText( ss.str().c_str() );
+			//parent->console->setText( ss.str().c_str() );
 		}
 
 		leftButtonDown = false;
@@ -856,9 +856,65 @@ void Gameboard::drawMouse()
 	}
 }
 
+void Gameboard::talkRobotsGodDamnitTalk( Game *game )
+{
+	stringstream ss;
+	int startFrame = getAttr( frameNumber )-1;
+	if( getAttr( persistantTalking ) )
+	 startFrame = 0;	
+	if( startFrame < 0 )
+		startFrame = 0;
+	for( int i = startFrame; i <= getAttr(frameNumber); i++ )
+	{
+		for(
+			 	std::vector<Animation*>::iterator j = game->states[i].animations.begin();
+				j != game->states[i].animations.end();
+				j++ )
+		{
+
+			// Not talking, continue
+			if( (*j)->type != TALK )
+				continue;
+
+
+			Talk *t = (Talk*)*j;
+
+			cout << t->speaker << endl;
+			// If not selected, continue
+			if( selectedIDs.find( t->speaker ) == selectedIDs.end() )
+				continue;
+
+			// Ok, selected and talking... whew
+			// Let's see if the unit is in this frame:
+			if( game->states[i].bots.find( t->speaker ) == game->states[i].bots.end() )
+				continue;	
+
+			// Yes, he's in the frame!!! 
+			// GETTING CLOSER!!
+			// Correct team!?!?!?!?!
+			if( (game->states[i].units[t->speaker].owner<<1)^(getAttr(team1Talk)|(!getAttr(team2Talk)<<1) ) )
+			{
+
+				// CORRECT TEAM!!!!
+				ss << t->message << endl;
+				
+
+			}
+			
+		}
+	}
+
+	parent->console->setText( ss.str().c_str() );
+
+
+}
+
 
 void Gameboard::paintGL()
 {
+	// We only want to update output if our frame has changed.  
+	// Other wise we're wasting our time.
+	static int lastFrame = 0;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -923,9 +979,13 @@ void Gameboard::paintGL()
 		drawFrames( game, falloff );
 		drawAnimations( game, falloff );
 		drawBots( game, falloff );
-
 		drawControl();
 
+		if( getAttr(frameNumber) != lastFrame )
+		{
+			lastFrame = getAttr( frameNumber );
+			talkRobotsGodDamnitTalk(game);
+		}
 		//parent->console
 
 	}
@@ -983,11 +1043,11 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		GameState state1 = game->states[frame];
 		GameState state2 = game->states[frame+1];
 
-		x0 = state1.bots[attack->attacker].x;
-		y0 = state1.bots[attack->attacker].y;
+		x0 = state1.bots[attack->attacker].x*getAttr(unitSize);
+		y0 = state1.bots[attack->attacker].y*getAttr(unitSize);
 
-		xf = state2.bots[attack->victim].x;
-		yf = state2.bots[attack->victim].y;
+		xf = state2.bots[attack->victim].x*getAttr(unitSize);
+		yf = state2.bots[attack->victim].y*getAttr(unitSize);
 
 
 

@@ -35,6 +35,7 @@ bool AI::run()
     // if it is my bot
     if(bots[b].owner()==playerID() && bots[b].partOf()==0)
     {
+			bots[b].talk( "Hi there, I'm you're robot" );
       if(bots[b].buildRate()>0 && builders.size()<4 && bots[b].size()==1)
       {
         builders.push_back(b);
