@@ -4,26 +4,32 @@
 
 using namespace std;
 
-
 Options::Options()
 {
 	addOptions();
 }
 
+
 void Options::togglePersistant( bool on)
 {
+	setAttr( lastFrame, -1 );
 	setAttr( persistantTalking, on );
 }
 
+
 void Options::toggleTeam1( bool on )
 {
+	setAttr( lastFrame, -1 );
 	setAttr( team1Talk, on );
 }
 
+
 void Options::toggleTeam2( bool on )
 {
+	setAttr( lastFrame, -1 );
 	setAttr( team2Talk, on );
 }
+
 
 void Options::addOptions()
 {
@@ -44,26 +50,29 @@ void Options::addOptions()
 	connect( persistant, SIGNAL( toggled(bool) ), this, SLOT( togglePersistant(bool) ) );
 
 	setLayout( vbox );
-	
+
 }
+
 
 VisualizerWindow::VisualizerWindow()
 {
 	setGeometry( 0, 0, 1280, 1024 );
-	createActions();
-	createMenus();
-	createLayout();
-	createSpeeds();
 
 	string configErr;
 
 	if (!visettings::instance()->loadFromFile(configErr))
 	{
-	    QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
+		QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
 	}
 
+	createActions();
+	createMenus();
+	createLayout();
+	createSpeeds();
+
 	setWindowTitle( "Modular Visualizer" );
-	fullScreen = false;
+	fullScreen = getAttr(arenaMode) ? false : true;
+	toggleFullScreen();
 	gamelog = 0;
 }
 
@@ -96,7 +105,6 @@ GameState *VisualizerWindow::getFrame( int frame )
 bool VisualizerWindow::loadGamelog( char *filename )
 {
 
-
 	if ( filename == NULL )
 	{
 		QMessageBox::critical(this,"Error","No Gamelog Specified!");
@@ -105,7 +113,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	if ( string (filename) == string("")  )
 	{
-	    return false;
+		return false;
 	}
 
 	Game * temp = new Game;
@@ -125,6 +133,43 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
+	///* This Code fills the quadtree     ::::     REALLY UGLY CODE
+
+	vector< GameState >::iterator stateIt = gamelog->states.begin();
+	for ( ; stateIt !=  gamelog->states.end(); stateIt++)
+	{
+		map<int,Bot>::iterator botIt = stateIt->bots.begin();
+		vector< Quadtree > temp;
+		for ( ; botIt != stateIt->bots.end(); botIt++)
+		{
+			if ( botIt->second.partOf == 0)
+			{
+				temp.push_back( Quadtree( &(botIt->second) ) );
+			}
+			else
+			{
+				vector< Quadtree >::iterator quadIt = temp.begin();
+				for (; quadIt != temp.end(); quadIt++)
+				{
+					if ( quadIt->addNode(&(botIt->second)) )
+					{
+						break;
+					}
+				}
+
+			}
+		}
+
+		vector< Quadtree >::iterator conformIt = temp.begin();
+
+		for (; conformIt != temp.end(); conformIt++)
+		{
+			conformIt->conformTypes();
+		}
+
+	}
+
+	//*/ END OF THE REALLY UGLY CODE
 	return true;
 }
 
@@ -172,6 +217,7 @@ void VisualizerWindow::toggleFullScreen()
 	show();
 }
 
+
 void VisualizerWindow::closeFullScreen()
 {
 	if( fullScreen )
@@ -181,6 +227,7 @@ void VisualizerWindow::closeFullScreen()
 		show();
 	}
 }
+
 
 void VisualizerWindow::toggleMapGrid()
 {
@@ -282,6 +329,10 @@ void VisualizerWindow::controlSliderReleased()
 void VisualizerWindow::controlSliderChanged(int frame)
 {
 	setAttr( frameNumber, frame );
+	if ( getAttr( currentMode ) == play && frame == 1 )
+	{
+		stopClicked();
+	}
 }
 
 
@@ -450,6 +501,8 @@ void VisualizerWindow::createLayout()
 			height: 10px;\
 			border-radius: 4px;\
 		  }	");
+
+	turnLabel = new QLabel(this);
 	gameboard = new Gameboard(this);
 
 	QDockWidget *bottomDock = new QDockWidget(this );
@@ -473,6 +526,7 @@ void VisualizerWindow::createLayout()
 	// Creates the layout for the controlBar
 	QHBoxLayout *controlLayout = new QHBoxLayout;
 	controlLayout->addWidget(controlSlider);
+	controlLayout->addWidget(turnLabel);
 	controlLayout->addWidget(playButton);
 	controlLayout->addWidget(rewindButton);
 	controlLayout->addWidget(fastForwardButton);
@@ -508,7 +562,15 @@ void VisualizerWindow::createLayout()
 
 	bottomFrame->setLayout( vbox );
 	bottomDock->setWidget( bottomFrame );
-	addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
+
+	if( !getAttr(arenaMode ) )
+	{
+		addDockWidget( Qt::BottomDockWidgetArea, bottomDock );
+	}
+	else
+	{
+		bottomDock->hide();
+	}
 
 	connect(
 		controlSlider,
@@ -559,25 +621,28 @@ void VisualizerWindow::createLayout()
 	setCentralWidget( gameboard );
 }
 
+
 // TODO: Combine these two functions
 void VisualizerWindow::advanceFrame()
 {
 	setAttr( currentMode, paused );
 
 	int frame = getAttr( frameNumber );
-	if( frame < gamelog->states.size()-1 )
+	if( (unsigned)frame < gamelog->states.size()-1 )
 		setAttr( frameNumber, frame+1 );
-	controlSlider->setSliderPosition( frame );
+	controlSlider->setSliderPosition( frame+1 );
 }
 
-void VisualizerWindow::previousFrame() 
+
+void VisualizerWindow::previousFrame()
 {
 	setAttr( currentMode, paused );
 	int frame = getAttr( frameNumber );
 	if( frame  > 0 )
 		setAttr( frameNumber, frame-1 );
-	controlSlider->setSliderPosition( frame );
+	controlSlider->setSliderPosition( frame-1 );
 }
+
 
 void VisualizerWindow::playPause()
 {
@@ -585,12 +650,15 @@ void VisualizerWindow::playPause()
 	if( getAttr( currentMode ) == paused )
 	{
 		setAttr( currentMode, play );
-	} else {
+	}
+	else
+	{
 		lastMode = getAttr( currentMode );
 		setAttr( currentMode, paused );
 
 	}
 }
+
 
 void VisualizerWindow::createActions()
 {
@@ -638,8 +706,8 @@ void VisualizerWindow::createActions()
 	(void) new QShortcut( QKeySequence( tr( "Space" ) ), this, SLOT( playPause() ) );
 	(void) new QShortcut( QKeySequence( tr( "Escape" ) ), this, SLOT( closeFullScreen() ) );
 
-//	QAction *advance = new QAction( this );
-//	advance->setShortcut( tr("Ctrl+P") );
-//	connect( advance, SIGNAL(triggered()), this, SLOT(openGamelog()) );
+	//	QAction *advance = new QAction( this );
+	//	advance->setShortcut( tr("Ctrl+P") );
+	//	connect( advance, SIGNAL(triggered()), this, SLOT(openGamelog()) );
 
 }

@@ -25,6 +25,7 @@ enum eTextures
 	T_REDBOT_ENGINE,
 	T_REDBOT_FORCE,
 	T_REDBOT_FRAME,
+	T_REDBOT_JOINT,
 
 	T_REDPART_ATTACK,
 	T_REDPART_BUILD,
@@ -36,6 +37,7 @@ enum eTextures
 	T_BLUBOT_ENGINE,
 	T_BLUBOT_FORCE,
 	T_BLUBOT_FRAME,
+	T_BLUBOT_JOINT,
 
 	T_BLUPART_ATTACK,
 	T_BLUPART_BUILD,
@@ -65,7 +67,6 @@ class Gameboard : public QGLWidget
 		void clearBackground();
 
 	private slots:
-		void handleMouse();
 
 	protected:
 		void initializeGL();
@@ -76,6 +77,7 @@ class Gameboard : public QGLWidget
 		void drawBackground( );
 		void drawScoreboard();
 		void drawMouse();
+		void drawProgressbar( Game * game);
 
 		void drawWalls( Game *game, float falloff);
 		void drawFrames( Game *game, float falloff);
@@ -85,15 +87,17 @@ class Gameboard : public QGLWidget
 		void drawBuild( Game * game, Build * build, float falloff );
 		void drawHeal( Game * game, Heal * heal, float falloff );
 
+		void talkRobotsGodDamnitTalk(Game *game);
+
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);
 
-		void drawControl( Game * game, float falloff);
+		void drawControl();
 
 		void drawHealth( int x, int y, int h, int w, int maxHealth, int health, int owner );
 		void drawSprite( int x, int y, int h, int w, int texture, bool selected, int owner );
 
-                float getPercentage(int owner = -1, int size = -1);
+		float getPercentage(int owner = -1, int size = -1);
 		map<int,string> selectedIDs;
 
 		texture textures[numTextures];
@@ -104,13 +108,11 @@ class Gameboard : public QGLWidget
 		QTime buttonTimes;
 
 		bool hasMapGrid;
-		bool hasDefaultBG; //default background
+		bool hasDefaultBG;					 //default background
 
 		void mousePressEvent( QMouseEvent *event );
 		void mouseReleaseEvent( QMouseEvent *event );
 		void mouseMoveEvent( QMouseEvent *event );
-
-
 
 		DrawGLFont *drawFont;
 

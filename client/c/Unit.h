@@ -27,6 +27,8 @@ class Unit : public Mappable {
   int health();
   ///The maximum amount of health this unit can ever have
   int maxHealth();
+  ///The length of one side of this Unit
+  int size();
 
   // Actions
   ///Sends a message to be visualized when this unit is selected

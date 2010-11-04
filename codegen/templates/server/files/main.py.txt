@@ -12,6 +12,7 @@ from game_app.game_app_utils import errorBuffer, requireLogin, requireGame, \
 import time
 import struct
 import bz2
+import sys
 
 class GameApp(AccountsAppMixin, BaseApp):
   games = {}
@@ -168,4 +169,7 @@ if __name__ == "__main__":
   import ${i}
   ${i}.install()
 % endfor
+  if '-arena' in sys.argv:
+    import arena
+    arena.install()
   TestGameServer.main(19000)

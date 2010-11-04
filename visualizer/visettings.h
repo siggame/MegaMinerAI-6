@@ -36,6 +36,7 @@
 			ATTRIBUTE( int, defaultMode );
 			ATTRIBUTE( int, currentMode );
 			ATTRIBUTE( int, frameNumber );
+			ATTRIBUTE( int, lastFrame );
 			ATTRIBUTE( int, speed );
 
 			// This is the current play speed
@@ -52,14 +53,16 @@
 			ATTRIBUTE( int, boardHeightPx );
 			ATTRIBUTE( int, boardWidthPx );
 
+			ATTRIBUTE( int, doubleClickTime );
+
 			// Texture Files
 
 			ATTRIBUTE( string, defBGFileName );
 			ATTRIBUTE( string, wallFileName );
 			ATTRIBUTE( string, gridFileName );
 
-			    // Bot Textures
-				//red bots
+			// Bot Textures
+			//red bots
 			ATTRIBUTE( string, redActionFile );
 			ATTRIBUTE( string, redBuilderFile );
 			ATTRIBUTE( string, redCannonFile );
@@ -68,8 +71,10 @@
 			ATTRIBUTE( string, redForceFile );
 			ATTRIBUTE( string, redFrameFile );
 			ATTRIBUTE( string, redAttackFile );
+			ATTRIBUTE( string, redBuildAnimFile );
+			ATTRIBUTE( string, redJointFile );
 
-				//blue bots
+			//blue bots
 			ATTRIBUTE( string, bluActionFile );
 			ATTRIBUTE( string, bluBuilderFile );
 			ATTRIBUTE( string, bluCannonFile );
@@ -78,10 +83,13 @@
 			ATTRIBUTE( string, bluForceFile );
 			ATTRIBUTE( string, bluFrameFile );
 			ATTRIBUTE( string, bluAttackFile );
+			ATTRIBUTE( string, bluBuildAnimFile );
+			ATTRIBUTE( string, bluJointFile );
 
 			// Arena Stuff
 			ATTRIBUTE( int, arenaMode );
 			ATTRIBUTE( int, winnerScreenTime );
+			ATTRIBUTE( int, initTime );
 
 			// Font Stuff
 
@@ -91,6 +99,9 @@
 			ATTRIBUTE( bool, team1Talk );
 			ATTRIBUTE( bool, team2Talk );
 			ATTRIBUTE( bool, persistantTalking );
+
+			ATTRIBUTE( int, team1Score );
+			ATTRIBUTE( int, team2Score );
 
 			public:
 				static visettings *inst;

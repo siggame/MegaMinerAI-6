@@ -18,6 +18,8 @@ visettings::visettings()
 	team2Talk = true;
 	persistantTalking = false;
 
+	doubleClickTime = 275;
+	arenaMode = 0;
 }
 
 
@@ -72,6 +74,10 @@ bool visettings::loadFromFile(string & errString)
 	errString += outString; returnFlag |= errFlag;
 	setAttr( redAttackFile, configFile.pString("RedAttackFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
+	setAttr( redBuildAnimFile, configFile.pString("RedBuildAnimFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( redJointFile, configFile.pString("RedJointFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
 
 	// Blue Bots
 	setAttr( bluActionFile, configFile.pString("BluActionFile", errFlag, outString ) );
@@ -89,6 +95,10 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( bluFrameFile, configFile.pString("BluFrameFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 	setAttr( bluAttackFile, configFile.pString("BluAttackFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluBuildAnimFile, configFile.pString("BluBuildAnimFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( bluJointFile, configFile.pString("BluJointFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
 	//For Board Drawing, these are the maximums
@@ -109,6 +119,12 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( defaultFont, configFile.pString( "defaultFont", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 	setAttr( defaultFontWidths, configFile.pString( "defaultFontWidths", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
+	setAttr( doubleClickTime, configFile.pInt( "doubleClickTime", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
+	setAttr( initTime, configFile.pInt( "InitializationTime", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
 	return !returnFlag;

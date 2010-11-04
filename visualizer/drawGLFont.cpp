@@ -43,7 +43,7 @@ void DrawGLFont::drawString( string message )
 
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, textureId );
-	for( int i = 0; i < message.size(); i++ )
+	for( int i = 0; (unsigned)i < message.size(); i++ )
 	{
 
 		// Not a real C++ program until there's a ternary operator

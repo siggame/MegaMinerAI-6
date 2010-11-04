@@ -6,9 +6,12 @@
 #include <QMainWindow>
 #include <QDockWidget>
 #include <QShortcut>
+#include <QLabel>
+
 #include "gameboardWidget.h"
 #include "parser.h"
 #include "statsDialog.h"
+#include "quadtree.h"
 
 class Gameboard;
 
@@ -39,10 +42,10 @@ class Scoreboard: public QWidget
 class Options: public QWidget
 {
 	Q_OBJECT
-	public:
+		public:
 		Options();
 		void addOptions();
-		private slots:
+	private slots:
 		void togglePersistant(bool );
 		void toggleTeam1(bool );
 		void toggleTeam2(bool );
@@ -62,6 +65,7 @@ class VisualizerWindow: public QMainWindow
 		// Play controls
 	protected:
 		QSlider *controlSlider;
+		QLabel *turnLabel;
 		QPushButton *playButton;
 		QPushButton *rewindButton;
 		QPushButton *fastForwardButton;
@@ -125,5 +129,6 @@ class VisualizerWindow: public QMainWindow
 		QAction *exitAct;
 
 		Gameboard *gameboard;
+
 };
 #endif
