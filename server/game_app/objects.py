@@ -281,6 +281,8 @@ class Bot(Unit):
 
     self.game.animations.append(['heal', self.id, target.id])
     target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2))
+    
+    self.game.animations.append(['heal', self.id, target.id])
 
     return True
 
@@ -309,6 +311,8 @@ class Bot(Unit):
     self.actions = 0
     self.steps = 0
     self.building = f.id
+    
+    self.game.animations.append(['build', self.id, f.id])
 
     return True
 
