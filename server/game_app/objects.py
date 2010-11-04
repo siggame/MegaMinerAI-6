@@ -333,10 +333,14 @@ class Bot(Unit):
       return "No actions left."
     if self.size < 2:
       return "Not compound."
+    percentHealth = float(self.health) / self.maxHealth
     for i in self.game.objects.values():
       if isinstance(i, Bot):
         if i.partOf == self.id:
           i.partOf = 0
+          i.health = int(i.maxHealth * percentHealth)
+          if i.health <= 0:
+            i.health = 1
     self.game.animations.append(['split', self.id])
     self.game.removeObject(self)
 
