@@ -39,6 +39,10 @@ int Unit::maxHealth()
   return ((_Unit*)ptr)->maxHealth;
 }
 
+int Unit::size()
+{
+  return ((_Unit*)ptr)->size;
+}
 
 int Unit::talk(std::string message)
 {
