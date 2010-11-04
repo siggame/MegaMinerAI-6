@@ -1000,6 +1000,11 @@ void Gameboard::paintGL()
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
 			talkRobotsGodDamnitTalk(game);
+			
+			stringstream text;
+			text << getAttr(frameNumber)+1 << "/" << game->states.size();
+			
+			parent->turnLabel->setText( text.str().c_str() );
 		}
 		//parent->console
 

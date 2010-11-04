@@ -496,6 +496,8 @@ void VisualizerWindow::createLayout()
 			height: 10px;\
 			border-radius: 4px;\
 		  }	");
+
+	turnLabel = new QLabel(this);
 	gameboard = new Gameboard(this);
 
 	QDockWidget *bottomDock = new QDockWidget(this );
@@ -519,6 +521,7 @@ void VisualizerWindow::createLayout()
 	// Creates the layout for the controlBar
 	QHBoxLayout *controlLayout = new QHBoxLayout;
 	controlLayout->addWidget(controlSlider);
+	controlLayout->addWidget(turnLabel);
 	controlLayout->addWidget(playButton);
 	controlLayout->addWidget(rewindButton);
 	controlLayout->addWidget(fastForwardButton);

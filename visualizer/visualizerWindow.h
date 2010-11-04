@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QDockWidget>
 #include <QShortcut>
+#include <QLabel>
 
 #include "gameboardWidget.h"
 #include "parser.h"
@@ -64,6 +65,7 @@ class VisualizerWindow: public QMainWindow
 		// Play controls
 	protected:
 		QSlider *controlSlider;
+		QLabel *turnLabel;
 		QPushButton *playButton;
 		QPushButton *rewindButton;
 		QPushButton *fastForwardButton;
