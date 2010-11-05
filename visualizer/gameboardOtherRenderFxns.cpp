@@ -128,6 +128,7 @@ void Gameboard::drawBackground()
 
 	if ( !hasDefaultBG )
 	{
+
 		//todo: maximums should be defined by config file
 		glBindTexture( GL_TEXTURE_2D, textures[T_BG].getTexture() );
 

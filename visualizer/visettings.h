@@ -59,7 +59,10 @@
 			// Texture Files
 
 			ATTRIBUTE( string, defBGFileName );
-			ATTRIBUTE( string, wallFileName );
+			ATTRIBUTE( string, wall100FileName );
+			ATTRIBUTE( string, wall75FileName );
+			ATTRIBUTE( string, wall50FileName );
+			ATTRIBUTE( string, wall25FileName );
 			ATTRIBUTE( string, gridFileName );
 
 			// Bot Textures

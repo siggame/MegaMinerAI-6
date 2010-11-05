@@ -45,8 +45,13 @@ enum eTextures
 	T_BG,
 	T_DEFAULTBG,
 	T_GRID,
-	T_WALL,
 	T_FONT,
+
+
+	T_WALL100,
+	T_WALL75,
+	T_WALL50,
+	T_WALL25,
 
 	numTextures
 

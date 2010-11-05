@@ -45,10 +45,17 @@ BluJointFile = "textures/Joint 1.png"
 
 # Default Background Image
 defBGFileName = "textures/Ground Asphault 64.jpg"
-# Default Wall Image
-wallFileName = "textures/wall 256.jpg"
 # Default Grid Image
 gridFileName = "textures/grid.png"
+
+# Default Wall Image Full Health
+wall100FileName = "textures/Walls Life 100.jpg"
+# Default Wall Image 75% Health
+wall75FileName = "textures/Walls Life 75.jpg"
+# Default Wall Image 50% Health
+wall50FileName = "textures/Walls Life 50.jpg"
+# Default Wall Image 25% Health
+wall25FileName = "textures/Walls Life 25.jpg"
 
 # Time to click the mouse to register it as a double click
 doubleClickTime = 275

@@ -50,8 +50,15 @@ bool visettings::loadFromFile(string & errString)
 
 	setAttr( defBGFileName, configFile.pString( "defBGFileName", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
-	setAttr( wallFileName, configFile.pString( "wallFileName", errFlag, outString ) );
+	setAttr( wall100FileName, configFile.pString( "wall100FileName", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
+	setAttr( wall75FileName, configFile.pString( "wall75FileName", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( wall50FileName, configFile.pString( "wall50FileName", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( wall25FileName, configFile.pString( "wall25FileName", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
 	setAttr( gridFileName, configFile.pString( "gridFileName", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 

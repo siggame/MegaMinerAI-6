@@ -256,7 +256,22 @@ void Gameboard::drawWalls( Game *game, float falloff __attribute__ ((unused)) )
 			selected = true;
 		}
 
-		drawSprite( x0,y0,unitSize,unitSize, T_WALL, selected, 2 );
+		int sprite = T_WALL100;
+
+		if (it->second.health <= 0.25 * it->second.maxHealth )
+		{
+			sprite = T_WALL25;
+		}
+		else if (it->second.health < 0.50 * it->second.maxHealth)
+		{
+			sprite = T_WALL50;
+		}
+		else if (it->second.health < 0.75 * it->second.maxHealth)
+		{
+			sprite = T_WALL75;
+		}
+
+		drawSprite( x0,y0,unitSize,unitSize, sprite, selected, 2 );
 
 	}
 

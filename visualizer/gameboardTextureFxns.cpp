@@ -104,7 +104,13 @@ bool Gameboard::loadAllTextures( QString & message )
 	if ( !loadTexture( getAttr( gridFileName ).c_str(), T_GRID, errString ) )
 		flag = true;
 
-	if ( !loadTexture( getAttr( wallFileName ).c_str(), T_WALL, errString ) )
+	if ( !loadTexture( getAttr( wall100FileName ).c_str(), T_WALL100, errString ) )
+		flag = true;
+	if ( !loadTexture( getAttr( wall75FileName ).c_str(), T_WALL75, errString ) )
+		flag = true;
+	if ( !loadTexture( getAttr( wall50FileName ).c_str(), T_WALL50, errString ) )
+		flag = true;
+	if ( !loadTexture( getAttr( wall25FileName ).c_str(), T_WALL25, errString ) )
 		flag = true;
 
 	message = errString;
