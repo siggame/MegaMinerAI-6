@@ -83,14 +83,16 @@ class Gameboard : public QGLWidget
 		void drawMouse();
 		void drawProgressbar( Game * game);
 
+		void drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff);
+
 		void drawBots( Game* game, float falloff );
 		void drawSingleBot( Game *game, Bot * bot, int frame, int unitSize, float falloff );
 
 		void drawWalls( Game *game, float falloff);
-		void drawSingleWall( Wall * wall, int frame, int unitSize );
+		void drawSingleWall( Game *game, Wall * wall, int frame, int unitSize );
 
 		void drawFrames( Game *game, float falloff);
-		void drawSingleFrame( Frame * botFrame, int frame, int unitSize );
+		void drawSingleFrame( Game *game, Frame * botFrame, int frame, int unitSize );
 
 		void drawAnimations( Game * game, float falloff);
 		void drawAttack( Game * game, Attack * attack, float falloff );

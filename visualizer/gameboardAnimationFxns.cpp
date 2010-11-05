@@ -64,14 +64,22 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
-		GameState state1 = game->states[frame];
-		GameState state2 = game->states[frame-1];
+		GameState stateCurrent = game->states[frame];
+		GameState stateBackward = game->states[frame-1];
+		GameState stateForward = game->states[frame+1];
+
 
 		int bulletSize = unitSize*3/5;
 
-		Unit *attacker = findExistance( state1, attack->attacker );
-		Unit *victim = findExistance( state2, attack->victim );
+		Unit *attacker = findExistance( stateCurrent,  attack->attacker );
+		Unit *victim   = findExistance( stateBackward, attack->victim );
+		Unit *deadUnit = findExistance( stateForward,  attack->victim );
 
+		if ( !deadUnit ) //draw the dead unit
+		{
+			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
+			//todo: add to dead units
+		}
 
 		int xJitter = rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
 		int yJitter = rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
@@ -91,7 +99,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		glScalef( bulletSize , bulletSize, 1 );
 
 		glEnable( GL_TEXTURE_2D );
-		switch (state1.bots[attack->attacker].owner)
+		switch (stateCurrent.bots[attack->attacker].owner)
 		{
 			case 0:
 				

@@ -1,5 +1,16 @@
 #include "gameboardWidget.h"
 
+void Gameboard::drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff)
+{
+	if( game->states[frame].bots.find( unit->id ) != game->states[frame].bots.end() )
+		drawSingleBot(game,(Bot*)unit,frame,unitSize,falloff);
+
+	if( game->states[frame].frames.find( unit->id ) != game->states[frame].frames.end() )
+		drawSingleFrame(game,(Frame*)unit,frame,unitSize);
+
+	if( game->states[frame].walls.find( unit->id ) != game->states[frame].walls.end() )
+		drawSingleWall(game,(Wall*)unit,frame,unitSize);
+}
 
 void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool selected = false, int owner = 2)
 {
@@ -209,11 +220,11 @@ void Gameboard::drawFrames( Game *game, float falloff __attribute__ ((unused)) )
 		it++
 		)
 	{
-		drawSingleFrame(&(it->second),frame,unitSize);
+		drawSingleFrame(game,&(it->second),frame,unitSize);
 
 	}
 }
-void Gameboard::drawSingleFrame( Frame * botFrame, int frame, int unitSize )
+void Gameboard::drawSingleFrame( Game *game, Frame * botFrame, int frame, int unitSize )
 {
 		int x0, y0;
 		x0 = botFrame->x*unitSize;
@@ -253,13 +264,13 @@ void Gameboard::drawWalls( Game *game, float falloff __attribute__ ((unused)) )
 		)
 	{
 
-		drawSingleWall(&(it->second),frame,unitSize);
+		drawSingleWall( game,&(it->second),frame,unitSize);
 
 	}
 
 }
 
-void Gameboard::drawSingleWall( Wall * wall, int frame, int unitSize )
+void Gameboard::drawSingleWall( Game *game, Wall * wall, int frame, int unitSize )
 {
 	int x0, y0;
 	x0 = wall->x*unitSize;
