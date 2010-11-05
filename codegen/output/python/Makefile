@@ -1,9 +1,14 @@
-all: ../c/libclient.so
+all: libclient.so
 
-../c/libclient.so: 
+submit: libclient.so
+	$(shell cd ..;sh submit.sh c)
+
+
+libclient.so: ../c/*.cpp ../c/*.h
 	$(MAKE) -C ../c/ libclient.so
+	cp ../c/libclient.so libclient.so
 
 
 clean:
-	rm -f ../c/libclient.so
+	rm -f libclient.so
 	rm -f *.pyc
