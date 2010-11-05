@@ -1,4 +1,6 @@
 #include "gameboardWidget.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 void Gameboard::drawAnimations( Game * game, float falloff)
@@ -57,20 +59,28 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 	int x0, y0, xf, yf;
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
+	// Make the random seed the pointer so jitter is consistant
+	srand( (long unsigned int)attack );
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
 		GameState state1 = game->states[frame];
 		GameState state2 = game->states[frame-1];
 
+		int bulletSize = unitSize*3/5;
+
 		Unit *attacker = findExistance( state1, attack->attacker );
 		Unit *victim = findExistance( state2, attack->victim );
 
-		x0 = attacker->x*getAttr(unitSize)+(attacker->size-1)*getAttr(unitSize)/2;
-		y0 = attacker->y*getAttr(unitSize)+(attacker->size-1)*getAttr(unitSize)/2;
 
-		xf = victim->x*getAttr(unitSize)+(victim->size-1)*getAttr(unitSize)/2;
-		yf = victim->y*getAttr(unitSize)+(victim->size-1)*getAttr(unitSize)/2;
+		int xJitter = rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
+		int yJitter = rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
+
+		x0 = attacker->x*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + xJitter;
+		y0 = attacker->y*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + yJitter;
+
+		xf = victim->x*unitSize+(victim->size-1)*unitSize/2+(unitSize-bulletSize)/2;
+		yf = victim->y*unitSize+(victim->size-1)*unitSize/2+(unitSize-bulletSize)/2;
 
 		float x, y;
 		x = (xf-x0)*falloff + x0;
@@ -78,7 +88,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 		glPushMatrix();
 		glTranslatef(x,y,0);
-		glScalef( unitSize * state1.bots[attack->attacker].size/2 , unitSize * state1.bots[attack->attacker].size/2, 1 );
+		glScalef( bulletSize , bulletSize, 1 );
 
 		glEnable( GL_TEXTURE_2D );
 		switch (state1.bots[attack->attacker].owner)

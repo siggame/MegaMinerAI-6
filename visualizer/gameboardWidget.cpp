@@ -11,7 +11,7 @@ Gameboard::Gameboard( QWidget *prt )
 	// 20 milliseconds or microseconds, I'm not sure
 
 	// This makes it about 50 Frames Per Second
-	timerId = startTimer(50);
+	timerId = startTimer(20);
 	parent = ((VisualizerWindow*)prt);
 	time.start();
 	buttonTimes.start();
