@@ -265,12 +265,13 @@ void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)),
 	}
 	glColor4f( 0, 0, 0, .7 );
 
+
+	glLineWidth (1.0);
 	glBegin(GL_LINE_LOOP);
 	glVertex3f( 0.0, 4.0f, 0 );
 	glVertex3f( 1, 4.0f, 0 );
 	glVertex3f( 1, 0.0, 0 );
 	glVertex3f( 0.0f, 0.0, 0 );
-	glLineWidth (1.0);
 
 	glEnd();
 	glPopMatrix();
