@@ -30,6 +30,10 @@ void Options::toggleTeam2( bool on )
 	setAttr( team2Talk, on );
 }
 
+void Options::sliderChanged( int value )
+{
+	setAttr(unitSize, value );
+}
 
 void Options::addOptions()
 {
@@ -41,9 +45,24 @@ void Options::addOptions()
 	team2->setCheckState( Qt::Checked );
 	QCheckBox *persistant = new QCheckBox( tr( "Persistant Talking?" ), this );
 
+	QSlider *unitSizeSlider = new QSlider(Qt::Horizontal);
+	unitSizeSlider->setTickInterval( 16 );
+	unitSizeSlider->setMinimum(0);
+	unitSizeSlider->setMaximum(128);
+	unitSizeSlider->setSliderPosition( getAttr( unitSize ) );
+
+	connect(
+		unitSizeSlider,
+		SIGNAL(valueChanged(int)),
+		this,
+		SLOT(sliderChanged(int))
+		);
+
 	vbox->addWidget( team1 );
 	vbox->addWidget( team2 );
 	vbox->addWidget( persistant );
+	vbox->addWidget( new QLabel( "Unit Size: ", this ) );
+	vbox->addWidget( unitSizeSlider );
 
 	connect( team1, SIGNAL( toggled(bool) ), this, SLOT( toggleTeam1(bool) ) );
 	connect( team2, SIGNAL( toggled(bool) ), this, SLOT( toggleTeam2(bool) ) );
@@ -201,7 +220,7 @@ void VisualizerWindow::openGamelog()
 	setAttr( currentMode, getAttr( defaultMode ) );
 
 	// Start her up again
-	gameboard->timerId = gameboard->startTimer( 50 );
+	gameboard->timerId = gameboard->startTimer( 20 );
 
 }
 

@@ -72,8 +72,8 @@ void Gameboard::initializeGL()
 //Returns the percentage of the map the passed owner controls.  If given a size parameter, will recalculate owner's controlled region by adding the bot's area (size*size)
 float Gameboard::getPercentage( int owner, int size )
 {
-	float baseHeight = getAttr( boardHeightPx );
-	float baseWidth  = getAttr( boardWidthPx );
+	float baseHeight = parent->gamelog->states[0].boardX;// getAttr( boardHeightPx );
+	float baseWidth  = parent->gamelog->states[0].boardY;//getAttr( boardWidthPx );
 	static float onePercent = 0;
 	static float twoPercent = 0;
 	float retVal = -1;

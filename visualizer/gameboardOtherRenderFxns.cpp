@@ -103,8 +103,10 @@ void Gameboard::drawBackground()
 	float baseHeight = getAttr( boardHeightPx );
 	float baseWidth  = getAttr( boardWidthPx );
 
+	glScalef( (float)getAttr(unitSize)/32, (float)getAttr(unitSize)/32,1 );
 	if ( hasDefaultBG )
 	{
+
 		glBindTexture( GL_TEXTURE_2D, textures[T_DEFAULTBG].getTexture() );
 
 		glBegin( GL_QUADS );

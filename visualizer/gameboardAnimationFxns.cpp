@@ -94,16 +94,18 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		switch (state1.bots[attack->attacker].owner)
 		{
 			case 0:
+				
+				glColor4f( 0, 1, 0, 1 );
 				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
 				break;
 			default:
+				glColor4f( 0, .7, 1, 1 );
 				glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_ATTACK].getTexture() );
 
 		}
 
 		glBegin(GL_QUADS);
 
-		glColor4f( 1, 1, 1, 1 );
 
 		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
 		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);

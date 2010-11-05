@@ -183,7 +183,7 @@ void Gameboard::drawBots( Game *game, float falloff )
 				drawHealth( (int)(x0+(x1-x0)*falloff), (int)(y0+(y1-y0)*falloff), unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
 
 																 //keeps count of each player's percentage
-			getPercentage(owner, unitSize*it->second.size);
+			getPercentage(owner, it->second.size);
 		}
 
 	}

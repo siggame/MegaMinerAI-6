@@ -49,6 +49,7 @@ class Options: public QWidget
 		void togglePersistant(bool );
 		void toggleTeam1(bool );
 		void toggleTeam2(bool );
+		void sliderChanged(int);
 };
 
 class VisualizerWindow: public QMainWindow
