@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: iso-8859-1 -*-
 #New Game Visualizer Scheduler Update Function
 #the game holders themselves are not deleted so that the queue can easily tell wether a game between these two with the same version numbers has already been played, as if one has it gets no bonus to its priority.
 import heapq
@@ -13,10 +13,65 @@ import heapq
 
 # teamlist is a dict for current version numbers
 
-tentq = []
-visq = []
-teamlist = {}
+class Match:
+  def __init__(priority, p1, p2):
+    self.priority = priority
+    self.p1 = p1
+    self.p2 = p2
 
+class GameScheduler:
+  tentq = []
+  teamlist = {}
+  
+  def __init__(self):
+    self.tentq = []
+    self.teamlist = {}
+    
+  #New Version Game Scheduler Update Function  
+  def updateQueue(newAI, version):
+    self.teamlist[newAI] = version
+    if team in self.teamlist:
+      for m in self.tentq:
+        if newAI in [m.p1, m.p2]:
+          m.priority += 2*len(self.tentq)
+          m.priority = min(m.priority, 5*len*self.tentq)
+    else:
+      for team in self.teamlist:
+        self.tentq.append(Match(2*len(self.tentq)+2*len(self.teamlist), newAI, team))
+        self.tentq.append(Match(2*len(self.tentq)+2*len(self.teamlist), team, newAI))
+      self.teamlist[newAI] = version
+    
+    return True
+      
+  #Removes a competitor
+  def removeCompetitor(removee):
+    #Iterates through each of tentacle queue, visualizer queue, and team list.  Removes everything in which the team being removed participated.
+    if removee in self.teamlist:
+      del self.teamlist[removee]
+    else:
+      return False
+    for s in self.tentq:
+      if removee in [s.p1, s.p2]
+        self.tentq.remove(schedule)
+    for game in visq:
+      if removee in game:
+        visq.remove(game)
+    return True
+
+  #grabs the next game to be run by a tentacle and makes the proper adjustments
+  def nextGame(self.tentq):
+    self.tentq.sort(key = lambda x: x.priority, reverse=True)
+    nextUp = self.tentq[0]
+    nextUp.priority = 0
+    for s in self.tentq[1:]:
+      if nextUp.p1 not in [s.p1, s.p2]:
+        s.priority += 1
+      if nextUp.p2 not in [s.p1, s.p2]:
+        s.priority += 1
+    
+    return nextUp
+
+"""
 def visualizerQueueUpdate(game,gamelog):
   for game in visq:
     found = False
@@ -38,49 +93,6 @@ def visualizerQueueUpdate(game,gamelog):
     newgame.priority = 2*visq.len() + 2
     newgame.played = false
     visq.append(newgame)
-  
-#New Version Game Scheduler Update Function  
-def gameQueueUpdate(newAI):
-  if team in teamlist:
-    teamlist[team] += 1
-    for game in tentq:
-      if newAI in game:
-        game[0] += 2*len(tentq)
-  else:
-    teamlist[newAI] = 0
-    for team in teamlist:
-      heapq.heappush(tentq,[2*len(tentq)+2*len(teamlist),newAI,team])
-      heapq.heappush(tentq,[2*len(tentq)+2*len(teamlist),team,newAI])
-    
-#Removes a competitor
-def removeCompetitor(removee):
-  #Iterates through each of tentacle queue, visualizer queue, and team list.  Removes everything in which the team being removed participated.
-  if removee in teamlist:
-    del teamlist[removee]
-  else :
-    return
-  for schedule in tentq:
-    if removee in schedule
-      tentq.remove(schedule)
-  for game in visq:
-    if removee in game:
-      visq.remove(game)
-  heapq.heapify(tentq)
-  heapq.heapify(visq)
-
-#grabs the next game to be run by a tentacle and makes the proper adjustments
-def nextGame(tentq):
-  nextUp = tentq[0]
-  for schedule in tentq:
-    if nextUp.priority < schedule.priority:
-      nextUp = schedule
-  nextUp.priority = 0
-  for schedule in tentq:
-    if nextUp.team1 != schedule.team1 and nextUp.team1 != schedule.team2:
-      schedule.priority++
-    if nextUp.team2 != schedule.team1 and nextUp.team2 != schedule.team2:
-      schedule.priority++
-  return nextUp
   
 #grabs the next thing to be visualized and makes proper adjustments
 def nextVideo(visq):
@@ -114,3 +126,4 @@ def primaryScheduleLoop():
 
 def rrTournament(teamlist):
   
+"""
