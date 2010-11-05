@@ -12,7 +12,8 @@ class GameObject(object):
 
 % for model in models:
 
-##${model.doc}
+#\
+#${model.doc}
 %   if model.parent:
 class ${model.name}(${model.parent.name}):
 %   else:
@@ -39,8 +40,9 @@ class ${model.name}(GameObject):
         return True
     raise ExistentialError()
 %   endif
-##${func.doc}
 %  for func in model.functions + model.properties:
+  #\
+#${func.doc}
   def ${func.name}(self\
 %    for arg in func.arguments:
 , ${arg.name}\
@@ -66,7 +68,8 @@ class ${model.name}(GameObject):
 
 %  endfor
 %  for datum in model.data:
-  ##${datum.doc}
+  #\
+#${datum.doc}
   def get${capitalize(datum.name)}(self):
     self.validify()
     return library.${lowercase(model.name)}Get${capitalize(datum.name)}(self.ptr)
