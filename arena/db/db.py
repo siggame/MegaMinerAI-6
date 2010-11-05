@@ -17,12 +17,12 @@ class DBManager(rpyc.Service):
       return None
     
     print "logging a game into the database....:"
-    print "client1=",c1[0]
-    print "client1 version=",c1[1]
-    print "client2=",c2[0]
-    print "client2 version=",c2[1]
-    print "server version=",sv
-    print "start time=",startTime
+    #print "client1=",c1[0]
+    #print "client1 version=",c1[1]
+    #print "client2=",c2[0]
+    #print "client2 version=",c2[1]
+    #print "server version=",sv
+    #print "start time=",startTime
 
     filename = 'logs/%s.gamelog' % logNum
     logNum += 1

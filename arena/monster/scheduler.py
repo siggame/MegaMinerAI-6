@@ -13,10 +13,13 @@
 # teamlist is a dict for current version numbers
 
 class Match:
-  def __init__(priority, p1, p2):
+  def __init__(self, priority, p1, p2):
     self.priority = priority
     self.p1 = p1
     self.p2 = p2
+  
+  def __repr__(self):
+    return '%s VERSUS %s' % (self.p1, self.p2)
 
 class GameScheduler:
   tentq = []
@@ -27,9 +30,9 @@ class GameScheduler:
     self.teamlist = {}
     
   #New Version Game Scheduler Update Function  
-  def updateQueue(newAI, version):
-    self.teamlist[newAI] = version
-    if team in self.teamlist:
+  def updateQueue(self, newAI, version):
+    if newAI in self.teamlist:
+      self.teamlist[newAI] = version
       for m in self.tentq:
         if newAI in [m.p1, m.p2]:
           m.priority += 2*len(self.tentq)
@@ -43,14 +46,14 @@ class GameScheduler:
     return True
       
   #Removes a competitor
-  def removeCompetitor(removee):
+  def removeCompetitor(self, removee):
     #Iterates through each of tentacle queue, visualizer queue, and team list.  Removes everything in which the team being removed participated.
     if removee in self.teamlist:
       del self.teamlist[removee]
     else:
       return False
     for s in self.tentq:
-      if removee in [s.p1, s.p2]
+      if removee in [s.p1, s.p2]:
         self.tentq.remove(schedule)
     for game in visq:
       if removee in game:
@@ -58,7 +61,7 @@ class GameScheduler:
     return True
 
   #grabs the next game to be run by a tentacle and makes the proper adjustments
-  def nextGame():
+  def nextGame(self):
     self.tentq.sort(key = lambda x: x.priority, reverse=True)
     nextUp = self.tentq[0]
     nextUp.priority = 0
@@ -69,9 +72,16 @@ class GameScheduler:
         s.priority += 1
     
     return nextUp
+  
+  def ready(self):
+    return len(self.tentq) > 0
+    
+  def done(self):
+    #Never give up!
+    return False
 
 
-
+"""
 class GameRecord:
   def __init__(priority, p1, p2, ver1, ver2,log):
     self.priority = priority
@@ -101,7 +111,7 @@ class VisScheduler:
 	  record.p2ver = newgame.p2ver
 	  record.priority += 2*visq.len()
     #If the game holder between those players doesn't already exist, it creates it
-    if !found:
+    if not found:
       game.priority = 2*visq.len() + 2
       visq.append(game)
     return true
@@ -117,6 +127,8 @@ class VisScheduler:
       if nextUp.p2 not in [s.p1, s.p2]:
         s.priority += 1
     return nextUp
+"""
+
 """
 #loop that checks for tentacles, gives them things to visualise, tentq contains priority, team1, team2, teams each contain teamName, version, AI.
 def primaryScheduleLoop():

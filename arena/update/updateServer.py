@@ -10,11 +10,11 @@ import config
 
 class UpdateServer(rpyc.Service):
   def exposed_get(self, password, name, version):
-    validNames = config.readConfig("login.cfg")
+    validNames = config.readConfig('login.cfg')
     if validNames['admin']['password'] != password:
       return None
     
-    print "sending out",name,"version",version
+    print 'sending out',name,'version',version
 
     if exists( join('files', name,str(version)+'.tar.bz2') ):
       return open( join('files', name,str(version)+'.tar.bz2'),'rb').read()
@@ -23,21 +23,21 @@ class UpdateServer(rpyc.Service):
       return None
   
   def exposed_getVersions(self, password):
-    validNames = config.readConfig("login.cfg")
-    if not (name in validNames and validNames[name]["password"] == password):
+    validNames = config.readConfig('login.cfg')
+    if not ('admin' in validNames and validNames['admin']['password'] == password):
       return False
     
     versions = {}
     for name in listdir('files'):
-      versions[name] = len(listdir(join('files', name)))
+      versions[name] = len(listdir(join('files', name)))-1
     
     return versions
     
 
   def exposed_update(self, name, password, binary):
     #updates a program (a client, unless name=server)
-    validNames = config.readConfig("login.cfg")
-    if not (name in validNames and validNames[name]["password"] == password):
+    validNames = config.readConfig('login.cfg')
+    if not (name in validNames and validNames[name]['password'] == password):
       return False
     
     if isdir(join('files', name)):
@@ -46,7 +46,7 @@ class UpdateServer(rpyc.Service):
       #if we expect it to get polluted we should use a better method than this
       v = len(listdir(join('files', name)))
     elif exists(join('files', name)):
-      print "Crap! Trying to make %s but it's not a directory!" % name
+      print 'Crap! Trying to make %s but it\'s not a directory!' % name
       return False
     else:
       mkdir(join('files', name))
@@ -57,7 +57,7 @@ class UpdateServer(rpyc.Service):
     
     return True
 
-if __name__ == "__main__":
+if __name__ == '__main__':
   from rpyc.utils.server import ThreadedServer
   u = ThreadedServer(UpdateServer, port=18862)
   u.start()
