@@ -1,7 +1,34 @@
 #include "gameboardWidget.h"
 #include <sstream>
 
+void Gameboard::drawWinnerScreen( Game *game )
+{
 
+	glLoadIdentity();
+
+	glDisable(GL_TEXTURE_2D);
+	glBegin( GL_QUADS );
+	glVertex3f( 0, 0, 0 );
+	glVertex3f( 1280, 0, 0 );
+	glVertex3f( 1280, 1024, 0 );
+	glVertex3f( 0, 1024, 0 );
+	glEnd();
+
+	glEnable( GL_TEXTURE_2D );
+
+	stringstream ss; 
+	cout << game->winner << endl;
+	ss << game->players[!game->winner] << "WINS!!!!";
+
+	glLoadIdentity();
+	glTranslatef( 500, 500, 0 );
+	glColor4f( 0, 0, 0, 1 );
+	drawFont->drawString( ss.str().c_str() );
+
+
+
+
+}
 
 void Gameboard::drawScoreboard( Game *game)
 {
@@ -10,18 +37,16 @@ void Gameboard::drawScoreboard( Game *game)
 
 	glEnable(GL_BLEND);
 
-
 	stringstream ss;
-
 
 	if (drawFont != NULL)
 	{
-		ss << game->players[0] << ": " << getAttr( team1Score );
+		ss << game->players[0].c_str() << ": " << getAttr( team1Score );
 		glColor3f( 1, 0, 0 );
 		glTranslatef( 10, 650, 0 );
 		drawFont->drawString( ss.str().c_str() );
 		ss.str( "" );
-		ss <<  game->players[1] << ": ";
+		ss <<  game->players[1].c_str() << ": ";
 		ss << getAttr( team2Score );
 		glColor3f( 0, 0, 1 );
 		glTranslatef( 0, 40, 0 );
@@ -183,7 +208,6 @@ void Gameboard::drawBackground()
 }
 
 
-
 //Draws Territory Control Bar
 void Gameboard::drawControl(  )
 {
@@ -195,6 +219,8 @@ void Gameboard::drawControl(  )
 	float onePercent = getPercentage(0);
 																 //Player 2's control percentage
 	float twoPercent = getPercentage(1);
+
+	onePercent=twoPercent=0.1;
 
 	glColor4f(1, 1, 1, 1);
 	glLoadIdentity();
@@ -280,7 +306,6 @@ void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)),
 	}
 	glColor4f( 0, 0, 0, .7 );
 
-
 	glLineWidth (1.0);
 	glBegin(GL_LINE_LOOP);
 	glVertex3f( 0.0, 4.0f, 0 );
@@ -293,4 +318,3 @@ void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)),
 	glEnable(GL_TEXTURE_2D);
 
 }
-

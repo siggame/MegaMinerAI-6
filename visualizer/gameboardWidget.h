@@ -47,7 +47,6 @@ enum eTextures
 	T_GRID,
 	T_FONT,
 
-
 	T_WALL100,
 	T_WALL75,
 	T_WALL50,
@@ -82,6 +81,8 @@ class Gameboard : public QGLWidget
 		void drawScoreboard( Game *game );
 		void drawMouse();
 		void drawProgressbar( Game * game);
+		void drawWinnerScreen( Game *game );
+		void drawIntroScreen( Game *game );
 
 		void drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff);
 

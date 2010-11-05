@@ -133,7 +133,6 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( MapGrid, configFile.pBool( "MapGrid", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
-
 	return !returnFlag;
 
 	//setAttr( filename, configFile.pString( "filenameString", errFlag, errString ) );

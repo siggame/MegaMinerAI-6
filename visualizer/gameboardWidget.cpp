@@ -21,10 +21,10 @@ Gameboard::Gameboard( QWidget *prt )
 	hasDefaultBG = true;
 	drawFont = NULL;
 
-	leftButtonDown = 
+	leftButtonDown =
 		leftDoubleClick =
-		leftButtonDrag = 
-		rightButtonDown = 
+		leftButtonDrag =
+		rightButtonDown =
 		midButtonDown = false;
 
 }
@@ -66,14 +66,13 @@ void Gameboard::initializeGL()
 }
 
 
-
-
-
 //Returns the percentage of the map the passed owner controls.  If given a size parameter, will recalculate owner's controlled region by adding the bot's area (size*size)
 float Gameboard::getPercentage( int owner, int size )
 {
-	float baseHeight = parent->gamelog->states[0].boardX;// getAttr( boardHeightPx );
-	float baseWidth  = parent->gamelog->states[0].boardY;//getAttr( boardWidthPx );
+																 // getAttr( boardHeightPx );
+	float baseHeight = parent->gamelog->states[0].boardX;
+																 //getAttr( boardWidthPx );
+	float baseWidth  = parent->gamelog->states[0].boardY;
 	static float onePercent = 0;
 	static float twoPercent = 0;
 	float retVal = -1;
@@ -122,9 +121,6 @@ void Gameboard::resizeGL( int w, int h )
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
-
-
-
 
 
 void Gameboard::mousePressEvent( QMouseEvent *e )
@@ -279,7 +275,6 @@ void Gameboard::mouseMoveEvent( QMouseEvent *e )
 }
 
 
-
 void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 {
 	stringstream ss;
@@ -348,14 +343,6 @@ void Gameboard::paintGL()
 	if( game )
 	{
 
-		if( getAttr(arenaMode) && frame == (int)game->states.size()-1 )
-		{
-			if( time.elapsed() > getAttr(winnerScreenTime) )
-			{
-				QApplication::quit();
-			}
-
-		}
 
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
 			&& getAttr(currentMode) != paused &&
@@ -462,10 +449,20 @@ void Gameboard::paintGL()
 		}
 		//parent->console
 
+		if(  frame == (int)game->states.size()-1 )
+		{
+			if( time.elapsed() > getAttr(winnerScreenTime) )
+			{
+				if( getAttr(arenaMode) )
+					QApplication::quit();
+			} else {
+				drawWinnerScreen( game );
+			}
+
+		} 
 	}
 	drawMouse();
 }
-
 
 
 void Gameboard::timerEvent( QTimerEvent *)

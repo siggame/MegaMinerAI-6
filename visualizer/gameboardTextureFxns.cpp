@@ -1,6 +1,5 @@
 #include "gameboardWidget.h"
 
-
 bool Gameboard::loadTexture(QString filename, eTextures texID, QString & errString)
 {
 	if ( !textures[texID].loadImage( filename ) )

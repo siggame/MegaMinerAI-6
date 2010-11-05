@@ -30,10 +30,12 @@ void Options::toggleTeam2( bool on )
 	setAttr( team2Talk, on );
 }
 
+
 void Options::sliderChanged( int value )
 {
 	setAttr(unitSize, value );
 }
+
 
 void Options::addOptions()
 {

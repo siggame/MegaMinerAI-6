@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 void Gameboard::drawAnimations( Game * game, float falloff)
 {
 
@@ -38,10 +37,11 @@ void Gameboard::drawAnimations( Game * game, float falloff)
 	}
 }
 
+
 Unit *findExistance( GameState &state, int unit )
 {
 	if( state.bots.find( unit ) != state.bots.end() )
-		return (Unit *)&state.bots[unit];	
+		return (Unit *)&state.bots[unit];
 	if( state.frames.find( unit ) != state.frames.end() )
 		return (Unit *)&state.frames[unit];
 	if( state.walls.find( unit ) != state.walls.end() )
@@ -51,8 +51,8 @@ Unit *findExistance( GameState &state, int unit )
 
 	return 0;
 
+}
 
-}	
 
 void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 {
@@ -68,14 +68,13 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		GameState stateBackward = game->states[frame-1];
 		GameState stateForward = game->states[frame+1];
 
-
 		int bulletSize = unitSize*3/5;
 
 		Unit *attacker = findExistance( stateCurrent,  attack->attacker );
 		Unit *victim   = findExistance( stateBackward, attack->victim );
 		Unit *deadUnit = findExistance( stateForward,  attack->victim );
 
-		if ( !deadUnit ) //draw the dead unit
+		if ( !deadUnit )						 //draw the dead unit
 		{
 			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
 			//todo: add to dead units
@@ -102,7 +101,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		switch (stateCurrent.bots[attack->attacker].owner)
 		{
 			case 0:
-				
+
 				glColor4f( 0, 1, 0, 1 );
 				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
 				break;
@@ -113,7 +112,6 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		}
 
 		glBegin(GL_QUADS);
-
 
 		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
 		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
