@@ -51,7 +51,7 @@ class ArenaMonster:
     p1 = match.p1
     p2 = match.p2
     f = rpyc.async(tentacle.root.runGame)
-    tentacle.job = f([p1, self.scheduler.teamlist[p1]], [p2, self.scheduler.teamlist[p2]], self.serverVersion)
+    tentacle.job = f((p1, self.scheduler.teamlist[p1]), (p2, self.scheduler.teamlist[p2]), self.serverVersion)
     return True
     
     
