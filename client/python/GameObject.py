@@ -11,6 +11,7 @@ class GameObject(object):
     self.iteration = BaseAI.iteration
 
 
+##An object that exists on the grid
 class Mappable(GameObject):
   def __init__(self, ptr):
     from BaseAI import BaseAI
@@ -19,14 +20,17 @@ class Mappable(GameObject):
     
     self.id = library.mappableGetId(ptr)
 
+  ##Unique Identifier
   def getId(self):
     self.validify()
     return library.mappableGetId(self.ptr)
 
+  ##The X position of the top left corner of this object.  X is horizontal
   def getX(self):
     self.validify()
     return library.mappableGetX(self.ptr)
 
+  ##The Y position of the top left corner of this object.  Y is vertical
   def getY(self):
     self.validify()
     return library.mappableGetY(self.ptr)
@@ -40,6 +44,7 @@ class Mappable(GameObject):
     ret += "y: %s\n" % self.getY()
     return ret
 
+##An object that exists on the grid
 class Unit(Mappable):
   def __init__(self, ptr):
     from BaseAI import BaseAI
@@ -48,34 +53,42 @@ class Unit(Mappable):
     
     self.id = library.unitGetId(ptr)
 
+  ##Sends a message to be visualized when this unit is selected
   def talk(self, message):
     self.validify()
     return library.unitTalk(self.ptr, message)
 
+  ##Unique Identifier
   def getId(self):
     self.validify()
     return library.unitGetId(self.ptr)
 
+  ##The X position of the top left corner of this object.  X is horizontal
   def getX(self):
     self.validify()
     return library.unitGetX(self.ptr)
 
+  ##The Y position of the top left corner of this object.  Y is vertical
   def getY(self):
     self.validify()
     return library.unitGetY(self.ptr)
 
+  ##The owning player
   def getOwner(self):
     self.validify()
     return library.unitGetOwner(self.ptr)
 
+  ##How much health this unit currently has
   def getHealth(self):
     self.validify()
     return library.unitGetHealth(self.ptr)
 
+  ##The maximum amount of health this unit can ever have
   def getMaxHealth(self):
     self.validify()
     return library.unitGetMaxHealth(self.ptr)
 
+  ##The length of one side of this Unit
   def getSize(self):
     self.validify()
     return library.unitGetSize(self.ptr)
@@ -93,6 +106,7 @@ class Unit(Mappable):
     ret += "size: %s\n" % self.getSize()
     return ret
 
+##The bot class.
 class Bot(Unit):
   def __init__(self, ptr):
     from BaseAI import BaseAI
@@ -113,14 +127,17 @@ class Bot(Unit):
         self.iteration = BaseAI.iteration
         return True
     raise ExistentialError()
+  ##Sends a message to be visualized when this unit is selected
   def talk(self, message):
     self.validify()
     return library.botTalk(self.ptr, message)
 
+  ##Move in the indicated direction (U, D, L, or R).  U is y=y-1, L=x=x-1, such that the top left corner is (0,0). Requires the calling robot to have a step.
   def move(self, direction):
     self.validify()
     return library.botMove(self.ptr, direction)
 
+  ##Attack the specified unit.  Requires the calling robot to have an action and for the target to be in range
   def attack(self, target):
     self.validify()
     if target.__class__ not in [Unit]:
@@ -128,6 +145,7 @@ class Bot(Unit):
     target.validify()
     return library.botAttack(self.ptr, target.ptr)
 
+  ##Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (4 * target.size^2)
   def heal(self, target):
     self.validify()
     if target.__class__ not in [Bot]:
@@ -135,6 +153,7 @@ class Bot(Unit):
     target.validify()
     return library.botHeal(self.ptr, target.ptr)
 
+  ##Begins building a new robot.  While building, the new robot will be a frame.  Requires the calling robot to have an action. X and Y must cause the new robot to be adjacent.  Size must be less than or equal to the calling robots size.  Completes in 8 * size^2 / self.buildRate turns
   def build(self, type, x, y, size):
     self.validify()
     if type.__class__ not in [Type]:
@@ -142,6 +161,7 @@ class Bot(Unit):
     type.validify()
     return library.botBuild(self.ptr, type.ptr, x, y, size)
 
+  ##Combines four robots into one.  Requires all robots to have an action, be of the same size, and be arranged in a square
   def combine(self, bot2, bot3, bot4):
     self.validify()
     if bot2.__class__ not in [Bot]:
@@ -155,82 +175,102 @@ class Bot(Unit):
     bot4.validify()
     return library.botCombine(self.ptr, bot2.ptr, bot3.ptr, bot4.ptr)
 
+  ##Splits a compound bot into the 4 robots that combined to make it.  Requires the calling robot to have an action.
   def split(self):
     self.validify()
     return library.botSplit(self.ptr)
 
+  ##Returns the maximum number of actions this robot can take per turn.
   def maxActions(self):
     self.validify()
     return library.botMaxActions(self.ptr)
 
+  ##Returns the maximum number of steps this robot can take per turn.
   def maxSteps(self):
     self.validify()
     return library.botMaxSteps(self.ptr)
 
+  ##Unique Identifier
   def getId(self):
     self.validify()
     return library.botGetId(self.ptr)
 
+  ##The X position of the top left corner of this object.  X is horizontal
   def getX(self):
     self.validify()
     return library.botGetX(self.ptr)
 
+  ##The Y position of the top left corner of this object.  Y is vertical
   def getY(self):
     self.validify()
     return library.botGetY(self.ptr)
 
+  ##The owning player
   def getOwner(self):
     self.validify()
     return library.botGetOwner(self.ptr)
 
+  ##How much health this unit currently has
   def getHealth(self):
     self.validify()
     return library.botGetHealth(self.ptr)
 
+  ##The maximum amount of health this unit can ever have
   def getMaxHealth(self):
     self.validify()
     return library.botGetMaxHealth(self.ptr)
 
+  ##The length of one side of this Unit
   def getSize(self):
     self.validify()
     return library.botGetSize(self.ptr)
 
+  ##How many actions this bot can still perform
   def getActions(self):
     self.validify()
     return library.botGetActions(self.ptr)
 
+  ##How many steps this bot can still take
   def getSteps(self):
     self.validify()
     return library.botGetSteps(self.ptr)
 
+  ##The amount of damage this robot does when attacking
   def getDamage(self):
     self.validify()
     return library.botGetDamage(self.ptr)
 
+  ##How far this robot can attack or heal from its edge
   def getRange(self):
     self.validify()
     return library.botGetRange(self.ptr)
 
+  ##This value divided by the number of bots = maxSteps for this robot
   def getMovitude(self):
     self.validify()
     return library.botGetMovitude(self.ptr)
 
+  ##This value divided by the number of bots = maxActions for this robot
   def getActitude(self):
     self.validify()
     return library.botGetActitude(self.ptr)
 
+  ##This value is used to determine how many turns it takes to build a robot and how much this robot heals for
   def getBuildRate(self):
     self.validify()
     return library.botGetBuildRate(self.ptr)
 
+  ##ID of the robot this robot is apart of, 0 if not in a robot
   def getPartOf(self):
     self.validify()
     return library.botGetPartOf(self.ptr)
 
+  ##ID of the robot this robot is building, 0 if not building
   def getBuilding(self):
     self.validify()
     return library.botGetBuilding(self.ptr)
 
+  ##ID of the type this robot is, 0 if a combination
   def getType(self):
     self.validify()
     return library.botGetType(self.ptr)
@@ -258,6 +298,7 @@ class Bot(Unit):
     ret += "type: %s\n" % self.getType()
     return ret
 
+##A baby robot.
 class Frame(Unit):
   def __init__(self, ptr):
     from BaseAI import BaseAI
@@ -278,42 +319,52 @@ class Frame(Unit):
         self.iteration = BaseAI.iteration
         return True
     raise ExistentialError()
+  ##Sends a message to be visualized when this unit is selected
   def talk(self, message):
     self.validify()
     return library.frameTalk(self.ptr, message)
 
+  ##Unique Identifier
   def getId(self):
     self.validify()
     return library.frameGetId(self.ptr)
 
+  ##The X position of the top left corner of this object.  X is horizontal
   def getX(self):
     self.validify()
     return library.frameGetX(self.ptr)
 
+  ##The Y position of the top left corner of this object.  Y is vertical
   def getY(self):
     self.validify()
     return library.frameGetY(self.ptr)
 
+  ##The owning player
   def getOwner(self):
     self.validify()
     return library.frameGetOwner(self.ptr)
 
+  ##How much health this unit currently has
   def getHealth(self):
     self.validify()
     return library.frameGetHealth(self.ptr)
 
+  ##The maximum amount of health this unit can ever have
   def getMaxHealth(self):
     self.validify()
     return library.frameGetMaxHealth(self.ptr)
 
+  ##The length of one side of this Unit
   def getSize(self):
     self.validify()
     return library.frameGetSize(self.ptr)
 
+  ##What type this robot will be
   def getType(self):
     self.validify()
     return library.frameGetType(self.ptr)
 
+  ##How many of your turns until this frame becomes a robot
   def getCompletionTime(self):
     self.validify()
     return library.frameGetCompletionTime(self.ptr)
@@ -333,6 +384,7 @@ class Frame(Unit):
     ret += "completionTime: %s\n" % self.getCompletionTime()
     return ret
 
+##A pile of hard stuff that is in the way.
 class Wall(Unit):
   def __init__(self, ptr):
     from BaseAI import BaseAI
@@ -353,34 +405,42 @@ class Wall(Unit):
         self.iteration = BaseAI.iteration
         return True
     raise ExistentialError()
+  ##Sends a message to be visualized when this unit is selected
   def talk(self, message):
     self.validify()
     return library.wallTalk(self.ptr, message)
 
+  ##Unique Identifier
   def getId(self):
     self.validify()
     return library.wallGetId(self.ptr)
 
+  ##The X position of the top left corner of this object.  X is horizontal
   def getX(self):
     self.validify()
     return library.wallGetX(self.ptr)
 
+  ##The Y position of the top left corner of this object.  Y is vertical
   def getY(self):
     self.validify()
     return library.wallGetY(self.ptr)
 
+  ##The owning player
   def getOwner(self):
     self.validify()
     return library.wallGetOwner(self.ptr)
 
+  ##How much health this unit currently has
   def getHealth(self):
     self.validify()
     return library.wallGetHealth(self.ptr)
 
+  ##The maximum amount of health this unit can ever have
   def getMaxHealth(self):
     self.validify()
     return library.wallGetMaxHealth(self.ptr)
 
+  ##The length of one side of this Unit
   def getSize(self):
     self.validify()
     return library.wallGetSize(self.ptr)
@@ -398,6 +458,7 @@ class Wall(Unit):
     ret += "size: %s\n" % self.getSize()
     return ret
 
+##A kind of robot.
 class Type(GameObject):
   def __init__(self, ptr):
     from BaseAI import BaseAI
@@ -418,34 +479,42 @@ class Type(GameObject):
         self.iteration = BaseAI.iteration
         return True
     raise ExistentialError()
+  ##Unique Identifier
   def getId(self):
     self.validify()
     return library.typeGetId(self.ptr)
 
+  ##The name of this type of robot
   def getName(self):
     self.validify()
     return library.typeGetName(self.ptr)
 
+  ##The maximum amount of health for this type of robot
   def getMaxHealth(self):
     self.validify()
     return library.typeGetMaxHealth(self.ptr)
 
+  ##The amount of damage this type of robot does when attacking
   def getDamage(self):
     self.validify()
     return library.typeGetDamage(self.ptr)
 
+  ##How far this type of robot can attack or heal from its edge
   def getRange(self):
     self.validify()
     return library.typeGetRange(self.ptr)
 
+  ##This value divided by the number of bots = maxSteps for this type of robot
   def getMovitude(self):
     self.validify()
     return library.typeGetMovitude(self.ptr)
 
+  ##This value divided by the number of bots = maxActions for this type of robot
   def getActitude(self):
     self.validify()
     return library.typeGetActitude(self.ptr)
 
+  ##This value is used to determine how many turns it takes to build a robot and how much this type of robot heals for
   def getBuildRate(self):
     self.validify()
     return library.typeGetBuildRate(self.ptr)

@@ -10,7 +10,11 @@ CXXFLAGS += -g
 
 override CPPFLAGS += -Isexp
 
-all: client libclient.so
+all: client
+
+submit: client
+	$(shell cd ..;sh submit.sh c)
+
 
 %.d: %.cpp
 	@set -e; rm -f $@; \

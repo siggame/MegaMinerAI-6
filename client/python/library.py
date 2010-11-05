@@ -7,9 +7,9 @@ from ctypes import *
 
 try:
   if os.name == 'posix':
-    library = CDLL("../c/libclient.so")
+    library = CDLL("libclient.so")
   elif os.name == 'nt':
-    library = CDLL("../c/client.dll")
+    library = CDLL("client.dll")
   else:
     raise Exception("Unrecognized OS: "+os.name)
 except OSError:

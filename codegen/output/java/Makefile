@@ -1,13 +1,18 @@
 JAVAFILES=$(shell ls *.java 2> /dev/null)
 
-all: ../c/libclient.so Main.class
+all: libclient.so Main.class
 
-../c/libclient.so: 
+submit: Main.class
+	$(shell cd ..;sh submit.sh c)
+
+
+libclient.so: ../c/*.cpp ../c/*.h
 	$(MAKE) -C ../c/ libclient.so
+	cp -f ../c/libclient.so libclient.so
 
-Main.class: $(JAVAFILES) ../c/libclient.so
+Main.class: $(JAVAFILES) libclient.so
 	javac -cp jna.jar:. $(JAVAFILES)
 
 clean:
 	rm -f *.class
-	rm -f ../c/libclient.so
+	rm -f libclient.so
