@@ -123,6 +123,12 @@ class Bot(Unit):
     if self.building and self.building in self.game.objects and self.health <= damage:
       self.game.removeObject(self.game.objects[self.building])
     Unit._takeDamage(self, damage)
+    if self.health <= 0:
+      if self.size > 1:
+        for i in self.game.objects.values():
+          if isinstance(i, Bot) and i.partOf == self.id:
+            i._takeDamage(i.health)
+        
     if self.health > self.maxHealth:
       self.health = self.maxHealth
 
@@ -255,6 +261,8 @@ class Bot(Unit):
       return "Bot unable to attack, damage score = 0"
     if self._distance(target) > (self.range + 1):
       return "Target out of range."
+    if isinstance(target, Bot) and target.partOf:
+      return "Cannot attack a subbot."
 
     if self.actions < 1:
       return "Out of actions."

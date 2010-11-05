@@ -21,6 +21,14 @@ class UpdateServer(rpyc.Service):
 
     else:
       return None
+  
+  def exposed_getVersions(self, password):
+    versions = {}
+    for name in listdir('files'):
+      versions[name] = len(listdir(join('files', name)))
+    
+    return versions
+    
 
   def exposed_update(self, name, password, binary):
     #updates a program (a client, unless name=server)
@@ -28,17 +36,17 @@ class UpdateServer(rpyc.Service):
     if not (name in validNames and validNames[name]["password"] == password):
       return False
     
-    if isdir(name):
+    if isdir(join('files', name)):
       #already have a version, now increment by 1
       #this is a little sensative to the number of files in the directory
       #if we expect it to get polluted we should use a better method than this
-      v = len(listdir(name))
-    elif exists(name):
+      v = len(listdir(join('files', name)))
+    elif exists(join('files', name)):
       print "Crap! Trying to make %s but it's not a directory!" % name
       return False
     else:
-      mkdir(name)
-      v=0
+      mkdir(join('files', name))
+      v = 0
     b = open(join('files', name,str(v)+'.tar.bz2'),'wb')
     b.write(binary)
     b.close()
