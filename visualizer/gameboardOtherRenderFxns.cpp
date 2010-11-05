@@ -1,19 +1,32 @@
 #include "gameboardWidget.h"
+#include <sstream>
 
 
 
-void Gameboard::drawScoreboard()
+void Gameboard::drawScoreboard( Game *game)
 {
 
 	glLoadIdentity();
 
 	glEnable(GL_BLEND);
 
-	glTranslatef( 10, 640, 0 );
-	glColor3f( 1, 1, 0 );
+
+	stringstream ss;
+
+
 	if (drawFont != NULL)
 	{
-		drawFont->drawString( "The quick brown fox jumped over the lazy dog" );
+		ss << game->players[0] << ": " << getAttr( team1Score );
+		glColor3f( 1, 0, 0 );
+		glTranslatef( 10, 650, 0 );
+		drawFont->drawString( ss.str().c_str() );
+		ss.str( "" );
+		ss <<  game->players[1] << ": ";
+		ss << getAttr( team2Score );
+		glColor3f( 0, 0, 1 );
+		glTranslatef( 0, 40, 0 );
+		drawFont->drawString( ss.str().c_str() );
+
 	}
 	glColor3f( 1, 1, 1 );
 

@@ -415,7 +415,7 @@ void Gameboard::paintGL()
 		drawAnimations( game, falloff );
 		drawControl();
 		drawProgressbar( game );
-		drawScoreboard();
+		drawScoreboard( game );
 
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{

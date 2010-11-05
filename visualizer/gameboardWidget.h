@@ -80,7 +80,7 @@ class Gameboard : public QGLWidget
 		void timerEvent( QTimerEvent * );
 		void drawBots( Game* game, float falloff );
 		void drawBackground( );
-		void drawScoreboard();
+		void drawScoreboard( Game *game );
 		void drawMouse();
 		void drawProgressbar( Game * game);
 
