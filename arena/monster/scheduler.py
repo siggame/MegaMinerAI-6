@@ -1,7 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 #New Game Visualizer Scheduler Update Function
 #the game holders themselves are not deleted so that the queue can easily tell wether a game between these two with the same version numbers has already been played, as if one has it gets no bonus to its priority.
-import heapq
 
 # tentq is a priority heap with entries of the following type:
 #   [priority, player1, player2]
@@ -9,7 +8,7 @@ import heapq
 # visq is a priority heap with entries of the following type:
 #   [priority, player1, player2, gamelogNumber, played]
 
-# each is of size n^2 where n is the number of teams.
+# each is of size n^2 - n where n is the number of teams.
 
 # teamlist is a dict for current version numbers
 

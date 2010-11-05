@@ -2,18 +2,43 @@
 # -*- coding: iso-8859-1 -*-
 import rpyc
 
-if __name__ ==  '__main__':
-    import traceback
+import scheduler
+
+import traceback
+
+import config
+
+updateManagerName = 'localhost'
+
+class ArenaMonster:
+  tentacles = []
+  
+  def __init__(self):
     hosts = ['localhost']
 
-    tentacles = []
+    self.tentacles = []
     for i in hosts:
         try:
-          tentacles.append(rpyc.connect(i, 18861))
-          tentacles[-1].host = i
+          self.tentacles.append(rpyc.connect(i, 18861))
+          self.tentacles[-1].host = i
         except:
           traceback.print_exc()
-    print "Connected to",len(tentacles),"tentacles"
+    print "Connected to",len(self.tentacles),"tentacles"
     
-    for tentacle in tentacles:
-        print tentacle.host, tentacle.root.runGame(['client', 0], ['client', 0], 0)
+    self.scheduler = scheduler.GameScheduler()
+  
+  def updateClients(self):
+    validNames = config.readConfig("login.cfg")
+    password = validNames[name]["password"]
+    
+    dbServer=rpyc.connect(updateManagerName,18862)
+    
+    
+    versions
+  def run(self):
+    
+
+if __name__ ==  '__main__':
+    m = ArenaMonster()
+    
+    m.run()

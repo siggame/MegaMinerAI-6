@@ -10,21 +10,6 @@ versions = {}
 logNum = 0
 
 class DBManager(rpyc.Service):
-  def exposed_updateVersion(self, password, name, version):
-    validNames = config.readConfig("login.cfg")
-    if validNames['admin']['password'] != password:
-      return None
-    #update the version of program 'name' in the version database
-    versions[name] = version
-  
-  def exposed_getVersions(self, password):
-    validNames = config.readConfig("login.cfg")
-    if validNames['admin']['password'] != password:
-      return None
-    #update the version of program 'name' in the version database
-    
-    return versions
-  
   def exposed_catalog(self, password, log, c1, c2, sv, startTime):
     global logNum
     validNames = config.readConfig("login.cfg")

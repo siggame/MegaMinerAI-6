@@ -23,6 +23,10 @@ class UpdateServer(rpyc.Service):
       return None
   
   def exposed_getVersions(self, password):
+    validNames = config.readConfig("login.cfg")
+    if not (name in validNames and validNames[name]["password"] == password):
+      return False
+    
     versions = {}
     for name in listdir('files'):
       versions[name] = len(listdir(join('files', name)))
