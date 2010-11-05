@@ -58,6 +58,110 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 
 }
 
+void Gameboard::drawSingleBot(Game * game, Bot * bot, int frame, int unitSize, float falloff )
+{
+
+	int x0, y0, x1, y1;
+	x0 = x1 = bot->x*unitSize;
+	y0 = y1 = bot->y*unitSize;
+	if((unsigned)frame+1 < game->states.size() )
+	{
+		if( game->states[frame+1].bots.find(bot->id) != game->states[frame+1].bots.end() )
+		{
+			x1 = game->states[frame+1].bots[bot->id].x*unitSize;
+			y1 = game->states[frame+1].bots[bot->id].y*unitSize;
+		}
+	}
+
+			//is it selected?
+	bool selected = false;
+	if ( selectedIDs.find( bot->id ) != selectedIDs.end() )
+	{
+		selected = true;
+	}
+
+	// find owner
+	int owner = bot->owner;
+
+	//set bot to appropriate type
+	int sprite;
+
+	if (owner == 0)
+	{
+		switch (bot->type)
+		{
+			case 1:								 //Action
+			sprite = T_REDBOT_ACTION;
+			break;
+
+			case 2:								 //Builder
+			sprite = T_REDBOT_BUILDER;
+			break;
+
+			case 3:								 //Cannon
+			sprite = T_REDBOT_CANNON;
+			break;
+
+			case 4:								 //Damage
+			sprite = T_REDBOT_DAMAGE;
+			break;
+
+			case 5:								 //Engine
+			sprite = T_REDBOT_ENGINE;
+			break;
+
+			case 6:								 //Force
+			sprite = T_REDBOT_FORCE;
+			break;
+
+			default:							 // temp fix
+			sprite = T_REDBOT_JOINT;
+
+		}
+	}
+	else
+	{
+		switch (bot->type)
+		{
+			case 1:								 //Action
+			sprite = T_BLUBOT_ACTION;
+			break;
+
+			case 2:								 //Builder
+			sprite = T_BLUBOT_BUILDER;
+			break;
+
+			case 3:								 //Cannon
+			sprite = T_BLUBOT_CANNON;
+			break;
+
+			case 4:								 //Damage
+			sprite = T_BLUBOT_DAMAGE;
+			break;
+
+			case 5:								 //Engine
+			sprite = T_BLUBOT_ENGINE;
+			break;
+
+			case 6:								 //Force
+			sprite = T_BLUBOT_FORCE;
+			break;
+
+			default:							 // temp fix
+			sprite = T_BLUBOT_JOINT;
+		}
+	}
+
+	drawSprite( (int)(x0+(x1-x0)*falloff),(int)(y0+(y1-y0)*falloff),unitSize*bot->size,unitSize*bot->size, sprite, selected, owner );
+
+	if ( bot->partOf == 0)
+		drawHealth( (int)(x0+(x1-x0)*falloff), (int)(y0+(y1-y0)*falloff), unitSize*bot->size, unitSize*bot->size, bot->maxHealth, bot->health, owner );
+
+						 //keeps count of each player's percentage
+	getPercentage(owner, bot->size);
+
+}
+
 
 void Gameboard::drawBots( Game *game, float falloff )
 {
@@ -65,7 +169,6 @@ void Gameboard::drawBots( Game *game, float falloff )
 	int frame = getAttr(frameNumber);
 	int unitSize = getAttr( unitSize );
 
-	int x0, y0, x1, y1;
 
 	for(
 		std::map<int,Bot>::iterator it = game->states[frame].bots.begin();
@@ -77,113 +180,16 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 		if (it->second.partOf != 0)
 		{
-																 // if the bot it is part of is a non-typed bot, draw it
+							 // if the bot it is part of is a non-typed bot, draw it
 			if (game->states[frame].bots.find(it->second.partOf)->second.type == 0)
 			{
-				flag = true;
+			flag = true;
 			}
 		}
 
 		if ((it->second.partOf == 0 ) || flag)
 		{
-
-			x0 = x1 = it->second.x*unitSize;
-			y0 = y1 = it->second.y*unitSize;
-			if((unsigned)frame+1 < game->states.size() )
-			{
-				if( game->states[frame+1].bots.find(it->second.id) != game->states[frame+1].bots.end() )
-				{
-					x1 = game->states[frame+1].bots[it->second.id].x*unitSize;
-					y1 = game->states[frame+1].bots[it->second.id].y*unitSize;
-				}
-			}
-
-			//is it selected?
-			bool selected = false;
-			if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
-			{
-
-				selected = true;
-			}
-
-			// find owner
-			int owner = it->second.owner;
-
-			//set bot to appropriate type
-			int sprite;
-
-			if (owner == 0)
-			{
-				switch (it->second.type)
-				{
-					case 1:								 //Action
-						sprite = T_REDBOT_ACTION;
-						break;
-
-					case 2:								 //Builder
-						sprite = T_REDBOT_BUILDER;
-						break;
-
-					case 3:								 //Cannon
-						sprite = T_REDBOT_CANNON;
-						break;
-
-					case 4:								 //Damage
-						sprite = T_REDBOT_DAMAGE;
-						break;
-
-					case 5:								 //Engine
-						sprite = T_REDBOT_ENGINE;
-						break;
-
-					case 6:								 //Force
-						sprite = T_REDBOT_FORCE;
-						break;
-
-					default:							 // temp fix
-						sprite = T_REDBOT_JOINT;
-
-				}
-			}
-			else
-			{
-				switch (it->second.type)
-				{
-					case 1:								 //Action
-						sprite = T_BLUBOT_ACTION;
-						break;
-
-					case 2:								 //Builder
-						sprite = T_BLUBOT_BUILDER;
-						break;
-
-					case 3:								 //Cannon
-						sprite = T_BLUBOT_CANNON;
-						break;
-
-					case 4:								 //Damage
-						sprite = T_BLUBOT_DAMAGE;
-						break;
-
-					case 5:								 //Engine
-						sprite = T_BLUBOT_ENGINE;
-						break;
-
-					case 6:								 //Force
-						sprite = T_BLUBOT_FORCE;
-						break;
-
-					default:							 // temp fix
-						sprite = T_BLUBOT_JOINT;
-				}
-			}
-
-			drawSprite( (int)(x0+(x1-x0)*falloff),(int)(y0+(y1-y0)*falloff),unitSize*it->second.size,unitSize*it->second.size, sprite, selected, owner );
-			if ( it->second.partOf == 0)
-				drawHealth( (int)(x0+(x1-x0)*falloff), (int)(y0+(y1-y0)*falloff), unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, owner );
-
-																 //keeps count of each player's percentage
-			getPercentage(owner, it->second.size);
+			drawSingleBot( game,&(it->second), frame, unitSize, falloff );
 		}
 
 	}
@@ -197,21 +203,25 @@ void Gameboard::drawFrames( Game *game, float falloff __attribute__ ((unused)) )
 	int frame = getAttr(frameNumber);
 	int unitSize = getAttr( unitSize );
 
-	int x0, y0;
-
 	for(
 		std::map<int,Frame>::iterator it = game->states[frame].frames.begin();
 		it != game->states[frame].frames.end();
 		it++
 		)
 	{
+		drawSingleFrame(&(it->second),frame,unitSize);
 
-		x0 = it->second.x*unitSize;
-		y0 = it->second.y*unitSize;
+	}
+}
+void Gameboard::drawSingleFrame( Frame * botFrame, int frame, int unitSize )
+{
+		int x0, y0;
+		x0 = botFrame->x*unitSize;
+		y0 = botFrame->y*unitSize;
 
 		//is it selected?
 		bool selected = false;
-		if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
+		if ( selectedIDs.find( botFrame->id ) != selectedIDs.end() )
 		{
 
 			selected = true;
@@ -219,13 +229,12 @@ void Gameboard::drawFrames( Game *game, float falloff __attribute__ ((unused)) )
 
 		int sprite = T_REDBOT_FRAME;
 
-		if( it->second.owner == 1 )
+		if( botFrame->owner == 1 )
 			sprite = T_BLUBOT_FRAME;
 
-		drawSprite( x0,y0,unitSize*it->second.size,unitSize*it->second.size, sprite, selected, it->second.owner );
-		drawHealth( x0,y0, unitSize*it->second.size, unitSize*it->second.size, it->second.maxHealth, it->second.health, it->second.owner );
+		drawSprite( x0,y0,unitSize*botFrame->size,unitSize*botFrame->size, sprite, selected, botFrame->owner );
+		drawHealth( x0,y0, unitSize*botFrame->size, unitSize*botFrame->size, botFrame->maxHealth, botFrame->health, botFrame->owner );
 
-	}
 }
 
 
@@ -236,7 +245,6 @@ void Gameboard::drawWalls( Game *game, float falloff __attribute__ ((unused)) )
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
 
-	int x0, y0;
 
 	for(
 		std::map<int,Wall>::iterator it = game->states[frame].walls.begin();
@@ -245,34 +253,40 @@ void Gameboard::drawWalls( Game *game, float falloff __attribute__ ((unused)) )
 		)
 	{
 
-		x0 = it->second.x*unitSize;
-		y0 = it->second.y*unitSize;
-
-		//is it selected?
-		bool selected = false;
-		if ( selectedIDs.find( it->second.id ) != selectedIDs.end() )
-		{
-
-			selected = true;
-		}
-
-		int sprite = T_WALL100;
-
-		if (it->second.health <= 0.25 * it->second.maxHealth )
-		{
-			sprite = T_WALL25;
-		}
-		else if (it->second.health < 0.50 * it->second.maxHealth)
-		{
-			sprite = T_WALL50;
-		}
-		else if (it->second.health < 0.75 * it->second.maxHealth)
-		{
-			sprite = T_WALL75;
-		}
-
-		drawSprite( x0,y0,unitSize,unitSize, sprite, selected, 2 );
+		drawSingleWall(&(it->second),frame,unitSize);
 
 	}
 
+}
+
+void Gameboard::drawSingleWall( Wall * wall, int frame, int unitSize )
+{
+	int x0, y0;
+	x0 = wall->x*unitSize;
+	y0 = wall->y*unitSize;
+
+	//is it selected?
+	bool selected = false;
+	if ( selectedIDs.find( wall->id ) != selectedIDs.end() )
+	{
+
+		selected = true;
+	}
+
+	int sprite = T_WALL100;
+
+	if (wall->health <= 0.25 * wall->maxHealth )
+	{
+		sprite = T_WALL25;
+	}
+	else if (wall->health < 0.50 * wall->maxHealth)
+	{
+		sprite = T_WALL50;
+	}
+	else if (wall->health < 0.75 * wall->maxHealth)
+	{
+		sprite = T_WALL75;
+	}
+
+	drawSprite( x0,y0,unitSize*wall->size,unitSize*wall->size, sprite, selected, 2 );
 }

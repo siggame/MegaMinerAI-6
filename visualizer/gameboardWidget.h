@@ -78,14 +78,19 @@ class Gameboard : public QGLWidget
 		void resizeGL( int width, int height );
 		void paintGL();
 		void timerEvent( QTimerEvent * );
-		void drawBots( Game* game, float falloff );
 		void drawBackground( );
 		void drawScoreboard( Game *game );
 		void drawMouse();
 		void drawProgressbar( Game * game);
 
+		void drawBots( Game* game, float falloff );
+		void drawSingleBot( Game *game, Bot * bot, int frame, int unitSize, float falloff );
+
 		void drawWalls( Game *game, float falloff);
+		void drawSingleWall( Wall * wall, int frame, int unitSize );
+
 		void drawFrames( Game *game, float falloff);
+		void drawSingleFrame( Frame * botFrame, int frame, int unitSize );
 
 		void drawAnimations( Game * game, float falloff);
 		void drawAttack( Game * game, Attack * attack, float falloff );
