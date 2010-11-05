@@ -58,7 +58,7 @@ class GameScheduler:
     return True
 
   #grabs the next game to be run by a tentacle and makes the proper adjustments
-  def nextGame(self.tentq):
+  def nextGame():
     self.tentq.sort(key = lambda x: x.priority, reverse=True)
     nextUp = self.tentq[0]
     nextUp.priority = 0
@@ -70,43 +70,54 @@ class GameScheduler:
     
     return nextUp
 
-"""
-def visualizerQueueUpdate(game,gamelog):
-  for game in visq:
-    found = False
-    #finds the previous game between the same players in the same player numbers
-    if newgame[1:3] == game[1:3]:
-      found = True
-      #updates the gamelog stored
-      game[3] = gamelog
-      #makes the game playable agian
-      game[4] = False
-      #Checks if its a new version
-      if game.p1ver != newgame.p1ver or game.p2ver != newgame.p2ver:
-	#if so, it updates the version and increases the priority (new games are more interesting than old games!)
-	game.p1ver = newgame.p1ver
-	game.p2ver = newgame.p2ver
-	game.priority += 2*visq.len()
-  #If the game holder between those players doesn't already exist, it creates it
-  if !found:
-    newgame.priority = 2*visq.len() + 2
-    newgame.played = false
-    visq.append(newgame)
-  
-#grabs the next thing to be visualized and makes proper adjustments
-def nextVideo(visq):
-  nextUp = visq[0]
-  for game in visq:
-    if nextUp.priority < game.priority:
-      nextUp = game
-  nextUp.priority = 0;
-  for schedule in visq:
-    if nextUp.player1 != game.player1 and nextUp.player1 != game.player2:
-      game.priority++
-    if nextUp.player2 != game.player1 and nextUp.team2 != game.player1:
-      game.priority++
-  return nextUp
 
+
+class GameRecord:
+  def __init__(priority, p1, p2, ver1, ver2,log):
+    self.priority = priority
+    self.p1 = p1
+    self.p2 = p2
+    self.ver1 = ver1
+    self.ver2 = ver2
+    #stores gamelog or how to get gamelog, whichever
+    self.log = log
+
+class VisScheduler:
+  visq = []
+  
+  def _init_(self):
+    self.visq = []
+    
+  def visualizerQueueUpdate(game):
+    for record in visq:
+	#finds the previous game between the same players in the same player numbers
+      if game.p1 == record.p1 and game.p2 == record.p2:
+	#updates the gamelog stored
+	record.log = game.log
+	#Checks if its a new version
+	if game.p1ver != record.p1ver or game.p2ver != record.p2ver:
+	  #if so, it updates the version and increases the priority (new games are more interesting than old games!)
+	  record.p1ver = newgame.p1ver
+	  record.p2ver = newgame.p2ver
+	  record.priority += 2*visq.len()
+    #If the game holder between those players doesn't already exist, it creates it
+    if !found:
+      game.priority = 2*visq.len() + 2
+      visq.append(game)
+    return true
+  
+  #grabs the next thing to be visualized and makes proper adjustments
+  def nextVideo():
+    self.visq.sort(key = lambda x: x.priority, reverse=True)
+    nextUP = self.visq[0]
+    nextUp.priority = 0;
+    for s in self.visq[1:]:
+      if nextUp.p1 not in [s.p1, s.p2]:
+        s.priority += 1
+      if nextUp.p2 not in [s.p1, s.p2]:
+        s.priority += 1
+    return nextUp
+"""
 #loop that checks for tentacles, gives them things to visualise, tentq contains priority, team1, team2, teams each contain teamName, version, AI.
 def primaryScheduleLoop():
   tentq = {}
