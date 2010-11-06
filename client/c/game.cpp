@@ -317,13 +317,13 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
     for(int i = 0; i < victims.size(); i++)
       victimHealth += victims[i]->health;
     
-    int damage = min(victimHealth, object->size*object->size);
+    int damage = min(victimHealth, object->size*object->size) * 4;
     object->health -= damage;
     
     bool alive = false;
     for(int i = 0; i < victims.size(); i++)
     {
-      damage = (victims[i]->health * object->size*object->size + victimHealth - 1) / victimHealth;
+      damage = (victims[i]->health * object->size*object->size + victimHealth - 1) / victimHealth * 4;
       victims[i]->health -= damage;
       if(victims[i]->health > 0)
         alive = true;
@@ -682,11 +682,11 @@ DLLEXPORT int networkLoop(Connection* c)
       int winnerID = atoi(expression->val);
       if(winnerID == c->playerID)
       {
-        cout << "You win!" << endl << expression->next->val;
+        cout << "You win!" << endl << expression->next->val << endl;
       }
       else
       {
-        cout << "You lose. :(" << endl << expression->next->val;
+        cout << "You lose. :(" << endl << expression->next->val << endl;
       }
       stringstream expr;
       expr << "(request-log " << c->gameNumber << ")";

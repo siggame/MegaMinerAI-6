@@ -22,8 +22,15 @@ The default maximum move rate is one unit per turn, though bots with engines can
 Build:
 Builders are the only bot that can build. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
 
+Heal:
+Requirements:
+(1) The healer must be a builder 
+(2) The healer must be adjacent to the target
+(3) The target must be friendly (not the enemy)
+(4) The target cannot be at full health.
+
 Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. Accessor functions for this are 
 
 Talk: Bots can talk. The talk function takes in a string. Talking causes the string to show up in the visualizer. This can be useful for debug statements. 
 
-
+Combine: 
