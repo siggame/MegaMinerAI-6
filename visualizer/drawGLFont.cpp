@@ -60,8 +60,13 @@ void DrawGLFont::drawString( string message )
 
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, textureId );
-	Color color = retrieveColor( 0 );
-	glColor3f( color.r, color.g, color.b );
+	Color color(0,0,0);
+	if( colors.size() > 0 )
+	{
+		color = retrieveColor( 0 );
+		glColor3f( color.r, color.g, color.b );
+	}
+
 	for( int i = 0; (unsigned)i < message.size(); i++ )
 	{
 
