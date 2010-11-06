@@ -338,10 +338,8 @@ void Gameboard::paintGL()
 	Game *game = parent->gamelog;
 	int frame = getAttr( frameNumber );
 
-
 	if( game )
 	{
-
 
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
 			&& getAttr(currentMode) != paused &&
@@ -394,7 +392,6 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-		
 		glLoadIdentity();
 		drawScoreboard( game );
 		glPushMatrix();
@@ -457,7 +454,6 @@ void Gameboard::paintGL()
 			setAttr( team1Score, scores[0]+100*currentHealth[0]/maxHealth[0] );
 			setAttr( team2Score, scores[1]+100*currentHealth[1]/maxHealth[1] );
 
-
 		}
 		//parent->console
 
@@ -467,11 +463,13 @@ void Gameboard::paintGL()
 			{
 				if( getAttr(arenaMode) )
 					QApplication::quit();
-			} else {
+			}
+			else
+			{
 				drawWinnerScreen( game );
 			}
 
-		} 
+		}
 	}
 
 	drawMouse();

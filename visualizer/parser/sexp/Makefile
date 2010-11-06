@@ -12,7 +12,7 @@ clean:
 
 lex.yy.h:
 lex.yy.cpp: sexp.l
-%	 flex --outfile=lex.yy.cpp --header-file=lex.yy.h sexp.l
+	 flex --outfile=lex.yy.cpp --header-file=lex.yy.h sexp.l
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
