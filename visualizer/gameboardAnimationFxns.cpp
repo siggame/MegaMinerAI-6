@@ -68,7 +68,6 @@ void Gameboard::drawCollide(Game * game, Collide * collide, float falloff)
 		GameState stateBackward = game->states[frame-1];
 		GameState stateForward = game->states[frame+1];
 
-
 		Unit *attacker = findExistance( stateCurrent,  collide->attacker );
 		Unit *victim   = findExistance( stateBackward, collide->victim );
 		Unit *deadUnit = findExistance( stateForward,  collide->victim );
@@ -83,13 +82,13 @@ void Gameboard::drawCollide(Game * game, Collide * collide, float falloff)
 			attacker = findExistance( stateBackward,  collide->attacker );
 		}
 
-		if ( !deadUnit && victim ) //draw the dead unit
+		if ( !deadUnit && victim )	 //draw the dead unit
 		{
 			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
 			//todo: add to dead units
 		}
 
-		if (victim && attacker) //temporary
+		if (victim && attacker)			 //temporary
 		{
 
 			x0 = attacker->x*unitSize;
@@ -120,6 +119,7 @@ void Gameboard::drawCollide(Game * game, Collide * collide, float falloff)
 	}
 }
 
+
 void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 {
 	int x0, y0, xf, yf;
@@ -146,8 +146,8 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 			//todo: add to dead units
 		}
 
-		int xJitter = 0; //rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
-		int yJitter = 0; //rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
+		int xJitter = 0;						 //rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
+		int yJitter = 0;						 //rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
 
 		x0 = attacker->x*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + xJitter;
 		y0 = attacker->y*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + yJitter;
@@ -198,14 +198,11 @@ void Gameboard::drawBuild( Game * game , Build * build , float falloff  )
 	int unitSize = getAttr( unitSize );
 	// Make the random seed the pointer so jitter is consistant
 
-
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
 		GameState stateCurrent = game->states[frame];
 		GameState stateBackward = game->states[frame-1];
 		GameState stateForward = game->states[frame+1];
-
-
 
 		Unit *builder = findExistance( stateCurrent,  build->builder );
 		Unit *victim   = findExistance( stateBackward, build->frame );
@@ -259,7 +256,6 @@ void Gameboard::drawBuild( Game * game , Build * build , float falloff  )
 
 			glBegin(GL_QUADS);
 
-
 			glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
 			glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
 			glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
@@ -279,7 +275,6 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
 	// Make the random seed the pointer so jitter is consistant
-
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
@@ -310,20 +305,9 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 
 			glPushMatrix();
 
-			/*
-			if ( (xf-x0 == 0) && (yf-y0 > 0) )
-				glRotated(90, 0,0,1);
-
-			if ( (xf-x0 < 0) && (yf-y0 == 0) )
-				glRotated(90, 0,0,2);
-
-			if ( (xf-x0 == 0) && (yf-y0 < 0) )
-				glRotated(90, 0,0,-1);
-			*/
 			glTranslatef(x,y,0);
 
 			glScalef( unitSize , unitSize, 1 );
-
 
 			glEnable( GL_TEXTURE_2D );
 			switch (stateCurrent.bots[heal->healer].owner)
@@ -340,7 +324,6 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 			}
 
 			glBegin(GL_QUADS);
-
 
 			glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
 			glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);

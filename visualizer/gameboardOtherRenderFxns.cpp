@@ -4,8 +4,6 @@
 void Gameboard::drawWinnerScreen( Game *game )
 {
 
-	
-
 	glDisable(GL_TEXTURE_2D);
 	glBegin( GL_QUADS );
 	glVertex3f( 0, 0, 0 );
@@ -16,24 +14,19 @@ void Gameboard::drawWinnerScreen( Game *game )
 
 	glEnable( GL_TEXTURE_2D );
 
-	stringstream ss; 
+	stringstream ss;
 	ss << game->players[1] << " WINS!!!!";
 
-	
 	glTranslatef( 250, 250, 0 );
 	glColor4f( 0, 0, 0, 1 );
 	glScalef( 2, 2, 2 );
 	drawFont->drawString( ss.str().c_str() );
 
-
-
-
 }
+
 
 void Gameboard::drawScoreboard( Game *game)
 {
-
-	
 
 	glEnable(GL_BLEND);
 
@@ -54,7 +47,7 @@ void Gameboard::drawScoreboard( Game *game)
 
 		ss << getAttr( team2Score );
 		glColor3f( 0, 0, 1 );
-		glTranslatef( 1280-game->players[1].size()*12, -32, 0 );
+		glTranslatef( 1280-game->players[1].size()*15, -32, 0 );
 		drawFont->drawString( game->players[1].c_str() );
 		glTranslatef( 0, 32, 0 );
 		drawFont->drawString( ss.str().c_str() );
@@ -75,7 +68,6 @@ void Gameboard::drawScoreboard( Game *game)
 void Gameboard::drawProgressbar( Game *game )
 {
 
-	
 	glEnable( GL_BLEND );
 	glDisable( GL_TEXTURE_2D );
 
@@ -108,7 +100,6 @@ void Gameboard::drawMouse()
 {
 	if( leftButtonDrag )
 	{
-
 
 		glPushMatrix();
 
@@ -240,7 +231,7 @@ void Gameboard::drawControl(  )
 	onePercent=twoPercent=0.1;
 
 	glColor4f(1, 1, 1, 1);
-	
+
 	glPushMatrix();
 	glDisable( GL_TEXTURE_2D );
 
