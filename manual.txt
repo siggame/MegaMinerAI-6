@@ -20,14 +20,26 @@ The default maximum move rate is one unit per turn, though bots with engines can
 
 
 Build:
-Builders are the only bot that can build. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
+Builders are the only bot that can build. When they build, they produce a frame that occupies the space that the finished bot will occupy. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
+
+Requirements:
+(1) The builder must be a build bot
+(2) The builder must have at least one free action point
+(3) The built target must be on the game map
+(4) Size of build target must be less than or equal to the size of the builder
+(5) Size of build target must be a power of two
+(6) The build target must be adjacent to the builder
+(7) The build target area must not be occupied.
+Calculations:
+It takes (8 * size**2 / self.buildRate) turns to build an object.
+The resulting health of the object is min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
 
 Heal:
 Requirements:
-(1) The healer must be a builder 
+(1) The healer must be a build bot
 (2) The healer must be adjacent to the target
 (3) The target must be friendly (not the enemy)
-(4) The target cannot be at full health.
+(4) The target cannot be at full health
 
 Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. Accessor functions for this are 
 
