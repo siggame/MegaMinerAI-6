@@ -6,6 +6,56 @@ Damage -- These bots do more damage on attack than default.
 Engine -- These bots can move farther per turn.
 Force Field -- These bots have more health than default.
 
+These units have the following stats:
+
+[action]
+maxHealth = 16
+damage = 0
+range = 0
+movitude = 1
+actitude = 4
+buildRate = 0
+
+[builder]
+maxHealth = 8
+damage = 0
+range = 0
+movitude = 1
+actitude = 1
+buildRate = 1
+
+[cannon]
+maxHealth = 24
+damage = 4
+range = 1
+movitude = 1
+actitude = 1
+buildRate = 0
+
+[damage]
+maxHealth = 24
+damage = 10
+range = 0
+movitude = 1
+actitude = 1
+buildRate = 0
+
+[engine]
+maxHealth = 16
+damage = 4
+range = 0
+movitude = 4
+actitude = 1
+buildRate = 0
+
+[force]
+maxHealth = 40
+damage = 4
+range = 0
+movitude = 1
+actitude = 1
+buildRate = 0
+
 Actions:
 Move: 
 Bots can move only in the cardinal directions "udlr" (Up, Down, Left, Right). 
@@ -77,6 +127,10 @@ Calculations:
 The resulting bots are assigned their new health based on the percentage of health the combined bot had. (i.health = int(i.maxHealth * (float(self.health) / self.maxHealth)))
 
 Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. 
+
+Player 0 starts with builder bots at (3,9) and (3,10), while Player 1 starts with builder bots at (36,9) and (36,10).
+
+Walls are procedurally generated and then mirrored, so the map is initially symmetric.  There will never be any walls placed within X +/- 1 and Y +/- 1 of any starting bot.
 
 A brief discussion of the workflow:
 Team workflow:
