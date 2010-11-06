@@ -538,7 +538,11 @@ void VisualizerWindow::createLayout()
 	bottomBar = new QFrame;
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
+
 	unitSelection = new UnitSelection;
+	unitScroll = new QScrollArea;
+	unitScroll->setWidget(unitSelection);
+
 	options = new Options;
 	playButton = new QPushButton("Pause");
 	rewindButton = new QPushButton("<<");
@@ -558,6 +562,7 @@ void VisualizerWindow::createLayout()
 	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
 	toolBox->addTab( unitSelection, tr( "Unit Stats" ) );
 	toolBox->addTab( options, tr("Options") );
+	//unitSelection->setFixedHeight( 50 );
 
 	debugLayout->addWidget( console );
 	debugLayout->addWidget( toolBox );

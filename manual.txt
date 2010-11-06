@@ -12,4 +12,10 @@ Damage -- These bots do more damage on attack than default.
 Engine -- These bots can move farther per turn.
 Force Field -- These bots have more health than default.
 
+Move: Bots can move only in the cardinal directions "udlr" (Up, Down, Left, Right). The default maximum move rate is one unit per turn, though bots with engines can move faster. 
+
+Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. Accessor functions for this are 
+
+Talk: Bots can talk. The talk function takes in a string. Talking causes the string to show up in the visualizer. This can be useful for debug statements. 
+
 

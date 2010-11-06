@@ -322,6 +322,70 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 
 }
 
+void Gameboard::printStats(Game *game)
+{
+	stringstream ss;
+	int numBots = 0;
+	int healthAvg = 0;
+	int maxHealthAvg = 0;
+	int sizeAvg = 0;
+	int actionsAvg = 0;
+	int stepsAvg = 0;
+	int damageAvg = 0;
+	int rangeAvg = 0;
+	int movitudeAvg = 0;
+	int actitudeAvg = 0;
+	int buildRateAvg = 0;
+	
+	int frame = getAttr( frameNumber );
+
+	for( 	std::map<int,Bot>::iterator j = game->states[frame].bots.begin();
+		j != game->states[frame].bots.end(); 
+		j++)
+	{
+		if(selectedIDs.find(j->second.id) != selectedIDs.end())
+		{
+			healthAvg += j->second.health;
+			maxHealthAvg += j->second.maxHealth;
+			 sizeAvg += j->second.size;
+			actionsAvg += j->second.actions;
+			stepsAvg += j->second.steps;
+			damageAvg += j->second.damage;
+			rangeAvg += j->second.range;
+			movitudeAvg += j->second.movitude;
+			actitudeAvg += j->second.actitude;
+			buildRateAvg += j->second.buildRate;
+			numBots++;
+		}
+
+	}
+		
+	if(numBots!=0)
+	{
+		healthAvg /= numBots;
+		maxHealthAvg /= numBots;
+		sizeAvg /= numBots;
+		actionsAvg /= numBots;
+		stepsAvg /= numBots;
+		damageAvg /= numBots;
+		rangeAvg /= numBots;
+		movitudeAvg /= numBots;
+		actitudeAvg /= numBots;
+		buildRateAvg /= numBots;
+		ss << "Health: " << healthAvg<< " / " << maxHealthAvg <<endl;
+		ss << "Size: " << sizeAvg<< endl;
+		ss << "Actions: " << actionsAvg<< endl;
+		ss << "Steps: " << stepsAvg<< endl;
+		ss << "Damage: " << damageAvg<< endl;
+		ss << "Range: " << rangeAvg<< endl;
+		ss << "Movitude: " << movitudeAvg<< endl;
+		ss << "Actitude: " << actitudeAvg<< endl;
+		ss << "Build Rate: " << buildRateAvg;
+		//ss << "Bots Selected: " << numBots << endl;
+		parent->unitSelection->setText( ss.str().c_str() );
+	}
+}
+
 
 void Gameboard::paintGL()
 {
@@ -416,6 +480,7 @@ void Gameboard::paintGL()
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
 			talkRobotsGodDamnitTalk(game);
+			printStats(game);
 
 			stringstream text;
 			text << getAttr(frameNumber)+1 << "/" << game->states.size();
