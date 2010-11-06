@@ -28,3 +28,4 @@ HEADERS += texture.h \
 HEADERS += drawGLFont.h
 CONFIG += debug
 QT += opengl
+SUBDIRS += parser
