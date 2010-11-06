@@ -2,6 +2,7 @@
 
 visettings *visettings::inst = NULL;
 
+
 visettings::visettings()
 {
 	// Every 150 ms
