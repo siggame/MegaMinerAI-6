@@ -8,6 +8,7 @@ DrawGLFont::DrawGLFont()
 {
 
 	// Do Nothing.... Oh What fun...
+	alignment = align_left;
 }
 
 Color DrawGLFont::retrieveColor( int id )
@@ -20,6 +21,11 @@ Color DrawGLFont::retrieveColor( int id )
 void DrawGLFont::resetColors()
 {
 	colors.clear();
+}
+
+void DrawGLFont::setAlignment( int align )
+{
+	alignment=align;
 }
 
 void DrawGLFont::addColor( float r, float g, float b )
@@ -52,16 +58,25 @@ string fontWidthsFile
 	return true;
 }
 
-
-void DrawGLFont::drawString( string message )
+void DrawGLFont::setColor( int &i, string message )
 {
-	// We don't want to mess with the original matrix
-	glPushMatrix();
-
-	glEnable( GL_TEXTURE_2D );
-	glBindTexture( GL_TEXTURE_2D, textureId );
-	Color color = retrieveColor( 0 );
+	i++;
+	i++;
+	stringstream ss;
+	while( message[i] != ')' )
+	{
+		ss << message[i];
+		i++;
+	}
+	
+	int k = atoi( ss.str().c_str() );
+	Color color = retrieveColor( k );
 	glColor3f( color.r, color.g, color.b );
+
+}
+
+void DrawGLFont::drawAlignedLeft( string message )
+{
 	for( int i = 0; (unsigned)i < message.size(); i++ )
 	{
 
@@ -72,20 +87,8 @@ void DrawGLFont::drawString( string message )
 
 		if( c == '$' )
 		{
-			i++;
-			i++;
-			stringstream ss;
-			while( message[i] != ')' )
-			{
-				ss << message[i];
-				i++;
-			}
-			
-			int k = atoi( ss.str().c_str() );
-			color = retrieveColor( k );
-			glColor3f( color.r, color.g, color.b );
+			setColor( i, message );
 			continue;
-			
 		}
 
 		c = c-32 + (bold ? 128 : 0);
@@ -95,6 +98,78 @@ void DrawGLFont::drawString( string message )
 		// Move Cursor over by character width plus some
 		glTranslatef( widths[c]+kerning, 0, 0 );
 	}
+
+}
+
+void DrawGLFont::drawAlignedCenter( string message )
+{
+	int mid = message.size()/2;
+	glPushMatrix();
+
+	string left = message.substr( 0, mid );
+	drawAlignedRight( left );
+	glPopMatrix();
+	string right = message.substr( mid, mid );
+	drawAlignedLeft( right );
+	
+
+}
+
+void DrawGLFont::drawAlignedRight( string message )
+{
+	for( int i = message.size()-1; i >= 0; i-- )
+		{
+
+			// Not a real C++ program until there's a ternary operator
+			// Also, this is a shortened font list due to boldness
+			// So our first character is space, so we adjust for that
+			unsigned char c = message[i];
+			//unsigned char d = message[i-1];
+#if 0
+			if( c == '$' )
+			{
+				setColor( i, message );
+				continue;
+			}
+#endif
+
+			c = c-32 + (bold ? 128 : 0);
+
+			glTranslatef( -widths[c]-kerning, 0, 0 );
+			// Draw Current Character
+			drawCharacter( c );
+			// Move Cursor over by character width plus some
+		}
+}
+
+void DrawGLFont::drawString( string message )
+{
+	// We don't want to mess with the original matrix
+	glPushMatrix();
+
+	glEnable( GL_TEXTURE_2D );
+	glBindTexture( GL_TEXTURE_2D, textureId );
+	Color color(0,0,0);
+	if( colors.size() > 0 )
+	{
+		color = retrieveColor( 0 );
+		glColor3f( color.r, color.g, color.b );
+	}
+
+	switch( alignment )
+	{
+		case align_right:
+			drawAlignedRight( message );
+			break;
+		case align_center:
+			drawAlignedCenter( message );
+			break;
+		default:
+			drawAlignedLeft( message );
+	}
+	
+
+
 
 	glPopMatrix();
 
