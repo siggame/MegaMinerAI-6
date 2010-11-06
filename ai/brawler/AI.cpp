@@ -12,42 +12,22 @@ const char* AI::password()
   return "lolGene";
 }
 
-vector<Type> gTypes;
 
-int shitDist(int x, int y, int ox, int oy)
-{
-  return abs(x-ox)+abs(y-oy);
-}
-
-int xMod[] = {1, 0,-1, 0,0};
-int yMod[] = {0, 1, 0,-1,0};
-bool less(const strat&lhs, const strat&rhs)
+bool less(const Strat&lhs, const Strat&rhs)
 {
   return lhs.score<rhs.score;
 }
-bool great(const strat&lhs, const strat&rhs)
+bool great(const Strat&lhs, const Strat&rhs)
 {
   return lhs.score>rhs.score;
 }
-enum OTYPE{MOVE,ATTACK,HEAL,BUILD,COMBINE,SPLIT,OTYPE_SIZE};
-string OTYPE_DISPLAY[]={"MOVE","ATTACK","HEAL","BUILD","COMBINE","SPLIT"};
-enum DIR{LEFT,RIGHT,UP,DOWN,DIR_SIZE};
-string direction[] = {"right","down","left","up"};
-
-enum GENE{FRIEND,FOE,G_SIZE};
 
 //This function is run once, before your first turn.
 void AI::init()
 {
   cout<<"INIT"<<endl;
   srand(time(NULL));
-  gTypes.resize(types.size());
-  
-  for(unsigned int t=0;t<types.size();t++)
-  {
-    gTypes[t]=types[t];
-  }
-  
+    
   // build the data file name
   if(playerID()==0)
   {
@@ -57,41 +37,7 @@ void AI::init()
   {
     dataFile=string(player0Name())+".imSecond";
   }
-  
-  
-  // Magic number of population size
-  pop.resize(12);
-  // TODO Load genes
-  ifstream in(dataFile.c_str());
-  // If there was a database file
-  if(in.is_open())
-  {
-    for(unsigned int i=0;i<pop.size();i++)
-    {
-      cout<<"Reading in "<<i<<endl;
-      in>>pop[i].played;
-      in>>pop[i].score;
-      pop[i].gene.resize(G_SIZE);
-      for(unsigned int g=0;g<G_SIZE;g++)
-      {
-        in>>pop[i].gene[g];
-      }
-    }
-  }
-  else
-  {
-    for(unsigned int i=0;i<pop.size();i++)
-    {
-      pop[i].played=false;
-      pop[i].score=false;
-      pop[i].gene.resize(G_SIZE);
-      for(unsigned int g=0;g<G_SIZE;g++)
-      {
-        pop[i].gene[g]=rand()%10;
-      }
-    }
-  }
-  in.close();
+  Strat::load(dataFile,pop);
   bool found=false;
   for(unsigned int i=0;i<pop.size()&&!found;i++)
   {
@@ -198,164 +144,56 @@ void AI::end()
   // Add the score to this player
   pop[popIndex].score+=score;
   pop[popIndex].played=true;
-  
-  ofstream out(dataFile.c_str());
-  // If there was a database file
-  for(unsigned int i=0;i<pop.size();i++)
-  {
-    out<<pop[i].played<<" ";
-    out<<pop[i].score<<" ";
-    for(unsigned int g=0;g<G_SIZE;g++)
-    {
-      out<<pop[i].gene[g]<<" ";
-    }
-    out<<endl;
-  }
+  Strat::save(dataFile,pop);
 }
-
-pair<int, int> AI::distToNearest(vector<Bot>& group,int x, int y, int ignore)
-{
-  pair<int,int> ret;
-  ret.first=INT_MAX;
-  ret.second=-1;
-  for(unsigned int i=0;i<group.size();i++)
-  {
-    int temp = shitDist(x,y,group[i].x(),group[i].y());
-    if(temp < ret.first && group[i].id() != ignore)
-    {
-      ret.first=temp;
-      ret.second=i;
-    }
-  }
-  return ret;
-}
-struct Order
-{
-  OTYPE type;
-  DIR dir;
-  int toOrder;
-  int targetID;
-  int buildType,buildSize;
-  int x,y;
-  int c1,c2,c3;
-
-  float fitness;
-  
-  // Default
-  Order():type(MOVE),dir(UP),toOrder(0),targetID(0),buildType(0),buildSize(1),x(0),y(0){};
-  
-  // Stubs
-  Order(int WHO,OTYPE T):
-    type(T),dir(UP),toOrder(WHO),targetID(0),buildType(0),buildSize(1),x(0),y(0){};  
-  // Move
-  Order(OTYPE T,int WHO, DIR D):
-    type(T),dir(D),toOrder(WHO),targetID(0),buildType(0),buildSize(1),x(0),y(0){};
-  
-  // Attack and Heal
-  Order(OTYPE T,int WHO, int TAR):
-    type(T),dir(UP),toOrder(WHO),targetID(TAR),buildType(0),buildSize(1),x(0),y(0){};
-  
-  // Build 
-  Order(OTYPE T,int WHO, int BT, int BS, int X, int Y):
-    type(T),dir(UP),toOrder(WHO),targetID(0),buildType(BT),buildSize(BS),x(X),y(Y){};
-
-  // Combine and Split
-  Order(OTYPE T,int WHO):type(T),dir(UP),toOrder(WHO),targetID(0),buildType(0),buildSize(1),x(0),y(0){};
-  
-
-  friend bool operator<(const Order& lhs, const Order& rhs)
-  {
-    return lhs.fitness<rhs.fitness;
-  }
-  friend ostream& operator <<(ostream &out,const Order &toDisplay)
-  {
-//    cout<<"TOP OF order << "<<endl;
-    out<<toDisplay.toOrder<<" will "<<OTYPE_DISPLAY[toDisplay.type];
-//    cout<<"After type display"<<endl;
-    switch(toDisplay.type)
-    {
-      case MOVE:
-        out<<" "<<direction[toDisplay.dir];
-        break;
-      case ATTACK:
-        out<<" "<<toDisplay.targetID;
-        break;
-      case HEAL:
-        out<<" "<<toDisplay.targetID;
-        break;
-      case BUILD:
-        out<<" a "<<gTypes[toDisplay.buildType].name()<<" of size "<<toDisplay.buildSize<<" at ("<<toDisplay.x<<","<<toDisplay.y<<")";
-        break;
-      case COMBINE:
-      case SPLIT:
-        break;
-    }
-    return out;
-  }
-};
-
-// This structure is used as a stub for each unit.  Contains what actions could be available to this unit
-struct Stub
-{
-  list<Order> stubs;
-  // Points at the best order in the list
-  list<Order>::iterator bestOrder;
-  
-  // Stuff used for order validation
-  int actionsTaken;
-  int movesTaken;
-  
-  Stub(){ };
-  Stub(int id)
-  {
-    init(id);
-  }
-
-  void init(int id)
-  {
-    stubs.clear();
-    for(unsigned int i=0;i<OTYPE_SIZE;i++)
-    {
-      stubs.push_back(Order(id,(OTYPE)i));
-    }
-    actionsTaken=0;
-    movesTaken=0;
-  }
-  
-  bool empty()
-  {
-    return stubs.size()==0;
-  }
-};
-
 
 float AI::getScore(Stub& stub)
 {
-  stub.bestOrder=stub.stubs.begin();
+  stub.bestOrder=stub.orders.begin();
   float best = INT_MIN;
-  for(list<Order>::iterator it=stub.stubs.begin();it!=stub.stubs.end();it++)
+  for(list<Order>::iterator it=stub.orders.begin();it!=stub.orders.end();it++)
   {
+    if(it->toOrder != NULL)
+    {
+      if(it->toOrder->size()==0)
+      {
+        cout<<"Ordering a size zero bot!: "<<it->toOrder->id()<<endl;
+        /*
+        for(unsigned int i=0;i<bots.size();i++)
+        {
+          if(bots[i].id()==it->toOrder->id())
+          {
+            cout<<"In bots: "<<endl;
+            cout<<bots[i]<<endl;
+            cout<<endl<<"Pointer: "<<endl;
+            cout<<*(it->toOrder)<<endl;
+          }
+        }
+        */
+      }
+    }
     float score=INT_MIN;
     // depending on the type of order
     switch(it->type)
     {
       case MOVE:
+        //cout<<"Scoring move: "<<it->toOrder->id()<<endl;
         score=bestMove(*it);
         break;
       case ATTACK:
-        //score=bestAttack(*it);
+        score=bestAttack(*it);
         break;
       case HEAL:
-        //score=bestHeal(*it);
+        score=bestHeal(*it);
         break;
       case BUILD:
         score=bestBuild(*it);
         break;
       case COMBINE:
-        //score=bestCombine(*it);
+        score=bestCombine(*it);
         break;
       case SPLIT:
-        //score=bestSplit(*it);
+        score=bestSplit(*it);
         break;
     }
     if(score>best)
@@ -367,42 +205,78 @@ float AI::getScore(Stub& stub)
   return best;
 }
 
+
+
 float AI::bestMove(Order& order)
 {
-  
-  int b = idToBot.find(order.toOrder)->second;
-  cout<<"Scoring move "<<order.toOrder<<" "<<bots[b].x()<<" "<<bots[b].y()<<endl;
   order.fitness=INT_MIN;
-  // Checks if they are already in range
-  pair<int,int> foe = distToNearest(theirBots,bots[b].x(),bots[b].y());
-  if(foe.first <=bots[b].range())
+  if(order.toOrder->size()>1)
   {
-    // breaks out
+    cout<<"Trying to move a big guy"<<endl;
+  }
+  // Checks if they are already in range
+  pair<int,int> foe = distToNearest(bots,order.toOrder->x(),order.toOrder->y(),order.toOrder->size(),myBots);
+  if(foe.second>=0 && inRange(*order.toOrder, bots[foe.second]))
+  {
     return order.fitness;
   }
+  /*
+  if(order.toOrder->size()>1)
+  {
+    cout<<"\twas not in range"<<endl;
+  }
+  */
   // calculate the quality of each type of move
   for(unsigned int i=0;i<DIR_SIZE;i++)
   {
-    int x=bots[b].x()+xMod[i];
-    int y=bots[b].y()+yMod[i];
+    int x=order.toOrder->x()+xMod[i];
+    int y=order.toOrder->y()+yMod[i];
     // Check if it is in bounds
     if(x>=0 && x<boardX() && y>=0 && y<boardY())
     {
       float score = 0;
-      pair<int,int> ally = distToNearest(myBots,x,y,order.toOrder);
+      
+      theirBots.insert(order.toOrder->id());
+      pair<int,int> ally = distToNearest(bots,x,y,order.toOrder->size(),theirBots);
+      theirBots.erase(order.toOrder->id());
+      
+      pair<int, int> friendlyFrame = distToNearest(frames,x,y,order.toOrder->size(),theirFrames);
+      
+      pair<int,int> wall = distToNearest(walls,x,y,order.toOrder->size());
       // if I don't hit my own guy
-      if(ally.first != 0)
+      if(ally.first != 0 && friendlyFrame.first!=0 && wall.first !=0)
       {
-        pair<int,int> foe = distToNearest(theirBots,x,y);
-        if(foe.first == 0)
+      /*
+        if(order.toOrder->size()>1)
         {
+          cout<<"\t found an unblocked direction"<<endl;
+        }
+*/
+        pair<int,int> foe = distToNearest(bots,x,y,order.toOrder->size(),myBots);
+        pair<int,int> foeFrame = distToNearest(frames,x,y,order.toOrder->size(),myFrames);
+        if(foe.first == 0 || foeFrame.first==0)
+        {
+         /* if(order.toOrder->size()>1)
+          {
+            cout<<"\t  hit a foe frame or thing"<<endl;
+            cout<<"ME: "<<*(order.toOrder)<<endl;
+            if(foe.second>=0)
+            {
+              cout<<"FOE: "<<bots[foe.second]<<endl;
+            }
+            if(foeFrame.second>=0)
+            {
+              cout<<"Frame: "<<bots[foeFrame.second]<<endl;
+            }
+          }
+          */
           //TODO Logic for ramming goes here
           score=INT_MIN;
         }
         int maxMove=boardX()+boardY();
         // friendly distance
         //score += (maxMove-ally.first)*gene[FRIEND];
-        score += (maxMove-foe.first)*gene[FOE];       
+        score += (maxMove-foe.first)*gene[FOE];
         
         if(score > order.fitness)
         {
@@ -412,90 +286,215 @@ float AI::bestMove(Order& order)
       }
     }
   }
+  if(order.toOrder->size()>1)
+  {
+    cout<<"Returning "<<order.fitness<<endl;
+  }
+
 //  cout<<"Scored move: "<<order.fitness<<endl;
   return order.fitness;
 }
 
 float AI::bestAttack(Order&order)
 {
-  order.fitness=rand()%20-10;
-  //cout<<"Attack ranked: "<<order.fitness<<endl;
-  order.targetID=bots[rand()%bots.size()].id();
-  //order.targetID=order.toOrder;
+  order.fitness=INT_MIN;
+  // TODO Be more selective
+  pair<int,int> target = distToNearest(bots,order.toOrder->x(),order.toOrder->y(),order.toOrder->size(),myBots);
+  pair<int,int> wallTarget = distToNearest(walls,order.toOrder->x(),order.toOrder->y(),order.toOrder->size());
+  // if it is in range
+  if(target.second >=0 && inRange(*order.toOrder, bots[target.second]))
+  {
+    order.fitness=rand()%5 + 1;
+    order.target=&bots[target.second];
+  }
+  else if(wallTarget.second>=0 && inRange(*order.toOrder, walls[wallTarget.second]))
+  {
+    order.fitness=rand()%5 + 1;
+    order.target=&walls[wallTarget.second];
+  }
+  
   return order.fitness;
 }
 float AI::bestHeal(Order&order)
 {
-  order.fitness=rand()%20-10;
-  order.targetID=bots[rand()%bots.size()].id();
+  order.fitness=INT_MIN;
+  // TODO Be more selective
+  pair<int,int> target = distToNearest(bots,order.toOrder->x(),order.toOrder->y(),order.toOrder->size(),theirBots);
+  // if it is in range
+  if(target.second >=0 && inRange(*order.toOrder, bots[target.second]));
+  {
+    order.fitness=rand()%5 + 1;
+    order.toHeal=&bots[target.second];
+  }
   return order.fitness;
 }
+
 float AI::bestBuild(Order&order)
 {
-/*
-  order.fitness=rand()%20-10;
-  order.buildType=rand()%types.size();
-  order.x=rand()%boardX();
-  order.y=rand()%boardY();
-  order.buildSize=pow(2.0,rand()%4);
-*/
-  // Movement bots
-  int b = idToBot.find(order.toOrder)->second;
-  order.fitness=boardX()+boardY()*100;
-  order.buildType=4;
-  order.x=bots[b].x()+xMod[playerID()*2];
-  order.y=bots[b].y()+yMod[playerID()*2];
+  for(unsigned int b=0;b<bots.size();b++)
+  {
+    if(bots[b].size()==0)
+    {
+      cout<<"TOP OF BUILD FOUND ZERO"<<endl;
+      return INT_MIN;
+    }
+  }
+
+  order.fitness=INT_MIN;
+  // TODO determine the best build type here
+  order.buildType = &(types[rand()%types.size()]);
+  
+  // TODO determine best build size
+  order.buildSize=order.toOrder->size();
+  // for each direction
+  for(unsigned int d=0;d<DIR_SIZE;d++)
+  {
+    int x=order.toOrder->x()+xMod[d]*order.toOrder->size();
+    int y=order.toOrder->y()+yMod[d]*order.toOrder->size();
+    int size = order.toOrder->size();
+    // check if anyone is at that space
+    if(distToNearest(bots, x, y, size).first !=0 && distToNearest(frames, x, y, size).first!=0 && distToNearest(walls, x, y, size).first!=0)
+    {
+      // TODO score pos
+      int scorePos=rand()%20+1;
+      if(order.fitness < scorePos)
+      {
+        order.fitness = scorePos;
+        order.buildX=x;
+        order.buildY=y;
+      }
+    }
+  }
+  for(unsigned int b=0;b<bots.size();b++)
+  {
+    if(bots[b].size()==0)
+    {
+      cout<<"BOT OF BUILD FOUND ZERO"<<endl;
+      return INT_MIN;
+    }
+  }
+
   return order.fitness;
 }
+
+int flip[] = {7, 0 ,1 ,6, -1, 2, 5, 3, 3};
+
 float AI::bestCombine(Order&order)
 {
-  order.fitness=rand()%20-10;
-  order.c1=bots[rand()%bots.size()].id();
-  order.c2=bots[rand()%bots.size()].id();
-  order.c3=bots[rand()%bots.size()].id();
+  order.fitness=INT_MIN;
+//  cout<<"Trying to combine"<<endl;
+  int x=order.toOrder->x();
+  int y=order.toOrder->y();
+  int size = order.toOrder->size();
+  vector<Bot*> cell(8,(Bot*)NULL);
+  // set up the possible combines
+  int count=0;
+  for(unsigned int b=0;b<bots.size();b++)
+  {
+    // if I own it, its not in something and its size is the same as me
+    if(bots[b].owner()==playerID() && bots[b].partOf()==0 && bots[b].size()==size && bots[b].id()!=order.toOrder->id() && bots[b].actions()>0)
+    {
+      int cellX=bots[b].x()-x;
+      int cellY=bots[b].y()-y;
+      /*
+      if(abs(cellX)<=size)
+      {
+        cout<<"CellX: "<<cellX<<endl;
+      }
+      if(abs(cellY)<=size)
+      {
+        cout<<"CellY: "<<cellY<<endl;
+      }
+      if(abs(cellX)<=size && abs(cellY)<=size)
+      {
+        cout<<"\t\tBOTH"<<endl;
+      }
+      */
+      //cout<<"Passed the legal check: "<<cellX<<" "<<cellY<<" "<<size<<endl;
+      // if it is in the correct spot
+      if(abs(cellX)<=size && abs(cellY)<=size)
+      {
+      //  cout<<"\t\tFOUND SOMEONE ADJ"<<endl;
+        count++;
+        // converts to 0,1,2 independent of size
+        //cout<<"Original: "<<cellX<<" "<<cellY<<endl;
+        cellX=cellX/size+1;
+        cellY=cellY/size+1;
+        //cout<<"After: "<<cellX<<" "<<cellY<<endl;
+        cell[flip[cellY*3+cellX]]=&(bots[b]);
+      }
+    }
+  }
+  if(count>=5)
+  {
+   // cout<<"CLOSE ENOUGH"<<endl;
+  }
+  for(unsigned int i=0;i<9;i+=2)
+  {
+    bool allThere=true;
+    for(unsigned int j=0;j<3 && allThere;j++)
+    {
+      allThere=(cell[(i+j)%cell.size()]!=NULL);
+    }
+    
+    if(allThere)
+    {
+      //cout<<"HOLY CRAP A COMBINE"<<endl;
+      order.c1=cell[(i+0)%cell.size()];
+      order.c2=cell[(i+1)%cell.size()];
+      order.c3=cell[(i+2)%cell.size()];
+      order.fitness=9999;    
+    }
+  }
   return order.fitness;
 }
+
+
 float AI::bestSplit(Order&order)
 {
-  order.fitness=rand()%20-10;
+  order.fitness=INT_MIN;
+  // TODO determine dynamic splitting
+  order.fitness = rand()%12-10;
   return order.fitness;
 }
-
-
 
 void AI::removeInvalid(Stub& stub)
 {
   //cout<<"Attempting to remove invalid actions from a stub"<<endl;
-  for(list<Order>::iterator it=stub.stubs.begin();it!=stub.stubs.end();it++)
+  for(list<Order>::iterator it=stub.orders.begin();it!=stub.orders.end();it++)
   {
-    int b=idToBot.find(it->toOrder)->second;
+    if(it->toOrder->size()==0)
+    {
+      cout<<"In remove invalid, size = 0"<<endl;
+    }
+    Bot* toOrder=it->toOrder;
     bool remove=false;
     // depending on the type of order
     switch(it->type)
     {
       case MOVE:
-        remove= stub.movesTaken>=bots[b].movitude();
+        remove= toOrder->steps()==0;
         break;
       case ATTACK:
-        remove=(stub.actionsTaken>=bots[b].actitude()) || (bots[b].damage()==0);
+        remove=(toOrder->actions()==0) || (toOrder->damage()==0);
         break;
       case HEAL:
-        remove=(stub.actionsTaken>=bots[b].actitude()) || (bots[b].buildRate()==0);
+        remove=(toOrder->actions()==0) || (toOrder->buildRate()==0);
         break;
       case BUILD:
-        remove=(stub.actionsTaken>=bots[b].actitude()) || (bots[b].buildRate()==0);
+        remove=(toOrder->actions()==0) || (toOrder->buildRate()==0);
         break;
       case COMBINE:
-        remove=(stub.actionsTaken!=0);
+        remove=(toOrder->actions()!=toOrder->maxActions());
         break;
       case SPLIT:
-        remove=(stub.actionsTaken!=0) || (bots[b].size()==1);
+        remove=(toOrder->actions()!=toOrder->maxActions()) || (toOrder->size()==1);
         break;
     }
     if(remove)
     {
-      cout<<"Removing invalid: "<<OTYPE_DISPLAY[it->type]<<endl;
-      stub.stubs.erase(it);
+      //cout<<"Removing invalid: "<<OTYPE_DISPLAY[it->type]<<endl;
+      stub.orders.erase(it);
       it--;
     }
   }
@@ -503,53 +502,35 @@ void AI::removeInvalid(Stub& stub)
 
 void AI::execute(Stub& stub)
 {
+
   Order order= *(stub.bestOrder);
 //  cout<<"Top of execute"<<endl;
 //  cout<<"Type of order: "<<order.type<<endl;
-  cout<<"Executing: "<<order<<endl;
-  int b=idToBot.find(order.toOrder)->second;
+//  cout<<"Executing: "<<order<<endl;
 //  cout<<"After id lookup"<<endl;
-  int target;
-  int c1,c2,c3;
   
   int tempx, tempy;
   switch(order.type)
   {
     case MOVE:
-      tempx=bots[b].x();
-      tempy=bots[b].y();
-      bots[b].move(direction[order.dir]);
-      if(tempx==bots[b].x() && tempy==bots[b].y())
-      {
-        cout<<"Blocked"<<endl;
-      }
-      stub.movesTaken++;
+      order.toOrder->move(direction[order.dir]);
       break;
     case ATTACK:
-      target=idToBot.find(order.targetID)->second;
-      bots[b].attack(bots[target]);
-      stub.actionsTaken++;
+      order.toOrder->attack(*order.target);
+      if(order.target->health()<=0){myBots.insert(order.target->id());};
       break;
     case HEAL:
-      target=idToBot.find(order.targetID)->second;
-      bots[b].heal(bots[target]);
-      stub.actionsTaken++;
+      order.toOrder->heal(*order.toHeal);
       break;
     case BUILD:
-      bots[b].build(types[order.buildType],order.x,order.y,order.buildSize);
-      stub.actionsTaken=bots[b].actitude();
-      stub.movesTaken=bots[b].movitude();
+      order.toOrder->build(*order.buildType,order.buildX,order.buildY,order.buildSize);
       break;
     case COMBINE:
-      c1=target=idToBot.find(order.c1)->second;
-      c2=target=idToBot.find(order.c2)->second;
-      c3=target=idToBot.find(order.c3)->second;
-      bots[b].combine(bots[c1],bots[c2],bots[c3]);
-      stub.actionsTaken++;
+      //cout<<"TRYING TO COMBINE!"<<endl;
+      order.toOrder->combine(*order.c1,*order.c2,*order.c3);
       break;
     case SPLIT:
-      bots[b].split();
-      stub.actionsTaken++;
+      order.toOrder->split();
       break;
     default:
       cout<<"Unknown order type!"<<endl;
@@ -561,15 +542,34 @@ void AI::setBots()
 {
   myBots.clear();
   theirBots.clear();
+  myFrames.clear();
+  theirFrames.clear();
   for(unsigned int b=0;b<bots.size();b++)
   {
     if(bots[b].owner()==playerID())
     {
-      myBots.push_back(bots[b]);
+      myBots.insert(bots[b].id());
     }
     else
     {
-      theirBots.push_back(bots[b]);
+      theirBots.insert(bots[b].id());
+    }
+    // Always ignore bots that are part of others
+    if(bots[b].partOf()!=0)
+    {
+      myBots.insert(bots[b].id());
+      theirBots.insert(bots[b].id());
+    }
+  }
+  for(unsigned int f=0;f<frames.size();f++)
+  {
+    if(frames[f].owner()==playerID())
+    {
+      myFrames.insert(frames[f].id());
+    }
+    else
+    {
+      theirFrames.insert(frames[f].id());
     }
   }
 }
@@ -584,24 +584,18 @@ bool AI::run()
 //    return true;
   }
   cout<<"Turn: "<<turnNumber()<<endl;
+  
   cout<<player0Time()<<" "<<player1Time()<<" "<<player0Name()<<" "<<player1Name()<<endl;
   setBots();
 
   list<Stub> orderList;
-  
-  // set up the map
-  idToBot.clear();
-  for(unsigned int b=0;b<bots.size();b++)
-  {
-    idToBot[bots[b].id()]=b;
-  }
   
   // This section generates actions
   for(unsigned int b=0;b<bots.size();b++)
   {
     if(bots[b].owner()==playerID())
     {
-      Stub toAdd(bots[b].id());
+      Stub toAdd(bots[b]);
       removeInvalid(toAdd);
       // Pushes on a stub for this unit
       if(!toAdd.empty())
@@ -636,7 +630,7 @@ bool AI::run()
     }
     else
     {
-      cout<<"No good orders"<<endl;
+      //cout<<"No good orders"<<endl;
       goodOrders=false;
     }
   }

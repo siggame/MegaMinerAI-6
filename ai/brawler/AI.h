@@ -14,18 +14,13 @@
 #include <utility>
 #include <fstream>
 #include <algorithm>
+#include "util.h"
+
+#include "Stub.h"
+#include "Strat.h"
+#include "MyUtil.h"
 using namespace std;
-struct Order;
-struct Stub;
 
-
-
-struct strat
-{
-  bool played;
-  int score;
-  vector<int> gene;
-};
 
 ///The class implementing gameplay logic.
 class AI: public BaseAI
@@ -54,12 +49,11 @@ public:
   
   int popIndex;  
   void setBots();
-  vector<Bot> myBots,theirBots;
-  
-  pair<int, int> distToNearest(vector<Bot>& group,int x, int y,int ignore=-1);
+  set<int> myBots,theirBots,myFrames, theirFrames;
   
   
-  vector<strat> pop;
+  
+  vector<Strat> pop;
 };
 
 
