@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
-#import mysqldb
+import MySQLdb
 import rpyc
+import datetime
 from random import randint
 
 import config
@@ -41,9 +42,18 @@ class DBManager(rpyc.Service):
       max_id = 0
 
     c.execute("SELECT id FROM auth_user WHERE username = '%s'" % (c1[0].lower(),))
-    c1id = c.fetchone()[0]
+    try:
+      c1id = c.fetchone()[0]
+    except:
+      print "OH NO! Is",c1[0],"registered on the web server??"
+      c1id = 0
+
     c.execute("SELECT id FROM auth_user WHERE username = '%s'" % (c2[0].lower(),))
-    c2id = c.fetchone()[0]
+    try:
+      c2id = c.fetchone()[0]
+    except:
+      print "OH NO! Is",c2[0],"registered on the web server??"
+      c2id = 0
 
     query = "INSERT INTO fwog_web_game " + \
         "VALUES (%d, %d, %d, %d, %d, %d, %d, '%s','%s')" % \
@@ -59,8 +69,9 @@ class DBManager(rpyc.Service):
     c.execute(query)
     db.commit()
             
-    f=open('/web/static/',filename,'wb')
+    f=open('/web/static/'+filename,'wb')
     f.write(log)
+    f.close()
     print "log saved at: ", filename
 
 if __name__=='__main__':
