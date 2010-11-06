@@ -682,13 +682,12 @@ DLLEXPORT int networkLoop(Connection* c)
       int winnerID = atoi(expression->val);
       if(winnerID == c->playerID)
       {
-        cout << "You win!" << endl;
+        cout << "You win!" << endl << expression->next->val;
       }
       else
       {
-        cout << "You lose. :(" << endl;
+        cout << "You lose. :(" << endl << expression->next->val;
       }
-      stringstream expr;
       expr << "(request-log " << c->gameNumber << ")";
       send_string(c->socket, expr.str().c_str());
       return 0;
