@@ -124,6 +124,7 @@ std::ostream& operator<<(std::ostream& stream, Collide ob)
   stream << "Collide" << "\n";
   stream << "attacker: " << ob.attacker  <<'\n';
   stream << "victim: " << ob.victim  <<'\n';
+  stream << "direction: " << ob.direction  <<'\n';
   return stream;
 }
 
