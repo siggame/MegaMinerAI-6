@@ -7,6 +7,7 @@ visettings::visettings()
 	// Every 150 ms
 	defaultSpeed = 150;
 	playSpeed = defaultSpeed;
+	minSpeed = 10;
 	frameNumber = 0;
 
 	dragging = false;
