@@ -1,15 +1,17 @@
 #include "gameboardWidget.h"
 
-void Gameboard::drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff)
+void Gameboard::drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff, bool dead)
 {
 	if( game->states[frame].bots.find( unit->id ) != game->states[frame].bots.end() )
-		drawSingleBot(game,(Bot*)unit,frame,unitSize,falloff);
+		drawSingleBot(game,(Bot*)unit,frame,unitSize,falloff, dead);
 
 	if( game->states[frame].frames.find( unit->id ) != game->states[frame].frames.end() )
 		drawSingleFrame(game,(Frame*)unit,frame,unitSize);
 
 	if( game->states[frame].walls.find( unit->id ) != game->states[frame].walls.end() )
 		drawSingleWall(game,(Wall*)unit,frame,unitSize);
+
+
 }
 
 
@@ -71,7 +73,7 @@ void Gameboard::drawSprite( int x, int y, int w, int h, int texture, bool select
 }
 
 
-void Gameboard::drawSingleBot(Game * game, Bot * bot, int frame, int unitSize, float falloff )
+void Gameboard::drawSingleBot(Game * game, Bot * bot, int frame, int unitSize, float falloff, bool dead)
 {
 
 	int x0, y0, x1, y1;
@@ -98,6 +100,12 @@ void Gameboard::drawSingleBot(Game * game, Bot * bot, int frame, int unitSize, f
 
 	//set bot to appropriate type
 	int sprite;
+
+	if( dead )
+	{
+		sprite = T_EXPLODE;
+
+	} else
 
 	if (owner == 0)
 	{
@@ -201,7 +209,12 @@ void Gameboard::drawBots( Game *game, float falloff )
 
 		if ((it->second.partOf == 0 ) || flag)
 		{
-			drawSingleBot( game,&(it->second), frame, unitSize, falloff );
+			if( !findExistance( game->states[frame+1], it->second.id ) )
+				drawSingleBot( game,&(it->second), frame, unitSize, falloff, true );
+			else
+			{
+				drawSingleBot( game,&(it->second), frame, unitSize, falloff );
+			}
 		}
 
 	}
