@@ -32,6 +32,8 @@
 			ATTRIBUTE( int, boardY );
 			ATTRIBUTE( bool, MapGrid );
 
+			ATTRIBUTE( int, boardOffsetY );
+
 			ATTRIBUTE( int, unitSize );
 
 			ATTRIBUTE( int, defaultMode );

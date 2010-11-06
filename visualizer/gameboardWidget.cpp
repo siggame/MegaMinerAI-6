@@ -21,10 +21,10 @@ Gameboard::Gameboard( QWidget *prt )
 	hasDefaultBG = true;
 	drawFont = NULL;
 
-	leftButtonDown = 
+	leftButtonDown =
 		leftDoubleClick =
-		leftButtonDrag = 
-		rightButtonDown = 
+		leftButtonDrag =
+		rightButtonDown =
 		midButtonDown = false;
 
 }
@@ -44,7 +44,7 @@ void Gameboard::initializeGL()
 {
 	glShadeModel(GL_SMOOTH);
 
-	glClearColor(0.0f, 0.4f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearDepth(1.0f);
 
 	glEnable(GL_DEPTH_TEST);
@@ -66,14 +66,13 @@ void Gameboard::initializeGL()
 }
 
 
-
-
-
 //Returns the percentage of the map the passed owner controls.  If given a size parameter, will recalculate owner's controlled region by adding the bot's area (size*size)
 float Gameboard::getPercentage( int owner, int size )
 {
-	float baseHeight = parent->gamelog->states[0].boardX;// getAttr( boardHeightPx );
-	float baseWidth  = parent->gamelog->states[0].boardY;//getAttr( boardWidthPx );
+																 // getAttr( boardHeightPx );
+	float baseHeight = parent->gamelog->states[0].boardX;
+																 //getAttr( boardWidthPx );
+	float baseWidth  = parent->gamelog->states[0].boardY;
 	static float onePercent = 0;
 	static float twoPercent = 0;
 	float retVal = -1;
@@ -124,16 +123,13 @@ void Gameboard::resizeGL( int w, int h )
 }
 
 
-
-
-
 void Gameboard::mousePressEvent( QMouseEvent *e )
 {
 
 	if( e->button() == Qt::LeftButton )
 	{
 		clickX = e->x();
-		clickY = e->y();
+		clickY = e->y()-getAttr(boardOffsetY);
 		if( buttonTimes.elapsed() - leftButtonTime < getAttr( doubleClickTime ) )
 		{
 			// Do Double click event
@@ -200,7 +196,7 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 {
 	curX = e->x()+1;
-	curY = e->y()+1;
+	curY = e->y()+1-getAttr(boardOffsetY);
 	int selectWidth, selectHeight;
 	int selectX = selectWidth = curX/getAttr(unitSize);
 	int selectY = selectHeight = curY/getAttr(unitSize);
@@ -275,9 +271,8 @@ void Gameboard::mouseMoveEvent( QMouseEvent *e )
 		leftButtonDrag = true;
 
 	curX = e->x();
-	curY = e->y();
+	curY = e->y()-getAttr(boardOffsetY);
 }
-
 
 
 void Gameboard::talkRobotsGodDamnitTalk( Game *game )
@@ -407,19 +402,8 @@ void Gameboard::paintGL()
 	Game *game = parent->gamelog;
 	int frame = getAttr( frameNumber );
 
-	drawBackground();
-
 	if( game )
 	{
-
-		if( getAttr(arenaMode) && frame == (int)game->states.size()-1 )
-		{
-			if( time.elapsed() > getAttr(winnerScreenTime) )
-			{
-				QApplication::quit();
-			}
-
-		}
 
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
 			&& getAttr(currentMode) != paused &&
@@ -472,15 +456,26 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
+		glLoadIdentity();
+		drawScoreboard( game );
+		glPushMatrix();
+		glTranslatef( 0, 55, 0 );
+		drawControl();
+		glPopMatrix();
+		glTranslatef( 0, getAttr(boardOffsetY), 0 );
+		glPushMatrix();
+
+		glColor3f( 1, 1, 1 );
+
+		drawBackground();
 		getPercentage();						 //gets function ready to recalculate percentage controlled
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 		drawBots( game, falloff );
 		drawAnimations( game, falloff );
-		drawControl();
 		drawProgressbar( game );
-		drawScoreboard( game );
 
+		glPopMatrix();
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
@@ -527,10 +522,23 @@ void Gameboard::paintGL()
 		}
 		//parent->console
 
+		if(  frame == (int)game->states.size()-1 )
+		{
+			if( time.elapsed() > getAttr(winnerScreenTime) )
+			{
+				if( getAttr(arenaMode) )
+					QApplication::quit();
+			}
+			else
+			{
+				drawWinnerScreen( game );
+			}
+
+		}
 	}
+
 	drawMouse();
 }
-
 
 
 void Gameboard::timerEvent( QTimerEvent *)

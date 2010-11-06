@@ -407,6 +407,11 @@ static bool parseCollide(Collide& object, sexp_t* expression)
   if( !sub ) goto ERROR;
   object.victim = atoi(sub->val);
   sub = sub->next;
+  if( !sub ) goto ERROR;
+  object.direction = new char[strlen(sub->val)+1];
+  strncpy(object.direction, sub->val, strlen(sub->val));
+  object.direction[strlen(sub->val)] = 0;
+  sub = sub->next;
   return true;
 
 
@@ -741,7 +746,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
       subsub = sub->list;
       if ( !subsub ) return false;
       int number = atoi(subsub->val);
-      if(number > 0)
+      if(number >= 0)
       {
         subsub = subsub->next;
         if ( !subsub ) return false;
@@ -754,6 +759,10 @@ static bool parseSexp(Game& game, sexp_t* expression)
   }
   else if(string(expression->val) == "game-winner")
   {
+    expression = expression->next;
+    if ( !expression ) return false;
+    expression = expression->next;
+    if ( !expression ) return false;
     expression = expression->next;
     if ( !expression ) return false;
     game.winner = atoi(expression->val);

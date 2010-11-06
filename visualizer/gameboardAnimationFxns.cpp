@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 void Gameboard::drawAnimations( Game * game, float falloff)
 {
 
@@ -22,6 +21,7 @@ void Gameboard::drawAnimations( Game * game, float falloff)
 				drawBuild(game,(Build*)(*it),falloff);
 				break;
 			case COLLIDE:
+				drawCollide(game,(Collide*)(*it),falloff);
 				break;
 			case COMBINE:
 				break;
@@ -38,10 +38,11 @@ void Gameboard::drawAnimations( Game * game, float falloff)
 	}
 }
 
+
 Unit *findExistance( GameState &state, int unit )
 {
 	if( state.bots.find( unit ) != state.bots.end() )
-		return (Unit *)&state.bots[unit];	
+		return (Unit *)&state.bots[unit];
 	if( state.frames.find( unit ) != state.frames.end() )
 		return (Unit *)&state.frames[unit];
 	if( state.walls.find( unit ) != state.walls.end() )
@@ -51,8 +52,73 @@ Unit *findExistance( GameState &state, int unit )
 
 	return 0;
 
+}
 
-}	
+
+void Gameboard::drawCollide(Game * game, Collide * collide, float falloff)
+{
+	int x0, y0, xf, yf;
+	int frame = getAttr( frameNumber );
+	int unitSize = getAttr( unitSize );
+	// Make the random seed the pointer so jitter is consistant
+
+	if ((unsigned)frame + 1 < game->states.size()-1)
+	{
+		GameState stateCurrent = game->states[frame];
+		GameState stateBackward = game->states[frame-1];
+		GameState stateForward = game->states[frame+1];
+
+		Unit *attacker = findExistance( stateCurrent,  collide->attacker );
+		Unit *victim   = findExistance( stateBackward, collide->victim );
+		Unit *deadUnit = findExistance( stateForward,  collide->victim );
+
+		if ( !victim )
+		{
+			victim = findExistance( stateCurrent,  collide->victim );
+		}
+
+		if ( !attacker )
+		{
+			attacker = findExistance( stateBackward,  collide->attacker );
+		}
+
+		if ( !deadUnit && victim )	 //draw the dead unit
+		{
+			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
+			//todo: add to dead units
+		}
+
+		if (victim && attacker)			 //temporary
+		{
+
+			x0 = attacker->x*unitSize;
+			y0 = attacker->y*unitSize;
+
+			xf = victim->x*unitSize;
+			yf = victim->y*unitSize;
+
+			float x, y;
+			if (falloff < .5)
+			{
+				x = (xf-x0)*falloff + x0;
+				y = (yf-y0)*falloff + y0;
+			}
+			else
+			{
+				x = -(xf-x0)*falloff + x0;
+				y = -(yf-y0)*falloff + y0;
+			}
+
+			Bot attackCopy = *((Bot*)(attacker));
+
+			attackCopy.x = x;
+			attackCopy.y = y;
+
+			drawSingleBot(game,&attackCopy,frame,unitSize,falloff);
+		}
+	}
+}
+
 
 void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 {
@@ -64,17 +130,24 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
-		GameState state1 = game->states[frame];
-		GameState state2 = game->states[frame-1];
+		GameState stateCurrent = game->states[frame];
+		GameState stateBackward = game->states[frame-1];
+		GameState stateForward = game->states[frame+1];
 
 		int bulletSize = unitSize*3/5;
 
-		Unit *attacker = findExistance( state1, attack->attacker );
-		Unit *victim = findExistance( state2, attack->victim );
+		Unit *attacker = findExistance( stateCurrent,  attack->attacker );
+		Unit *victim   = findExistance( stateBackward, attack->victim );
+		Unit *deadUnit = findExistance( stateForward,  attack->victim );
 
+		if ( !deadUnit )						 //draw the dead unit
+		{
+			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
+			//todo: add to dead units
+		}
 
-		int xJitter = rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
-		int yJitter = rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
+		int xJitter = 0;						 //rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
+		int yJitter = 0;						 //rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
 
 		x0 = attacker->x*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + xJitter;
 		y0 = attacker->y*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + yJitter;
@@ -91,10 +164,10 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		glScalef( bulletSize , bulletSize, 1 );
 
 		glEnable( GL_TEXTURE_2D );
-		switch (state1.bots[attack->attacker].owner)
+		switch (stateCurrent.bots[attack->attacker].owner)
 		{
 			case 0:
-				
+
 				glColor4f( 0, 1, 0, 1 );
 				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_ATTACK].getTexture() );
 				break;
@@ -106,7 +179,6 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 		glBegin(GL_QUADS);
 
-
 		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
 		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
 		glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
@@ -119,61 +191,80 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 }
 
 
-void Gameboard::drawBuild( Game * game __attribute__ ((unused)), Build * build __attribute__ ((unused)), float falloff __attribute__ ((unused)) )
+void Gameboard::drawBuild( Game * game , Build * build , float falloff  )
 {
 	int x0, y0, xf, yf;
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
+	// Make the random seed the pointer so jitter is consistant
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
-		GameState state1 = game->states[frame];
-		GameState state2 = game->states[frame+1];
+		GameState stateCurrent = game->states[frame];
+		GameState stateBackward = game->states[frame-1];
+		GameState stateForward = game->states[frame+1];
 
-		x0 = state1.bots[build->builder].x*getAttr(unitSize);
-		y0 = state1.bots[build->builder].y*getAttr(unitSize);
+		Unit *builder = findExistance( stateCurrent,  build->builder );
+		Unit *victim   = findExistance( stateBackward, build->frame );
 
-		xf = state2.frames[build->frame].x*getAttr(unitSize);
-		yf = state2.frames[build->frame].y*getAttr(unitSize);
-
-		float x, y;
-		x = (xf-x0)*falloff + x0;
-		y = (yf-y0)*falloff + y0;
-
-		glPushMatrix();
-		glTranslatef(x,y,0);
-
-		if ( (xf-x0 == 0) && (yf-y0 > 0) )
-			glRotated(90, 0,0,1);
-
-		if ( (xf-x0 < 0) && (yf-y0 == 0) )
-			glRotated(90, 0,0,2);
-
-		if ( (xf-x0 == 0) && (yf-y0 < 0) )
-			glRotated(90, 0,0,-1);
-
-		glScalef( unitSize * state1.bots[build->builder].size , unitSize * state1.bots[build->builder].size, 1 );
-		glEnable( GL_TEXTURE_2D );
-		switch (state1.bots[build->builder].owner)
+		if ( !victim )
 		{
-			case 0:
-				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
-				break;
-			default:
-				glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
-
+			victim   = findExistance( stateCurrent, build->frame );
 		}
-		glColor3d(1.0,1.0,1.0);
-		glBegin(GL_QUADS);
 
-		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
-		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
-		glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
-		glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
+		if ( victim )
+		{
 
-		glEnd();
+			x0 = builder->x*unitSize+(builder->size-1)*unitSize/2;
+			y0 = builder->y*unitSize+(builder->size-1)*unitSize/2;
 
-		glPopMatrix();
+			xf = victim->x*unitSize+(victim->size-1)*unitSize/2;
+			yf = victim->y*unitSize+(victim->size-1)*unitSize/2;
+
+			float x, y;
+			x = (xf-x0)*falloff + x0;
+			y = (yf-y0)*falloff + y0;
+
+			glPushMatrix();
+
+			/*
+			if ( (xf-x0 == 0) && (yf-y0 > 0) )
+				glRotated(90, 0,0,1);
+
+			if ( (xf-x0 < 0) && (yf-y0 == 0) )
+				glRotated(90, 0,0,2);
+
+			if ( (xf-x0 == 0) && (yf-y0 < 0) )
+				glRotated(90, 0,0,-1);
+			*/
+			glTranslatef(x,y,0);
+			glScalef( unitSize , unitSize, 1 );
+
+			glEnable( GL_TEXTURE_2D );
+			switch (stateCurrent.bots[build->builder].owner)
+			{
+				case 0:
+
+					glColor4f( 1, .7, .7, 1 );
+					glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
+					break;
+				default:
+					glColor4f( .7, .7, 1, 1 );
+					glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
+
+			}
+
+			glBegin(GL_QUADS);
+
+			glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
+			glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
+			glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
+			glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
+
+			glEnd();
+
+			glPopMatrix();
+		}
 	}
 }
 
@@ -183,55 +274,65 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 	int x0, y0, xf, yf;
 	int frame = getAttr( frameNumber );
 	int unitSize = getAttr( unitSize );
+	// Make the random seed the pointer so jitter is consistant
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
-		GameState state1 = game->states[frame];
-		GameState state2 = game->states[frame+1];
+		GameState stateCurrent = game->states[frame];
+		GameState stateBackward = game->states[frame-1];
+		GameState stateForward = game->states[frame+1];
 
-		x0 = state1.bots[heal->healer].x*getAttr(unitSize);
-		y0 = state1.bots[heal->healer].y*getAttr(unitSize);
+		Unit *healer = findExistance( stateCurrent,  heal->healer );
+		Unit *victim   = findExistance( stateBackward, heal->victim );
 
-		xf = state2.frames[heal->victim].x*getAttr(unitSize);
-		yf = state2.frames[heal->victim].y*getAttr(unitSize);
-
-		float x, y;
-		x = (xf-x0)*falloff + x0;
-		y = (yf-y0)*falloff + y0;
-
-		glPushMatrix();
-		glTranslatef(x,y,0);
-
-		if ( (xf-x0 == 0) && (yf-y0 > 0) )
-			glRotated(90, 0,0,1);
-
-		if ( (xf-x0 < 0) && (yf-y0 == 0) )
-			glRotated(90, 0,0,2);
-
-		if ( (xf-x0 == 0) && (yf-y0 < 0) )
-			glRotated(90, 0,0,-1);
-
-		glScalef( unitSize * state1.bots[heal->healer].size , unitSize * state1.bots[heal->healer].size, 1 );
-		glEnable( GL_TEXTURE_2D );
-		switch (state1.bots[heal->healer].owner)
+		if ( !victim )
 		{
-			case 0:
-				glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
-				break;
-			default:
-				glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
-
+			victim   = findExistance( stateCurrent, heal->victim );
 		}
-		glColor3d(1.0,1.0,1.0);
-		glBegin(GL_QUADS);
 
-		glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
-		glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
-		glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
-		glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
+		if ( victim && healer )
+		{
 
-		glEnd();
+			x0 = healer->x*unitSize+(healer->size-1)*unitSize/2;
+			y0 = healer->y*unitSize+(healer->size-1)*unitSize/2;
 
-		glPopMatrix();
+			xf = victim->x*unitSize+(victim->size-1)*unitSize/2;
+			yf = victim->y*unitSize+(victim->size-1)*unitSize/2;
+
+			float x, y;
+			x = (xf-x0)*falloff + x0;
+			y = (yf-y0)*falloff + y0;
+
+			glPushMatrix();
+
+			glTranslatef(x,y,0);
+
+			glScalef( unitSize , unitSize, 1 );
+
+			glEnable( GL_TEXTURE_2D );
+			switch (stateCurrent.bots[heal->healer].owner)
+			{
+				case 0:
+
+					glColor4f( 1, .7, .7, 1 );
+					glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
+					break;
+				default:
+					glColor4f( .7, .7, 1, 1 );
+					glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
+
+			}
+
+			glBegin(GL_QUADS);
+
+			glTexCoord2f( 0, 0 ); glVertex3f(0, 1.0f, 0);
+			glTexCoord2f( 1, 0 ); glVertex3f( 1.0f, 1.0f, 0);
+			glTexCoord2f( 1, 1 ); glVertex3f( 1.0f,0, 0);
+			glTexCoord2f( 0, 1 ); glVertex3f(0,0,0);
+
+			glEnd();
+
+			glPopMatrix();
+		}
 	}
 }

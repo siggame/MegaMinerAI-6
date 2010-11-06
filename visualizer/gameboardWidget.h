@@ -47,7 +47,6 @@ enum eTextures
 	T_GRID,
 	T_FONT,
 
-
 	T_WALL100,
 	T_WALL75,
 	T_WALL50,
@@ -78,19 +77,29 @@ class Gameboard : public QGLWidget
 		void resizeGL( int width, int height );
 		void paintGL();
 		void timerEvent( QTimerEvent * );
-		void drawBots( Game* game, float falloff );
 		void drawBackground( );
 		void drawScoreboard( Game *game );
 		void drawMouse();
 		void drawProgressbar( Game * game);
+		void drawWinnerScreen( Game *game );
+		void drawIntroScreen( Game *game );
+
+		void drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff);
+
+		void drawBots( Game* game, float falloff );
+		void drawSingleBot( Game *game, Bot * bot, int frame, int unitSize, float falloff );
 
 		void drawWalls( Game *game, float falloff);
+		void drawSingleWall( Game *game, Wall * wall, int frame, int unitSize );
+
 		void drawFrames( Game *game, float falloff);
+		void drawSingleFrame( Game *game, Frame * botFrame, int frame, int unitSize );
 
 		void drawAnimations( Game * game, float falloff);
 		void drawAttack( Game * game, Attack * attack, float falloff );
 		void drawBuild( Game * game, Build * build, float falloff );
 		void drawHeal( Game * game, Heal * heal, float falloff );
+		void drawCollide(Game * game, Collide * collide, float falloff);
 
 		void talkRobotsGodDamnitTalk(Game *game);
 		void printStats(Game *game);

@@ -19,6 +19,8 @@ visettings::visettings()
 	persistantTalking = false;
 
 	doubleClickTime = 275;
+
+	boardOffsetY = 75;
 }
 
 
@@ -132,7 +134,6 @@ bool visettings::loadFromFile(string & errString)
 
 	setAttr( MapGrid, configFile.pBool( "MapGrid", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
-
 
 	return !returnFlag;
 

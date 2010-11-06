@@ -1,34 +1,66 @@
 #include "gameboardWidget.h"
 #include <sstream>
 
+void Gameboard::drawWinnerScreen( Game *game )
+{
+
+	glDisable(GL_TEXTURE_2D);
+	glBegin( GL_QUADS );
+	glVertex3f( 0, 0, 0 );
+	glVertex3f( 1280, 0, 0 );
+	glVertex3f( 1280, 1024, 0 );
+	glVertex3f( 0, 1024, 0 );
+	glEnd();
+
+	glEnable( GL_TEXTURE_2D );
+
+	stringstream ss;
+	ss << game->players[game->winner] << " WINS!!!!";
+
+	glTranslatef( 250, 250, 0 );
+	glColor4f( 0, 0, 0, 1 );
+	glScalef( 2, 2, 2 );
+	drawFont->drawString( ss.str().c_str() );
+
+}
 
 
 void Gameboard::drawScoreboard( Game *game)
 {
 
-	glLoadIdentity();
-
 	glEnable(GL_BLEND);
-
 
 	stringstream ss;
 
+	glPushMatrix();
 
 	if (drawFont != NULL)
 	{
-		ss << game->players[0] << ": " << getAttr( team1Score );
+
+		ss << getAttr( team1Score );
+
 		glColor3f( 1, 0, 0 );
-		glTranslatef( 10, 650, 0 );
+		drawFont->drawString( game->players[0].c_str() );
+		glTranslatef( 0, 32, 0 );
 		drawFont->drawString( ss.str().c_str() );
-		ss.str( "" );
-		ss <<  game->players[1] << ": ";
+		ss.str("");
+
 		ss << getAttr( team2Score );
 		glColor3f( 0, 0, 1 );
-		glTranslatef( 0, 40, 0 );
+		glTranslatef( 1280-game->players[1].size()*18, -32, 0 );
+		drawFont->drawString( game->players[1].c_str() );
+		glTranslatef( 0, 32, 0 );
 		drawFont->drawString( ss.str().c_str() );
+		glPopMatrix();
+		glColor4f( 1,1,1,1 );
+		glPushMatrix();
+		glTranslatef( 500, 0, 0 );
+		drawFont->drawString( "Megaminer 6: Modular" );
 
 	}
 	glColor3f( 1, 1, 1 );
+
+	glPopMatrix();
 
 }
 
@@ -36,7 +68,6 @@ void Gameboard::drawScoreboard( Game *game)
 void Gameboard::drawProgressbar( Game *game )
 {
 
-	glLoadIdentity();
 	glEnable( GL_BLEND );
 	glDisable( GL_TEXTURE_2D );
 
@@ -70,9 +101,9 @@ void Gameboard::drawMouse()
 	if( leftButtonDrag )
 	{
 
-		glDisable( GL_TEXTURE_2D );
+		glPushMatrix();
 
-		glLoadIdentity();
+		glDisable( GL_TEXTURE_2D );
 
 		glColor4f( 0, .7, 0, .4 );
 		glBegin( GL_QUADS );
@@ -93,6 +124,8 @@ void Gameboard::drawMouse()
 		glEnd();
 
 		glColor4f( 1, 1, 1, 1 );
+
+		glPopMatrix();
 	}
 }
 
@@ -183,7 +216,6 @@ void Gameboard::drawBackground()
 }
 
 
-
 //Draws Territory Control Bar
 void Gameboard::drawControl(  )
 {
@@ -196,8 +228,10 @@ void Gameboard::drawControl(  )
 																 //Player 2's control percentage
 	float twoPercent = getPercentage(1);
 
+	onePercent=twoPercent=0.1;
+
 	glColor4f(1, 1, 1, 1);
-	glLoadIdentity();
+
 	glPushMatrix();
 	glDisable( GL_TEXTURE_2D );
 
@@ -259,7 +293,6 @@ void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)),
 			glColor4f(.5, .5, .5, .6);
 			break;
 	}
-	glLoadIdentity();
 	glPushMatrix();
 	glTranslatef( (x + w*.05), y+2, 0 );
 	glScalef( (w*.9), 1, 1 );
@@ -280,7 +313,6 @@ void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)),
 	}
 	glColor4f( 0, 0, 0, .7 );
 
-
 	glLineWidth (1.0);
 	glBegin(GL_LINE_LOOP);
 	glVertex3f( 0.0, 4.0f, 0 );
@@ -293,4 +325,3 @@ void Gameboard::drawHealth( int x, int y, int w, int h __attribute__ ((unused)),
 	glEnable(GL_TEXTURE_2D);
 
 }
-

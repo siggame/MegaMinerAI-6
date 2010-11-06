@@ -108,7 +108,7 @@ class Match(DefaultGameWorld):
     if connection in self.players:
       if self.turn is not None:
         winner = self.players[1 - self.getPlayerIndex(connection)]
-        self.declareWinner(winner)
+        self.declareWinner(winner, 'Intimidation')
       self.players.remove(connection)
     else:
       self.spectators.remove(connection)
@@ -156,9 +156,9 @@ class Match(DefaultGameWorld):
 
   def checkWinner(self):
     if not [i for i in self.objects.values() if isinstance(i, Bot) and i.owner == 0]:
-      self.declareWinner(self.players[1])
+      self.declareWinner(self.players[1], 'Annihilation')
     elif not [i for i in self.objects.values() if isinstance(i, Bot) and i.owner == 1]:
-      self.declareWinner(self.players[0])
+      self.declareWinner(self.players[0], 'Annihilation')
     elif self.turnNumber >= 500:
       numBots = [0 ,0]
       health = [0, 0]
@@ -172,21 +172,21 @@ class Match(DefaultGameWorld):
             maxHealth[i.owner] += i.maxHealth
       percentHealth = [float(health[0]) / maxHealth[0], float(health[1]) / maxHealth[1]]
       if numBots[0] > numBots[1]:
-        self.declareWinner(self.players[0])
+        self.declareWinner(self.players[0], 'Supremacy')
       elif numBots[1] > numBots[0]:
-        self.declareWinner(self.players[1])
+        self.declareWinner(self.players[1], 'Supremacy')
       elif percentHealth[0] > percentHealth[1]:
-        self.declareWinner(self.players[0])
+        self.declareWinner(self.players[0], 'Wellness')
       elif percentHealth[1] > percentHealth[0]:
-        self.declareWinner(self.players[1])
+        self.declareWinner(self.players[1], 'Wellness')
       else:
-        self.declareWinner(self.players[1])
+        self.declareWinner(self.players[1], 'Success')
         
 
-  def declareWinner(self, winner):
+  def declareWinner(self, winner, reason = ''):
     self.winner = winner
 
-    msg = ["game-winner", self.id, self.winner.user, self.getPlayerIndex(self.winner)]
+    msg = ["game-winner", self.id, self.winner.user, self.getPlayerIndex(self.winner), reason]
     self.scribe.writeSExpr(msg)
     self.scribe.finalize()
     self.removePlayer(self.scribe)
@@ -218,6 +218,12 @@ class Match(DefaultGameWorld):
   @requireOwn
   def attack(self, object, target):
     return object.attack(target, )
+
+  @derefArgs(Bot,Bot)
+  @requireOwn
+  def heal(self, object, target):
+    return object.heal(target, )
+
 
   @derefArgs(Bot, Type, None, None, None)
   @requireOwn

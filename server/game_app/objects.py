@@ -240,16 +240,17 @@ class Bot(Unit):
     if victims:
       victimHealth = sum([i.health for i in victims])
       
-      damage = min(victimHealth, self.size**2)
+      damage = min(victimHealth, self.size**2) * self.game.shattertude
       self._takeDamage(damage)
       
       for i in victims:
-        damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth
-        self.game.animations.append(['collide', self.id, i.id])
+        damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth * self.game.shattertude
+        self.game.animations.append(['collide', self.id, i.id, d])
         i._takeDamage(damage)
       victims = [i for i in victims if i.health > 0]
     
     if not victims:
+      self.game.animations.append(['move', self.id, d])
       self._move(x, y)
     
     self.steps -= 1

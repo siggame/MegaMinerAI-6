@@ -30,10 +30,12 @@ void Options::toggleTeam2( bool on )
 	setAttr( team2Talk, on );
 }
 
+
 void Options::sliderChanged( int value )
 {
 	setAttr(unitSize, value );
 }
+
 
 void Options::addOptions()
 {
@@ -526,7 +528,8 @@ void VisualizerWindow::createLayout()
 
 	QDockWidget *bottomDock = new QDockWidget(this );
 	bottomDock->setAllowedAreas( Qt::BottomDockWidgetArea );
-	bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
+	//bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
+	bottomDock->setMinimumHeight( 0 );
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
 	console = new QTextEdit;
@@ -585,6 +588,7 @@ void VisualizerWindow::createLayout()
 	controlSlider->setTracking( true );
 
 	bottomFrame->setLayout( vbox );
+	bottomFrame->setMinimumHeight( 12 );
 	bottomDock->setWidget( bottomFrame );
 
 	if( !getAttr(arenaMode ) )
