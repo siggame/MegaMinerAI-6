@@ -52,6 +52,7 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 
 	glColor4f( 0, 0, 0, 1 );
 	drawFont->drawString( ss.str().c_str() );
+	drawFont->resetColors();
 
 	glPopMatrix();
 
