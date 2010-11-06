@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 import MySQLdb
 import rpyc
 import datetime
@@ -21,7 +21,7 @@ db=MySQLdb.connect(host = 'localhost',
 class DBManager(rpyc.Service):
   callbackFuns = []
   def exposed_addCallback(self,f):
-    callbackFuns.append(f)
+    self.callbackFuns.append(f)
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()
   def exposed_catalog(self, password, log, c1, c2, sv, startTime, winner_int):
