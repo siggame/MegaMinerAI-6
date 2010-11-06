@@ -73,6 +73,7 @@ void DrawGLFont::drawString( string message )
 		if( c == '$' )
 		{
 			i++;
+			i++;
 			stringstream ss;
 			while( message[i] != ')' )
 			{
@@ -81,7 +82,6 @@ void DrawGLFont::drawString( string message )
 			}
 			
 			int k = atoi( ss.str().c_str() );
-			cout << k << endl;
 			color = retrieveColor( k );
 			glColor3f( color.r, color.g, color.b );
 			continue;
