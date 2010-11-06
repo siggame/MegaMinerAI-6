@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 #New Game Visualizer Scheduler Update Function
 #the game holders themselves are not deleted so that the queue can easily tell wether a game between these two with the same version numbers has already been played, as if one has it gets no bonus to its priority.
 
@@ -91,7 +91,7 @@ class GameRecord:
 class VisScheduler:
   visq = []
   
-  def _init_(self):
+  def __init__(self):
     self.visq = []
     self.lock = threading.Semaphore()
     
