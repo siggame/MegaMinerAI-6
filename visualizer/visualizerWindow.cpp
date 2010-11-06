@@ -528,7 +528,7 @@ void VisualizerWindow::createLayout()
 
 	QDockWidget *bottomDock = new QDockWidget(this );
 	bottomDock->setAllowedAreas( Qt::BottomDockWidgetArea );
-	bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
+	//bottomDock->setFeatures( QDockWidget::NoDockWidgetFeatures );
 	bottomDock->setMinimumHeight( 0 );
 
 	QHBoxLayout *debugLayout = new QHBoxLayout;
