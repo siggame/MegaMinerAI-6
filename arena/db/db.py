@@ -39,7 +39,7 @@ class DBManager(rpyc.Service):
     print "start time=",startTime
     print "winner=",winner_int
 
-    filename = 'logs/%s.gamelog' % logNum
+    filename = 'logs/%s.gamelog.bz2' % logNum
     logNum += 1
     
     c=db.cursor()
@@ -49,14 +49,14 @@ class DBManager(rpyc.Service):
     if max_id == None:
       max_id = 0
 
-    c.execute("SELECT id FROM auth_user WHERE username = '%s'" % (c1[0].lower(),))
+    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE a.username = m.username AND m.mstname = '%s' " % (c1[0].lower(),))
     try:
       c1id = c.fetchone()[0]
     except:
       print "OH NO! Is",c1[0],"registered on the web server??"
       c1id = 0
 
-    c.execute("SELECT id FROM auth_user WHERE username = '%s'" % (c2[0].lower(),))
+    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE a.username = m.username AND m.mstname = '%s' " % (c2[0].lower(),))
     try:
       c2id = c.fetchone()[0]
     except:
