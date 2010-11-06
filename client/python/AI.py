@@ -29,7 +29,7 @@ class AI(BaseAI):
       if i.getOwner() == self.playerID():
         i.move(random.choice(direction))
         if i.getBuildRate():
-          i.build(random.choice(self.types), i.getX()+1, i,getY(), 1)
+          i.build(random.choice(self.types), i.getX()+1, i.getY(), 1)
     return 1
 
   def __init__(self, conn):
