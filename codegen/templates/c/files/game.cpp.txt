@@ -239,11 +239,11 @@ DLLEXPORT int networkLoop(Connection* c)
       int winnerID = atoi(expression->val);
       if(winnerID == c->playerID)
       {
-        cout << "You win!" << endl << expression->next->val;
+        cout << "You win!" << endl << expression->next->val << endl;
       }
       else
       {
-        cout << "You lose. :(" << endl << expression->next->val;
+        cout << "You lose. :(" << endl << expression->next->val << endl;
       }
       stringstream expr;
       expr << "(request-log " << c->gameNumber << ")";
