@@ -5,7 +5,7 @@ import rpyc
 import datetime
 import os
 from random import randint
-
+import visched
 import config
 
 logdir = '/web/static/'
@@ -18,18 +18,13 @@ db=MySQLdb.connect(host = 'localhost',
                    passwd="",
                    db="fwog_web")
 
-callbackFuns = []
 class DBManager(rpyc.Service):
-  def exposed_addCallback(self,f):
-    global callbackFuns
-    print f
-    callbackFuns.append(f)
-    print callbackFuns
+  def __init__(self):
+    self.scheduler = scheduler.VisScheduler()
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()
   def exposed_catalog(self, password, log, c1, c2, sv, startTime, winner_int):
     global logNum
-    global callbackFuns
     validNames = config.readConfig("login.cfg")
     if validNames['admin']['password'] != password:
       return None
@@ -85,11 +80,12 @@ class DBManager(rpyc.Service):
     f.write(log)
     f.close()
     print "log saved at: ", logdir+filename
-    
-    print callbackFuns
-    for fun in callbackFuns:
-      print fun
-      fun(c1,c2,logNum-1)
+    self.update(c1,c2,logNum-1)
+      
+  def update(self, c1, c2, l):
+    print c1, c2, l
+    g = GameRecord(0, c1[0], c2[0], c1[1], c2[1], l)
+    self.scheduler.visualizerQueueUpdate(g)
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer

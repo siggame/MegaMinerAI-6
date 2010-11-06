@@ -19,8 +19,7 @@ SOURCES += texture.cpp \
     log.cpp
 HEADERS += visualizerWindow.h \
     gameboardWidget.h \
-    log.h \
-    quadtree.h
+    log.h
 HEADERS += texture.h \
     statsDialog.h \
     config.h \
