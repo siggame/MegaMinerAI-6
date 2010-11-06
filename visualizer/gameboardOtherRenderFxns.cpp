@@ -1,7 +1,7 @@
 #include "gameboardWidget.h"
 #include <sstream>
 
-void Gameboard::drawWinnerScreen( Game *game )
+void Gameboard::drawWinnerScreen( Game *game, int elapsed )
 {
 
 	glDisable(GL_TEXTURE_2D);
@@ -24,6 +24,11 @@ void Gameboard::drawWinnerScreen( Game *game )
 
 }
 
+void Gameboard::drawIntroScreen( Game *game, int elapsed )
+{
+
+
+}
 
 void Gameboard::drawScoreboard( Game *game)
 {

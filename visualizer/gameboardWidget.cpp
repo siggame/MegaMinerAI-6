@@ -444,12 +444,19 @@ void Gameboard::paintGL()
 
 	if( game )
 	{
+		if( time.elapsed() < getAttr(initTime) && getAttr(showInitScreen) )
+		{
+			drawIntroScreen( game, time.elapsed() );
+
+			
+		}	else 
 
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
 			&& getAttr(currentMode) != paused &&
 			(!getAttr(arenaMode) || (getAttr(frameNumber) > 0) || time.elapsed() > getAttr(initTime))
 			)
 		{
+			setAttr(showInitScreen, false );
 			time.restart();
 
 			// This is where we advance to the next frame
@@ -571,7 +578,7 @@ void Gameboard::paintGL()
 			}
 			else
 			{
-				drawWinnerScreen( game );
+				drawWinnerScreen( game, time.elapsed() );
 			}
 
 		}

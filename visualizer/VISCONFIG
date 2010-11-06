@@ -1,5 +1,5 @@
 # Next frame every X ms
-DefaultSpeed = 250
+DefaultSpeed = 550
 # Default Unit Size On Load: X pixels
 UnitSize = 32
 
@@ -76,3 +76,5 @@ ArenaMode = 0
 WinnerScreenTime = 5000
 # Initial Screen Time
 InitializationTime = 3000
+# Show the Init Screen?
+ShowInitScreen = Yes

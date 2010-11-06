@@ -135,6 +135,11 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( MapGrid, configFile.pBool( "MapGrid", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
+	setAttr( initTime, configFile.pInt( "InitializationTime", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+	setAttr( showInitScreen, configFile.pBool( "ShowInitScreen", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
 	return !returnFlag;
 
 	//setAttr( filename, configFile.pString( "filenameString", errFlag, errString ) );
