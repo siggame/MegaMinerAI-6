@@ -47,7 +47,7 @@ void Gameboard::drawScoreboard( Game *game)
 
 		ss << getAttr( team2Score );
 		glColor3f( 0, 0, 1 );
-		glTranslatef( 1280-game->players[1].size()*15, -32, 0 );
+		glTranslatef( 1280-game->players[1].size()*18, -32, 0 );
 		drawFont->drawString( game->players[1].c_str() );
 		glTranslatef( 0, 32, 0 );
 		drawFont->drawString( ss.str().c_str() );
