@@ -228,7 +228,6 @@ void Gameboard::drawControl(  )
 																 //Player 2's control percentage
 	float twoPercent = getPercentage(1);
 
-	onePercent=twoPercent=0.1;
 
 	glColor4f(1, 1, 1, 1);
 
