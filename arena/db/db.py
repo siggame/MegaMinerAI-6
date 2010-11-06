@@ -21,6 +21,8 @@ db=MySQLdb.connect(host = 'localhost',
 class DBManager(rpyc.Service):
   def __init__(self):
     self.scheduler = scheduler.VisScheduler()
+  def exposed_nextVideo():
+    return self.scheduler.nextVideo()
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()
   def exposed_catalog(self, password, log, c1, c2, sv, startTime, winner_int):
