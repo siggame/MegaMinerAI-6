@@ -104,20 +104,23 @@ class GladiatorService(rpyc.Service):
     
     logfile=open('server/logs/1.gamelog.bz2','rb')
     log=logfile.read()
+
+    if not exists(join('server', 'winner')):
+      win_val = 0
+    if 'Player 0 wins' in file(join('server', 'winner'), 'r').read():
+      win_val = 1
+    win_val = 2
+
     try:
       validNames = config.readConfig("login.cfg")
       password = validNames['admin']['password']
       
       dbServer=rpyc.connect(dbManagerName,18863)
-      dbServer.root.catalog(password, log, c1, c2, sv,startTime)
+      dbServer.root.catalog(password, log, c1, c2, sv, startTime, win_val)
     except:
       traceback.print_exc()
     
-    if not exists(join('server', 'winner')):
-      return 0
-    if 'Player 0 wins' in file(join('server', 'winner'), 'r').read():
-      return 1
-    return 2
+    return win_val
 
   def exposed_getFree(self):
     f = open('/proc/meminfo', 'r')
