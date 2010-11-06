@@ -545,7 +545,6 @@ void Gameboard::paintGL()
 
 			drawBackground();
 			getPercentage();						 //gets function ready to recalculate percentage controlled
-			//glLoadIdentity();
 			drawWalls( game, falloff );
 			drawFrames( game, falloff );
 			drawBots( game, falloff );
