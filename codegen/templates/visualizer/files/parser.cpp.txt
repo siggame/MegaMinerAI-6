@@ -150,7 +150,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
       subsub = sub->list;
       if ( !subsub ) return false;
       int number = atoi(subsub->val);
-      if(number > 0)
+      if(number >= 0)
       {
         subsub = subsub->next;
         if ( !subsub ) return false;
