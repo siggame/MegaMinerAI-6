@@ -146,8 +146,8 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 			//todo: add to dead units
 		}
 
-		int xJitter = rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
-		int yJitter = rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
+		int xJitter = 0; //rand() % attacker->size*unitSize*2/3- attacker->size*unitSize/3;
+		int yJitter = 0; //rand() % attacker->size*unitSize*2/3 - attacker->size*unitSize/3;
 
 		x0 = attacker->x*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + xJitter;
 		y0 = attacker->y*unitSize+(attacker->size-1)*unitSize/2+(unitSize-bulletSize)/2 + yJitter;
