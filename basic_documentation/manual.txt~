@@ -1,5 +1,13 @@
+<html>
+  <head>
+    <title>Megaminer 6: Modular</title>
+  </head>
+  <body>
 There are six types of bots, A through F. All can be mixed in any combination to form a larger bot.
-Action -- These bots, when combined, give the combined bot a bonus to the number of actions it can perform in a turn.
+<table>
+<tr>
+  <td><img
+  <td>Action -- These bots, when combined, give the combined bot a bonus to the number of actions it can perform in a turn.</td>
 Build -- These bots are able to build other bots of the same size or smaller, and can heal other bots.
 Cannon -- These bots have a ranged attack.
 Damage -- These bots do more damage on attack than default.
@@ -57,8 +65,6 @@ Requirements:
 Calculations
 Bots are healed at the twice the rate of building the same bot, or (target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2)))
 
-Talk: Bots can talk. The talk function takes in a string. Talking causes the string to show up in the visualizer. This can be useful for debug statements. 
-
 Combine: 
 Four bots already arranged in a square can be combined into a larger bot. 
 Function call: int combine(Bot &bot2, Bot &bot3, Bot &bot4)
@@ -75,6 +81,8 @@ Requirements:
 (2) Bot to be split must be a combined bot.
 Calculations:
 The resulting bots are assigned their new health based on the percentage of health the combined bot had. (i.health = int(i.maxHealth * (float(self.health) / self.maxHealth)))
+
+Talk: Bots can talk. Talking causes the input string to show up in the visualizer. This can be useful for debug statements. 
 
 Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. 
 
@@ -93,3 +101,5 @@ To do so, your team runs 'make submit' and your client is pushed to the arena. (
 The arena server continuously farms out new games to a bank of client machines we have set up. 
 They play the games and pass the results back to the arena server. 
 The arena server then passes the gamelogs to the webserver, as well as randomly scheduling games to be shown on the projectors.
+  </body>
+</html>
