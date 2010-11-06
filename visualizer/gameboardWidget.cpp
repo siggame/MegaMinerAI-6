@@ -1,6 +1,7 @@
 #include "gameboardWidget.h"
 
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 using namespace std;
 
@@ -350,7 +351,7 @@ void Gameboard::printStats(Game *game)
 			healthAvg += j->second.health;
 			maxHealthAvg += j->second.maxHealth;
 			sizeAvg += j->second.size;
-			if(j->second.owner == 1)
+			if(j->second.owner == 0)
 			{
 				numBotsP1++;
 			}
@@ -379,7 +380,7 @@ void Gameboard::printStats(Game *game)
 			movitudeAvg += j->second.movitude;
 			actitudeAvg += j->second.actitude;
 			buildRateAvg += j->second.buildRate;
-			if(j->second.owner == 1)
+			if(j->second.owner == 0)
 			{
 				numBotsP1++;
 			}
@@ -404,11 +405,11 @@ void Gameboard::printStats(Game *game)
 		movitudeAvg /= numBots;
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
-		ss << selectedIDs.size();
-		ss << "Health: " << healthAvg<< " / " << maxHealthAvg
-		   << "\t\t\tP1 Bots: " << numBotsP1 << endl;
-		ss << "Size: " << sizeAvg
-		   << "\t\t\t\tP2 Bots: " << numBotsP2 << endl;
+		ss << "Health: " << setw(4) << healthAvg<< " / " 
+		   << setw(4) << maxHealthAvg;
+		ss << setw(20) << "P1 Bots: " << numBotsP1 << endl;
+		ss << "Size: " << setw(4) << sizeAvg
+		   << setw(33) << "P2 Bots: " << numBotsP2 << endl;
 		ss << "Actions: " << actionsAvg<< endl;
 		ss << "Steps: " << stepsAvg<< endl;
 		ss << "Damage: " << damageAvg<< endl;
