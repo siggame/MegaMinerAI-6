@@ -339,6 +339,11 @@ void Gameboard::printStats(Game *game)
 	int movitudeAvg = 0;
 	int actitudeAvg = 0;
 	int buildRateAvg = 0;
+
+	int wallAvg = 0;
+	int wallMax = 0;
+	int numWalls = 0;
+
 	
 	int frame = getAttr( frameNumber );
 
@@ -392,7 +397,21 @@ void Gameboard::printStats(Game *game)
 		}
 
 	}
-		
+
+	for(
+			std::map<int,Wall>::iterator j = game->states[frame].walls.begin();
+			j != game->states[frame].walls.end();
+			j++ )
+	{
+					if( selectedIDs.find( j->second.id ) != selectedIDs.end() )
+					{
+						wallAvg += j->second.health;
+						wallMax += j->second.maxHealth;
+						numWalls++;
+					}
+
+	}
+	
 	if(numBots != 0)
 	{
 		healthAvg /= numBots;
@@ -423,6 +442,14 @@ void Gameboard::printStats(Game *game)
 	{
 		ss << " ";
 	}
+
+	if(numWalls != 0 )
+	{		
+		wallAvg /= numWalls;
+		wallMax /= numWalls;
+		ss << "Wall Health: " << wallAvg  << "/" << wallMax << endl;
+	}
+		
 	parent->unitSelection->setText( ss.str().c_str() );
 }
 

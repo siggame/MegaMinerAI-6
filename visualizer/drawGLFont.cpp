@@ -103,10 +103,43 @@ void DrawGLFont::drawAlignedLeft( string message )
 
 void DrawGLFont::drawAlignedCenter( string message )
 {
+	int mid = message.size()/2;
+	glPushMatrix();
+
+	string left = message.substr( 0, mid );
+	drawAlignedRight( left );
+	glPopMatrix();
+	string right = message.substr( mid, mid );
+	drawAlignedLeft( right );
+	
+
 }
 
 void DrawGLFont::drawAlignedRight( string message )
 {
+	for( int i = message.size()-1; i >= 0; i-- )
+		{
+
+			// Not a real C++ program until there's a ternary operator
+			// Also, this is a shortened font list due to boldness
+			// So our first character is space, so we adjust for that
+			unsigned char c = message[i];
+			//unsigned char d = message[i-1];
+#if 0
+			if( c == '$' )
+			{
+				setColor( i, message );
+				continue;
+			}
+#endif
+
+			c = c-32 + (bold ? 128 : 0);
+
+			glTranslatef( -widths[c]-kerning, 0, 0 );
+			// Draw Current Character
+			drawCharacter( c );
+			// Move Cursor over by character width plus some
+		}
 }
 
 void DrawGLFont::drawString( string message )

@@ -72,8 +72,8 @@ void Gameboard::drawScoreboard( Game *game)
 	glPushMatrix();
 
 	if (drawFont != NULL)
-	{
-
+	{	
+		
 		ss << getAttr( team1Score );
 
 		glColor3f( 1, 0, 0 );
@@ -87,14 +87,18 @@ void Gameboard::drawScoreboard( Game *game)
 		drawFont->setAlignment( align_right );
 		glTranslatef( 1280, -32, 0 );
 		drawFont->drawString( game->players[1].c_str() );
-		drawFont->setAlignment( align_left );
 		glTranslatef( 0, 32, 0 );
+
 		drawFont->drawString( ss.str().c_str() );
+
+		drawFont->setAlignment( align_left );
 		glPopMatrix();
 		glColor4f( 1,1,1,1 );
 		glPushMatrix();
-		glTranslatef( 500, 0, 0 );
-		drawFont->drawString( "Megaminer 6: Modular" );
+		glTranslatef( 640, 0, 0 );
+		drawFont->setAlignment( align_center );
+		drawFont->drawString( "Mega Miner 6: Modular" );
+		drawFont->setAlignment( align_left );
 
 	}
 	glColor3f( 1, 1, 1 );
