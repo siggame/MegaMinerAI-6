@@ -201,17 +201,16 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 	int selectWidth, selectHeight;
 	int selectX = selectWidth = curX/getAttr(unitSize);
 	int selectY = selectHeight = curY/getAttr(unitSize);
+	cout << selectX << endl;
 
 	if( e->button() == Qt::LeftButton )
 	{
 		if( leftButtonDrag )
 		{
-
 			selectX = (curX<dragX ? curX:dragX)/getAttr(unitSize);
 			selectWidth = (curX<dragX ? dragX:curX)/getAttr(unitSize);
 			selectY = (curY<dragY ? curY:dragY)/getAttr(unitSize);
 			selectHeight = (curY<dragY ? dragY:curY)/getAttr(unitSize);
-
 		}
 
 		if( leftDoubleClick )
@@ -546,6 +545,7 @@ void Gameboard::paintGL()
 
 			drawBackground();
 			getPercentage();						 //gets function ready to recalculate percentage controlled
+			//glLoadIdentity();
 			drawWalls( game, falloff );
 			drawFrames( game, falloff );
 			drawBots( game, falloff );
