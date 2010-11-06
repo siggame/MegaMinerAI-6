@@ -42,7 +42,7 @@ class BaseAI:
     if hasattr(r, '__iter__'):
       self.runGenerator = r
       return r.next()
-    return self.run()
+    return r
   
   def turnNumber(self):
     return library.getTurnNumber(self.connection)
