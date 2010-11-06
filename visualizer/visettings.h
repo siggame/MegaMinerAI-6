@@ -4,6 +4,7 @@
 // CodeProject's Configuration Loader
 #include "config.h"
 
+
 #define ATTRIBUTE( vType, x ) \
 	private: \
 		vType x; \

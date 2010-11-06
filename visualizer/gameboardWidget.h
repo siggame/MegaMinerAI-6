@@ -105,6 +105,7 @@ class Gameboard : public QGLWidget
 		void drawHeal( Game * game, Heal * heal, float falloff );
 		void drawCollide(Game * game, Collide * collide, float falloff);
 
+
 		void talkRobotsGodDamnitTalk(Game *game);
 		void printStats(Game *game);
 
