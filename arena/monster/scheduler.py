@@ -119,14 +119,17 @@ class VisScheduler:
   #grabs the next thing to be visualized and makes proper adjustments
   def nextVideo(self):
     with self.lock:
-      self.visq.sort(key = lambda x: x.priority, reverse=True)
-      nextUP = self.visq[0]
-      nextUp.priority = 0;
-      for s in self.visq[1:]:
-        if nextUp.p1 not in [s.p1, s.p2]:
-          s.priority += 1
-        if nextUp.p2 not in [s.p1, s.p2]:
-          s.priority += 1
+      if len(self.visq) > 0:
+        self.visq.sort(key = lambda x: x.priority, reverse=True)
+        nextUP = self.visq[0]
+        nextUp.priority = 0;
+        for s in self.visq[1:]:
+          if nextUp.p1 not in [s.p1, s.p2]:
+            s.priority += 1
+          if nextUp.p2 not in [s.p1, s.p2]:
+            s.priority += 1
+      else:
+        nextUp = False
     return nextUp
 
 
