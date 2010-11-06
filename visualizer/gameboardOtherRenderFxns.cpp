@@ -54,7 +54,7 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 	drawFont->addColor( 1, 0, 0 );
 	drawFont->addColor( 0, 0, 0 );
 	drawFont->addColor( 0, 0, 1 );
-	ss << "$(0)" <<  game->players[0] << "$(1) vs.$(2) " << game->players[1];
+	ss << "$" <<  game->players[0] << "$ vs.$ " << game->players[1];
 
 	glColor4f( 0, 0, 0, 1 );
 	drawFont->setAlignment( align_left );
@@ -107,6 +107,7 @@ void Gameboard::drawScoreboard( Game *game)
 		drawFont->setAlignment( align_center );
 		drawFont->drawString( "Mega Miner 6: Modular" );
 		drawFont->setAlignment( align_left );
+		drawFont->resetColors();
 
 	}
 	glColor3f( 1, 1, 1 );
@@ -191,9 +192,28 @@ void Gameboard::drawBackground()
 	glScalef( (float)getAttr(unitSize)/32, (float)getAttr(unitSize)/32,1 );
 	if ( hasDefaultBG )
 	{
+		glDisable( GL_TEXTURE_2D );
+
+		glColor4f( 1, 1, 1, 1 );
+
+		glBegin( GL_QUADS );
+		glTexCoord2f( 0, 0 );
+		glVertex3f( 0, 0, 0 );
+		glTexCoord2f( 20, 0 );
+		glVertex3f( baseWidth, 0, 0 );
+		glTexCoord2f( 20, 10 );
+		glVertex3f( baseWidth, baseHeight, 0 );
+		glTexCoord2f( 0, 10 );
+		glVertex3f( 0, baseHeight, 0 );
+		glEnd();
+
+
+
+		glEnable( GL_TEXTURE_2D );
 
 		glBindTexture( GL_TEXTURE_2D, textures[T_DEFAULTBG].getTexture() );
 
+		glColor4f( 1, 1, 1, .95 );
 		glBegin( GL_QUADS );
 
 		glTexCoord2f( 0, 0 );
@@ -204,8 +224,8 @@ void Gameboard::drawBackground()
 		glVertex3f( baseWidth, baseHeight, 0 );
 		glTexCoord2f( 0, 10 );
 		glVertex3f( 0, baseHeight, 0 );
-
 		glEnd();
+
 
 		if ( hasMapGrid )
 		{

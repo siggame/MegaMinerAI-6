@@ -77,18 +77,16 @@ void DrawGLFont::setColor( int &i, string message )
 
 void DrawGLFont::drawAlignedLeft( string message )
 {
+	int index = 0;
 	for( int i = 0; (unsigned)i < message.size(); i++ )
 	{
 
-		// Not a real C++ program until there's a ternary operator
-		// Also, this is a shortened font list due to boldness
-		// So our first character is space, so we adjust for that
 		unsigned char c = message[i];
 
-		if( c == '$' )
+		if( colors.size() && colors[index].index == i )
 		{
-			setColor( i, message );
-			continue;
+			glColor3f( colors[index].r, colors[index].g, colors[index].b );
+			index++;
 		}
 
 		c = c-32 + (bold ? 128 : 0);
@@ -117,21 +115,18 @@ void DrawGLFont::drawAlignedCenter( string message )
 
 void DrawGLFont::drawAlignedRight( string message )
 {
+	int cIndex = colors.size()-1;
 	for( int i = message.size()-1; i >= 0; i-- )
 		{
 
-			// Not a real C++ program until there's a ternary operator
-			// Also, this is a shortened font list due to boldness
-			// So our first character is space, so we adjust for that
 			unsigned char c = message[i];
-			//unsigned char d = message[i-1];
-#if 0
-			if( c == '$' )
+
+			if( (cIndex+1) && colors[cIndex].index > i )
 			{
-				setColor( i, message );
-				continue;
+				
+				glColor3f( colors[cIndex].r, colors[cIndex].g, colors[cIndex].b );
+				cIndex--;
 			}
-#endif
 
 			c = c-32 + (bold ? 128 : 0);
 
@@ -147,6 +142,24 @@ void DrawGLFont::drawString( string message )
 	// We don't want to mess with the original matrix
 	glPushMatrix();
 
+
+	string massage = "";
+	int index = 0;
+	int colorindex = 0;
+
+	for( int i = 0; i < message.size(); i++ )
+	{
+		if( message[i] == '$' )
+		{
+			i++;
+			colors[colorindex++].index = index;
+		}
+		massage += message[i];
+		index++;
+	}
+	
+
+
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, textureId );
 	Color color(0,0,0);
@@ -159,13 +172,13 @@ void DrawGLFont::drawString( string message )
 	switch( alignment )
 	{
 		case align_right:
-			drawAlignedRight( message );
+			drawAlignedRight( massage );
 			break;
 		case align_center:
-			drawAlignedCenter( message );
+			drawAlignedCenter( massage );
 			break;
 		default:
-			drawAlignedLeft( message );
+			drawAlignedLeft( massage );
 	}
 	
 
