@@ -52,9 +52,13 @@ enum eTextures
 	T_WALL50,
 	T_WALL25,
 
+	T_EXPLODE, 
+
 	numTextures
 
 };
+
+Unit *findExistance( GameState &state, int unit );
 
 class Gameboard : public QGLWidget
 {
@@ -84,10 +88,10 @@ class Gameboard : public QGLWidget
 		void drawWinnerScreen( Game *game, int elapsed );
 		void drawIntroScreen( Game *game, int elapsed );
 
-		void drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff);
+		void drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff, bool dead = false);
 
 		void drawBots( Game* game, float falloff );
-		void drawSingleBot( Game *game, Bot * bot, int frame, int unitSize, float falloff );
+		void drawSingleBot( Game *game, Bot * bot, int frame, int unitSize, float falloff, bool dead = false );
 
 		void drawWalls( Game *game, float falloff);
 		void drawSingleWall( Game *game, Wall * wall, int frame, int unitSize );
