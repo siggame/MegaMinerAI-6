@@ -99,6 +99,7 @@ class Gameboard : public QGLWidget
 		void drawAttack( Game * game, Attack * attack, float falloff );
 		void drawBuild( Game * game, Build * build, float falloff );
 		void drawHeal( Game * game, Heal * heal, float falloff );
+		void drawCollide(Game * game, Collide * collide, float falloff);
 
 		void talkRobotsGodDamnitTalk(Game *game);
 
