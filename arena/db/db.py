@@ -39,7 +39,7 @@ class DBManager(rpyc.Service):
     print "start time=",startTime
     print "winner=",winner_int
 
-    filename = 'logs/%s.gamelog.tar.bz2' % logNum
+    filename = 'logs/%s.gamelog.bz2' % logNum
     logNum += 1
     
     c=db.cursor()
