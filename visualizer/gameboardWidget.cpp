@@ -129,7 +129,7 @@ void Gameboard::mousePressEvent( QMouseEvent *e )
 	if( e->button() == Qt::LeftButton )
 	{
 		clickX = e->x();
-		clickY = e->y();
+		clickY = e->y()-getAttr(boardOffsetY);
 		if( buttonTimes.elapsed() - leftButtonTime < getAttr( doubleClickTime ) )
 		{
 			// Do Double click event
@@ -196,7 +196,7 @@ void addSelection(std::map<int, T > & objects, std::map<int,string> & selectedID
 void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 {
 	curX = e->x()+1;
-	curY = e->y()+1;
+	curY = e->y()+1-getAttr(boardOffsetY);
 	int selectWidth, selectHeight;
 	int selectX = selectWidth = curX/getAttr(unitSize);
 	int selectY = selectHeight = curY/getAttr(unitSize);
@@ -271,7 +271,7 @@ void Gameboard::mouseMoveEvent( QMouseEvent *e )
 		leftButtonDrag = true;
 
 	curX = e->x();
-	curY = e->y();
+	curY = e->y()-getAttr(boardOffsetY);
 }
 
 
@@ -401,7 +401,7 @@ void Gameboard::paintGL()
 		glTranslatef( 0, 55, 0 );
 		drawControl();
 		glPopMatrix();
-		glTranslatef( 0, 75, 0 );
+		glTranslatef( 0, getAttr(boardOffsetY), 0 );
 		glPushMatrix();
 
 		glColor3f( 1, 1, 1 );
@@ -473,6 +473,7 @@ void Gameboard::paintGL()
 
 		} 
 	}
+
 	drawMouse();
 }
 

@@ -19,6 +19,8 @@ visettings::visettings()
 	persistantTalking = false;
 
 	doubleClickTime = 275;
+
+	boardOffsetY = 75;
 }
 
 

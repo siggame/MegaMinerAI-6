@@ -109,9 +109,10 @@ void Gameboard::drawMouse()
 	if( leftButtonDrag )
 	{
 
-		glDisable( GL_TEXTURE_2D );
 
-		
+		glPushMatrix();
+
+		glDisable( GL_TEXTURE_2D );
 
 		glColor4f( 0, .7, 0, .4 );
 		glBegin( GL_QUADS );
@@ -132,6 +133,8 @@ void Gameboard::drawMouse()
 		glEnd();
 
 		glColor4f( 1, 1, 1, 1 );
+
+		glPopMatrix();
 	}
 }
 
