@@ -49,13 +49,13 @@ class DBManager(rpyc.Service):
     if max_id == None:
       max_id = 0
 
-    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username, m.mstname = '%s'" % (c1[0].lower(),))
+    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username AND m.mstname = '%s'" % (c1[0].lower(),))
     try:
       c1id = c.fetchone()[0]
     except:
       print "OH NO! Is",c1[0],"registered on the web server??"
       c1id = 0
-    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username, m.mstname = '%s'" % (c2[0].lower(),))
+    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username AND m.mstname = '%s'" % (c2[0].lower(),))
     try:
       c2id = c.fetchone()[0]
     except:
