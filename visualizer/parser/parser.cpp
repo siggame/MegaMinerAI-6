@@ -552,6 +552,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
       if ( !sub ) return false;
       if(string(sub->val) == "game")
       {
+          sub = sub->next;
           if ( !sub ) return false;
           gs.turnNumber = atoi(sub->val);
           sub = sub->next;

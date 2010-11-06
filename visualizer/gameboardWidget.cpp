@@ -70,6 +70,7 @@ void Gameboard::initializeGL()
 float Gameboard::getPercentage( int owner, int size )
 {
 																 // getAttr( boardHeightPx );
+	cout << parent->gamelog->states[0].boardX<< endl;
 	float baseHeight = parent->gamelog->states[0].boardX;
 																 //getAttr( boardWidthPx );
 	float baseWidth  = parent->gamelog->states[0].boardY;
