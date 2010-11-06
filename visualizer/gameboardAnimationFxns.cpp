@@ -127,9 +127,11 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 	int unitSize = getAttr( unitSize );
 	// Make the random seed the pointer so jitter is consistant
 	srand( (long unsigned int)attack );
+	static int lag = 0;
 
 	if ((unsigned)frame + 1 < game->states.size()-1)
 	{
+		lag++;
 		GameState stateCurrent = game->states[frame];
 		GameState stateBackward = game->states[frame-1];
 		GameState stateForward = game->states[frame+1];
@@ -155,9 +157,16 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		xf = victim->x*unitSize+(victim->size-1)*unitSize/2+(unitSize-bulletSize)/2;
 		yf = victim->y*unitSize+(victim->size-1)*unitSize/2+(unitSize-bulletSize)/2;
 
+		float init = (float)(rand()%100)/100;
+		float coolFalloff = (falloff-init)/(.45);
+		if( coolFalloff > 1 )
+			coolFalloff = 1;
+		if( coolFalloff < 0 )
+			coolFalloff = 0;
+
 		float x, y;
-		x = (xf-x0)*falloff + x0;
-		y = (yf-y0)*falloff + y0;
+		x = (xf-x0)*coolFalloff + x0;
+		y = (yf-y0)*coolFalloff + y0;
 
 		glPushMatrix();
 		glTranslatef(x,y,0);
