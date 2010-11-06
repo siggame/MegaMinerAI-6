@@ -326,6 +326,8 @@ void Gameboard::printStats(Game *game)
 {
 	stringstream ss;
 	int numBots = 0;
+	int numBotsP1 = 0;
+	int numBotsP2 = 0;
 	int healthAvg = 0;
 	int maxHealthAvg = 0;
 	int sizeAvg = 0;
@@ -355,6 +357,14 @@ void Gameboard::printStats(Game *game)
 			movitudeAvg += j->second.movitude;
 			actitudeAvg += j->second.actitude;
 			buildRateAvg += j->second.buildRate;
+			if(j->second.owner == 1)
+			{
+				numBotsP1++;
+			}
+			else
+			{
+				numBotsP2++;
+			}
 			numBots++;
 		}
 
@@ -373,8 +383,10 @@ void Gameboard::printStats(Game *game)
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
 		ss << selectedIDs.size();
-		ss << "Health: " << healthAvg<< " / " << maxHealthAvg <<endl;
-		ss << "Size: " << sizeAvg<< endl;
+		ss << "Health: " << healthAvg<< " / " << maxHealthAvg
+		   << "\t\t\tP1 Bots: " << numBotsP1 << endl;
+		ss << "Size: " << sizeAvg
+		   << "\t\t\t\tP2 Bots: " << numBotsP2 << endl;
 		ss << "Actions: " << actionsAvg<< endl;
 		ss << "Steps: " << stepsAvg<< endl;
 		ss << "Damage: " << damageAvg<< endl;
