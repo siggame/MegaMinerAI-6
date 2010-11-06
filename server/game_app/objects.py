@@ -304,6 +304,9 @@ class Bot(Unit):
       return "Building off the world"
     if size > self.size:
       return "Building a robot larger than itself."
+    if size not in [1, 2 ,4, 8, 16, 32]:
+      return "Building a robot not a size that is a power of 2"
+      
 
     completionTime = 8 * size**2 / self.buildRate
     health = min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
