@@ -57,6 +57,9 @@ wall50FileName = "textures/Walls Life 50.png"
 # Default Wall Image 25% Health
 wall25FileName = "textures/Walls Life 25.png"
 
+# Explode File 
+ExplodeFile = "textures/Fiery Doom.png"
+
 # Time to click the mouse to register it as a double click
 doubleClickTime = 275
 
@@ -77,4 +80,4 @@ WinnerScreenTime = 5000
 # Initial Screen Time
 InitializationTime = 3000
 # Show the Init Screen?
-ShowInitScreen = Yes
+ShowInitScreen = No
