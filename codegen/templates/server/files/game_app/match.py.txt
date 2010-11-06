@@ -92,10 +92,10 @@ def nextTurn(self):
     #TODO: Make this check if a player won, and call declareWinner with a player if they did
     pass
 
-  def declareWinner(self, winner):
+  def declareWinner(self, winner, reason=''):
     self.winner = winner
 
-    msg = ["game-winner", self.id, self.winner.user, self.getPlayerIndex(self.winner)]
+    msg = ["game-winner", self.id, self.winner.user, self.getPlayerIndex(self.winner), reason]
     self.scribe.writeSExpr(msg)
     self.scribe.finalize()
     self.removePlayer(self.scribe)
