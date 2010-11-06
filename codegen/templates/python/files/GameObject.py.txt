@@ -51,7 +51,7 @@ class ${model.name}(GameObject):
     self.validify()
 %    for arg in func.arguments:
 %      if isinstance(arg.type, Model):
-    if not isinstance(${arg.name}, ${arg.type.name}]):
+    if not isinstance(${arg.name}, ${arg.type.name}):
       raise TypeError('${arg.name} should be of [${arg.type.name}]')
     ${arg.name}.validify()
 %      endif
