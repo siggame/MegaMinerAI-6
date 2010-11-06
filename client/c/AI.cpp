@@ -16,7 +16,7 @@ const char* AI::password()
   return "password";
 }
 
-char* direction[] = {"l","r","u","d"};
+string direction[] = {"l","r","u","d"};
 
 //This function is run once, before your first turn.
 void AI::init()

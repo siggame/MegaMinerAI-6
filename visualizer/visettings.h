@@ -92,6 +92,9 @@
 			ATTRIBUTE( string, bluBuildAnimFile );
 			ATTRIBUTE( string, bluJointFile );
 
+
+			ATTRIBUTE( string, explodeFileName );
+
 			// Arena Stuff
 			ATTRIBUTE( int, arenaMode );
 			ATTRIBUTE( int, winnerScreenTime );

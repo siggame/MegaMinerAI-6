@@ -109,6 +109,9 @@ bool visettings::loadFromFile(string & errString)
 	setAttr( bluJointFile, configFile.pString("BluJointFile", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
 
+	setAttr( explodeFileName, configFile.pString( "ExplodeFile", errFlag, outString ) );
+	errString += outString; returnFlag |= errFlag;
+
 	//For Board Drawing, these are the maximums
 	setAttr( boardHeightPx, configFile.pInt( "BoardHeightPx", errFlag, outString ) );
 	errString += outString; returnFlag |= errFlag;
