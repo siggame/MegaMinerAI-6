@@ -102,7 +102,7 @@ Requirements:<br/>
 (2) Bot must have at least one step left<br/>
 (3) Bot must not be stepping off the map<br/>
 Calculations:<br/>
-Damage caused for each individual object is (min(victimHealth, self.size**2) * self.game.shattertude), where shattertude is a constant.<br/>
+Damage caused for each individual object is (min(victimHealth, self.size^2) * 4), where victimHealth is the combined health of everything the bot is running into.<br/>
 Maximum Move Distance is determined by Movitude/Size^2 (rounds down) where Size is the length of a side of a bot, so Size^2 is the number of 1x1 bots making up the bot <br/> 
 <p/>
 Attack:<br/>
