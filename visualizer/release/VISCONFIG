@@ -80,4 +80,4 @@ WinnerScreenTime = 5000
 # Initial Screen Time
 InitializationTime = 3000
 # Show the Init Screen?
-ShowInitScreen = No
+ShowInitScreen = Yes 

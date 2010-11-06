@@ -222,8 +222,10 @@ void VisualizerWindow::openGamelog()
 	ifstream in( "lastDir" );
 	if( in.is_open() )
 	{
-		in >> directory;
+		
+		getline( in, directory ); 
 	}
+	cout<< directory << endl;
 
 	in.close();
 
@@ -248,7 +250,7 @@ void VisualizerWindow::openGamelog()
 	}
 
 	ofstream out( "lastDir" );
-	out << directory;
+	out <<  directory  ;
 	out.close();
 
 
