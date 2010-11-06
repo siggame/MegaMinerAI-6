@@ -26,6 +26,33 @@ void Gameboard::drawWinnerScreen( Game *game, int elapsed )
 
 void Gameboard::drawIntroScreen( Game *game, int elapsed )
 {
+	glDisable( GL_TEXTURE_2D );
+
+	glPushMatrix();
+	glLoadIdentity();
+	glScalef( getAttr(boardWidthPx), getAttr(boardHeightPx), 1 );
+	glColor4f( 1, 1, 1, 1 );
+	glBegin( GL_QUADS );
+	glVertex3f( 0, 0, 0 );
+	glVertex3f( 0, 1, 0 );
+	glVertex3f( 1, 1, 0 );
+	glVertex3f( 1, 0, 0 );
+	glEnd();
+
+	glLoadIdentity();
+
+	stringstream ss;
+
+	glTranslatef( 300, 300, 0 );
+	ss << game->players[0] << " vs. " << game->players[1];
+
+	glColor4f( 0, 0, 0, 1 );
+	drawFont->drawString( ss.str().c_str() );
+
+	glPopMatrix();
+
+	glEnable( GL_TEXTURE_2D );
+
 
 
 }
