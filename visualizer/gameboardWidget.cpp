@@ -44,7 +44,7 @@ void Gameboard::initializeGL()
 {
 	glShadeModel(GL_SMOOTH);
 
-	glClearColor(0.0f, 0.4f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearDepth(1.0f);
 
 	glEnable(GL_DEPTH_TEST);
@@ -338,7 +338,6 @@ void Gameboard::paintGL()
 	Game *game = parent->gamelog;
 	int frame = getAttr( frameNumber );
 
-	drawBackground();
 
 	if( game )
 	{
@@ -395,15 +394,27 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
+		
+		glLoadIdentity();
+		drawScoreboard( game );
+		glPushMatrix();
+		glTranslatef( 0, 55, 0 );
+		drawControl();
+		glPopMatrix();
+		glTranslatef( 0, 75, 0 );
+		glPushMatrix();
+
+		glColor3f( 1, 1, 1 );
+
+		drawBackground();
 		getPercentage();						 //gets function ready to recalculate percentage controlled
 		drawWalls( game, falloff );
 		drawFrames( game, falloff );
 		drawBots( game, falloff );
 		drawAnimations( game, falloff );
-		drawControl();
 		drawProgressbar( game );
-		drawScoreboard( game );
 
+		glPopMatrix();
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
@@ -445,6 +456,7 @@ void Gameboard::paintGL()
 
 			setAttr( team1Score, scores[0]+100*currentHealth[0]/maxHealth[0] );
 			setAttr( team2Score, scores[1]+100*currentHealth[1]/maxHealth[1] );
+
 
 		}
 		//parent->console
