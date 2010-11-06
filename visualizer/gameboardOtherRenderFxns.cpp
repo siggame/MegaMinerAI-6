@@ -14,13 +14,19 @@ void Gameboard::drawWinnerScreen( Game *game, int elapsed )
 
 	glEnable( GL_TEXTURE_2D );
 
+	if( game->winner )
+		glColor4f( 1, 0, 0, 1 );
+	else
+		glColor4f( 0, 0, 1, 1 );
+
 	stringstream ss;
 	ss << game->players[game->winner] << " WINS!!!!";
 
-	glTranslatef( 250, 250, 0 );
-	glColor4f( 0, 0, 0, 1 );
-	glScalef( 2, 2, 2 );
+	glTranslatef( 640, 250, 0 );
+	glScalef( 1.5, 1.5, 1.5 );
+	drawFont->setAlignment( align_center );
 	drawFont->drawString( ss.str().c_str() );
+	drawFont->setAlignment( align_left );
 
 }
 
@@ -43,7 +49,7 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 
 	stringstream ss;
 
-	glTranslatef( 300, 300, 0 );
+	glTranslatef( 640, 300, 0 );
 	drawFont->resetColors();
 	drawFont->addColor( 1, 0, 0 );
 	drawFont->addColor( 0, 0, 0 );
@@ -51,7 +57,9 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 	ss << "$(0)" <<  game->players[0] << "$(1) vs.$(2) " << game->players[1];
 
 	glColor4f( 0, 0, 0, 1 );
+	drawFont->setAlignment( align_left );
 	drawFont->drawString( ss.str().c_str() );
+	drawFont->setAlignment( align_left );
 	drawFont->resetColors();
 
 	glPopMatrix();
