@@ -151,6 +151,15 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	gamelog = temp;
 
+	cout << gamelog->states.size() << endl;
+	if( gamelog->states.size() < 2 )
+	{
+		QMessageBox::critical(this,"Error","Suicided on Turn 1.  Suicide is unethical" );
+		delete gamelog;
+		gamelog = 0;
+		return false;
+	}
+	
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
 	///* This Code fills the quadtree     ::::     REALLY UGLY CODE
@@ -212,8 +221,10 @@ void VisualizerWindow::openGamelog()
 	ifstream in( "lastDir" );
 	if( in.is_open() )
 	{
-		in >> directory;
+		
+		getline( in, directory ); 
 	}
+	cout<< directory << endl;
 
 	in.close();
 
@@ -238,7 +249,7 @@ void VisualizerWindow::openGamelog()
 	}
 
 	ofstream out( "lastDir" );
-	out << directory;
+	out <<  directory  ;
 	out.close();
 
 
@@ -251,6 +262,7 @@ void VisualizerWindow::openGamelog()
 
 	// Start her up again
 	gameboard->timerId = gameboard->startTimer( 20 );
+
 
 }
 
