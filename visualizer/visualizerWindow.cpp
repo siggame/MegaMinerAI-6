@@ -86,6 +86,7 @@ VisualizerWindow::VisualizerWindow()
 		QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
 	}
 
+
 	createActions();
 	createMenus();
 	createLayout();
@@ -162,7 +163,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
-	///* This Code fills the quadtree     ::::     REALLY UGLY CODE
+	/* This Code fills the quadtree     ::::     REALLY UGLY CODE
 
 	vector< GameState >::iterator stateIt = gamelog->states.begin();
 	for ( ; stateIt !=  gamelog->states.end(); stateIt++)
@@ -198,7 +199,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	}
 
-	//*/ END OF THE REALLY UGLY CODE
+	//*/ //END OF THE REALLY UGLY CODE
 	return true;
 }
 

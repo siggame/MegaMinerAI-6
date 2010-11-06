@@ -457,6 +457,7 @@ void Gameboard::printStats(Game *game)
 }
 
 
+
 void Gameboard::paintGL()
 {
 	// We only want to update output if our frame has changed.
