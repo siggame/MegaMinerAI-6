@@ -84,7 +84,7 @@ void Gameboard::drawCollide(Game * game, Collide * collide, float falloff)
 
 		if ( !deadUnit && victim )	 //draw the dead unit
 		{
-			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
+			drawSingleUnit(game,victim,frame-1,unitSize,falloff,true);
 			//todo: add to dead units
 		}
 
@@ -147,7 +147,7 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 
 		if ( !deadUnit )						 //draw the dead unit
 		{
-			drawSingleUnit(game,victim,frame-1,unitSize,falloff);
+			drawSingleUnit(game,victim,frame,unitSize,falloff,true);
 			//todo: add to dead units
 		}
 
