@@ -19,7 +19,7 @@ class ArenaVisualizer:
   def run(self):
     while True:
       time.sleep(1)
-      next = self.scheculer.nextVideo()
+      next = self.scheduler.nextVideo()
       if next:
         #I am become like unto a tentacle!
         try:
