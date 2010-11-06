@@ -128,7 +128,7 @@ void Gameboard::drawProgressbar( Game *game )
 	int h = 12;
 
 	// Find correct y position
-	glTranslatef( 0,640, 0 );
+	glTranslatef( 0,getAttr(unitSize)*game->states[0].boardY, 0 );
 
 	glColor4f( 1, 1, 1, 1 );
 	glBegin( GL_QUADS );
@@ -184,6 +184,7 @@ void Gameboard::drawMouse()
 void Gameboard::drawBackground()
 {
 
+	glPushMatrix();
 	float baseHeight = getAttr( boardHeightPx );
 	float baseWidth  = getAttr( boardWidthPx );
 
@@ -264,13 +265,14 @@ void Gameboard::drawBackground()
 		glEnd();
 
 	}
+	glPopMatrix();
 }
 
 
 //Draws Territory Control Bar
 void Gameboard::drawControl(  )
 {
-	float baseWidth  = getAttr( unitSize )*parent->gamelog->states[0].boardX;
+	float baseWidth  = getAttr(unitSize)*parent->gamelog->states[0].boardX;
 
 	float barWidth = .9*baseWidth;
 	float spacer = .05*baseWidth;
