@@ -140,7 +140,7 @@ class Bot(Unit):
   ##Attack the specified unit.  Requires the calling robot to have an action and for the target to be in range
   def attack(self, target):
     self.validify()
-    if target.__class__ not in [Unit]:
+    if not isinstance(target, Unit]):
       raise TypeError('target should be of [Unit]')
     target.validify()
     return library.botAttack(self.ptr, target.ptr)
@@ -148,7 +148,7 @@ class Bot(Unit):
   ##Heals the indicated bot.  Requires the calling robot to have an action and for the target to be in range.  Heals for target.maxHealth * self.buildRate / (4 * target.size^2)
   def heal(self, target):
     self.validify()
-    if target.__class__ not in [Bot]:
+    if not isinstance(target, Bot]):
       raise TypeError('target should be of [Bot]')
     target.validify()
     return library.botHeal(self.ptr, target.ptr)
@@ -156,7 +156,7 @@ class Bot(Unit):
   ##Begins building a new robot.  While building, the new robot will be a frame.  Requires the calling robot to have an action. X and Y must cause the new robot to be adjacent.  Size must be less than or equal to the calling robots size.  Completes in 8 * size^2 / self.buildRate turns
   def build(self, type, x, y, size):
     self.validify()
-    if type.__class__ not in [Type]:
+    if not isinstance(type, Type]):
       raise TypeError('type should be of [Type]')
     type.validify()
     return library.botBuild(self.ptr, type.ptr, x, y, size)
@@ -164,13 +164,13 @@ class Bot(Unit):
   ##Combines four robots into one.  Requires all robots to have an action, be of the same size, and be arranged in a square
   def combine(self, bot2, bot3, bot4):
     self.validify()
-    if bot2.__class__ not in [Bot]:
+    if not isinstance(bot2, Bot]):
       raise TypeError('bot2 should be of [Bot]')
     bot2.validify()
-    if bot3.__class__ not in [Bot]:
+    if not isinstance(bot3, Bot]):
       raise TypeError('bot3 should be of [Bot]')
     bot3.validify()
-    if bot4.__class__ not in [Bot]:
+    if not isinstance(bot4, Bot]):
       raise TypeError('bot4 should be of [Bot]')
     bot4.validify()
     return library.botCombine(self.ptr, bot2.ptr, bot3.ptr, bot4.ptr)
