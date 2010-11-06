@@ -24,7 +24,7 @@ def install():
 
   def wrapDeclareWinner(self, winner, reason):
     f = open('winner', 'w')
-    if winner is self.players[0]:
+    if self.getPlayerIndex(self.winner) == 0
       f.write("Player 0 wins")
     else:
       f.write("Player 1 wins")
