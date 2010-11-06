@@ -248,11 +248,11 @@ void Gameboard::drawBuild( Game * game , Build * build , float falloff  )
 			{
 				case 0:
 
-					glColor4f( 0, 1, 0, 1 );
+					glColor4f( 1, .7, .7, 1 );
 					glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
 					break;
 				default:
-					glColor4f( 0, .7, 1, 1 );
+					glColor4f( .7, .7, 1, 1 );
 					glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
 
 			}
@@ -330,11 +330,11 @@ void Gameboard::drawHeal( Game * game , Heal * heal , float falloff  )
 			{
 				case 0:
 
-					glColor4f( 0, 1, 0, 1 );
+					glColor4f( 1, .7, .7, 1 );
 					glBindTexture( GL_TEXTURE_2D, textures[T_REDPART_BUILD].getTexture() );
 					break;
 				default:
-					glColor4f( 0, .7, 1, 1 );
+					glColor4f( .7, .7, 1, 1 );
 					glBindTexture( GL_TEXTURE_2D, textures[T_BLUPART_BUILD].getTexture() );
 
 			}
