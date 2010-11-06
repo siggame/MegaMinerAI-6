@@ -503,26 +503,31 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-		glLoadIdentity();
-		drawScoreboard( game );
-		glPushMatrix();
-		glTranslatef( 0, 55, 0 );
-		drawControl();
-		glPopMatrix();
-		glTranslatef( 0, getAttr(boardOffsetY), 0 );
-		glPushMatrix();
+		if( !getAttr( showInitScreen ) )
+		{
 
-		glColor3f( 1, 1, 1 );
+			glLoadIdentity();
+			drawScoreboard( game );
+			glPushMatrix();
+			glTranslatef( 0, 55, 0 );
+			drawControl();
+			glPopMatrix();
+			glTranslatef( 0, getAttr(boardOffsetY), 0 );
+			glPushMatrix();
 
-		drawBackground();
-		getPercentage();						 //gets function ready to recalculate percentage controlled
-		drawWalls( game, falloff );
-		drawFrames( game, falloff );
-		drawBots( game, falloff );
-		drawAnimations( game, falloff );
-		drawProgressbar( game );
+			glColor3f( 1, 1, 1 );
 
-		glPopMatrix();
+			drawBackground();
+			getPercentage();						 //gets function ready to recalculate percentage controlled
+			drawWalls( game, falloff );
+			drawFrames( game, falloff );
+			drawBots( game, falloff );
+			drawAnimations( game, falloff );
+			drawProgressbar( game );
+
+			glPopMatrix();
+		}
+
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
