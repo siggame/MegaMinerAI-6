@@ -32,6 +32,7 @@ Target takes damage equal to that specified by self.damage()
 
 Build:
 Builders are the only bot that can build. When they build, they produce a frame that occupies the space that the finished bot will occupy. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
+Function call: 
 Requirements:
 (1) The builder must be a build bot
 (2) The builder must have at least one free action point
@@ -55,8 +56,7 @@ Requirements:
 Calculations
 Bots are healed at the twice the rate of building the same bot, or (target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2)))
 
-
-Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. Accessor functions for this are 
+Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. 
 
 Talk: Bots can talk. The talk function takes in a string. Talking causes the string to show up in the visualizer. This can be useful for debug statements. 
 
@@ -68,4 +68,10 @@ Requirements:
 (3) All bots must be adjacent to each other in a square formation.
 
 Split:
-Combined bots can split back up into 
+Combined bots can split back up into their component parts.
+Requirements:
+(1) Bot must have at least one action available.
+(2) Bot to be split must be a combined bot.
+Calculations:
+The resulting bots are assigned their new health based on the percentage of health the combined bot had. (i.health = int(i.maxHealth * (float(self.health) / self.maxHealth)))
+
