@@ -1,5 +1,5 @@
 # Next frame every X ms
-DefaultSpeed = 550
+DefaultSpeed = 250
 # Default Unit Size On Load: X pixels
 UnitSize = 32
 
