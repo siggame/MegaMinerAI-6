@@ -688,6 +688,7 @@ DLLEXPORT int networkLoop(Connection* c)
       {
         cout << "You lose. :(" << endl << expression->next->val;
       }
+      stringstream expr;
       expr << "(request-log " << c->gameNumber << ")";
       send_string(c->socket, expr.str().c_str());
       return 0;
