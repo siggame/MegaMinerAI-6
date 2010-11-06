@@ -191,9 +191,28 @@ void Gameboard::drawBackground()
 	glScalef( (float)getAttr(unitSize)/32, (float)getAttr(unitSize)/32,1 );
 	if ( hasDefaultBG )
 	{
+		glDisable( GL_TEXTURE_2D );
+
+		glColor4f( 1, 1, 1, 1 );
+
+		glBegin( GL_QUADS );
+		glTexCoord2f( 0, 0 );
+		glVertex3f( 0, 0, 0 );
+		glTexCoord2f( 20, 0 );
+		glVertex3f( baseWidth, 0, 0 );
+		glTexCoord2f( 20, 10 );
+		glVertex3f( baseWidth, baseHeight, 0 );
+		glTexCoord2f( 0, 10 );
+		glVertex3f( 0, baseHeight, 0 );
+		glEnd();
+
+
+
+		glEnable( GL_TEXTURE_2D );
 
 		glBindTexture( GL_TEXTURE_2D, textures[T_DEFAULTBG].getTexture() );
 
+		glColor4f( 1, 1, 1, .95 );
 		glBegin( GL_QUADS );
 
 		glTexCoord2f( 0, 0 );
@@ -204,8 +223,8 @@ void Gameboard::drawBackground()
 		glVertex3f( baseWidth, baseHeight, 0 );
 		glTexCoord2f( 0, 10 );
 		glVertex3f( 0, baseHeight, 0 );
-
 		glEnd();
+
 
 		if ( hasMapGrid )
 		{
