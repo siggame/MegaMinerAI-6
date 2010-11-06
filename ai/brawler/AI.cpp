@@ -210,10 +210,12 @@ float AI::getScore(Stub& stub)
 float AI::bestMove(Order& order)
 {
   order.fitness=INT_MIN;
+  /*
   if(order.toOrder->size()>1)
   {
     cout<<"Trying to move a big guy"<<endl;
   }
+  */
   // Checks if they are already in range
   pair<int,int> foe = distToNearest(bots,order.toOrder->x(),order.toOrder->y(),order.toOrder->size(),myBots);
   if(foe.second>=0 && inRange(*order.toOrder, bots[foe.second]))
@@ -286,10 +288,12 @@ float AI::bestMove(Order& order)
       }
     }
   }
+  /*
   if(order.toOrder->size()>1)
   {
     cout<<"Returning "<<order.fitness<<endl;
   }
+  */
 
 //  cout<<"Scored move: "<<order.fitness<<endl;
   return order.fitness;
@@ -463,10 +467,6 @@ void AI::removeInvalid(Stub& stub)
   //cout<<"Attempting to remove invalid actions from a stub"<<endl;
   for(list<Order>::iterator it=stub.orders.begin();it!=stub.orders.end();it++)
   {
-    if(it->toOrder->size()==0)
-    {
-      cout<<"In remove invalid, size = 0"<<endl;
-    }
     Bot* toOrder=it->toOrder;
     bool remove=false;
     // depending on the type of order
@@ -485,7 +485,7 @@ void AI::removeInvalid(Stub& stub)
         remove=(toOrder->actions()==0) || (toOrder->buildRate()==0);
         break;
       case COMBINE:
-        remove=(toOrder->actions()!=toOrder->maxActions());
+        remove=(toOrder->actions()==0);
         break;
       case SPLIT:
         remove=(toOrder->actions()!=toOrder->maxActions()) || (toOrder->size()==1);
@@ -527,7 +527,11 @@ void AI::execute(Stub& stub)
       break;
     case COMBINE:
       //cout<<"TRYING TO COMBINE!"<<endl;
-      order.toOrder->combine(*order.c1,*order.c2,*order.c3);
+      if(order.toOrder->combine(*order.c1,*order.c2,*order.c3)==0)
+      {
+        cout<<"FAILED COMBINED"<<endl;
+        stub.orders.erase(stub.bestOrder);
+      }
       break;
     case SPLIT:
       order.toOrder->split();
@@ -607,8 +611,10 @@ bool AI::run()
   }
   list<Stub>::iterator it,bestIt;
   bool goodOrders=true;
+  int counter=0;
   while(!orderList.empty() && goodOrders)
   {
+    cout<<"Top of while "<<counter++<<endl;
     float best = -10;
     for(it=orderList.begin();it != orderList.end();it++)
     {
@@ -622,6 +628,7 @@ bool AI::run()
     if(best>0)
     {
       execute(*bestIt);
+      cout<<"Called on: "<<counter<<(*(bestIt->bestOrder))<<endl;
       removeInvalid(*bestIt);
       if(bestIt->empty())
       {
@@ -633,6 +640,7 @@ bool AI::run()
       //cout<<"No good orders"<<endl;
       goodOrders=false;
     }
+    cout<<"Bot"<<endl;
   }
   return true;
 }
