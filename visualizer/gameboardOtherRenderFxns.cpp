@@ -124,7 +124,7 @@ void Gameboard::drawProgressbar( Game *game )
 
 	glPushMatrix();
 
-	int w = 1280*getAttr(frameNumber)/(game->states.size()-1);
+	int w = getAttr(unitSize)*game->states[0].boardX*getAttr(frameNumber)/(game->states.size()-1);
 	int h = 12;
 
 	// Find correct y position
