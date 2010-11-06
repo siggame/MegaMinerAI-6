@@ -93,7 +93,7 @@ void Gameboard::drawScoreboard( Game *game)
 		ss << getAttr( team2Score );
 		glColor3f( 0, 0, 1 );
 		drawFont->setAlignment( align_right );
-		glTranslatef( 1280, -32, 0 );
+		glTranslatef( getAttr( unitSize )*game->states[0].boardX, -32, 0 );
 		drawFont->drawString( game->players[1].c_str() );
 		glTranslatef( 0, 32, 0 );
 
@@ -270,7 +270,7 @@ void Gameboard::drawBackground()
 //Draws Territory Control Bar
 void Gameboard::drawControl(  )
 {
-	float baseWidth  = getAttr( boardWidthPx );
+	float baseWidth  = getAttr( unitSize )*parent->gamelog->states[0].boardX;
 
 	float barWidth = .9*baseWidth;
 	float spacer = .05*baseWidth;
