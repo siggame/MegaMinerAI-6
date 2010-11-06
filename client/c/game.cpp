@@ -276,9 +276,9 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
         victims.push_back((_Unit*) (walls+i));
       else if(x == -1 && walls[i].x < object->x)
         victims.push_back((_Unit*) (walls+i));
-      if(y == 1 && walls[i].y == object->y+object->size)
+      else if(y == 1 && walls[i].y == object->y+object->size)
         victims.push_back((_Unit*) (walls+i));
-      if(y == 1 && walls[i].x == object->x+object->size)
+      else if(x == 1 && walls[i].x == object->x+object->size)
         victims.push_back((_Unit*) (walls+i));
     }
   }
@@ -290,9 +290,9 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
         victims.push_back((_Unit*) (bots+i));
       else if(x == -1 && bots[i].x+bots[i].size == object->x)
         victims.push_back((_Unit*) (bots+i));
-      if(y == 1 && bots[i].y == object->y+object->size)
+      else if(y == 1 && bots[i].y == object->y+object->size)
         victims.push_back((_Unit*) (bots+i));
-      if(y == 1 && bots[i].x == object->x+object->size)
+      else if(x == 1 && bots[i].x == object->x+object->size)
         victims.push_back((_Unit*) (bots+i));
     }
   }
@@ -304,9 +304,9 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
         victims.push_back((_Unit*) (frames+i));
       else if(x == -1 && frames[i].x+frames[i].size == object->x)
         victims.push_back((_Unit*) (frames+i));
-      if(y == 1 && frames[i].y == object->y+object->size)
+      else if(y == 1 && frames[i].y == object->y+object->size)
         victims.push_back((_Unit*) (frames+i));
-      if(y == 1 && frames[i].x == object->x+object->size)
+      else if(x == 1 && frames[i].x == object->x+object->size)
         victims.push_back((_Unit*) (frames+i));
     }
   }
