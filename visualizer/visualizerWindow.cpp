@@ -559,7 +559,7 @@ void VisualizerWindow::createLayout()
 	controlLayout->addWidget(stopButton);
 	controlBar->setLayout(controlLayout);
 
-	toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
+	//toolBox->addTab( scoreboard, tr( "Scoreboard" ) );
 	toolBox->addTab( unitSelection, tr( "Unit Stats" ) );
 	toolBox->addTab( options, tr("Options") );
 	//unitSelection->setFixedHeight( 50 );

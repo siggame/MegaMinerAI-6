@@ -326,6 +326,8 @@ void Gameboard::printStats(Game *game)
 {
 	stringstream ss;
 	int numBots = 0;
+	int numBotsP1 = 0;
+	int numBotsP2 = 0;
 	int healthAvg = 0;
 	int maxHealthAvg = 0;
 	int sizeAvg = 0;
@@ -339,6 +341,28 @@ void Gameboard::printStats(Game *game)
 	
 	int frame = getAttr( frameNumber );
 
+	for( 	std::map<int,Frame>::iterator j = game->states[frame].frames.begin();
+		j != game->states[frame].frames.end(); 
+		j++)
+	{
+		if(selectedIDs.find(j->second.id) != selectedIDs.end())
+		{
+			healthAvg += j->second.health;
+			maxHealthAvg += j->second.maxHealth;
+			sizeAvg += j->second.size;
+			if(j->second.owner == 1)
+			{
+				numBotsP1++;
+			}
+			else
+			{
+				numBotsP2++;
+			}
+			numBots++;
+		}
+
+	}
+
 	for( 	std::map<int,Bot>::iterator j = game->states[frame].bots.begin();
 		j != game->states[frame].bots.end(); 
 		j++)
@@ -347,7 +371,7 @@ void Gameboard::printStats(Game *game)
 		{
 			healthAvg += j->second.health;
 			maxHealthAvg += j->second.maxHealth;
-			 sizeAvg += j->second.size;
+			sizeAvg += j->second.size;
 			actionsAvg += j->second.actions;
 			stepsAvg += j->second.steps;
 			damageAvg += j->second.damage;
@@ -355,12 +379,20 @@ void Gameboard::printStats(Game *game)
 			movitudeAvg += j->second.movitude;
 			actitudeAvg += j->second.actitude;
 			buildRateAvg += j->second.buildRate;
+			if(j->second.owner == 1)
+			{
+				numBotsP1++;
+			}
+			else
+			{
+				numBotsP2++;
+			}
 			numBots++;
 		}
 
 	}
 		
-	if(numBots!=0)
+	if(numBots != 0)
 	{
 		healthAvg /= numBots;
 		maxHealthAvg /= numBots;
@@ -372,8 +404,11 @@ void Gameboard::printStats(Game *game)
 		movitudeAvg /= numBots;
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
-		ss << "Health: " << healthAvg<< " / " << maxHealthAvg <<endl;
-		ss << "Size: " << sizeAvg<< endl;
+		ss << selectedIDs.size();
+		ss << "Health: " << healthAvg<< " / " << maxHealthAvg
+		   << "\t\t\tP1 Bots: " << numBotsP1 << endl;
+		ss << "Size: " << sizeAvg
+		   << "\t\t\t\tP2 Bots: " << numBotsP2 << endl;
 		ss << "Actions: " << actionsAvg<< endl;
 		ss << "Steps: " << stepsAvg<< endl;
 		ss << "Damage: " << damageAvg<< endl;
@@ -382,8 +417,12 @@ void Gameboard::printStats(Game *game)
 		ss << "Actitude: " << actitudeAvg<< endl;
 		ss << "Build Rate: " << buildRateAvg;
 		//ss << "Bots Selected: " << numBots << endl;
-		parent->unitSelection->setText( ss.str().c_str() );
 	}
+	else
+	{
+		ss << " ";
+	}
+	parent->unitSelection->setText( ss.str().c_str() );
 }
 
 

@@ -473,7 +473,9 @@ static bool parseMove(Move& object, sexp_t* expression)
   object.robot = atoi(sub->val);
   sub = sub->next;
   if( !sub ) goto ERROR;
-  object.direction = atoi(sub->val);
+  object.direction = new char[strlen(sub->val)+1];
+  strncpy(object.direction, sub->val, strlen(sub->val));
+  object.direction[strlen(sub->val)] = 0;
   sub = sub->next;
   return true;
 
@@ -552,6 +554,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
       if ( !sub ) return false;
       if(string(sub->val) == "game")
       {
+          sub = sub->next;
           if ( !sub ) return false;
           gs.turnNumber = atoi(sub->val);
           sub = sub->next;
