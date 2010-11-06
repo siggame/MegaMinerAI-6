@@ -111,6 +111,8 @@ bool Gameboard::loadAllTextures( QString & message )
 		flag = true;
 	if ( !loadTexture( getAttr( wall25FileName ).c_str(), T_WALL25, errString ) )
 		flag = true;
+	if( !loadTexture( getAttr( explodeFileName ).c_str(), T_EXPLODE, errString ) )
+		flag = true;
 
 	message = errString;
 
