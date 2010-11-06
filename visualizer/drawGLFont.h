@@ -25,7 +25,7 @@ enum
 {
 	align_left = 0,
 	align_center,
-	alight_right
+	align_right
 };
 
 class DrawGLFont
@@ -45,6 +45,14 @@ class DrawGLFont
 		bool loadNewFont( int fontTextureId, string fontWidthsFile );
 
 		void drawString( string message );
+
+		void setAlignment( int align );
+
+		void setColor( int &i, string message );
+
+		void drawAlignedLeft( string message );
+		void drawAlignedCenter( string message );
+		void drawAlignedRight( string message );
 
 		void resetColors();
 		void addColor( float r, float g, float b );
@@ -67,5 +75,8 @@ class DrawGLFont
 		float kerning;
 		bool bold;
 		vector<Color> colors;
+
+		int alignment;
+
 };
 #endif

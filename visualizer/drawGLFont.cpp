@@ -8,6 +8,7 @@ DrawGLFont::DrawGLFont()
 {
 
 	// Do Nothing.... Oh What fun...
+	alignment = align_left;
 }
 
 Color DrawGLFont::retrieveColor( int id )
@@ -20,6 +21,11 @@ Color DrawGLFont::retrieveColor( int id )
 void DrawGLFont::resetColors()
 {
 	colors.clear();
+}
+
+void DrawGLFont::setAlignment( int align )
+{
+	alignment=align;
 }
 
 void DrawGLFont::addColor( float r, float g, float b )
@@ -52,6 +58,56 @@ string fontWidthsFile
 	return true;
 }
 
+void DrawGLFont::setColor( int &i, string message )
+{
+	i++;
+	i++;
+	stringstream ss;
+	while( message[i] != ')' )
+	{
+		ss << message[i];
+		i++;
+	}
+	
+	int k = atoi( ss.str().c_str() );
+	Color color = retrieveColor( k );
+	glColor3f( color.r, color.g, color.b );
+
+}
+
+void DrawGLFont::drawAlignedLeft( string message )
+{
+	for( int i = 0; (unsigned)i < message.size(); i++ )
+	{
+
+		// Not a real C++ program until there's a ternary operator
+		// Also, this is a shortened font list due to boldness
+		// So our first character is space, so we adjust for that
+		unsigned char c = message[i];
+
+		if( c == '$' )
+		{
+			setColor( i, message );
+			continue;
+		}
+
+		c = c-32 + (bold ? 128 : 0);
+
+		// Draw Current Character
+		drawCharacter( c );
+		// Move Cursor over by character width plus some
+		glTranslatef( widths[c]+kerning, 0, 0 );
+	}
+
+}
+
+void DrawGLFont::drawAlignedCenter( string message )
+{
+}
+
+void DrawGLFont::drawAlignedRight( string message )
+{
+}
 
 void DrawGLFont::drawString( string message )
 {
@@ -67,39 +123,20 @@ void DrawGLFont::drawString( string message )
 		glColor3f( color.r, color.g, color.b );
 	}
 
-	for( int i = 0; (unsigned)i < message.size(); i++ )
+	switch( alignment )
 	{
-
-		// Not a real C++ program until there's a ternary operator
-		// Also, this is a shortened font list due to boldness
-		// So our first character is space, so we adjust for that
-		unsigned char c = message[i];
-
-		if( c == '$' )
-		{
-			i++;
-			i++;
-			stringstream ss;
-			while( message[i] != ')' )
-			{
-				ss << message[i];
-				i++;
-			}
-			
-			int k = atoi( ss.str().c_str() );
-			color = retrieveColor( k );
-			glColor3f( color.r, color.g, color.b );
-			continue;
-			
-		}
-
-		c = c-32 + (bold ? 128 : 0);
-
-		// Draw Current Character
-		drawCharacter( c );
-		// Move Cursor over by character width plus some
-		glTranslatef( widths[c]+kerning, 0, 0 );
+		case align_right:
+			drawAlignedRight( message );
+			break;
+		case align_center:
+			drawAlignedCenter( message );
+			break;
+		default:
+			drawAlignedLeft( message );
 	}
+	
+
+
 
 	glPopMatrix();
 
