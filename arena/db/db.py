@@ -20,7 +20,7 @@ db=MySQLdb.connect(host = 'localhost',
 
 class DBManager(rpyc.Service):
   callbackFuns = []
-  def addCallback(f):
+  def exposed_addCallback(f):
     callbackFuns.append(f)
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()

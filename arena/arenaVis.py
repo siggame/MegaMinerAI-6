@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import scheduler
 import time
 import rpyc
@@ -28,3 +29,9 @@ class ArenaVisualizer:
           f.close()
           s = Popen('./visualizer game.gamelog', shell = True)
           s.wait()
+        except:
+          pass
+
+if __name__ == '__main__':
+  vis = ArenaVisualizer()
+  vis.run()
