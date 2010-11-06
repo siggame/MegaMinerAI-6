@@ -54,7 +54,7 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 	drawFont->addColor( 1, 0, 0 );
 	drawFont->addColor( 0, 0, 0 );
 	drawFont->addColor( 0, 0, 1 );
-	ss << "$(0)" <<  game->players[0] << "$(1) vs.$(2) " << game->players[1];
+	ss << "$" <<  game->players[0] << "$ vs.$ " << game->players[1];
 
 	glColor4f( 0, 0, 0, 1 );
 	drawFont->setAlignment( align_left );
@@ -107,6 +107,7 @@ void Gameboard::drawScoreboard( Game *game)
 		drawFont->setAlignment( align_center );
 		drawFont->drawString( "Mega Miner 6: Modular" );
 		drawFont->setAlignment( align_left );
+		drawFont->resetColors();
 
 	}
 	glColor3f( 1, 1, 1 );
