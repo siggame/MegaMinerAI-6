@@ -8,6 +8,7 @@
 
 #include "visettings.h"
 
+
 using namespace std;
 
 struct Color

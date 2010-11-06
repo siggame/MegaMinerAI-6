@@ -3,3 +3,4 @@
 StatsDialog::StatsDialog()
 {
 }
+

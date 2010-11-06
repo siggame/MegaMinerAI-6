@@ -18,14 +18,18 @@ db=MySQLdb.connect(host = 'localhost',
                    passwd="",
                    db="fwog_web")
 
+callbackFuns = []
 class DBManager(rpyc.Service):
-  callbackFuns = []
   def exposed_addCallback(self,f):
-    self.callbackFuns.append(f)
+    global callbackFuns
+    print f
+    callbackFuns.append(f)
+    print callbackFuns
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()
   def exposed_catalog(self, password, log, c1, c2, sv, startTime, winner_int):
     global logNum
+    global callbackFuns
     validNames = config.readConfig("login.cfg")
     if validNames['admin']['password'] != password:
       return None
@@ -81,11 +85,10 @@ class DBManager(rpyc.Service):
     f.close()
     print "log saved at: ", logdir+filename
     
-    for fun in self.callbackFuns:
-      try:
-        fun(c1,c2,logNum-1)
-      except:
-        self.callbackFuns.remove(fun)
+    print callbackFuns
+    for fun in callbackFuns:
+      print fun
+      fun(c1,c2,logNum-1)
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer
