@@ -82,10 +82,7 @@ class DBManager(rpyc.Service):
     print "log saved at: ", logdir+filename
     
     for fun in self.callbackFuns:
-      try:
-        fun(c1,c2,logNum-1)
-      except:
-        self.callbackFuns.remove(fun)
+      fun(c1,c2,logNum-1)
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer
