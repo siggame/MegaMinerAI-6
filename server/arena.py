@@ -22,7 +22,7 @@ def install():
     f.write('Game started')
     f.close()
 
-  def wrapDeclareWinner(self, winner):
+  def wrapDeclareWinner(self, winner, reason):
     f = open('winner', 'w')
     if winner is self.players[0]:
       f.write("Player 0 wins")

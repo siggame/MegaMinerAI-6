@@ -26,6 +26,8 @@ class SexpProtocol(Int32StringReceiver):
   def connectionLost(self, reason):
     print reason
     self.app.disconnect(reason)
+    if hasattr(self, 'game'):
+      self.game.removePlayer(self)
       
   def stringReceived(self, string):
     expr = str2sexpr(string)

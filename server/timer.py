@@ -24,11 +24,11 @@ def install():
       if i.turn == i.players[0]:
         i.player0Time -= 1
         if i.player0Time < 0:
-          i.declareWinner(i.players[1])
+          i.declareWinner(i.players[1], 'Laaaaaag')
       elif i.turn == i.players[1]:
         i.player1Time -= 1
         if i.player1Time < 0:
-          i.declareWinner(i.players[0])
+          i.declareWinner(i.players[0], 'Laaaaaag')
       else:
         games.remove(i)
 
