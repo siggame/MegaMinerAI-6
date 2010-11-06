@@ -17,8 +17,10 @@ struct Color
 		r = R;
 		g = G;
 		b = B;
+		index = 0;
 	}
 	float r,g,b;
+	int index;
 };
 
 enum
