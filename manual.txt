@@ -2,4 +2,9 @@ Welcome to Modular!
 
 You control an army of von Neumann machines, a group of self-replicating robots with which you will seek out and destroy the Enemy.
 
+These robots can temporarily combine together to form bigger robots, with each smaller robot making up a component of the bigger robot and moving together as one. These combined robots can combine with other combined robots of the same size to create bigger robots, and so on to infinity.  
+
+There are six types of robots. All can be mixed in any form to create a larger robot.
+Action -- These robots, when combined, give the combined robot a bonus to the number of actions it can perform in a turn.
+Build -- These robots are able to build other robots of the same size or smaller, and can heal other robots.
 
