@@ -250,6 +250,7 @@ class Bot(Unit):
       victims = [i for i in victims if i.health > 0]
     
     if not victims:
+      self.game.animations.append(['move', self.id, d])
       self._move(x, y)
     
     self.steps -= 1
