@@ -12,14 +12,17 @@ class ArenaVisualizer:
     self.scheduler = scheduler.VisScheduler()
     #something something Database callback something
     self.dbServer=rpyc.connect(dbManagerName,18863)
-    self.dbServer.root.addCallback( lambda c1, c2, l: self.scheduler.visualizerQueueUpdate(scheduler.GameRecord(0, c1[0], c2[0], c1[1], c2[1], l)))
+    self.dbServer.root.addCallback( self.update)
     
-    
+  def update(self, c1, c2, l):
+    print c1, c2, l
+    g = GameRecord(0, c1[0], c2[0], c1[1], c2[1], l)
+    self.scheduler.visualizerQueueUpdate(g)
     
   def run(self):
     while True:
       time.sleep(1)
-      next = self.scheculer.nextVideo()
+      next = self.scheduler.nextVideo()
       if next:
         #I am become like unto a tentacle!
         try:
