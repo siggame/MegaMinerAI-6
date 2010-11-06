@@ -116,7 +116,7 @@ Bot.addProperties([
 
 move = Animation("Move",
   data = [Variable("robot", Bot),
-    Variable("direction", int)]
+    Variable("direction", str)]
   )
 add = Animation("Add",
   data = [Variable("robot", Unit)]

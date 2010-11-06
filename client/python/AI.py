@@ -4,6 +4,8 @@ from BaseAI import BaseAI
 from GameObject import *
 import util
 
+import random
+
 class AI(BaseAI):
   """The class implementing gameplay logic."""
   @staticmethod
@@ -21,7 +23,10 @@ class AI(BaseAI):
     pass
 
   def run(self):
-      return 1
+    for i in self.bots:
+      if i.getOwner() == self.playerID():
+        
+    return 1
 
   def __init__(self, conn):
-      BaseAI.__init__(self, conn)
+    BaseAI.__init__(self, conn)

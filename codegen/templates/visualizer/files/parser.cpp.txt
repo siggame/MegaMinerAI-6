@@ -87,6 +87,7 @@ static bool parseSexp(Game& game, sexp_t* expression)
       if ( !sub ) return false;
       if(string(sub->val) == "game")
       {
+          sub = sub->next;
 % for datum in globals:
           if ( !sub ) return false;
 %   if datum.type == int:
