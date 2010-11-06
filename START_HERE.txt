@@ -1,0 +1,22 @@
+BASIC STEPS TO GET YOUR TEAM STARTED
+
+1) Point your browser to http://r03mwwcp2.device.mst.edu
+1a) Register your team if you have not already
+1b) Find the online documentation at the same website.
+
+2) Find AI.<language>
+2a) Edit the username and password fields to YOUR username and password.
+
+3) Find the submit script
+3b) Edit the username and password fields to YOUR username and password.
+
+4) Run 'make' in your AI's folder
+
+5) Play versus yourself:
+5a) Run server
+5b) Connect one client with your AI to the server at localhost, taking note of the game number
+5c) Connect the other client with your AI to the server at localhost with the same game number
+
+6) Watch the gamelog the server generated with the visualizer.
+
+
