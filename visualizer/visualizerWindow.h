@@ -115,9 +115,11 @@ class VisualizerWindow: public QMainWindow
 		QTabWidget *toolBox;
 
 		Scoreboard *scoreboard;
-		UnitSelection *unitSelection;
-		QScrollArea *unitScroll;
 		Options *options;
+
+                QFrame *unitSelection;
+                UnitSelection *unitSelectionL;
+                UnitSelection *unitSelectionR;
 
 		QAction *viewGameDocsAct;
 		QAction *openGameAct;

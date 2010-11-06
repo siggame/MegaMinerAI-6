@@ -324,7 +324,9 @@ void Gameboard::talkRobotsGodDamnitTalk( Game *game )
 
 void Gameboard::printStats(Game *game)
 {
-	stringstream ss;
+	stringstream ssL;
+	stringstream ssR;
+
 	int numBots = 0;
 	int numBotsP1 = 0;
 	int numBotsP2 = 0;
@@ -423,33 +425,35 @@ void Gameboard::printStats(Game *game)
 		movitudeAvg /= numBots;
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
-		ss << "Health: " << setw(4) << healthAvg<< " / " 
-		   << setw(4) << maxHealthAvg;
-		ss << setw(20) << "P1 Bots: " << numBotsP1 << endl;
-		ss << "Size: " << setw(4) << sizeAvg
-		   << setw(33) << "P2 Bots: " << numBotsP2 << endl;
-		ss << "Actions: " << actionsAvg<< endl;
-		ss << "Steps: " << stepsAvg<< endl;
-		ss << "Damage: " << damageAvg<< endl;
-		ss << "Range: " << rangeAvg<< endl;
-		ss << "Movitude: " << movitudeAvg<< endl;
-		ss << "Actitude: " << actitudeAvg<< endl;
-		ss << "Build Rate: " << buildRateAvg;
+		ssL << "Health: "  << healthAvg<< " / " <<maxHealthAvg << endl;
+		ssL << "Size: " << sizeAvg << endl;
+		ssL << "Actions: " << actionsAvg<< endl;
+		ssL << "Steps: " << stepsAvg<< endl;
+		ssL << "Damage: " << damageAvg<< endl;
+		ssL << "Range: " << rangeAvg<< endl;
+		ssL << "Movitude: " << movitudeAvg<< endl;
+		ssL << "Actitude: " << actitudeAvg<< endl;
+		ssL << "Build Rate: " << buildRateAvg;
+
+		ssR << "P1 Bots: " << numBotsP1 << endl;
+		ssR << "P2 Bots: " << numBotsP2 << endl;
 		//ss << "Bots Selected: " << numBots << endl;
 	}
 	else
 	{
-		ss << " ";
+		ssL << " ";
+		ssR << " ";
 	}
 
 	if(numWalls != 0 )
 	{		
 		wallAvg /= numWalls;
 		wallMax /= numWalls;
-		ss << "Wall Health: " << wallAvg  << "/" << wallMax << endl;
+		ssR << "Wall Health: " << wallAvg  << "/" << wallMax << endl;
 	}
 		
-	parent->unitSelection->setText( ss.str().c_str() );
+	parent->unitSelectionL->setText( ssL.str().c_str() );
+	parent->unitSelectionR->setText( ssR.str().c_str() );
 }
 
 
