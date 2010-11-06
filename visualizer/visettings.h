@@ -96,6 +96,7 @@
 			ATTRIBUTE( int, arenaMode );
 			ATTRIBUTE( int, winnerScreenTime );
 			ATTRIBUTE( int, initTime );
+			ATTRIBUTE( bool, showInitScreen);
 
 			// Font Stuff
 

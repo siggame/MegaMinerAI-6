@@ -273,13 +273,13 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
     if(distance(object, walls+i) == 1 && walls[i].health > 0)
     {
       if(y == -1 && walls[i].y < object->y)
-        victims.push_back((_Unit*) walls+i);
+        victims.push_back((_Unit*) (walls+i));
       else if(x == -1 && walls[i].x < object->x)
-        victims.push_back((_Unit*) walls+i);
+        victims.push_back((_Unit*) (walls+i));
       if(y == 1 && walls[i].y == object->y+object->size)
-        victims.push_back((_Unit*) walls+i);
+        victims.push_back((_Unit*) (walls+i));
       if(y == 1 && walls[i].x == object->x+object->size)
-        victims.push_back((_Unit*) walls+i);
+        victims.push_back((_Unit*) (walls+i));
     }
   }
   for(int i = 0; i < object->_c->BotCount; i++)
@@ -287,13 +287,13 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
     if(distance(object, bots+i) == 1 && bots[i].health > 0)
     {
       if(y == -1 && bots[i].y+bots[i].size == object->y)
-        victims.push_back((_Unit*) bots+i);
+        victims.push_back((_Unit*) (bots+i));
       else if(x == -1 && bots[i].x+bots[i].size == object->x)
-        victims.push_back((_Unit*) bots+i);
+        victims.push_back((_Unit*) (bots+i));
       if(y == 1 && bots[i].y == object->y+object->size)
-        victims.push_back((_Unit*) bots+i);
+        victims.push_back((_Unit*) (bots+i));
       if(y == 1 && bots[i].x == object->x+object->size)
-        victims.push_back((_Unit*) bots+i);
+        victims.push_back((_Unit*) (bots+i));
     }
   }
   for(int i = 0; i < object->_c->FrameCount; i++)
@@ -301,29 +301,29 @@ DLLEXPORT int botMove(_Bot* object, const char* direction)
     if(distance(object, frames+i) == 1 && frames[i].health > 0)
     {
       if(y == -1 && frames[i].y+frames[i].size == object->y)
-        victims.push_back((_Unit*) frames+i);
+        victims.push_back((_Unit*) (frames+i));
       else if(x == -1 && frames[i].x+frames[i].size == object->x)
-        victims.push_back((_Unit*) frames+i);
+        victims.push_back((_Unit*) (frames+i));
       if(y == 1 && frames[i].y == object->y+object->size)
-        victims.push_back((_Unit*) frames+i);
+        victims.push_back((_Unit*) (frames+i));
       if(y == 1 && frames[i].x == object->x+object->size)
-        victims.push_back((_Unit*) frames+i);
+        victims.push_back((_Unit*) (frames+i));
     }
   }
   
   if(victims.size())
   {
-    int victimHealth;
+    int victimHealth = 0;
     for(int i = 0; i < victims.size(); i++)
       victimHealth += victims[i]->health;
     
-    int damage = min(victimHealth, object->size*object->size);
+    int damage = min(victimHealth, object->size*object->size) * 4;
     object->health -= damage;
     
     bool alive = false;
     for(int i = 0; i < victims.size(); i++)
     {
-      damage = (victims[i]->health * object->size*object->size + victimHealth - 1) / victimHealth;
+      damage = (victims[i]->health * object->size*object->size + victimHealth - 1) / victimHealth * 4;
       victims[i]->health -= damage;
       if(victims[i]->health > 0)
         alive = true;

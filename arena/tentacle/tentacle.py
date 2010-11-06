@@ -12,8 +12,8 @@ import time
 
 import config
 
-dbManagerName='localhost'
-updateServerName='localhost'
+dbManagerName='r03mwwcp2.device.mst.edu'
+updateServerName='r03mwwcp2.device.mst.edu'
 class GladiatorService(rpyc.Service):
   def update(self, name, version, target):
     shutil.rmtree(target)

@@ -1,6 +1,7 @@
 #include "gameboardWidget.h"
 
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 using namespace std;
 
@@ -350,7 +351,7 @@ void Gameboard::printStats(Game *game)
 			healthAvg += j->second.health;
 			maxHealthAvg += j->second.maxHealth;
 			sizeAvg += j->second.size;
-			if(j->second.owner == 1)
+			if(j->second.owner == 0)
 			{
 				numBotsP1++;
 			}
@@ -379,7 +380,7 @@ void Gameboard::printStats(Game *game)
 			movitudeAvg += j->second.movitude;
 			actitudeAvg += j->second.actitude;
 			buildRateAvg += j->second.buildRate;
-			if(j->second.owner == 1)
+			if(j->second.owner == 0)
 			{
 				numBotsP1++;
 			}
@@ -404,11 +405,11 @@ void Gameboard::printStats(Game *game)
 		movitudeAvg /= numBots;
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
-		ss << selectedIDs.size();
-		ss << "Health: " << healthAvg<< " / " << maxHealthAvg
-		   << "\t\t\tP1 Bots: " << numBotsP1 << endl;
-		ss << "Size: " << sizeAvg
-		   << "\t\t\t\tP2 Bots: " << numBotsP2 << endl;
+		ss << "Health: " << setw(4) << healthAvg<< " / " 
+		   << setw(4) << maxHealthAvg;
+		ss << setw(20) << "P1 Bots: " << numBotsP1 << endl;
+		ss << "Size: " << setw(4) << sizeAvg
+		   << setw(33) << "P2 Bots: " << numBotsP2 << endl;
 		ss << "Actions: " << actionsAvg<< endl;
 		ss << "Steps: " << stepsAvg<< endl;
 		ss << "Damage: " << damageAvg<< endl;
@@ -443,12 +444,19 @@ void Gameboard::paintGL()
 
 	if( game )
 	{
+		if( time.elapsed() < getAttr(initTime) && getAttr(showInitScreen) )
+		{
+			drawIntroScreen( game, time.elapsed() );
+
+			
+		}	else 
 
 		if( time.elapsed() > getAttr(playSpeed) && !getAttr(dragging)
 			&& getAttr(currentMode) != paused &&
 			(!getAttr(arenaMode) || (getAttr(frameNumber) > 0) || time.elapsed() > getAttr(initTime))
 			)
 		{
+			setAttr(showInitScreen, false );
 			time.restart();
 
 			// This is where we advance to the next frame
@@ -495,26 +503,31 @@ void Gameboard::paintGL()
 		else
 			falloff = (float)time.elapsed()/getAttr(playSpeed);
 
-		glLoadIdentity();
-		drawScoreboard( game );
-		glPushMatrix();
-		glTranslatef( 0, 55, 0 );
-		drawControl();
-		glPopMatrix();
-		glTranslatef( 0, getAttr(boardOffsetY), 0 );
-		glPushMatrix();
+		if( !getAttr( showInitScreen ) )
+		{
 
-		glColor3f( 1, 1, 1 );
+			glLoadIdentity();
+			drawScoreboard( game );
+			glPushMatrix();
+			glTranslatef( 0, 55, 0 );
+			drawControl();
+			glPopMatrix();
+			glTranslatef( 0, getAttr(boardOffsetY), 0 );
+			glPushMatrix();
 
-		drawBackground();
-		getPercentage();						 //gets function ready to recalculate percentage controlled
-		drawWalls( game, falloff );
-		drawFrames( game, falloff );
-		drawBots( game, falloff );
-		drawAnimations( game, falloff );
-		drawProgressbar( game );
+			glColor3f( 1, 1, 1 );
 
-		glPopMatrix();
+			drawBackground();
+			getPercentage();						 //gets function ready to recalculate percentage controlled
+			drawWalls( game, falloff );
+			drawFrames( game, falloff );
+			drawBots( game, falloff );
+			drawAnimations( game, falloff );
+			drawProgressbar( game );
+
+			glPopMatrix();
+		}
+
 		if( getAttr(frameNumber) != getAttr(lastFrame) )
 		{
 			setAttr( lastFrame, getAttr( frameNumber ) );
@@ -570,7 +583,7 @@ void Gameboard::paintGL()
 			}
 			else
 			{
-				drawWinnerScreen( game );
+				drawWinnerScreen( game, time.elapsed() );
 			}
 
 		}

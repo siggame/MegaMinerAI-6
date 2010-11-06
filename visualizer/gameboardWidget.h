@@ -81,8 +81,8 @@ class Gameboard : public QGLWidget
 		void drawScoreboard( Game *game );
 		void drawMouse();
 		void drawProgressbar( Game * game);
-		void drawWinnerScreen( Game *game );
-		void drawIntroScreen( Game *game );
+		void drawWinnerScreen( Game *game, int elapsed );
+		void drawIntroScreen( Game *game, int elapsed );
 
 		void drawSingleUnit(Game * game, Unit * unit, int frame, int unitSize, float falloff);
 
