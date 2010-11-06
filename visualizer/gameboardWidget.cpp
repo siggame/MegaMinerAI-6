@@ -360,7 +360,7 @@ void Gameboard::printStats(Game *game)
 
 	}
 		
-	if(numBots!=0)
+	if(numBots != 0)
 	{
 		healthAvg /= numBots;
 		maxHealthAvg /= numBots;
@@ -372,6 +372,7 @@ void Gameboard::printStats(Game *game)
 		movitudeAvg /= numBots;
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
+		ss << selectedIDs.size();
 		ss << "Health: " << healthAvg<< " / " << maxHealthAvg <<endl;
 		ss << "Size: " << sizeAvg<< endl;
 		ss << "Actions: " << actionsAvg<< endl;
@@ -382,8 +383,12 @@ void Gameboard::printStats(Game *game)
 		ss << "Actitude: " << actitudeAvg<< endl;
 		ss << "Build Rate: " << buildRateAvg;
 		//ss << "Bots Selected: " << numBots << endl;
-		parent->unitSelection->setText( ss.str().c_str() );
 	}
+	else
+	{
+		ss << " ";
+	}
+	parent->unitSelection->setText( ss.str().c_str() );
 }
 
 
