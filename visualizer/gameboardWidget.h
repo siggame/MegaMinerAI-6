@@ -93,6 +93,7 @@ class Gameboard : public QGLWidget
 		void drawHeal( Game * game, Heal * heal, float falloff );
 
 		void talkRobotsGodDamnitTalk(Game *game);
+		void printStats(Game *game);
 
 		bool loadAllTextures( QString & message );
 		bool loadTexture(QString filename, eTextures texID, QString & errString);

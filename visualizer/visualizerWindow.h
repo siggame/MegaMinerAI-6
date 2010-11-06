@@ -25,7 +25,7 @@ enum
 	rewinding
 };
 
-class UnitSelection: public QWidget
+class UnitSelection: public QLabel
 {
 	Q_OBJECT
 		public:
@@ -117,6 +117,7 @@ class VisualizerWindow: public QMainWindow
 
 		Scoreboard *scoreboard;
 		UnitSelection *unitSelection;
+		QScrollArea *unitScroll;
 		Options *options;
 
 		QAction *viewGameDocsAct;
