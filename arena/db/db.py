@@ -40,7 +40,6 @@ class DBManager(rpyc.Service):
     print "start time=",startTime
     print "winner=",winner_int
 
-    filename = 'logs/%s.gamelog.bz2' % logNum
     logNum += 1
     
     c=db.cursor()
@@ -49,6 +48,8 @@ class DBManager(rpyc.Service):
 
     if max_id == None:
       max_id = 0
+
+    filename = 'logs/%s.gamelog.bz2' % str(max_id+1)
 
     c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username AND m.mstname = '%s'" % (c1[0].lower(),))
     try:
