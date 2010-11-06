@@ -19,6 +19,7 @@ class ArenaMonster:
 
     self.tentacles = []
     for i in hosts:
+        print i
         try:
           self.tentacles.append(rpyc.connect(i, 18861))
           self.tentacles[-1].host = i
