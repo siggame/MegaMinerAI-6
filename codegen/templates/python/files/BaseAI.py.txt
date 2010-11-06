@@ -14,7 +14,9 @@ class BaseAI:
   runGenerator = None
   connection = None
 % for model in models:
+%   if model.type == 'Model':
   ${lowercase(model.plural)} = []
+%   endif
 % endfor
 
   def startTurn(self):

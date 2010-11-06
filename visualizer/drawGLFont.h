@@ -4,10 +4,29 @@
 #include <QtOpenGL>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include "visettings.h"
 
 using namespace std;
+
+struct Color
+{
+	Color( float R, float G, float B )
+	{
+		r = R;
+		g = G;
+		b = B;
+	}
+	float r,g,b;
+};
+
+enum
+{
+	align_left = 0,
+	align_center,
+	alight_right
+};
 
 class DrawGLFont
 {
@@ -27,6 +46,11 @@ class DrawGLFont
 
 		void drawString( string message );
 
+		void resetColors();
+		void addColor( float r, float g, float b );
+		Color retrieveColor( int id );
+
+
 	private:
 
 		// Don't want to waste a bunch of time rebinding the font
@@ -42,5 +66,6 @@ class DrawGLFont
 
 		float kerning;
 		bool bold;
+		vector<Color> colors;
 };
 #endif
