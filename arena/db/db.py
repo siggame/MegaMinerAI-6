@@ -3,12 +3,15 @@
 import MySQLdb
 import rpyc
 import datetime
+import os
 from random import randint
 
 import config
 
+logdir = '/web/static/'
+
 versions = {}
-logNum = 0
+logNum = len(os.listdir(logdir+'logs'))
 
 db=MySQLdb.connect(host = 'localhost',
                    user = 'root',
@@ -16,6 +19,11 @@ db=MySQLdb.connect(host = 'localhost',
                    db="fwog_web")
 
 class DBManager(rpyc.Service):
+  callbackFuns = []
+  def addCallback(f):
+    callbackFuns.append(f)
+  def exposed_read(self, log):
+    return open(logdir+'%s.gamelog.bz2' % log).read()
   def exposed_catalog(self, password, log, c1, c2, sv, startTime, winner_int):
     global logNum
     validNames = config.readConfig("login.cfg")
@@ -69,10 +77,16 @@ class DBManager(rpyc.Service):
     c.execute(query)
     db.commit()
             
-    f=open('/web/static/'+filename,'wb')
+    f=open(logdir+filename,'wb')
     f.write(log)
     f.close()
-    print "log saved at: ", filename
+    print "log saved at: ", logdir+filename
+    
+    for fun in self.callbackFuns:
+      try:
+        fun(c1,c2,logNum-1)
+      except:
+        self.callbackFuns.remove(fun)
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer

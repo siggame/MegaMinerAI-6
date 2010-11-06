@@ -103,6 +103,7 @@ Requirements:<br/>
 (3) Bot must not be stepping off the map<br/>
 Calculations:<br/>
 Damage caused for each individual object is (min(victimHealth, self.size**2) * self.game.shattertude), where shattertude is a constant.<br/>
+Maximum Move Distance is determined by Movitude/Size^2 (rounds down) where Size is the length of a side of a bot, so Size^2 is the number of 1x1 bots making up the bot <br/> 
 <p/>
 Attack:<br/>
 Some bots can attack.<br/>
@@ -114,6 +115,8 @@ Requirements:<br/>
 (4) Target must have at least one free action.<br/>
 Calculations:<br/>
 Target takes damage equal to that specified by self.damage()<br/>
+The bot's actions for the turn are decrimented by 1 <br/>
+The number of actions a bot has is determined by Actitude/Size^2 (rounds down) where Size is the length of a side of a bot, so Size^2 is the number of 1x1 bots making up the bot <br/>
 <p/>
 Build:<br/>
 Builders are the only bot that can build. When they build, they produce a frame that occupies the space that the finished bot will occupy. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.<br/>
@@ -141,6 +144,8 @@ Requirements:<br/>
 (5) The healer must have at least one free action point.<br/>
 Calculations<br/>
 Bots are healed at the twice the rate of building the same bot, or (target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2)))<br/>
+The bot's actions for the turn are decrimented by 1 <br/>
+The number of actions a bot has is determined by Actitude/Size^2 (rounds down) where Size is the length of a side of a bot, so Size^2 is the number of 1x1 bots making up the bot <br/>
 <p/>
 Combine: <br/>
 Four bots already arranged in a square can be combined into a larger bot.<br/> 
@@ -149,6 +154,7 @@ Requirements:<br/>
 (1) All bots to be combined must have at least one free action point.<br/>
 (2) All bots to be combined must be the same size<br/>
 (3) All bots must be adjacent to each other in a square formation.<br/>
+The resulting bot has the sum of the stats of its component bots <br/>
 <p/>
 Split:<br/>
 Combined bots can split back up into their component parts.<br/>
@@ -163,12 +169,14 @@ Talk: Bots can talk. Talking causes the input string to show up in the visualize
 <p/>
 Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. <br/>
 <p/>
+Player 0 starts with builder bots at (3,9) and (3,10), while Player 1 starts with builder bots at (36,9) and (36,10).<p/>
+Walls are procedurally generated and then mirrored, so the map is initially symmetric.  There will never be any walls placed within X +/- 1 and Y +/- 1 of any starting bot.<p/>
 A brief discussion of the workflow:<br/>
 Team workflow:<br/>
 The AI.(language) file is edited by your team. <br/>
 Your team then runs 'make' in your client directory.<br/>
 Make puts together a client that plays the game. <br/>
-You then start the server by running 'python server/main.py', and connect both clients to the sever with './client localhost' and './client localhost (gamenumber)'<br/>
+Connect both clients to the server with './run r03mwwcp2.device.mst.edu' and './run r03mwwcp2.device.mst.edu (gamenumber)'<br/>
 The server puts out a gamelog in the same directory.<br/>
 Finally, you run the visualizer, and use it to open the gamelog and view the results. <br/>
 <p/>
