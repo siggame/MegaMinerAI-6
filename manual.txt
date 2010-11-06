@@ -1,10 +1,15 @@
 Welcome to Modular!
 
-You control an army of von Neumann machines, a group of self-replicating robots with which you will seek out and destroy the Enemy.
+You control an army of von Neumann machines, a group of self-replicating bots with which you will seek out and destroy the Enemy.
 
-These robots can temporarily combine together to form bigger robots, with each smaller robot making up a component of the bigger robot and moving together as one. These combined robots can combine with other combined robots of the same size to create bigger robots, and so on to infinity.  
+These bots can temporarily combine together to form bigger bots, with each smaller bot making up a component of the bigger bot and moving together as one. Combined bots take on the attributes of their component bots, so different combinations of bots result in different "flavors" of bigger bots. These combined bots can combine with other combined bots of the same size to create bigger bots, and those bots can combine with other bots of the same size to create even BIGGER bots, and so on to infinity (or at least the size of the map.)
 
-There are six types of robots. All can be mixed in any form to create a larger robot.
-Action -- These robots, when combined, give the combined robot a bonus to the number of actions it can perform in a turn.
-Build -- These robots are able to build other robots of the same size or smaller, and can heal other robots.
+There are six types of bots, A through F. All can be mixed in any combination to form a larger bot.
+Action -- These bots, when combined, give the combined bot a bonus to the number of actions it can perform in a turn.
+Build -- These bots are able to build other bots of the same size or smaller, and can heal other bots.
+Cannon -- These bots have a ranged attack.
+Damage -- These bots do more damage on attack than default.
+Engine -- These bots can move farther per turn.
+Force Field -- These bots have more health than default.
+
 
