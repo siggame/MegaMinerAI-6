@@ -143,7 +143,7 @@ build = Animation("Build",
   data = [Variable("builder", Bot), Variable("frame", Frame)]
   )
 collide = Animation("Collide",
-  data = [Variable("attacker", Bot), Variable("victim", Unit)]
+  data = [Variable("attacker", Bot), Variable("victim", Unit), Variable("direction", str)]
   )
 
 

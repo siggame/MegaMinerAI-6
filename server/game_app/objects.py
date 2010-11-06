@@ -245,7 +245,7 @@ class Bot(Unit):
       
       for i in victims:
         damage = (i.health * self.size**2 + victimHealth - 1) / victimHealth * self.game.shattertude
-        self.game.animations.append(['collide', self.id, i.id])
+        self.game.animations.append(['collide', self.id, i.id, d])
         i._takeDamage(damage)
       victims = [i for i in victims if i.health > 0]
     
