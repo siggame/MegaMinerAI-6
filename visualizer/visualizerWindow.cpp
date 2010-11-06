@@ -206,13 +206,42 @@ void VisualizerWindow::openGamelog()
 	// Kill the GL Paint interrupt timer so open dialogue can load.
 	gameboard->killTimer( gameboard->timerId );
 
+
+	QFileDialog dlg;
+
+	string directory = "";
+	ifstream in( "lastDir" );
+	if( in.is_open() )
+	{
+		in >> directory;
+	}
+
+	in.close();
+
 	QString fileName =
-		QFileDialog::getOpenFileName(
+		dlg.getOpenFileName(
 		this,
 		tr("Open Game Log"),
-		"~/",
+		directory.c_str(),
 		tr("Log Files(*.gamelog)")
 		);
+
+
+	for( int i = fileName.size()-1; i >= 0; i-- )
+	{
+		if( fileName.toLocal8Bit().constData()[i] == '\\' ||
+				fileName.toLocal8Bit().constData()[i] == '/' )
+		{
+			string file = fileName.toLocal8Bit().constData();
+			directory = file.substr( 0, i );
+			break;
+		}
+	}
+
+	ofstream out( "lastDir" );
+	out << directory;
+	out.close();
+
 
 	loadGamelog( (char *)fileName.toLocal8Bit().constData() );
 
