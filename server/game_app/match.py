@@ -219,6 +219,12 @@ class Match(DefaultGameWorld):
   def attack(self, object, target):
     return object.attack(target, )
 
+  @derefArgs(Bot,Bot)
+  @requireOwn
+  def heal(self, object, target):
+    return object.heal(target, )
+
+
   @derefArgs(Bot, Type, None, None, None)
   @requireOwn
   def build(self, object, type, x, y, size):
