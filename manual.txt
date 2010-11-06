@@ -1,3 +1,5 @@
 Welcome to Modular!
 
+You control an army of von Neumann machines, a group of self-replicating robots with which you will seek out and destroy the Enemy.
+
 
