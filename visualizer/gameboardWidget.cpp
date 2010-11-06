@@ -610,7 +610,8 @@ void Gameboard::paintGL()
 			}
 			else
 			{
-				drawWinnerScreen( game, time.elapsed() );
+				if( time.elapsed() > getAttr(winnerScreenTime)*.3 )
+					drawWinnerScreen( game, time.elapsed() );
 			}
 
 		}

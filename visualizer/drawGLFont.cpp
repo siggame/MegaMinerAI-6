@@ -109,7 +109,7 @@ void DrawGLFont::drawAlignedCenter( string message )
 	string left = message.substr( 0, mid );
 	drawAlignedRight( left );
 	glPopMatrix();
-	string right = message.substr( mid, mid );
+	string right = message.substr( mid, mid+1 );
 	drawAlignedLeft( right );
 	
 
