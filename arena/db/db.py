@@ -3,12 +3,15 @@
 import MySQLdb
 import rpyc
 import datetime
+import os
 from random import randint
 
 import config
 
+logdir = '/web/static/'
+
 versions = {}
-logNum = 0
+logNum = len(os.listdir(logdir+'logs'))
 
 db=MySQLdb.connect(host = 'localhost',
                    user = 'root',
@@ -69,10 +72,10 @@ class DBManager(rpyc.Service):
     c.execute(query)
     db.commit()
             
-    f=open('/web/static/'+filename,'wb')
+    f=open(logdir+filename,'wb')
     f.write(log)
     f.close()
-    print "log saved at: ", filename
+    print "log saved at: ", logdir+filename
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer
