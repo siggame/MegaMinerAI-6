@@ -142,6 +142,9 @@ void Gameboard::drawAttack( Game * game, Attack * attack, float falloff )
 		Unit *victim   = findExistance( stateBackward, attack->victim );
 		Unit *deadUnit = findExistance( stateForward,  attack->victim );
 
+		if( !attacker || !victim )
+			return;
+
 		if ( !deadUnit )						 //draw the dead unit
 		{
 			drawSingleUnit(game,victim,frame-1,unitSize,falloff);

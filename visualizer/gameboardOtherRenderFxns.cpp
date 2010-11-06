@@ -44,7 +44,11 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 	stringstream ss;
 
 	glTranslatef( 300, 300, 0 );
-	ss << game->players[0] << " vs. " << game->players[1];
+	drawFont->resetColors();
+	drawFont->addColor( 1, 0, 0 );
+	drawFont->addColor( 0, 0, 0 );
+	drawFont->addColor( 0, 0, 1 );
+	ss << "$(0)" <<  game->players[0] << "$(1) vs.$(2) " << game->players[1];
 
 	glColor4f( 0, 0, 0, 1 );
 	drawFont->drawString( ss.str().c_str() );
