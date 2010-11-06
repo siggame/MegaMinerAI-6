@@ -86,6 +86,7 @@ VisualizerWindow::VisualizerWindow()
 		QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
 	}
 
+
 	createActions();
 	createMenus();
 	createLayout();
@@ -162,7 +163,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
-	///* This Code fills the quadtree     ::::     REALLY UGLY CODE
+	/* This Code fills the quadtree     ::::     REALLY UGLY CODE
 
 	vector< GameState >::iterator stateIt = gamelog->states.begin();
 	for ( ; stateIt !=  gamelog->states.end(); stateIt++)
@@ -198,7 +199,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	}
 
-	//*/ END OF THE REALLY UGLY CODE
+	//*/ //END OF THE REALLY UGLY CODE
 	return true;
 }
 
@@ -529,10 +530,15 @@ void VisualizerWindow::createLayout()
 	bottomBar = new QFrame;
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
+	unitSelection = new QFrame;
 
-	unitSelection = new UnitSelection;
-	unitScroll = new QScrollArea;
-	unitScroll->setWidget(unitSelection);
+
+        QHBoxLayout *unitSelectionLayout = new QHBoxLayout;                   
+        unitSelectionL = new UnitSelection;
+        unitSelectionR = new UnitSelection;                                   
+        unitSelectionLayout->addWidget(unitSelectionL);                       
+        unitSelectionLayout->addWidget(unitSelectionR);                       
+        unitSelection->setLayout(unitSelectionLayout);
 
 	options = new Options;
 	playButton = new QPushButton("Pause");

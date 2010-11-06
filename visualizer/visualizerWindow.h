@@ -11,7 +11,7 @@
 #include "gameboardWidget.h"
 #include "parser.h"
 #include "statsDialog.h"
-#include "quadtree.h"
+
 
 class Gameboard;
 
@@ -109,15 +109,19 @@ class VisualizerWindow: public QMainWindow
 		QMenu *viewMenu;
 		QMenu *helpMenu;
 
+
+
 		QFrame *bottomBar;
 		QFrame *controlBar;
 		QTextEdit *console;
 		QTabWidget *toolBox;
 
 		Scoreboard *scoreboard;
-		UnitSelection *unitSelection;
-		QScrollArea *unitScroll;
 		Options *options;
+
+                QFrame *unitSelection;
+                UnitSelection *unitSelectionL;
+                UnitSelection *unitSelectionR;
 
 		QAction *viewGameDocsAct;
 		QAction *openGameAct;

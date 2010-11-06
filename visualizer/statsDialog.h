@@ -7,3 +7,4 @@ class StatsDialog : public QDialog
 		StatsDialog();
 
 };
+
