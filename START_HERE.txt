@@ -30,4 +30,4 @@ BASIC STEPS TO GET YOUR TEAM STARTED
 7b) Go to File -> Open Game Log...  and browse to the gamelog to play.
 7c) Watch the gamelog.
 
-8) To get started coding, read the webserver docs and/or go to the manual.txt page for API information. (API -- Application Programming Interface: the commands you need to use to make your AI go.)
+8) To get started coding, read the webserver docs and/or go to the manual.txt file for API information. (API -- Application Programming Interface: the commands you need to use to make your AI go.)

@@ -32,7 +32,7 @@ Target takes damage equal to that specified by self.damage()
 
 Build:
 Builders are the only bot that can build. When they build, they produce a frame that occupies the space that the finished bot will occupy. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
-Function call: 
+Function call: int build(Type &type, int x, int y, int size)
 Requirements:
 (1) The builder must be a build bot
 (2) The builder must have at least one free action point
@@ -47,6 +47,7 @@ The resulting health of the object is min(type.maxHealth * self.buildRate / 8, t
 
 Heal: 
 Bots are healed at twice the rate it takes to build them. 
+Function call: int heal(Bot &target)
 Requirements:
 (1) The healer must be a build bot
 (2) The healer must be adjacent to the target
@@ -56,12 +57,11 @@ Requirements:
 Calculations
 Bots are healed at the twice the rate of building the same bot, or (target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2)))
 
-Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. 
-
 Talk: Bots can talk. The talk function takes in a string. Talking causes the string to show up in the visualizer. This can be useful for debug statements. 
 
 Combine: 
 Four bots already arranged in a square can be combined into a larger bot. 
+Function call: int combine(Bot &bot2, Bot &bot3, Bot &bot4)
 Requirements:
 (1) All bots to be combined must have at least one free action point.
 (2) All bots to be combined must be the same size
@@ -69,9 +69,27 @@ Requirements:
 
 Split:
 Combined bots can split back up into their component parts.
+Function call: int split()
 Requirements:
 (1) Bot must have at least one action available.
 (2) Bot to be split must be a combined bot.
 Calculations:
 The resulting bots are assigned their new health based on the percentage of health the combined bot had. (i.health = int(i.maxHealth * (float(self.health) / self.maxHealth)))
 
+Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. 
+
+A brief discussion of the workflow:
+Team workflow:
+The AI.<language> file is edited by your team. 
+Your team then runs 'make' in your client directory.
+Make puts together a client that plays the game. 
+You then start the server by running 'python server/main.py', and connect both clients to the sever with './client localhost' and './client localhost <gamenumber>'
+The server puts out a gamelog in the same directory.
+Finally, you run the visualizer, and use it to open the gamelog and view the results. 
+
+Arena workflow:
+Once you think you have a working AI, you can push as many new revisions to the server as you like.
+To do so, your team runs 'make submit' and your client is pushed to the arena. (You are done at this point.)
+The arena server continuously farms out new games to a bank of client machines we have set up. 
+They play the games and pass the results back to the arena server. 
+The arena server then passes the gamelogs to the webserver, as well as randomly scheduling games to be shown on the projectors.
