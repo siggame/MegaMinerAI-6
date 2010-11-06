@@ -1,3 +1,9 @@
+Welcome to Modular!
+
+You control an army of von Neumann machines, a group of self-replicating bots with which you will seek out and destroy the Enemy.
+
+These bots can temporarily combine together to form bigger bots, with each smaller bot making up a component of the bigger bot and moving together as one. Combined bots take on the attributes of their component bots, so different combinations of bots result in different "flavors" of bigger bots. These combined bots can combine with other combined bots of the same size to create bigger bots, and those bots can combine with other bots of the same size to create even BIGGER bots, and so on to infinity (or at least the size of the map.) Combined bots can also split back up into their component bots at will.
+
 BASIC STEPS TO GET YOUR TEAM STARTED
 
 1) Point your browser to http://r03mwwcp2.device.mst.edu

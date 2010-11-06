@@ -1,9 +1,3 @@
-Welcome to Modular!
-
-You control an army of von Neumann machines, a group of self-replicating bots with which you will seek out and destroy the Enemy.
-
-These bots can temporarily combine together to form bigger bots, with each smaller bot making up a component of the bigger bot and moving together as one. Combined bots take on the attributes of their component bots, so different combinations of bots result in different "flavors" of bigger bots. These combined bots can combine with other combined bots of the same size to create bigger bots, and those bots can combine with other bots of the same size to create even BIGGER bots, and so on to infinity (or at least the size of the map.)
-
 There are six types of bots, A through F. All can be mixed in any combination to form a larger bot.
 Action -- These bots, when combined, give the combined bot a bonus to the number of actions it can perform in a turn.
 Build -- These bots are able to build other bots of the same size or smaller, and can heal other bots.
@@ -12,25 +6,66 @@ Damage -- These bots do more damage on attack than default.
 Engine -- These bots can move farther per turn.
 Force Field -- These bots have more health than default.
 
-
-
+Actions:
 Move: 
 Bots can move only in the cardinal directions "udlr" (Up, Down, Left, Right). 
 The default maximum move rate is one unit per turn, though bots with engines can move faster.  
+If bots collide with anything, friend, foe, or wall, all objects involved take damage, which is distributed across all bots in the collision.
+Function call: int self.move(std::string direction)
+Requirements:
+(1) Direction must be a string with the inital character being u, d, l, or r.
+(2) Bot must have at least one step left
+(3) Bot must not be stepping off the map
+Calculations:
+Damage caused for each individual object is (min(victimHealth, self.size**2) * self.game.shattertude), where shattertude is a constant.
 
+Attack:
+Some bots can attack.
+Function call: int self.attack (Unit &target)
+Requirements:
+(1) Bot must be able to do damage.
+(2) Target must be in range (not necessarily adjacent, as cannon bots and their derivitives have range.)
+(3) Target cannot be a sub-bot of a combined bot (must attack the entire bot, not cherry pick components to plink.)
+(4) Target must have at least one free action.
+Calculations:
+Target takes damage equal to that specified by self.damage()
 
 Build:
-Builders are the only bot that can build. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
-
-Heal:
+Builders are the only bot that can build. When they build, they produce a frame that occupies the space that the finished bot will occupy. They can build any homogenous bot their size or smaller. They must build the new bot in a cardinal direction adjacent to themselves. They must have at least one action to be able to build, and they must build inside the map.
 Requirements:
-(1) The healer must be a builder 
+(1) The builder must be a build bot
+(2) The builder must have at least one free action point
+(3) The built target must be on the game map
+(4) Size of build target must be less than or equal to the size of the builder
+(5) Size of build target must be a power of two
+(6) The build target must be adjacent to the builder
+(7) The build target area must not be occupied.
+Calculations:
+It takes (8 * size**2 / self.buildRate) turns to build an object.
+The resulting health of the object is min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
+
+Heal: 
+Bots are healed at twice the rate it takes to build them. 
+Requirements:
+(1) The healer must be a build bot
 (2) The healer must be adjacent to the target
 (3) The target must be friendly (not the enemy)
-(4) The target cannot be at full health.
+(4) The target cannot be at full health
+(5) The healer must have at least one free action point.
+Calculations
+Bots are healed at the twice the rate of building the same bot, or (target._takeDamage(-target.maxHealth * self.buildRate / (4 * target.size**2)))
+
 
 Map dimensions and origin: The map is 20 units tall by 40 units wide. Note that (0,0) is the top-left space the map, and thus (0,19) is the bottom-left space, (39, 0) is the top-right space, and (39, 19) is the bottom-right space. Accessor functions for this are 
 
 Talk: Bots can talk. The talk function takes in a string. Talking causes the string to show up in the visualizer. This can be useful for debug statements. 
 
 Combine: 
+Four bots already arranged in a square can be combined into a larger bot. 
+Requirements:
+(1) All bots to be combined must have at least one free action point.
+(2) All bots to be combined must be the same size
+(3) All bots must be adjacent to each other in a square formation.
+
+Split:
+Combined bots can split back up into 
