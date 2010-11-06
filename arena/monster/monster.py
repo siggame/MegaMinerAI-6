@@ -15,7 +15,7 @@ class ArenaMonster:
   tentacles = []
   
   def __init__(self):
-    hosts = ['localhost']
+    hosts = [i.strip() for i in open('serverList.txt') if i.strip()]
 
     self.tentacles = []
     for i in hosts:
