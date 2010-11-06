@@ -142,7 +142,7 @@ struct Heal : public Animation
 struct Move : public Animation
 {
   int robot;
-  int direction;
+  char* direction;
 
   friend std::ostream& operator<<(std::ostream& stream, Move obj);
 };

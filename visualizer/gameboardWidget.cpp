@@ -341,6 +341,28 @@ void Gameboard::printStats(Game *game)
 	
 	int frame = getAttr( frameNumber );
 
+	for( 	std::map<int,Frame>::iterator j = game->states[frame].frames.begin();
+		j != game->states[frame].frames.end(); 
+		j++)
+	{
+		if(selectedIDs.find(j->second.id) != selectedIDs.end())
+		{
+			healthAvg += j->second.health;
+			maxHealthAvg += j->second.maxHealth;
+			sizeAvg += j->second.size;
+			if(j->second.owner == 1)
+			{
+				numBotsP1++;
+			}
+			else
+			{
+				numBotsP2++;
+			}
+			numBots++;
+		}
+
+	}
+
 	for( 	std::map<int,Bot>::iterator j = game->states[frame].bots.begin();
 		j != game->states[frame].bots.end(); 
 		j++)
@@ -349,7 +371,7 @@ void Gameboard::printStats(Game *game)
 		{
 			healthAvg += j->second.health;
 			maxHealthAvg += j->second.maxHealth;
-			 sizeAvg += j->second.size;
+			sizeAvg += j->second.size;
 			actionsAvg += j->second.actions;
 			stepsAvg += j->second.steps;
 			damageAvg += j->second.damage;
