@@ -1,6 +1,7 @@
 #include "drawGLFont.h"
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 DrawGLFont::DrawGLFont()
@@ -9,6 +10,22 @@ DrawGLFont::DrawGLFont()
 	// Do Nothing.... Oh What fun...
 }
 
+Color DrawGLFont::retrieveColor( int id )
+{
+	if( id >= colors.size() )
+		return Color( 0, 0, 0 );
+	return colors[id];
+}
+
+void DrawGLFont::resetColors()
+{
+	colors.clear();
+}
+
+void DrawGLFont::addColor( float r, float g, float b )
+{
+	colors.push_back( Color( r, g, b ) );
+}
 
 bool DrawGLFont::loadNewFont(
 int fontTextureId,
@@ -43,6 +60,8 @@ void DrawGLFont::drawString( string message )
 
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, textureId );
+	Color color = retrieveColor( 0 );
+	glColor3f( color.r, color.g, color.b );
 	for( int i = 0; (unsigned)i < message.size(); i++ )
 	{
 
@@ -50,6 +69,24 @@ void DrawGLFont::drawString( string message )
 		// Also, this is a shortened font list due to boldness
 		// So our first character is space, so we adjust for that
 		unsigned char c = message[i];
+
+		if( c == '$' )
+		{
+			i++;
+			stringstream ss;
+			while( message[i] != ')' )
+			{
+				ss << message[i];
+				i++;
+			}
+			
+			int k = atoi( ss.str().c_str() );
+			cout << k << endl;
+			color = retrieveColor( k );
+			glColor3f( color.r, color.g, color.b );
+			continue;
+			
+		}
 
 		c = c-32 + (bold ? 128 : 0);
 
