@@ -165,6 +165,10 @@ static bool parseSexp(Game& game, sexp_t* expression)
   {
     expression = expression->next;
     if ( !expression ) return false;
+    expression = expression->next;
+    if ( !expression ) return false;
+    expression = expression->next;
+    if ( !expression ) return false;
     game.winner = atoi(expression->val);
   }
 

@@ -15,7 +15,7 @@ void Gameboard::drawWinnerScreen( Game *game )
 	glEnable( GL_TEXTURE_2D );
 
 	stringstream ss;
-	ss << game->players[1] << " WINS!!!!";
+	ss << game->players[game->winner] << " WINS!!!!";
 
 	glTranslatef( 250, 250, 0 );
 	glColor4f( 0, 0, 0, 1 );

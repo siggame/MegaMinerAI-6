@@ -116,6 +116,7 @@ struct Collide : public Animation
 {
   int attacker;
   int victim;
+  char* direction;
 
   friend std::ostream& operator<<(std::ostream& stream, Collide obj);
 };
