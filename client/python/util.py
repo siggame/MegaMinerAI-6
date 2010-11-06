@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-1 -*-
-import library
+from library import library
 
 
 ##Given the x,y and size of two bots, returns the Manhattan distance
