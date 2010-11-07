@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 import rpyc
 
 import scheduler
@@ -60,8 +60,8 @@ class ArenaMonster:
     while not self.scheduler.done():
       self.updateClients()
       print self.scheduler.teamlist
-      print self.scheduler.tentq
-      time.sleep(1)
+      print self.scheduler.tentq[0:5]
+      time.sleep(2)
       if not self.scheduler.ready():
         continue
       

@@ -61,7 +61,7 @@ class GameScheduler:
     self.tentq.sort(key = lambda x: x.priority, reverse=True)
     nextUp = self.tentq[0]
     nextUp.priority = 0
-    for s in self.tentq[1:]:
+    for s in self.tentq:
       if nextUp.p1 not in [s.p1, s.p2]:
         s.priority += 1
       if nextUp.p2 not in [s.p1, s.p2]:
