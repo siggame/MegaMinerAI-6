@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="text-align:center"> Megaminer 6 </h1>
+<div class="blk">
+  <div class="subblk" style="width:770;height:">
+    <h2>Register</h2>
+    <h2 style="color:red">{{warning}}<h2>
+    <div>
+      <form action="{% url web.registration.views.index %}" method="post">
+	<table>
+	  {{ form.as_table }}
+	</table></br>
+	<input type="hidden" name="reg_code" value="{{reg_code}}">
+	<input type="submit" value="Submit"/>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

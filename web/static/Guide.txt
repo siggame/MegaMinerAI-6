@@ -1,0 +1,33 @@
+Welcome to Modular!
+
+You control an army of von Neumann machines, a group of self-replicating bots with which you will seek out and destroy the Enemy.
+
+These bots can temporarily combine together to form bigger bots, with each smaller bot making up a component of the bigger bot and moving together as one. Combined bots take on the attributes of their component bots, so different combinations of bots result in different "flavors" of bigger bots. These combined bots can combine with other combined bots of the same size to create bigger bots, and those bots can combine with other bots of the same size to create even BIGGER bots, and so on to infinity (or at least the size of the map.) Combined bots can also split back up into their component bots at will.
+
+BASIC STEPS TO GET YOUR TEAM STARTED
+
+1) Point your browser to http://r03mwwcp2.device.mst.edu
+1a) Register your team if you have not already
+1b) Find the online documentation at the same website.
+
+2) Open PuTTY with your given account username and password. You will want at least 3 instances open to run the clients and server for local testing.
+
+3) Find AI.<language>
+3a) Edit the username and password fields to YOUR username and password.
+
+4) Find the submit script
+4a) Edit the username and password fields to YOUR username and password.
+
+5) Run the command 'make' in your AI's folder
+
+6) Play versus yourself:
+6a) Run the server in the server folder (main.py)
+6b) Connect one client with your AI to the server at localhost, taking note of the game number ( ./client localhost )
+6c) Connect the other client with your AI to the server at localhost with the same game number ( ./client localhost number)
+
+7) Watch the gamelog the server generated with the visualizer.
+7a) Run the visualizer.
+7b) Go to File -> Open Game Log...  and browse to the gamelog to play.
+7c) Watch the gamelog.
+
+8) To get started coding, read the webserver docs and/or go to the manual.txt page for API information. (API -- Application Programming Interface: the commands you need to use to make your AI go.)

@@ -1,0 +1,62 @@
+{% extends "fwog_web/menu.html" %}
+
+{% block pre_script %}
+<style type="text/css">
+  .errorlist li {width: 100%;text-decoration:bold;color:red;height:20px;}
+  p {margin: 0 0 0 25px;}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#id_for_category option[value='{{default_select_category}}']").attr("selected", "selected");
+  $("#id_for_status option[value='{{default_select_status}}']").attr("selected", "selected");
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<h2 id="error">Missing required info. Please try again.</h2>
+{% endif %}
+<h2 style="padding:0 0 0 20">Subject: {{bug.subject}}</h2>
+<div>
+  <table>
+    <tr>
+      <td>Submitter:</td>
+      <td style="padding: 0 0 0 10;">{{bug.submitter}}</td>
+    </tr>
+    <tr>
+      <td>Status:</td>
+      <td style="padding: 0 0 0 10;"> {{bug.status}}</td>
+    </tr>
+    <tr>
+      <td>Category:</td>
+      <td style="padding: 0 0 0 10;"> {{bug.category}}</td>
+    </tr>
+    <tr>
+      <td>Opened:</td>
+      <td style="padding: 0 0 0 10;"> {{bug.time_opened}}</td>
+    </tr>
+    <tr>
+      <td>Updated:</td>
+      <td style="padding: 0 0 0 10;"> {{bug.time_updated}}</td>
+    </tr>
+  </table>
+</div>
+<h2 style="padding:0 0 0 20">Description/Comments</h2>
+{{bug.description|linebreaks}}
+
+{% if form %}
+<h2 style="margin: 25 0 10 20;"> Update! </h2>
+<form action="{% url web.bugtracker.views.bug_details bug.id %}" method="post">
+  <table>
+    {{ form.as_table }}
+  </table>
+</br></br>
+<input style="margin: 0 0 0 30;" type="submit" value="Submit"/>
+</form>
+{% endif %}
+
+{% endblock %}
+  

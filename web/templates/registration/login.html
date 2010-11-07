@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+<script>
+  $(document).ready(function(){
+    $("#loginForm").validate();
+    $("#registerForm").validate();
+  });
+</script>
+
+{% block title %}Fwog Login{% endblock title %}
+{% block head %}</br><h1 style="text-align:center;">Welcome to Megaminer6</h1>{% endblock %}
+
+{% block content %}
+{% if form.errors %}
+<h2 id="error">Your username and password didn't match. Please try again.</h2>
+{% endif %}
+<div class="blk">
+  <div class="subblk">
+    <h2>Login</h2>
+    <form class="cmxform" id="loginForm" method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %}
+      Username: {{ form.username }}</br>
+      Password: &nbsp;{{ form.password }}</br>
+      <input type="submit" value="login" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+  </div>
+  <div class="subblk">
+    <h2>Register</h2>
+    <form class="cmxform" id="registerForm" method="get" action="{% url web.registration.views.index %}">
+      Register: <input type="text" name="reg_code" class="required"/></br>
+      <input  id="submit" type="submit" value="Submit."/>
+    </form>
+  </div>
+</div>
+<div style="width:200; height:100;">
+</div>
+{% endblock %}

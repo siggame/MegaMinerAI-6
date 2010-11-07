@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="text-align:center"> Megaminer 6 </h1>
+<div class="blk">
+  <div class="subblk" style="width:770;height:">
+    <h2>Thank you {{username}}. You are registered.</h2></br>
+    <h2><a href="{% url web.fwog_web.views.index %}">Good luck!</a></h2>
+  </div>
+</div>
+{% endblock %}
