@@ -213,20 +213,24 @@ void Gameboard::drawBots( Game *game, float falloff )
 		if ((it->second.partOf == 0 ) || flag)
 		{
 			bool dead = false;
-			if( !findExistance( game->states[frame+1], it->second.id ) )
-				dead = true;
-			
-			if( dead )
-				for( std::vector<Animation*>::iterator i = game->states[frame+1].animations.begin(); i != game->states[frame+1].animations.end(); i++ )
-				{
-					if( (*i)->type == SPLIT )
-					{
-						if( it->second.id == ((Split*)(*i))->robot )
-							dead = false;
-					}
-				}
+			if( frame < game->states.size()-1 )
+			{
 
-			drawSingleBot( game,&(it->second), frame, unitSize, falloff, dead );
+				if( !findExistance( game->states[frame+1], it->second.id ) )
+					dead = true;
+				
+				if( dead )
+					for( std::vector<Animation*>::iterator i = game->states[frame+1].animations.begin(); i != game->states[frame+1].animations.end(); i++ )
+					{
+						if( (*i)->type == SPLIT )
+						{
+							if( it->second.id == ((Split*)(*i))->robot )
+								dead = false;
+						}
+					}
+
+				drawSingleBot( game,&(it->second), frame, unitSize, falloff, dead );
+			}
 		}
 
 	}
