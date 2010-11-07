@@ -3,7 +3,7 @@ JAVAFILES=$(shell ls *.java 2> /dev/null)
 all: libclient.so Main.class
 
 submit: Main.class
-	$(shell cd ..;sh submit.sh c)
+	@echo "$(shell cd ..;sh submit.sh c)"
 
 
 libclient.so: ../c/*.cpp ../c/*.h
