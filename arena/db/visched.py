@@ -46,6 +46,7 @@ class VisScheduler:
         game.priority = 2
         print game
         self.visq.append(game)
+        print "visq!: ",self.visq
     return True
   
   #grabs the next thing to be visualized and makes proper adjustments
