@@ -441,34 +441,23 @@ void Gameboard::printStats(Game *game)
 		movitudeAvg /= numBots;
 		actitudeAvg /= numBots;
 		buildRateAvg /= numBots;
-<<<<<<< HEAD
-		ss << "Health: " << setw(4) << healthAvg<< " / " 
-		   << setw(4) << maxHealthAvg;
-		ss << setw(20) << "P1 Bots: " << numBotsP1 << endl;
-		ss << "Size: " << setw(4) << sizeAvg
-		   << setw(33) << "P2 Bots: " << numBotsP2 << endl;
-		ss << "Actions: " << actionsAvg << setw(30) << "Centroid: " << xAvg << ", " << yAvg<< endl;
-		ss << "Steps: " << stepsAvg << setw(30) << "Mouse Location: " << curX/getAttr(unitSize) << ", " << curY/getAttr(unitSize) << endl;
-		ss << "Damage: " << damageAvg<< endl;
-		ss << "Range: " << rangeAvg<< endl;
-		ss << "Movitude: " << movitudeAvg<< endl;
-		ss << "Actitude: " << actitudeAvg<< endl;
-		ss << "Build Rate: " << buildRateAvg ;
 
-=======
 		ssL << "Health: "  << healthAvg<< " / " <<maxHealthAvg << endl;
 		ssL << "Size: " << sizeAvg << endl;
 		ssL << "Actions: " << actionsAvg<< endl;
 		ssL << "Steps: " << stepsAvg<< endl;
 		ssL << "Damage: " << damageAvg<< endl;
 		ssL << "Range: " << rangeAvg<< endl;
-		ssL << "Movitude: " << movitudeAvg<< endl;
-		ssL << "Actitude: " << actitudeAvg<< endl;
-		ssL << "Build Rate: " << buildRateAvg;
+		ssR << "Movitude: " << movitudeAvg<< endl;
+		ssR << "Actitude: " << actitudeAvg<< endl;
+		ssR << "Build Rate: " << buildRateAvg << endl;
 
-		ssR << "P1 Bots: " << numBotsP1 << endl;
+		ssR << "P1 Bots: " << numBotsP1 << ", ";
 		ssR << "P2 Bots: " << numBotsP2 << endl;
->>>>>>> 76e296367e925375c88514844683004f96c229d9
+		ssR << "Centroid: " << xAvg << ", " << yAvg<< endl;
+		ssR << "Mouse Location: " << curX/getAttr(unitSize) << ", " << curY/getAttr(unitSize) << endl;
+
+
 		//ss << "Bots Selected: " << numBots << endl;
 	}
 	else
@@ -478,24 +467,19 @@ void Gameboard::printStats(Game *game)
 	}
 
 	if( numBots == 0 )
-		ss << "Mouse Location: " << curX/getAttr(unitSize) << ", " << curY/getAttr(unitSize) << endl; 
+		ssL << "Mouse Location: " << curX/getAttr(unitSize) << ", " << curY/getAttr(unitSize) << endl; 
 
 	if(numWalls != 0 )
 	{		
 		wallAvg /= numWalls;
 		wallMax /= numWalls;
-<<<<<<< HEAD
-		ss << "Wall Health: " << wallAvg  << "/" << wallMax; 
-		if( numBots == 0 )
-		{
-			ss << setw(30) << "Centroid: " << xAvg << ", " << yAvg<< endl;
 
-		} else {
-			ss << endl;
-		}
-=======
+		if( numBots == 0 )
+			ssL << "Centroid: " << xAvg << ", " << yAvg<< endl;
+		else
+			ssL << endl;
+
 		ssR << "Wall Health: " << wallAvg  << "/" << wallMax << endl;
->>>>>>> 76e296367e925375c88514844683004f96c229d9
 	}
 		
 	parent->unitSelectionL->setText( ssL.str().c_str() );
