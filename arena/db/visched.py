@@ -44,9 +44,8 @@ class VisScheduler:
       #If the game holder between those players doesn't already exist, it creates it
       if not found:
         game.priority = 2
-        #this line to see if I'm crazy or not, issue with pointer being cleared in calling function? Lets find out!
-        localgame = GameRecord(game.priority, game.p1, game.p2, game.ver1, game.ver2, game.log)
-        self.visq.append(localgame)
+        print game
+        self.visq.append(game)
     return True
   
   #grabs the next thing to be visualized and makes proper adjustments
