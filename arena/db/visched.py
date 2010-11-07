@@ -55,13 +55,14 @@ class VisScheduler:
       print self.visq
       if len(self.visq) > 0:
         self.visq.sort(key = lambda x: x.priority, reverse=True)
-        nextUp = self.visq[0].log
+        nextUp = self.visq[0]
         nextUp.priority = 0;
         for s in self.visq[1:]:
           if nextUp.p1 not in [s.p1, s.p2]:
             s.priority += 1
           if nextUp.p2 not in [s.p1, s.p2]:
             s.priority += 1
+        nextUp = nextUp.log
       else:
         nextUp = False
     return nextUp
