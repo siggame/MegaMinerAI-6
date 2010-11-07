@@ -62,6 +62,7 @@ class VisScheduler:
             s.priority += 1
           if nextUp.p2 not in [s.p1, s.p2]:
             s.priority += 1
+        nextUp = nextUp.log
       else:
         nextUp = False
     return nextUp
