@@ -20,12 +20,19 @@ void Gameboard::drawWinnerScreen( Game *game, int elapsed )
 		glColor4f( 1, 0, 0, 1 );
 
 	stringstream ss;
-	ss << game->players[game->winner] << " WINS!!!!";
+	ss << game->players[game->winner] << " WINS";
 
 	glTranslatef( 640, 250, 0 );
 	glScalef( 1.5, 1.5, 1.5 );
 	drawFont->setAlignment( align_center );
 	drawFont->drawString( ss.str().c_str() );
+	ss.str("");
+	ss <<	"By ";
+	ss << game->winReason << endl;
+	glTranslatef( 0, 32, 0 );
+	string output = ss.str();
+	output = output.substr( 0, output.size()-1);
+	drawFont->drawString( output.c_str() );
 	drawFont->setAlignment( align_left );
 
 }
