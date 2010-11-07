@@ -4,6 +4,8 @@ import rpyc
 from bz2 import decompress
 from subprocess import Popen
 
+import traceback
+
 dbManagerName='r03mwwcp2.device.mst.edu'
 updateServerName='r03mwwcp2.device.mst.edu'
 class ArenaVisualizer:
@@ -19,7 +21,7 @@ class ArenaVisualizer:
       if next:
         #I am become like unto a tentacle!
         try:
-          logText = self.dbServer.root.read(next.log)
+          logText = self.dbServer.root.read(next)
           f = open('game.gamelog', 'wb')
           f.write(decompress(logText))
           f.close()
@@ -27,6 +29,7 @@ class ArenaVisualizer:
           s.wait()
         except:
           print 'Tried and Failed!'
+          traceback.print_exc()
           pass
 
 if __name__ == '__main__':
