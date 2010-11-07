@@ -1,0 +1,157 @@
+{% extends "fwog_web/menu.html" %}
+
+
+{% block pre_script %}
+<style type="text/css">
+a:link {text-decoration:none; color:black;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:underline;}
+.green {background-color:#00FF00;}
+</style>
+
+<script src="/static/longpoll.js" type="text/javascript">
+</script>
+
+<script>
+  function relink_tds() {
+    $("button").unbind('click');
+    $('td').unbind('click');
+    for (var i = 0; i<6; i++){      
+      $('#wins tr:eq('+i+') td').click(function(){window.location="{% url web.fwog_web.views.results "wins" %}";
+			                          $(this).css('background-color','lightgreen');});
+      $('#wins tr:eq('+i+') td:last').unbind('click');
+    }
+    for (var i = 0; i<6; i++){
+      $('#losses tr:eq('+i+') td').click(function(){window.location="{% url web.fwog_web.views.results "losses" %}";
+                                                    $(this).css('background-color','lightgreen');});
+      $('#losses tr:eq('+i+') td:last').unbind('click');
+    }
+    $('#recent td').click(function(){window.location='/results/'+recent_result;
+	                          $(this).css('background-color','lightgreen');});
+    $('#recent td:last').unbind('click');
+    $("td").css('cursor','pointer'); 
+    $("tr").hover(function(){$(this).addClass("green")}, function(){$(this).removeClass("green")});
+    $("button").click(function(){window.location='/static/'+$(this).text()});
+  }
+  $(document).ready(function(){ relink_tds() });
+  
+  var previous=new Array(); //Make this a list, and add all of the game ids
+  var most_recent = -1;
+  var recent_result = '';
+  if ({{max_results.user_score|default:-1}} == -1  && {{max_results.opponent_score|default:-1}} == -1){
+    recent_result = '';
+  }
+  else if ({{max_results.user_score|default:-1}} > {{max_results.opponent_score|default:-1}}){
+    recent_result = 'wins';
+  }else{
+    recent_result = 'losses';
+  }
+  function mycallback(type, msg){
+    var dict = jQuery.parseJSON(msg);
+    for (var index in dict){
+      var list = dict[index];
+      for (var subindex in list) {
+        w = list[subindex];
+        table = "<tr><td class=\"green\">"+w.id+
+                    "</td><td class=\"green\">"+w.version+
+                "</td><td class=\"green\">"+w.opponent+
+                "</td><td class=\"green\">"+w.time+
+                "</td><td class=\"green\"><button>"+w.log_name+
+                "</button></td></tr>";
+        if ( jQuery.inArray(w.id, previous) != -1 ){
+          //Do nothing!
+        }
+        else {
+          $("#"+index).append(table);
+          previous.push(w.id);
+          if (w.id > most_recent){
+            table = "<tr id=\"recent\"><td class=\"green\">"+w.id+
+                    "</td><td class=\"green\">"+w.version+
+                    "</td><td class=\"green\">"+w.opponent+
+                    "</td><td class=\"green\">"+w.time+
+                    "</td><td class=\"green\"><button>"+w.log_name+
+                    "</button></td></tr>";
+            $("#recent").replaceWith(table);
+            most_recent = w.id;
+            if (w.user_score > w.opponent_score){
+              recent_result='wins';
+            }
+            else {
+              recent_result='losses';
+            }
+          }
+        }
+      }
+    }
+    relink_tds();
+  }
+  my_data={max_id:{{max_id|default:-1}}};
+  callback=mycallback;
+  callback_url="/stat/poll";
+</script>
+{% endblock %}
+
+{% block content %}
+<h2 style="margin:10px;"> Results from most recent game... </h2>
+<table class="stats" id="recent_table">
+  <tr>
+    <th>Game ID</th>
+    <th>Version</th>
+    <th>Opponent</th>
+    <th>Finished</th>
+    <th>Log</th>
+  </tr>
+  <tr id="recent">
+    <td>{{max_results.id|default:"You have not submitted!!"}}</td>
+    <td>{{max_results.version}}</td>
+    <td>{{max_results.opponent|default:"Here's how"}}</td>
+    <td>{{max_results.time|default:"=>"}}</td>
+    <td><button>{{max_results.log_name|default:"Guide.txt"}}</button></td>
+  </tr>
+</table>
+
+<br><br>
+<h2 style="margin:10px;"> Wins: {{win_count}} (at page load)</h2>
+<table id="wins" class="stats">
+  <tr>
+    <th>Game ID</th>
+    <th>Version</th>
+    <th>Opponent</th>
+    <th>Finished</th>
+    <th>Log</th>
+  </tr>
+  {% for game in wins %}
+  <tr>
+    <td>{{game.id}}</td>
+    <td>{{game.version}}</td>
+    <td>{{game.opponent}}</td>
+    <td>{{game.time}}</td>
+    <td><button>{{game.log_name}}</button></td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br><br>
+<h2 style="margin:10px;"> Losses: {{loss_count}} (at page load) </h2>
+<table id="losses" class="stats">
+  <tr>
+    <th>Game ID</th>
+    <th>Version</td>
+    <th>Opponent</th>
+    <th>Finished</th>
+    <th>Log</th>
+  </tr>
+  {% for game in losses %}
+  <tr>
+    <td>{{game.id}}</td>
+    <td>{{game.version}}</td>
+    <td>{{game.opponent}}</td>
+    <td>{{game.time}}</td>
+    <td><button>{{game.log_name}}</button></td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+
+

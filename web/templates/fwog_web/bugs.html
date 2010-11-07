@@ -1,0 +1,87 @@
+{% extends "fwog_web/menu.html" %}
+
+{% block pre_script %}
+<style type="text/css">
+a:link {text-decoration:underline; color:black;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:underline;}
+.green {background: #00FF00; color:black;}
+td{cursor:pointer};
+</style>
+
+<script src="/static/longpoll.js" type="text/javascript">
+</script>
+
+<script>
+  var previous=new Array(); //Make this a list, and add the game ids
+  previous["bugs"] = new Array();
+  previous["user_bugs"] = new Array();
+  
+  function mycallback(type, msg){
+    var dict = jQuery.parseJSON(msg);
+    for (var index in dict){
+      var list = dict[index];
+      for (var subindex in list) {
+        w = list[subindex];
+        table = "<tr url='/bugs/"+w.id+
+		"' id='"+index+w.id+"'><td>"+w.time_opened+
+                "</td><td>"+w.time_updated+
+                "</td><td>"+w.subject+
+                "</td><td>"+w.category+
+                "</td><td style='background-color:"+w.status_color+";'>"+w.status+
+                "</td></tr>";
+        if ( jQuery.inArray(w.id, previous[index]) != -1 ){
+          $("#"+index+w.id).replaceWith(table);
+        }
+        else {
+          $("#"+index).append(table);
+          previous[index].push(w.id);
+        }
+        $("#"+index+w.id).unbind('hover');
+        $("#"+index+w.id).hover(function(){$(this).addClass("green");}, 
+          function(){$(this).removeClass("green");});
+      }
+    }
+    $("tr").click( function(){
+      window.location = $(this).attr("url");
+    });
+
+  }
+  callback=mycallback;
+  callback_url="/bugs/poll";
+</script>
+{% endblock %}
+
+{% block content %}
+</br>
+<a href="{% url web.bugtracker.views.new_bug %}">
+  <h2 style="text-decoration:underline;">Submit a new bug...<h2>
+</a>
+
+<h2 style="margin:10px;"> My bugs. </h2>
+<div style="width:1100px;">
+  <table id="user_bugs" class="stats">
+    <tr>
+      <th>Submitted</th>
+      <th>Updated</th>
+      <th>Subject</th>
+      <th>Category</th>
+      <th>Status</th>
+    </tr>
+  </table>
+</div>
+<h2 style="margin:10px;"> Bugs. </h2>
+<div style="width:1100px;">
+  <table id="bugs" class="stats">
+    <tr>
+      <th>Submitted</th>
+      <th>Updated</th>
+      <th>Subject</th>
+      <th>Category</th>
+      <th>Status</th>
+    </tr>
+  </table>
+</div>
+{% endblock %}
+
+
