@@ -5,7 +5,7 @@ import rpyc
 import datetime
 import os
 from random import randint
-
+import visched
 import config
 
 logdir = '/web/static/'
@@ -19,9 +19,10 @@ db=MySQLdb.connect(host = 'localhost',
                    db="fwog_web")
 
 class DBManager(rpyc.Service):
-  callbackFuns = []
-  def exposed_addCallback(self,f):
-    self.callbackFuns.append(f)
+  def __init__(self,r):
+    self.scheduler = visched.VisScheduler()
+  def exposed_nextVideo(self):
+    return self.scheduler.nextVideo()
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()
   def exposed_catalog(self, password, log, c1, c2, sv, startTime, winner_int):
@@ -39,7 +40,6 @@ class DBManager(rpyc.Service):
     print "start time=",startTime
     print "winner=",winner_int
 
-    filename = 'logs/%s.gamelog' % logNum
     logNum += 1
     
     c=db.cursor()
@@ -49,14 +49,15 @@ class DBManager(rpyc.Service):
     if max_id == None:
       max_id = 0
 
-    c.execute("SELECT id FROM auth_user WHERE username = '%s'" % (c1[0].lower(),))
+    filename = 'logs/%s.gamelog.bz2' % str(max_id+1)
+
+    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username AND m.mstname = '%s'" % (c1[0].lower(),))
     try:
       c1id = c.fetchone()[0]
     except:
       print "OH NO! Is",c1[0],"registered on the web server??"
       c1id = 0
-
-    c.execute("SELECT id FROM auth_user WHERE username = '%s'" % (c2[0].lower(),))
+    c.execute("SELECT a.id FROM auth_user a, mstusername m WHERE m.username = a.username AND m.mstname = '%s'" % (c2[0].lower(),))
     try:
       c2id = c.fetchone()[0]
     except:
@@ -81,12 +82,15 @@ class DBManager(rpyc.Service):
     f.write(log)
     f.close()
     print "log saved at: ", logdir+filename
-    
-    for fun in self.callbackFuns:
-      try:
-        fun(c1,c2,logNum-1)
-      except:
-        self.callbackFuns.remove(fun)
+    self.update(c1,c2,logNum-1)
+      
+  def update(self, c1, c2, l):
+    print c1, c2, l
+    g = visched.GameRecord(0, c1[0], c2[0], c1[1], c2[1], l)
+    print "g: ",g
+    self.scheduler.visualizerQueueUpdate(g)
+
+
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer

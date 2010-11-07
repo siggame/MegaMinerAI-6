@@ -86,10 +86,10 @@ VisualizerWindow::VisualizerWindow()
 		QMessageBox::critical(this,"Config File Load Error",configErr.c_str());
 	}
 
+
 	createActions();
 	createMenus();
 	createLayout();
-	createSpeeds();
 
 	setWindowTitle( "Modular Visualizer" );
 	fullScreen = getAttr(arenaMode) ? false : true;
@@ -163,7 +163,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 	
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 
-	///* This Code fills the quadtree     ::::     REALLY UGLY CODE
+	/* This Code fills the quadtree     ::::     REALLY UGLY CODE
 
 	vector< GameState >::iterator stateIt = gamelog->states.begin();
 	for ( ; stateIt !=  gamelog->states.end(); stateIt++)
@@ -199,7 +199,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	}
 
-	//*/ END OF THE REALLY UGLY CODE
+	//*/ //END OF THE REALLY UGLY CODE
 	return true;
 }
 
@@ -363,17 +363,6 @@ void VisualizerWindow::createMenus()
 }
 
 
-void VisualizerWindow::createSpeeds()
-{
-	// Don't make fun of me for typing these out manually
-
-	setAttr( x2Speed, getAttr( defaultSpeed )/2);
-	setAttr( x4Speed, getAttr( defaultSpeed )/4);
-	setAttr( x8Speed, getAttr( defaultSpeed )/8);
-	setAttr( x16Speed, getAttr( defaultSpeed )/16);
-}
-
-
 void VisualizerWindow::controlSliderDrag()
 {
 	setAttr( dragging, true );
@@ -429,44 +418,25 @@ void VisualizerWindow::fastForwardClicked()
 		playButton->setText("Pause");
 	}
 
-	if(getAttr(currentMode) == play)
+	else if(getAttr(currentMode) == play)
 	{
 		setAttr( currentMode, fastForward );
-		setAttr( playSpeed, getAttr(x2Speed));
+		setAttr( playSpeed, getAttr(playSpeed)/2);
 	}
-	else if(getAttr(currentMode) == fastForward)
+	else if(getAttr(currentMode) == fastForward && getAttr(playSpeed)>getAttr(minSpeed))
 	{
-		if(getAttr(playSpeed) == getAttr(x2Speed))
-		{
-			setAttr( playSpeed, getAttr(x4Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x4Speed))
-		{
-			setAttr( playSpeed, getAttr(x8Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x8Speed))
-		{
-			setAttr( playSpeed, getAttr(x16Speed));
-		}
+		setAttr( playSpeed, getAttr(playSpeed)/2);
 	}
 	else if(getAttr(currentMode) == rewinding)
 	{
-		if(getAttr(playSpeed) == getAttr(x16Speed))
-		{
-			setAttr( playSpeed, getAttr(x8Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x8Speed))
-		{
-			setAttr( playSpeed, getAttr(x4Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x4Speed))
-		{
-			setAttr( playSpeed, getAttr(x2Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x2Speed))
+		if(getAttr(playSpeed) == getAttr(defaultSpeed)/2)
 		{
 			setAttr( playSpeed, getAttr(defaultSpeed));
 			setAttr( currentMode, play );
+		}
+		else
+		{
+			setAttr( playSpeed, getAttr(playSpeed)*2);
 		}
 	}
 }
@@ -480,44 +450,25 @@ void VisualizerWindow::rewindClicked()
 		playButton->setText("Pause");
 	}
 
-	if(getAttr(currentMode) == play)
+	else if(getAttr(currentMode) == play)
 	{
 		setAttr( currentMode, rewinding );
-		setAttr( playSpeed, getAttr(x2Speed));
+		setAttr( playSpeed, getAttr(playSpeed)/2);
 	}
-	else if(getAttr(currentMode) == rewinding)
+	else if(getAttr(currentMode) == rewinding && getAttr(playSpeed) > getAttr(minSpeed))
 	{
-		if(getAttr(playSpeed) == getAttr(x2Speed))
-		{
-			setAttr( playSpeed, getAttr(x4Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x4Speed))
-		{
-			setAttr( playSpeed, getAttr(x8Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x8Speed))
-		{
-			setAttr( playSpeed, getAttr(x16Speed));
-		}
+		setAttr( playSpeed, getAttr(playSpeed)/2);
 	}
 	else if(getAttr(currentMode) == fastForward)
 	{
-		if(getAttr(playSpeed) == getAttr(x16Speed))
-		{
-			setAttr( playSpeed, getAttr(x8Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x8Speed))
-		{
-			setAttr( playSpeed, getAttr(x4Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x4Speed))
-		{
-			setAttr( playSpeed, getAttr(x2Speed));
-		}
-		else if(getAttr(playSpeed) == getAttr(x2Speed))
+		if(getAttr(playSpeed) == getAttr(defaultSpeed)/2)
 		{
 			setAttr( playSpeed, getAttr(defaultSpeed));
 			setAttr( currentMode, play );
+		}
+		else
+		{
+			setAttr( playSpeed, getAttr(playSpeed)*2);
 		}
 	}
 }
@@ -577,10 +528,15 @@ void VisualizerWindow::createLayout()
 	bottomBar = new QFrame;
 	controlBar = new QFrame;
 	scoreboard = new Scoreboard;
+	unitSelection = new QFrame;
 
-	unitSelection = new UnitSelection;
-	unitScroll = new QScrollArea;
-	unitScroll->setWidget(unitSelection);
+
+        QHBoxLayout *unitSelectionLayout = new QHBoxLayout;                   
+        unitSelectionL = new UnitSelection;
+        unitSelectionR = new UnitSelection;                                   
+        unitSelectionLayout->addWidget(unitSelectionL);                       
+        unitSelectionLayout->addWidget(unitSelectionR);                       
+        unitSelection->setLayout(unitSelectionLayout);
 
 	options = new Options;
 	playButton = new QPushButton("Pause");

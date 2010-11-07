@@ -4,6 +4,7 @@
 // CodeProject's Configuration Loader
 #include "config.h"
 
+
 #define ATTRIBUTE( vType, x ) \
 	private: \
 		vType x; \
@@ -43,13 +44,9 @@
 			ATTRIBUTE( int, speed );
 
 			// This is the current play speed
-			ATTRIBUTE( int, playSpeed );
-
-			ATTRIBUTE( int, defaultSpeed);
-			ATTRIBUTE( int, x2Speed );
-			ATTRIBUTE( int, x4Speed );
-			ATTRIBUTE( int, x8Speed );
-			ATTRIBUTE( int, x16Speed );
+			ATTRIBUTE( float, playSpeed );
+			ATTRIBUTE( float, minSpeed );
+			ATTRIBUTE( float, defaultSpeed);
 
 			ATTRIBUTE( bool, dragging );
 

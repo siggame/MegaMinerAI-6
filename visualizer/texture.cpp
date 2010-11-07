@@ -2,6 +2,8 @@
 #include <QPainter>
 #include <iostream>
 
+
+
 bool texture::loadImage( QString path )
 {
 	if (path == QString(""))

@@ -11,6 +11,7 @@ DrawGLFont::DrawGLFont()
 	alignment = align_left;
 }
 
+
 Color DrawGLFont::retrieveColor( int id )
 {
 	if( id >= colors.size() )
