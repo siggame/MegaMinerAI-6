@@ -312,7 +312,7 @@ class Bot(Unit):
       return "Building a robot not a size that is a power of 2"
       
 
-    completionTime = 8 * size**2 / self.buildRate
+    completionTime = max(8 * size**2 / self.buildRate, 1)
     health = min(type.maxHealth * self.buildRate / 8, type.maxHealth * size**2)
     f = Frame(self.game, 0, x, y, self.owner, health, type.maxHealth * size**2, size, type.id, completionTime)
     if f._distance(self) != 1:
