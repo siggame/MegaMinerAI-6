@@ -49,11 +49,12 @@ void Gameboard::drawIntroScreen( Game *game, int elapsed )
 
 	stringstream ss;
 
-	glTranslatef( 640, 300, 0 );
+	glTranslatef( getAttr(unitSize)*game->states[0].boardX/3, 300, 0 );
 	drawFont->resetColors();
 	drawFont->addColor( 1, 0, 0 );
 	drawFont->addColor( 0, 0, 0 );
 	drawFont->addColor( 0, 0, 1 );
+
 	ss << "$" <<  game->players[0] << "$ vs.$ " << game->players[1];
 
 	glColor4f( 0, 0, 0, 1 );
