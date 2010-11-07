@@ -178,9 +178,6 @@ void Gameboard::drawSingleBot(Game * game, Bot * bot, int frame, int unitSize, f
 	if ( bot->partOf == 0)
 		drawHealth( (int)(x0+(x1-x0)*falloff), (int)(y0+(y1-y0)*falloff), unitSize*bot->size, unitSize*bot->size, bot->maxHealth, bot->health, owner );
 
-	//keeps count of each player's percentage
-	getPercentage(owner, bot->size);
-
 }
 
 
@@ -200,6 +197,10 @@ void Gameboard::drawBots( Game *game, float falloff )
 		)
 	{
 		bool flag = false;
+
+
+		//keeps count of each player's percentage
+		getPercentage(it->second.owner, it->second.size);
 
 		if (it->second.partOf != 0)
 		{
