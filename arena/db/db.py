@@ -19,9 +19,9 @@ db=MySQLdb.connect(host = 'localhost',
                    db="fwog_web")
 
 class DBManager(rpyc.Service):
-  def __init__(self):
-    self.scheduler = scheduler.VisScheduler()
-  def exposed_nextVideo():
+  def __init__(self,r):
+    self.scheduler = visched.VisScheduler()
+  def exposed_nextVideo(self):
     return self.scheduler.nextVideo()
   def exposed_read(self, log):
     return open(logdir+'%s.gamelog.bz2' % log).read()
@@ -86,8 +86,11 @@ class DBManager(rpyc.Service):
       
   def update(self, c1, c2, l):
     print c1, c2, l
-    g = GameRecord(0, c1[0], c2[0], c1[1], c2[1], l)
+    g = visched.GameRecord(0, c1[0], c2[0], c1[1], c2[1], l)
+    print "g: ",g
     self.scheduler.visualizerQueueUpdate(g)
+
+
 
 if __name__=='__main__':
   from rpyc.utils.server import ThreadedServer
