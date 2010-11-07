@@ -87,7 +87,8 @@ float Gameboard::getPercentage( int owner, int size )
 			}
 			else
 			{
-				onePercent += (size*size)/(baseHeight*baseWidth);
+				if( size == 1 )
+					onePercent += (size*size)/(baseHeight*baseWidth);
 			}
 			break;
 		case 1:
@@ -97,7 +98,8 @@ float Gameboard::getPercentage( int owner, int size )
 			}
 			else
 			{
-				twoPercent += (size*size)/(baseHeight*baseWidth);
+				if( size == 1 )
+					twoPercent += (size*size)/(baseHeight*baseWidth);
 			}
 			break;
 		default:
