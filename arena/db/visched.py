@@ -28,7 +28,7 @@ class VisScheduler:
       found = False
       for record in self.visq:
       #finds the previous game between the same players in the same player numbers
-        print game.p1,record.p1
+        print "Playerones for each game",game.p1,record.p1
         if game.p1 == record.p1 and game.p2 == record.p2:
           found = True
           #updates the gamelog stored
@@ -38,11 +38,15 @@ class VisScheduler:
             #if so, it updates the version and increases the priority (new games are more interesting than old games!)
             record.p1ver = game.p1ver
             record.p2ver = game.p2ver
-            record.priority += 2*len(self.visq)
+            record.priority += len(self.visq)
+            if record.priority > 2*len(self.visq):
+              record.priority = 2*len(self.visq)
       #If the game holder between those players doesn't already exist, it creates it
       if not found:
-        game.priority = 2*len(self.visq) + 2
-        self.visq.append(game)
+        game.priority = 2
+        #this line to see if I'm crazy or not, issue with pointer being cleared in calling function? Lets find out!
+        localgame = GameRecord(game.priority, game.p1, game.p2, game.ver1, game.ver2, game.log)
+        self.visq.append(localgame)
     return True
   
   #grabs the next thing to be visualized and makes proper adjustments
