@@ -201,7 +201,6 @@ void Gameboard::mouseReleaseEvent( QMouseEvent *e )
 	int selectWidth, selectHeight;
 	int selectX = selectWidth = curX/getAttr(unitSize);
 	int selectY = selectHeight = curY/getAttr(unitSize);
-	cout << selectX << endl;
 
 	if( e->button() == Qt::LeftButton )
 	{
@@ -272,6 +271,7 @@ void Gameboard::mouseMoveEvent( QMouseEvent *e )
 
 	curX = e->x();
 	curY = e->y()-getAttr(boardOffsetY);
+
 }
 
 
@@ -345,6 +345,9 @@ void Gameboard::printStats(Game *game)
 
 	
 	int frame = getAttr( frameNumber );
+	int xAvg = 0;
+	int yAvg = 0;
+
 
 	for( 	std::map<int,Frame>::iterator j = game->states[frame].frames.begin();
 		j != game->states[frame].frames.end(); 
@@ -352,6 +355,8 @@ void Gameboard::printStats(Game *game)
 	{
 		if(selectedIDs.find(j->second.id) != selectedIDs.end())
 		{
+			xAvg += j->second.x;
+			yAvg += j->second.y;
 			healthAvg += j->second.health;
 			maxHealthAvg += j->second.maxHealth;
 			sizeAvg += j->second.size;
@@ -374,6 +379,8 @@ void Gameboard::printStats(Game *game)
 	{
 		if(selectedIDs.find(j->second.id) != selectedIDs.end())
 		{
+			xAvg += j->second.x;
+			yAvg += j->second.y;
 			healthAvg += j->second.health;
 			maxHealthAvg += j->second.maxHealth;
 			sizeAvg += j->second.size;
@@ -404,6 +411,9 @@ void Gameboard::printStats(Game *game)
 	{
 					if( selectedIDs.find( j->second.id ) != selectedIDs.end() )
 					{
+
+						xAvg += j->second.x;
+						yAvg += j->second.y;
 						wallAvg += j->second.health;
 						wallMax += j->second.maxHealth;
 						numWalls++;
@@ -411,6 +421,12 @@ void Gameboard::printStats(Game *game)
 
 	}
 	
+	if( numBots+numWalls > 0 )
+	{
+		xAvg /= (numBots+numWalls);
+		yAvg /= (numBots+numWalls);
+	}
+
 	if(numBots != 0)
 	{
 		healthAvg /= numBots;
@@ -428,13 +444,14 @@ void Gameboard::printStats(Game *game)
 		ss << setw(20) << "P1 Bots: " << numBotsP1 << endl;
 		ss << "Size: " << setw(4) << sizeAvg
 		   << setw(33) << "P2 Bots: " << numBotsP2 << endl;
-		ss << "Actions: " << actionsAvg<< endl;
-		ss << "Steps: " << stepsAvg<< endl;
+		ss << "Actions: " << actionsAvg << setw(30) << "Centroid: " << xAvg << ", " << yAvg<< endl;
+		ss << "Steps: " << stepsAvg << setw(30) << "Mouse Location: " << curX/getAttr(unitSize) << ", " << curY/getAttr(unitSize) << endl;
 		ss << "Damage: " << damageAvg<< endl;
 		ss << "Range: " << rangeAvg<< endl;
 		ss << "Movitude: " << movitudeAvg<< endl;
 		ss << "Actitude: " << actitudeAvg<< endl;
-		ss << "Build Rate: " << buildRateAvg;
+		ss << "Build Rate: " << buildRateAvg ;
+
 		//ss << "Bots Selected: " << numBots << endl;
 	}
 	else
@@ -442,11 +459,21 @@ void Gameboard::printStats(Game *game)
 		ss << " ";
 	}
 
+	if( numBots == 0 )
+		ss << "Mouse Location: " << curX/getAttr(unitSize) << ", " << curY/getAttr(unitSize) << endl; 
+
 	if(numWalls != 0 )
 	{		
 		wallAvg /= numWalls;
 		wallMax /= numWalls;
-		ss << "Wall Health: " << wallAvg  << "/" << wallMax << endl;
+		ss << "Wall Health: " << wallAvg  << "/" << wallMax; 
+		if( numBots == 0 )
+		{
+			ss << setw(30) << "Centroid: " << xAvg << ", " << yAvg<< endl;
+
+		} else {
+			ss << endl;
+		}
 	}
 		
 	parent->unitSelection->setText( ss.str().c_str() );
