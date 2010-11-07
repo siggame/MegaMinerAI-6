@@ -179,6 +179,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	setAttr( gamelogName, file.substr( i,file.size()-i) ); 
 
+
 	controlSlider->setMaximum( gamelog->states.size()-1 );
 	return true;
 }
