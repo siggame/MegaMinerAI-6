@@ -24,11 +24,9 @@ class VisScheduler:
     print game
     print self.lock
     with self.lock:
-      print "Semaphore Works!"
       found = False
       for record in self.visq:
       #finds the previous game between the same players in the same player numbers
-        print "Playerones for each game",game.p1,record.p1
         if game.p1 == record.p1 and game.p2 == record.p2:
           found = True
           #updates the gamelog stored
@@ -38,9 +36,9 @@ class VisScheduler:
             #if so, it updates the version and increases the priority (new games are more interesting than old games!)
             record.p1ver = game.p1ver
             record.p2ver = game.p2ver
-            record.priority += len(self.visq)
-            if record.priority > 2*len(self.visq):
-              record.priority = 2*len(self.visq)
+            record.priority += 2*len(self.visq)
+            if record.priority > 4*len(self.visq):
+              record.priority = 4*len(self.visq)
       #If the game holder between those players doesn't already exist, it creates it
       if not found:
         game.priority = 2
@@ -57,7 +55,8 @@ class VisScheduler:
         self.visq.sort(key = lambda x: x.priority, reverse=True)
         nextUp = self.visq[0]
         nextUp.priority = 0;
-        for s in self.visq[1:]:
+        for s in self.visq:
+          print "(",s.p1,",",s.p2,",",s.priority
           if nextUp.p1 not in [s.p1, s.p2]:
             s.priority += 1
           if nextUp.p2 not in [s.p1, s.p2]:
