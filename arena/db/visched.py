@@ -36,9 +36,9 @@ class VisScheduler:
             #if so, it updates the version and increases the priority (new games are more interesting than old games!)
             record.p1ver = game.p1ver
             record.p2ver = game.p2ver
-            record.priority += 2*len(self.visq)
-            if record.priority > 3*len(self.visq):
-              record.priority = 3*len(self.visq)
+            record.priority += 1*len(self.visq)
+            if record.priority > 2*len(self.visq):
+              record.priority = 2*len(self.visq)
       #If the game holder between those players doesn't already exist, it creates it
       if not found:
         game.priority = 2
