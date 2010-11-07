@@ -161,8 +161,8 @@ class Match(DefaultGameWorld):
       self.declareWinner(self.players[0], 'Annihilation')
     elif self.turnNumber >= 500:
       numBots = [0 ,0]
-      health = [0, 0]
-      maxHealth = [0, 0]
+      health = [0., 0.]
+      maxHealth = [0., 0.]
       for i in self.objects.values():
         if isinstance(i, Bot):
           if i.size == 1:
