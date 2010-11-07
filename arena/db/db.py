@@ -19,8 +19,9 @@ db=MySQLdb.connect(host = 'localhost',
                    db="fwog_web")
 
 class DBManager(rpyc.Service):
+  scheduler = visched.VisScheduler()
   def __init__(self,r):
-    self.scheduler = visched.VisScheduler()
+    pass
   def exposed_nextVideo(self):
     return self.scheduler.nextVideo()
   def exposed_read(self, log):
