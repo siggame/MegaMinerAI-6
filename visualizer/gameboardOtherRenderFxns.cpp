@@ -15,9 +15,9 @@ void Gameboard::drawWinnerScreen( Game *game, int elapsed )
 	glEnable( GL_TEXTURE_2D );
 
 	if( game->winner )
-		glColor4f( 0, 0, 1, 1 );
-	else
 		glColor4f( 1, 0, 0, 1 );
+	else
+		glColor4f( 0, 0, 1, 1 );
 
 	stringstream ss;
 	ss << game->players[game->winner] << " WINS!!!!";

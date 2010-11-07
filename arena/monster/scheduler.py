@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 #New Game Visualizer Scheduler Update Function
 #the game holders themselves are not deleted so that the queue can easily tell wether a game between these two with the same version numbers has already been played, as if one has it gets no bonus to its priority.
 
@@ -31,12 +31,12 @@ class GameScheduler:
       self.teamlist[newAI] = version
       for m in self.tentq:
         if newAI in [m.p1, m.p2]:
-          m.priority += 2*len(self.tentq)
-          m.priority = min(m.priority, 5*len(self.tentq))
+          m.priority += len(self.tentq)
+          m.priority = min(m.priority, 2*len(self.tentq))
     else:
       for team in self.teamlist:
-        self.tentq.append(Match(2*len(self.tentq)+2*len(self.teamlist), newAI, team))
-        self.tentq.append(Match(2*len(self.tentq)+2*len(self.teamlist), team, newAI))
+        self.tentq.append(Match(1, newAI, team))
+        self.tentq.append(Match(1, team, newAI))
       self.teamlist[newAI] = version
     
     return True
@@ -75,64 +75,6 @@ class GameScheduler:
   def done(self):
     #Never give up!
     return False
-
-
-
-class GameRecord:
-  def __init__(priority, p1, p2, ver1, ver2,log):
-    self.priority = priority
-    self.p1 = p1
-    self.p2 = p2
-    self.ver1 = ver1
-    self.ver2 = ver2
-    #stores gamelog or how to get gamelog, whichever
-    self.log = log
-
-class VisScheduler:
-  visq = []
-  
-  def _init_(self):
-    self.visq = []
-    self.lock = threading.Semaphore()
-    
-  def visualizerQueueUpdate(self, game):
-    with self.lock:
-      found = False
-      for record in self.visq:
-      #finds the previous game between the same players in the same player numbers
-        if game.p1 == record.p1 and game.p2 == record.p2:
-          found = True
-          #updates the gamelog stored
-          record.log = game.log
-          #Checks if its a new version
-          if game.p1ver != record.p1ver or game.p2ver != record.p2ver:
-            #if so, it updates the version and increases the priority (new games are more interesting than old games!)
-            record.p1ver = newgame.p1ver
-            record.p2ver = newgame.p2ver
-            record.priority += 2*self.visq.len()
-      #If the game holder between those players doesn't already exist, it creates it
-      if not found:
-        game.priority = 2*self.visq.len() + 2
-        self.visq.append(game)
-    return True
-  
-  #grabs the next thing to be visualized and makes proper adjustments
-  def nextVideo(self):
-    with self.lock:
-      if len(self.visq) > 0:
-        self.visq.sort(key = lambda x: x.priority, reverse=True)
-        nextUP = self.visq[0]
-        nextUp.priority = 0;
-        for s in self.visq[1:]:
-          if nextUp.p1 not in [s.p1, s.p2]:
-            s.priority += 1
-          if nextUp.p2 not in [s.p1, s.p2]:
-            s.priority += 1
-      else:
-        nextUp = False
-    return nextUp
-
-
 """
 #loop that checks for tentacles, gives them things to visualise, tentq contains priority, team1, team2, teams each contain teamName, version, AI.
 def primaryScheduleLoop():
