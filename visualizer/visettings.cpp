@@ -22,6 +22,8 @@ visettings::visettings()
 
 	doubleClickTime = 275;
 
+	gamelogName = "";
+
 	boardOffsetY = 75;
 }
 

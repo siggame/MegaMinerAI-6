@@ -89,6 +89,8 @@
 			ATTRIBUTE( string, bluBuildAnimFile );
 			ATTRIBUTE( string, bluJointFile );
 
+			ATTRIBUTE( string, gamelogName );
+
 
 			ATTRIBUTE( string, explodeFileName );
 
