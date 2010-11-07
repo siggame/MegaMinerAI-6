@@ -76,7 +76,7 @@ void DrawGLFont::setColor( int &i, string message )
 
 }
 
-void DrawGLFont::drawAlignedLeft( string message )
+void DrawGLFont::drawAlignedLeft( string message, int offset = 0 )
 {
 	int index = 0;
 	for( int i = 0; (unsigned)i < message.size(); i++ )
@@ -84,7 +84,7 @@ void DrawGLFont::drawAlignedLeft( string message )
 
 		unsigned char c = message[i];
 
-		if( colors.size() && colors[index].index == i )
+		if( colors.size() && colors[index].index+offset == i )
 		{
 			glColor3f( colors[index].r, colors[index].g, colors[index].b );
 			index++;
@@ -106,15 +106,15 @@ void DrawGLFont::drawAlignedCenter( string message )
 	glPushMatrix();
 
 	string left = message.substr( 0, mid );
-	drawAlignedRight( left );
+	drawAlignedRight( left, -mid );
 	glPopMatrix();
 	string right = message.substr( mid, mid+1 );
-	drawAlignedLeft( right );
+	drawAlignedLeft( right, mid );
 	
 
 }
 
-void DrawGLFont::drawAlignedRight( string message )
+void DrawGLFont::drawAlignedRight( string message, int offset = 0 )
 {
 	int cIndex = colors.size()-1;
 	for( int i = message.size()-1; i >= 0; i-- )
@@ -122,7 +122,7 @@ void DrawGLFont::drawAlignedRight( string message )
 
 			unsigned char c = message[i];
 
-			if( (cIndex+1) && colors[cIndex].index > i )
+			if( (cIndex+1) && colors[cIndex].index+offset > i )
 			{
 				
 				glColor3f( colors[cIndex].r, colors[cIndex].g, colors[cIndex].b );
