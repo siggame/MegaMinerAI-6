@@ -10,12 +10,12 @@ class ArenaVisualizer:
   def __init__(self):
     #something something Database callback something
     self.dbServer=rpyc.connect(dbManagerName,18863)
-    self.dbServer.root.addCallback( self.update)
     
   def run(self):
     while True:
       time.sleep(1)
-      next = self.dbServer.root.scheduler.nextVideo()
+      next = self.dbServer.root.nextVideo()
+      print next
       if next:
         #I am become like unto a tentacle!
         try:
