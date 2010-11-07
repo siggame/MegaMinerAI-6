@@ -31,12 +31,12 @@ class GameScheduler:
       self.teamlist[newAI] = version
       for m in self.tentq:
         if newAI in [m.p1, m.p2]:
-          m.priority += 2*len(self.tentq)
-          m.priority = min(m.priority, 5*len(self.tentq))
+          m.priority += len(self.tentq)
+          m.priority = min(m.priority, 2*len(self.tentq))
     else:
       for team in self.teamlist:
-        self.tentq.append(Match(2*len(self.tentq)+2*len(self.teamlist), newAI, team))
-        self.tentq.append(Match(2*len(self.tentq)+2*len(self.teamlist), team, newAI))
+        self.tentq.append(Match(1, newAI, team))
+        self.tentq.append(Match(1, team, newAI))
       self.teamlist[newAI] = version
     
     return True
