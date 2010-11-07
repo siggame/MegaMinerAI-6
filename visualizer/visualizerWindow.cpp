@@ -152,7 +152,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 
 	gamelog = temp;
 
-	cout << gamelog->states.size() << endl;
+	//cout << gamelog->states.size() << endl;
 	if( gamelog->states.size() < 2 )
 	{
 		QMessageBox::critical(this,"Error","Suicided on Turn 1.  Suicide is unethical" );
@@ -175,7 +175,7 @@ bool VisualizerWindow::loadGamelog( char *filename )
 			break;
 		}
 	}
-	cout << i << endl;
+	//cout << i << endl;
 
 	setAttr( gamelogName, file.substr( i,file.size()-i) ); 
 
