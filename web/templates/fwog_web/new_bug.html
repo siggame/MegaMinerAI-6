@@ -1,0 +1,13 @@
+{% extends "fwog_web/menu.html" %}
+
+
+{% block content %}
+<h2 style="margin: 25 0 10 10;"> Submit a new bug </h2>
+<form action="{% url web.bugtracker.views.new_bug %}" method="post">
+  <table>
+    {{ form.as_table }}
+  </table>
+</br></br>
+<input style="margin: 0 0 0 30;" type="submit" value="Submit"/>
+</form>
+{% endblock %}

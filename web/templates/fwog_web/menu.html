@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+
+{% block title %}MegaMiner6{% endblock %}
+{% block head %}    
+<h1 style="text-align:center;">
+  [M O D U L A R]
+</h1>
+{% endblock %}
+
+{% block username %} {{user}} {% endblock %}
+{% block logout_link %}<a href="{% url web.registration.views.logout_user %}"> Logout</a>{% endblock %}
+
+{{ home|default:False }}
+{{ stats|default:False }}
+{{ docs|default:False }}
+{{ bugs|default:False }}
+
+{% if home %}
+boop
+{% endif %}
+
+{% block menu %}
+<div id="cblock">
+  <ul>
+    <li><a style="{% if home %} background-color:#999;{% endif %}" class="menu" href="{% url web.fwog_web.views.index %}">{{user}}</a></li>
+    <li><a style="{% if stats %} background-color:#999;{% endif %}" class="menu" href="{% url web.fwog_web.views.stats %}">Logs</a></li>
+    <li><a style="{% if docs %} background-color:#999;{% endif %}" class="menu" href="{% url web.fwog_web.views.docs %}">Docs</a></li>
+    <li><a style="{% if bugs %} background-color:#999;{% endif %}" class="menu" href="{% url web.bugtracker.views.index %}">Bugs</a></li>
+    <li><a class="menu" href="{% url web.registration.views.logout_user %}">Logout</a></li>
+  </ul>
+</div>
+{% endblock %}
+
+
+
+
