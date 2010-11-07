@@ -18,12 +18,12 @@ PauseOnLoad = 0
 ## Bots
 
 ### Red Bots
-RedActionFile = "textures/Action 2 512.png"
-RedBuilderFile = "textures/Builder 2 512.png"
-RedCannonFile = "textures/Cannon 2 512.png"
-RedDamageFile = "textures/Damage 2 512.png"
-RedEngineFile = "textures/Engine 2 512.png"
-RedForceFile = "textures/Force 2 512.png"
+RedActionFile = "textures/Action 2a 512.png"
+RedBuilderFile = "textures/Builder 2a 512.png"
+RedCannonFile = "textures/Cannon 2a 512.png"
+RedDamageFile = "textures/Damage 2a 512.png"
+RedEngineFile = "textures/Engine 2a 512.png"
+RedForceFile = "textures/Force 2a 512.png"
 RedFrameFile = "textures/Build Frame 2.png"
 RedAttackFile = "textures/Bullet 2 256.png"
 RedBuildAnimFile = "textures/Heal Graphic copy.png"
