@@ -85,14 +85,14 @@ void Gameboard::drawScoreboard( Game *game)
 		
 		ss << getAttr( team1Score );
 
-		glColor3f( 1, 0, 0 );
+		glColor3f( 1, .4, .4 );
 		drawFont->drawString( game->players[0].c_str() );
 		glTranslatef( 0, 32, 0 );
 		drawFont->drawString( ss.str().c_str() );
 		ss.str("");
 
 		ss << getAttr( team2Score );
-		glColor3f( 0, 0, 1 );
+		glColor3f( .6, .6, 1 );
 		drawFont->setAlignment( align_right );
 		glTranslatef( getAttr( unitSize )*game->states[0].boardX, -32, 0 );
 		drawFont->drawString( game->players[1].c_str() );
@@ -107,6 +107,9 @@ void Gameboard::drawScoreboard( Game *game)
 		glTranslatef( 640, 0, 0 );
 		drawFont->setAlignment( align_center );
 		drawFont->drawString( "Mega Miner 6: Modular" );
+		glTranslatef( 0, 32, 0 );
+		if( getAttr( gamelogName ).size() )
+			drawFont->drawString( getAttr( gamelogName ).c_str() );
 		drawFont->setAlignment( align_left );
 		drawFont->resetColors();
 

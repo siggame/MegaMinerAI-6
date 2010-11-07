@@ -160,46 +160,26 @@ bool VisualizerWindow::loadGamelog( char *filename )
 		gamelog = 0;
 		return false;
 	}
-	
-	controlSlider->setMaximum( gamelog->states.size()-1 );
 
-	/* This Code fills the quadtree     ::::     REALLY UGLY CODE
 
-	vector< GameState >::iterator stateIt = gamelog->states.begin();
-	for ( ; stateIt !=  gamelog->states.end(); stateIt++)
+	string basename = "";
+
+	string file = filename;
+
+	int i = file.size()-1;
+	for( ; i > 0; i-- )
 	{
-		map<int,Bot>::iterator botIt = stateIt->bots.begin();
-		vector< Quadtree > temp;
-		for ( ; botIt != stateIt->bots.end(); botIt++)
+		if( file[i] == '\\' || file[i] == '/' )
 		{
-			if ( botIt->second.partOf == 0)
-			{
-				temp.push_back( Quadtree( &(botIt->second) ) );
-			}
-			else
-			{
-				vector< Quadtree >::iterator quadIt = temp.begin();
-				for (; quadIt != temp.end(); quadIt++)
-				{
-					if ( quadIt->addNode(&(botIt->second)) )
-					{
-						break;
-					}
-				}
-
-			}
+			i++;
+			break;
 		}
-
-		vector< Quadtree >::iterator conformIt = temp.begin();
-
-		for (; conformIt != temp.end(); conformIt++)
-		{
-			conformIt->conformTypes();
-		}
-
 	}
+	cout << i << endl;
 
-	//*/ //END OF THE REALLY UGLY CODE
+	setAttr( gamelogName, file.substr( i,file.size()-i) ); 
+
+	controlSlider->setMaximum( gamelog->states.size()-1 );
 	return true;
 }
 
@@ -249,6 +229,7 @@ void VisualizerWindow::openGamelog()
 	}
 
 	ofstream out( "lastDir" );
+	out << directory.c_str() << endl;
 	out.close();
 
 
