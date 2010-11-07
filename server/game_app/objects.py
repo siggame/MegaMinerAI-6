@@ -265,9 +265,9 @@ class Bot(Unit):
     if self.damage == 0:
       return "Bot unable to attack, damage score = 0"
     if self._distance(target) > (self.range + 1):
-      return "Target out of range."
+      return "Target out of range. self id: %d target id: %d" % (self.id, target.id)
     if isinstance(target, Bot) and target.partOf:
-      return "Cannot attack a subbot."
+      return "Cannot attack a subbot. self id: %d target id: %d" % (self.id, target.id)
 
     if self.actions < 1:
       return "Out of actions."
@@ -282,11 +282,11 @@ class Bot(Unit):
     if self.buildRate == 0:
       return "Bot unable to heal, build score = 0"
     if self._distance(target) > (self.range + 1):
-      return "Target out of range."
+      return "Target out of range. self id: %d target id: %d" % (self.id, target.id)
     if target.owner != self.owner:
-      return "Cannot heal enemies."
+      return "Cannot heal enemies. self id: %d target id: %d" % (self.id, target.id)
     if target.health == target.maxHealth:
-      return "Target fully healed."
+      return "Target fully healed. self id: %d target id: %d" % (self.id, target.id)
 
     if self.actions < 1:
       return "Out of actions."
