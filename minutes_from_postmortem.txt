@@ -3,44 +3,43 @@ Minutes from ACM SIG-GAME Megaminer AI Tournement postmortem
 Advertising
 
     * How did you hear about us
-    - flyers
-    - being on MST calender would be nice
+      - flyers
+      - being on MST calender would be nice
 
     * What could we have done better to get you / people you know to come 
-    - faced attendance competition with Humans v Zombies
+      - faced attendance competition with Humans v Zombies
 
     * additional    
-    - we were not expecting 16 teams
-    - size of room and computer availability may be an issue eventually
+      - we were not expecting 16 teams
+      - size of room and computer availability may be an issue eventually
 
 
 Getting Started
 
     * Did we tell you enough to get started
-    - when food would arrive
-    - Nathan James is awesome for doing art and promo and food and money
-    - specify if lunch provided or not
-    - noon to noon dev time is good
+      - when food would arrive
+      - Nathan James is awesome for doing art and promo and food and money
+      - specify if lunch provided or not
+      - noon to noon dev time is good
     * Was there enough / too much information provided
-    - classes were not explained well enough initially (detailed stats and calcs should have been up from the beginning)
+      - classes were not explained well enough initially (detailed stats and calcs should have been up from the beginning)
 
     * What did we forget to tell you 
 
 API
 
     * How easy was the API to use
-
-    - Not a problem filtering
-    - annoying not having a grid system
-    - shell AI was awesome since it did something
-    - shell AI existence was not confusing, fortunately.
+      - Not a problem filtering
+      - annoying not having a grid system
+      - shell AI was awesome since it did something
+      - shell AI existence was not confusing, fortunately.
 
     * how well were you able to attack combined bots?
-    - 2x2s had multiple ids and a master id, which was a PITA 
+      - 2x2s had multiple ids and a master id, which was a PITA 
     
     * What could we have made it easier
-    - Would be more convenienient to have both grid and list
-    - comment the shell AI
+      - Would be more convenienient to have both grid and list
+      - comment the shell AI
 
     * What was missing
     * Was something too hard / overly complicated 
@@ -48,19 +47,19 @@ API
 Development Environment
 
     * What software would you like on the competition computers
-    - lack of support of VisualStudio was not a problem
+      - lack of support of VisualStudio was not a problem
     
     * What can we do to make development easier 
-    - git was old, please update (IT's problem)
+      - git was old, please update (IT's problem)
 
 Language Support
 
     * Did you feel all three languages were properly supported
-    - mostly c++, one python
-    - java quickfix
-    - all supported well enough
-    - rumors of python segfault on ^C
-    - Always have admin access!
+      - mostly c++, one python
+      - java quickfix
+      - all supported well enough
+      - rumors of python segfault on ^C
+      - Always have admin access available!
     
     * Was there a noticeable advantage to using a specific language
     
@@ -69,10 +68,10 @@ Language Support
 Development Staff
 
     * Did you feel bugs / defects inhibited your experience
-    - "felt like 54"
+      - "felt like [CS] 54"
     
     * How was bug fix server
-    - no comment
+      - no comment
     
     * How was bug fix response time    
     * Did you feel the staff was helpful
@@ -84,44 +83,41 @@ Game
     * Was the game too difficult to understand    
     
     * Was the game too simple to warrant 24 hours
-    - "wanted more time"
+      - "wanted more time"
     
     * too difficult?
-    - should not try to make it too simple
-    - "it fit the problem"
+      - should not try to make it too simple
+      - "it fit the problem"
     
     * How was balancing
-    - Action and Engines were underutilized and perhaps underpowered
-    - did not expect forcefield ram
-    - expected but did not see actionbot guided missles
-    
+      - Action and Engines were underutilized and perhaps underpowered
+      - did not expect forcefield ram
+      - expected but did not see actionbot guided missles
+      
     * Did you like the theme, concept
-    - yeah
+      - yeah
     
     * Thoughts on procedural maps 
-    - <not covered>
+      - <not covered>
 
     * additional
-    - multiple things to do
-    - others were hardcoding things to do
-    - walls were not effective in getting people to let AI handle things
-    - walls prevent some extreme rush tactics
-    - walls looked like faces (human psychology -- WONTFIX)
-    - Not quite explict enough on inital build space
+      - multiple things to do
+      - others were hardcoding things to do
+      - walls were not effective in getting people to let AI handle things
+      - walls prevent some extreme rush tactics
+      - walls looked like faces (human psychology -- WONTFIX)
+      - Not quite explict enough on inital build space
 
     
 Visualization
-
-
-
     * Did you like it
     * Was it too pretty / wordy / confusing
     * Were the controls intuitive
 
     * What was missing
-    - attempted commands vs successful commands
-    - useful for segfaulting
-    - ac vs sc may be good for realtime visualizer
+      - attempted commands vs successful commands
+      - useful for segfaulting
+      - ac vs sc may be good for realtime visualizer
     
     * Was it exciting to watch
     * Was it smooth enough on your machine?
@@ -129,45 +125,45 @@ Visualization
     * Was enough information conveyed for debugging?
     * Would you like the ability to enable/disable more?
     * Do you think a unit-by-unit mode would be beneficial? 
-    - would be useful
+      - would be useful
     
     * config file for visualizer
-    - default directory would be nice
-    - 
+      - default directory would be nice
+
 
     * additional
-    - talk should have been on arena
-    - talk vs yell(global talk) 
-    - combos could be awkward
-    - visualizer was fast enough
-    - do not close visualizer automatically to update!
-      - possible pop-up for update request
+      - talk should have been on arena
+      - talk vs yell(global talk) 
+      - combos could be awkward
+      - visualizer was fast enough
+      - do not close visualizer automatically to update!
+        - possible pop-up for update request
     
 Web Server
 
     * documentation
-    - local copy was very useful
+      - local copy was very useful
 
     * Was it useful
     * What didn't work right
     * What new features would you like 
-    - persistant standings?
-      - dealing with discouragment
-      - Most total wins was on front page
-    - Time brackets with door prizes 
-      - 4 hours long
-      - AI version based brakets
-    - Concerns with "AI theft" or "gamelog theft" preventing submission
-    - Revision control system to help reduce breakage or just revert to known good
-    
+      - persistant standings?
+        - dealing with discouragment
+        - Most total wins was on front page
+      - Time brackets with door prizes 
+        - 4 hours long
+        - AI version based brakets
+      - Concerns with "AI theft" or "gamelog theft" preventing submission
+      - Revision control system to help reduce breakage or just revert to known good
+      
     * had to be in directory we gave you
-    - found annoying because you had to copy and paste back.
-      - update submit script to use CURRENT_DIR
+      - found annoying because you had to copy and paste back.
+        - update submit script to use CURRENT_DIR
 
     * additional
-    - users were looking at gamelogs
-    - format in windows was not really an issue
-    - "open with" is a goal and would be nice
+      - users were looking at gamelogs
+      - format in windows was not really an issue
+      - "open with" is a goal and would be nice
 
 
 Arena
@@ -175,19 +171,19 @@ Arena
     * Was it helpful / exciting
     * What could we do better to make it more useful
     * Did you feel it took too long to go up / had too much down time 
-    - went up in time
+      - went up in time
     * resets
     * how to get you guys to submit more often?
-    - pie
-    - door prize
-      - unannounced door prize for submits at midnight
-      - door prizes for 4 hour time brackets would probably fix this
+      - pie
+      - door prize
+        - unannounced door prize for submits at midnight
+        - door prizes for 4 hour time brackets would probably fix this
 
     * additional
-    - talk should display!!
-    - arena was responsive enough
-    - Multiple projectors would be nice
-      - leave in splitters for undetectability
+      - talk should display!!
+      - arena was responsive enough
+      - Multiple projectors would be nice
+        - leave in splitters for undetectability
 
 
 Tournament
@@ -196,91 +192,91 @@ Tournament
 
     * Was it exciting
     * Do you feel it was unfair 
-    - plan to post gamelogs
-      - including tournaments
-    - best of n at every level if computational resources exist
-    - allow resubmit for people who mistakenly sent in wrong code or had wrong version playing
-    - tag info would be nice 
-      - final tag
-      - command line flag for tag or final version flag
-      - allow webserver to browse source / download to check for completeness
+      - plan to post gamelogs
+        - including tournaments
+      - best of n at every level if computational resources exist
+      - allow resubmit for people who mistakenly sent in wrong code or had wrong version playing
+      - tag info would be nice 
+        - final tag
+        - command line flag for tag or final version flag
+        - allow webserver to browse source / download to check for completeness
 
     * additional
-    - late
-    - tournament bracket was not always understood
-    - whiteboards in CH 105 suck and are hard to read
+      - late
+      - tournament bracket was not always understood
+      - whiteboards in CH 105 suck and are hard to read
     
 Food
     * Was there enough food
-    - need more food
-    - possible rationing to allow even distribution
+      - need more food
+      - possible rationing to allow even distribution
 
     * What foods should we have gotten / not gotten 
     
     * additional
-    - timing
-    - annouce when food will come
-    - wake people if new food
+      - timing
+      - annouce when food will come
+      - wake people if new food
 
 Entrance Fee
 
     * Was the entrance fee too much
     * Would you be willing to pay more, if we increased food / prizes 
-    - $15 would be OK.
-    
-    - Entrance is already open to other universities
+      - $15 would be OK.
+      
+      - Entrance is already open to other universities
     
 
 General / Other
 
     * What can we do to make it more fun
-    - food
-    - places to sleep
-      - suggest you bring your own sleeping bag
-      - suggest you go home for a few hours to sleep
+      - food
+      - places to sleep
+        - suggest you bring your own sleeping bag
+        - suggest you go home for a few hours to sleep
     * How can we improve for next year
-    - none    
+      - none    
 
     * What was your favorite thing
-    - visualizer
-      - all talk (yell) would have been nice
-      - sound effects
-        - tournament-only sound effects
-    - concept was good 
-      - with multiple robots!
+      - visualizer
+        - all talk (yell) would have been nice
+        - sound effects
+          - tournament-only sound effects
+      - concept was good 
+        - with multiple robots!
     
     * What was your least favorite thing
-    - food was over /there/
-    - tournament
-      - timing
-      - automate
-    
+      - food was over /there/
+      - tournament
+        - timing
+        - automate
+      
     * What could have been really cool / useful 
-    - gamelogs
-    - videos
-      - sourcecode release
-        - github
-      - Bloom videos
-      - monitors in CS213
-        - Is go and in progress
+      - gamelogs
+      - videos
+        - sourcecode release
+          - github
+        - Bloom videos
+        - monitors in CS213
+          - Is go and in progress
 
     * two AI system
-    - sure
-    - extend team size to 4?
-      - hard to get 3
-    
+      - sure
+      - extend team size to 4?
+        - hard to get 3
+      
     * simultaneous turn
-    - hard
-    - merge of actions
-    - queueing of move actions
-    - awkward
-    - blocking problems
-    
+      - hard
+      - merge of actions
+      - queueing of move actions
+      - awkward
+      - blocking problems
+      
     * other things
-    - hex map!
-      - Alex vehement decline
-    - grid smaller than object
-      - requires vector math
-    - openings for every kind of CS
-      - PizzaBot!
-    - better naming for gamelogs (p1_V_p2_increment.gamelog)
+      - hex map!
+        - Alex vehement decline
+      - grid smaller than object
+        - requires vector math
+      - openings for every kind of CS
+        - PizzaBot!
+      - better naming for gamelogs (p1_V_p2_increment.gamelog)
