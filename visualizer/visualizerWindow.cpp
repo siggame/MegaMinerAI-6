@@ -512,13 +512,12 @@ void VisualizerWindow::createLayout()
 	scoreboard = new Scoreboard;
 	unitSelection = new QFrame;
 
-
-        QHBoxLayout *unitSelectionLayout = new QHBoxLayout;                   
-        unitSelectionL = new UnitSelection;
-        unitSelectionR = new UnitSelection;                                   
-        unitSelectionLayout->addWidget(unitSelectionL);                       
-        unitSelectionLayout->addWidget(unitSelectionR);                       
-        unitSelection->setLayout(unitSelectionLayout);
+  QHBoxLayout *unitSelectionLayout = new QHBoxLayout;                   
+  unitSelectionL = new UnitSelection;
+  unitSelectionR = new UnitSelection;                                   
+  unitSelectionLayout->addWidget(unitSelectionL);                       
+  unitSelectionLayout->addWidget(unitSelectionR);                       
+  unitSelection->setLayout(unitSelectionLayout);
 
 	options = new Options;
 	playButton = new QPushButton("Pause");
