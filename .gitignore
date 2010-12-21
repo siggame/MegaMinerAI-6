@@ -12,3 +12,6 @@ codegen/output/*
 
 #Server logs don't go in the repository
 server/logs
+
+#tilde files don't go in the repository
+*~
