@@ -17,3 +17,5 @@ server/logs
 *~
 
 #visualizer qmake artifacts don't go in the repository
+*.o
+
