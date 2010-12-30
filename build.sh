@@ -6,6 +6,6 @@ whoami | tr -d "\n" >> build.log # truncates newline char from whoami
 echo -n " at " >> build.log
 date >> build.log
 echo "" >> build.log # Throw a newline on the end...
-exit 0
 
+exit 0
 
