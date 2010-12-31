@@ -15,7 +15,7 @@ echo "Starting parser build..." | tee -a build.log
 echo "Moving to parser directory..." | tee -a build.log
 cd ./visualizer/parser/
 echo "Building parser..." | tee -a build.log
-make |& tee -a ../../build.log # pipes sterr AND stout to tee
+make |& tee -a ../../build.log # |& pipes sterr AND stout to tee
 
 exit 0
 
