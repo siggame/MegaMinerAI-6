@@ -9,7 +9,9 @@ echo "" | tee -a build.log # Throw a newline on the end...
 
 # Start building!
 
-echo "Starting Parser build..." | tee -a build.log
+
+
+echo "Starting parser build..." | tee -a build.log
 echo "Moving to parser directory..." | tee -a build.log
 
 exit 0
