@@ -13,6 +13,7 @@ echo "" | tee -a $logfilepath # Throw a newline on the end...
 
 # Start building!
 
+# Build the parser
 echo "Starting parser build..." | tee -a $logfilepath
 cd ./visualizer/parser
 make |& tee -a $logfilepath # |& pipes sterr AND stout to tee
