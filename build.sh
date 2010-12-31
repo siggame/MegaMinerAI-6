@@ -7,5 +7,11 @@ echo -n " at " >> build.log
 date >> build.log
 echo "" >> build.log # Throw a newline on the end...
 
+# Start building!
+
+
+echo "--- Starting Parser Build --" >> build.log
+echo "cd'ing to ./" 
+
 exit 0
 
