@@ -17,6 +17,13 @@ echo "" | tee -a $logfilepath # Throw a newline on the end...
 echo "Starting parser build..." | tee -a $logfilepath
 cd ./visualizer/parser
 make |& tee -a $logfilepath # |& pipes sterr AND stout to tee
+cd $rootdir
+
+# Build visualizer
+echo "Starting visualizer build..." | tee -a $logfilepath
+cd ./visualizer
+make |& tee -a $logfilepath # |& pipes sterr AND stout to tee
+cd $rootdir
 
 exit 0
 
