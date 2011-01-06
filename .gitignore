@@ -26,5 +26,5 @@ server/logs
 *.a
 moc_*
 
-#Ignore build logs
-build.log*
+#Build Logs don't go in the repository
+*build.log*
