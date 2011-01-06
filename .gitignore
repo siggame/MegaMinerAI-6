@@ -10,6 +10,9 @@ codegen/output/*
 *.ncb
 [Dd]ebug*/
 
+#Windows thumbnail files don't go in the repository
+Thumbs.db
+
 #Server logs don't go in the repository
 server/logs
 
