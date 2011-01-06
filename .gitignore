@@ -26,5 +26,12 @@ server/logs
 *.a
 moc_*
 
+#Built Doxygen documentation doesn't go in the repository
+client/c/html/*
+client/c/latex/*
+client/python/html/*
+client/python/latex/*
+
+
 #Build Logs don't go in the repository
 *build.log*
