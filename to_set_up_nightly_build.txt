@@ -1,0 +1,5 @@
+To set up a nightly build, on any user environment run "crontab -e"
+Append to the file the line:
+
+0 0 * * * /path/to/build/script.sh
+
